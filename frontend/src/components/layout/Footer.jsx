@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 
@@ -55,14 +56,14 @@ export function Footer() {
 
           {/* Col 1 — About Us */}
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shrink-0">
-                <span className="text-primary font-bold text-sm">C&amp;R</span>
-              </div>
-              <div>
-                <p className="font-bold text-white text-sm leading-tight">Cabinets &amp; Remodeling</p>
-                <p className="text-xs text-white/70">Depot</p>
-              </div>
+            <div className="mb-5">
+              <Image
+                src="/Logo.webp"
+                alt="Cabinets & Remodeling Depot"
+                width={160}
+                height={52}
+                className="h-12 w-auto object-contain"
+              />
             </div>
 
             <FooterHeading first="ABOUT" second="US" />

@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
 
 export function HeroSection({ data = {}, compact = false }) {
   const {
@@ -14,97 +13,147 @@ export function HeroSection({ data = {}, compact = false }) {
     backgroundImage = '',
     ctaText = 'Visit Our Showroom',
     ctaLink = '/contact',
+    videoSrc = '',
   } = data
 
-  const sectionClass = compact
-    ? 'relative min-h-[350px] h-[50vh] flex items-center overflow-hidden'
-    : 'relative flex items-center overflow-hidden min-h-[600px] h-auto md:h-[85vh] py-20 md:py-0'
-
-  return (
-    <section className={sectionClass}>
-      {/* Background */}
-      {backgroundImage ? (
-        <Image
-          src={backgroundImage}
-          alt={title}
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-primary" />
-      )}
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/55" />
-
-      {/* Content */}
-      <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="max-w-3xl"
-        >
-          {/* H1 */}
+  // ── Compact layout (used by inner pages / service pages) ──────────────────
+  if (compact) {
+    return (
+      <section className="relative h-[50vh] min-h-[350px] flex items-center overflow-hidden">
+        {backgroundImage ? (
+          <Image
+            src={backgroundImage}
+            alt={title}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-primary" />
+        )}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.7 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+            transition={{ duration: 0.7 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white max-w-3xl leading-tight"
           >
             {title}
           </motion.h1>
+        </div>
+      </section>
+    )
+  }
 
-          {/* Paragraph 1 */}
-          {subtitle && (
-            <motion.p
+  // Split title at em-dash for bold / light-weight two-tone rendering
+  const dashIndex = title.indexOf(' – ')
+  const titleBold  = dashIndex !== -1 ? title.slice(0, dashIndex) : title
+  const titleLight = dashIndex !== -1 ? title.slice(dashIndex + 3) : ''
+
+  // ── Full split layout (home page) ─────────────────────────────────────────
+  return (
+    <section className="flex flex-col md:flex-row w-full min-h-screen">
+
+      {/* ── LEFT: content panel ─────────────────────────────────────────── */}
+      <div className="w-full md:w-1/2 bg-primary flex items-center py-20 md:py-24 lg:py-32">
+        <div className="w-full px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+          >
+            {/* H1 */}
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-              className="text-base sm:text-lg text-white/85 mb-4 leading-relaxed max-w-2xl"
+              transition={{ delay: 0.1, duration: 0.7 }}
+              className="text-4xl sm:text-5xl leading-tight mb-6 text-white"
             >
-              {subtitle}
-            </motion.p>
-          )}
+              {/* Bold first part */}
+              <span className="font-bold block">{titleBold}</span>
 
-          {/* Paragraph 2 */}
-          {!compact && description && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="text-base sm:text-lg text-white/85 mb-8 leading-relaxed max-w-2xl"
-            >
-              {description}
-            </motion.p>
-          )}
+              {/* Light second part */}
+              {titleLight && (
+                <span className="font-normal block mt-1">
+                  {'– ' + titleLight}
+                </span>
+              )}
+            </motion.h1>
 
-          {/* CTA Button */}
-          {ctaText && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.7 }}
-            >
-              <Button
-                size="lg"
-                className="text-base px-8 h-12 w-full sm:w-auto"
-                asChild
+            {/* Paragraph 1 */}
+            {subtitle && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.7 }}
+                className="text-sm sm:text-base text-white/85 mb-4 leading-relaxed"
               >
-                <Link href={ctaLink}>
-                  {ctaText}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </Button>
-            </motion.div>
-          )}
-        </motion.div>
+                {subtitle}
+              </motion.p>
+            )}
+
+            {/* Paragraph 2 */}
+            {description && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.7 }}
+                className="text-sm sm:text-base text-white/85 mb-8 leading-relaxed"
+              >
+                {description}
+              </motion.p>
+            )}
+
+            {/* CTA button */}
+            {ctaText && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.7 }}
+              >
+                <Button
+                  size="lg"
+                  className="bg-white text-primary hover:bg-white/90 font-semibold text-base px-8 h-12 w-full sm:w-auto"
+                  asChild
+                >
+                  <Link href={ctaLink}>{ctaText}</Link>
+                </Button>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </div>
 
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/20 to-transparent" />
+      {/* ── RIGHT: video / image panel (hidden on mobile) ───────────────── */}
+      <div className="hidden md:block md:w-1/2 relative overflow-hidden">
+        {videoSrc ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            aria-hidden="true"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ) : backgroundImage ? (
+          <Image
+            src={backgroundImage}
+            alt={title}
+            fill
+            className="object-cover"
+            priority
+            sizes="50vw"
+          />
+        ) : (
+          /* Fallback gradient when no video or image is provided */
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary/40" />
+        )}
+      </div>
+
     </section>
   )
 }
