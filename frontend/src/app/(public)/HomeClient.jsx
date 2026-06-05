@@ -7,15 +7,17 @@ import { useGallery } from '@/hooks/useGallery'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { FAQSection } from '@/components/sections/FAQSection'
 import { BlogGrid } from '@/components/sections/BlogGrid'
 import { ShowroomSection } from '@/components/sections/ShowroomSection'
 import { ServiceAreasSection } from '@/components/sections/ServiceAreasSection'
 import { AffordableCabinetsSection } from '@/components/sections/AffordableCabinetsSection'
+import { TransformationSection } from '@/components/sections/TransformationSection'
 import { ProfessionalInstallationSection } from '@/components/sections/ProfessionalInstallationSection'
 import { CompleteReModelingSolutionsSection } from '@/components/sections/CompleteReModelingSolutionsSection'
 import { WhyChooseSection } from '@/components/sections/WhyChooseSection'
+import { EstimateMapSection } from '@/components/sections/EstimateMapSection'
+import { PartnersSection } from '@/components/sections/PartnersSection'
 import { ClientSuccessSection } from '@/components/sections/ClientSuccessSection'
 import { StartProjectSection } from '@/components/sections/StartProjectSection'
 import { motion } from 'framer-motion'
@@ -110,6 +112,9 @@ export function HomeClient() {
       {/* H2: Affordable Cabinets Tampa Families Can Rely On */}
       <AffordableCabinetsSection />
 
+      {/* Before / After transformation slider */}
+      <TransformationSection />
+
       {/* H2: Professional Cabinet Installation Tampa */}
       <ProfessionalInstallationSection />
 
@@ -144,14 +149,17 @@ export function HomeClient() {
         </section>
       )}
 
-      {/* Testimonials */}
-      <TestimonialsSection testimonials={content.testimonials} />
+      {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
+      <WhyChooseSection />
 
       {/* Client Success Stories — Google review carousel */}
       <ClientSuccessSection />
 
-      {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
-      <WhyChooseSection />
+      {/* Get Free Estimate + Google Map */}
+      <EstimateMapSection />
+
+      {/* Trusted Partners logo carousel */}
+      <PartnersSection />
 
       {/* Blog Preview */}
       {blogs.length > 0 && (

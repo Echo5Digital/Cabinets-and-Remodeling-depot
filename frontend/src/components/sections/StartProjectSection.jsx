@@ -10,17 +10,29 @@ export function StartProjectSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
 
   return (
-    <section ref={ref} className="overflow-hidden">
-      <div className="grid md:grid-cols-2 min-h-[420px]">
+    <section ref={ref} className="relative overflow-hidden min-h-105 md:min-h-125 flex items-center">
 
-        {/* ── Left: content panel ── */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="flex items-center bg-[#f5ede4] px-8 py-16 md:px-14 lg:px-20"
-        >
-          <div className="max-w-lg">
+      {/* Full-section background: kitchen image */}
+      <Image
+        src="/kitchen-bg.webp"
+        alt="Beautiful kitchen remodel Tampa"
+        fill
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+
+      {/* Cream gradient overlay — solid on the left, fades to transparent on desktop */}
+      <div className="absolute inset-0 bg-linear-to-r from-[#f5ede4] via-[#f5ede4]/90 to-[#f5ede4]/50 md:to-transparent" />
+
+      {/* Content */}
+      <div className="relative z-10 w-full py-16 md:py-24">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="max-w-lg"
+          >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-5">
               Start Your Kitchen Remodeling Project Today
             </h2>
@@ -42,26 +54,10 @@ export function StartProjectSection() {
             >
               <Link href="/contact">Visit Our Showroom</Link>
             </Button>
-          </div>
-        </motion.div>
-
-        {/* ── Right: kitchen image ── */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="relative min-h-[300px] md:min-h-0"
-        >
-          <Image
-            src="/kitchen-bg.webp"
-            alt="Beautiful kitchen remodel Tampa"
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </motion.div>
-
+          </motion.div>
+        </div>
       </div>
+
     </section>
   )
 }

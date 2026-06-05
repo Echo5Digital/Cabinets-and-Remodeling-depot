@@ -19,17 +19,18 @@ export function WhyChooseSection() {
 
   return (
     <section ref={ref} className="relative section-padding overflow-hidden">
-      {/* ── Background pattern image ── */}
+
+      {/* Background image */}
       <Image
-        src="/img_01bg.png"
+        src="/img_01bg.jpeg"
         alt=""
         fill
         className="object-cover object-center"
         sizes="100vw"
         aria-hidden="true"
       />
-      {/* #811121 overlay */}
-      <div className="absolute inset-0" style={{ backgroundColor: 'rgba(129, 17, 33, 0.88)' }} />
+      {/* #810E29 tint — light enough to keep the image clearly visible */}
+      <div className="absolute inset-0" style={{ backgroundColor: 'rgba(129, 14, 41, 0.50)' }} />
 
       <div className="relative z-10 container-custom">
         <motion.div
@@ -48,7 +49,7 @@ export function WhyChooseSection() {
 
           <p className="text-white font-semibold mb-5">What sets us apart:</p>
 
-          {/* ── Grid: row 1 → cards 01-03 + circular image, row 2 → cards 04-07 ── */}
+          {/* ── Grid: row 1 → cards 01–03 + circular image, row 2 → cards 04–07 ── */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 
             {/* Cards 01–03 */}
@@ -58,12 +59,14 @@ export function WhyChooseSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="bg-white rounded-2xl p-5 shadow-lg"
+                className="bg-white rounded-2xl shadow-lg h-48 md:h-52 flex flex-col overflow-hidden border-l-4 border-primary"
               >
-                <p className="text-4xl font-extrabold text-gray-200 mb-3 leading-none">
-                  {String(i + 1).padStart(2, '0')}.
-                </p>
-                <p className="text-primary font-semibold text-sm leading-snug">{feature}</p>
+                <div className="flex flex-col h-full px-5 py-5 md:px-6 md:py-6">
+                  <p className="text-5xl md:text-6xl font-extrabold text-gray-400 leading-none mb-3">
+                    {String(i + 1).padStart(2, '0')}.
+                  </p>
+                  <p className="text-gray-800 font-semibold text-base md:text-lg leading-snug">{feature}</p>
+                </div>
               </motion.div>
             ))}
 
@@ -72,7 +75,7 @@ export function WhyChooseSection() {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.28 }}
-              className="hidden md:flex items-center justify-center"
+              className="hidden md:flex items-center justify-center h-48 md:h-52"
             >
               <div className="relative w-44 h-44 rounded-full overflow-hidden border-4 border-white/80 shadow-2xl">
                 <Image
@@ -92,12 +95,14 @@ export function WhyChooseSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: (i + 4) * 0.08 }}
-                className="bg-white rounded-2xl p-5 shadow-lg"
+                className="bg-white rounded-2xl shadow-lg h-48 md:h-52 flex flex-col overflow-hidden border-l-4 border-primary"
               >
-                <p className="text-4xl font-extrabold text-gray-200 mb-3 leading-none">
-                  {String(i + 4).padStart(2, '0')}.
-                </p>
-                <p className="text-primary font-semibold text-sm leading-snug">{feature}</p>
+                <div className="flex flex-col h-full px-5 py-5 md:px-6 md:py-6">
+                  <p className="text-5xl md:text-6xl font-extrabold text-gray-400 leading-none mb-3">
+                    {String(i + 4).padStart(2, '0')}.
+                  </p>
+                  <p className="text-gray-800 font-semibold text-base md:text-lg leading-snug">{feature}</p>
+                </div>
               </motion.div>
             ))}
           </div>

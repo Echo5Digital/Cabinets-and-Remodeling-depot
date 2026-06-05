@@ -54,7 +54,7 @@ export function HeroSection({ data = {}, compact = false }) {
 
   // ── Full split layout (home page) ─────────────────────────────────────────
   return (
-    <section className="flex flex-col md:flex-row w-full min-h-screen">
+    <section className="flex flex-col md:flex-row w-full md:min-h-screen">
 
       {/* ── LEFT: content panel ─────────────────────────────────────────── */}
       <div className="w-full md:w-1/2 bg-primary flex items-center py-20 md:py-24 lg:py-32">
@@ -77,7 +77,7 @@ export function HeroSection({ data = {}, compact = false }) {
               {/* Light second part */}
               {titleLight && (
                 <span className="font-normal block mt-1">
-                  {'– ' + titleLight}
+                  {titleLight}
                 </span>
               )}
             </motion.h1>

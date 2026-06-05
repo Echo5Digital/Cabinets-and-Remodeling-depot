@@ -34,23 +34,16 @@ export const SERVICES = [
     icon: 'Grid3X3',
     description: 'Hardwood, tile, luxury vinyl plank, and laminate flooring expertly installed throughout your home.',
   },
-  {
-    title: 'Design Consultation',
-    href: '/contact',
-    icon: 'PencilRuler',
-    description: 'Visit our showroom or schedule an in-home consultation with our design experts.',
-  },
 ]
 
 export const NAV_LINKS = [
-  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   {
     label: 'Services',
     href: '/services',
     children: SERVICES,
   },
-  { label: 'Projects', href: '/projects' },
+  { label: 'Projects', href: '/projects', hidden: true },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
@@ -109,13 +102,5 @@ export const LEAD_STATUSES = [
 export const SERVICES_LIST_FOR_FORM = [
   { value: 'Kitchen Remodeling', label: 'Kitchen Remodeling' },
   { value: 'Bathroom Remodeling', label: 'Bathroom Remodeling' },
-  { value: 'Custom Cabinets', label: 'Custom Cabinets' },
-  { value: 'Kitchen Cabinets', label: 'Kitchen Cabinets' },
-  { value: 'Stock Cabinets', label: 'Stock Cabinets' },
-  { value: 'Quartz Countertops', label: 'Quartz Countertops' },
-  { value: 'Granite Countertops', label: 'Granite Countertops' },
   { value: 'Flooring', label: 'Flooring' },
-  { value: 'Design Consultation', label: 'Design Consultation' },
-  { value: 'Showroom Visit', label: 'Showroom Visit' },
-  { value: 'Other', label: 'Other / Not Sure' },
 ]

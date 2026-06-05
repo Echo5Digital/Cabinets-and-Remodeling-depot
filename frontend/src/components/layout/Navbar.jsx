@@ -31,47 +31,45 @@ export function Navbar() {
 
   return (
     <>
-      {/* ── Floating pill header ── */}
-      <div className="fixed top-3 left-0 right-0 z-50 px-3 md:px-6">
-        <header
-          className={cn(
-            'max-w-7xl mx-auto rounded-full px-4 md:px-6 transition-all duration-300',
-            scrolled
-              ? 'bg-primary shadow-2xl'
-              : 'bg-primary/97 shadow-xl backdrop-blur-sm'
-          )}
-        >
-          <div className="flex items-center justify-between h-14 md:h-16">
+      {/* ── Full-width fixed header ── */}
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 bg-primary transition-shadow duration-300',
+          scrolled && 'shadow-lg'
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
+          <div className="flex items-center justify-between h-20 md:h-24">
 
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src="/Logo.webp"
+                src="/Logo1.jpg"
                 alt="Cabinets & Remodeling Depot"
-                width={150}
-                height={48}
-                className="h-9 md:h-11 w-auto object-contain"
+                width={220}
+                height={70}
+                className="h-14 md:h-18 w-auto object-contain"
                 priority
               />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-0.5">
-              {NAV_LINKS.map((link) => {
+            {/* Desktop Nav — centered between logo and CTA */}
+            <nav className="hidden lg:flex items-center gap-2">
+              {NAV_LINKS.filter((link) => !link.hidden).map((link) => {
                 if (link.children) {
                   return (
                     <div key={link.href} className="relative">
                       <button
                         className={cn(
-                          'flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium transition-colors hover:bg-white/15 hover:text-white',
+                          'flex items-center gap-1 px-4 py-2 text-base font-medium uppercase tracking-wide transition-colors hover:text-white',
                           pathname.startsWith('/kitchen') ||
                           pathname.startsWith('/bathroom') ||
                           pathname.startsWith('/cabinets') ||
                           pathname.startsWith('/countertops') ||
                           pathname.startsWith('/flooring') ||
                           pathname === '/services'
-                            ? 'text-white bg-white/10'
-                            : 'text-white/85'
+                            ? 'text-white'
+                            : 'text-white/80'
                         )}
                         onMouseEnter={() => setServicesOpen(true)}
                         onMouseLeave={() => setServicesOpen(false)}
@@ -80,7 +78,7 @@ export function Navbar() {
                         {link.label}
                         <ChevronDown
                           className={cn(
-                            'w-3.5 h-3.5 transition-transform',
+                            'w-3.5 h-3.5 transition-transform duration-200',
                             servicesOpen && 'rotate-180'
                           )}
                         />
@@ -89,25 +87,19 @@ export function Navbar() {
                       <AnimatePresence>
                         {servicesOpen && (
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 8 }}
+                            exit={{ opacity: 0, y: 6 }}
                             transition={{ duration: 0.15 }}
-                            className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border py-2 z-50"
+                            className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                           >
-                            <Link
-                              href="/services"
-                              className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-muted hover:text-primary border-b mb-1"
-                            >
-                              All Services
-                            </Link>
                             {link.children.map((child) => (
                               <Link
                                 key={child.href}
                                 href={child.href}
-                                className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary"
+                                className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary transition-colors"
                               >
                                 {child.title}
                               </Link>
@@ -124,10 +116,8 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-3 py-2 rounded-full text-sm font-medium transition-colors hover:bg-white/15 hover:text-white',
-                      isActive(link.href)
-                        ? 'text-white bg-white/10'
-                        : 'text-white/85'
+                      'px-4 py-2 text-base font-medium uppercase tracking-wide transition-colors hover:text-white',
+                      isActive(link.href) ? 'text-white' : 'text-white/80'
                     )}
                   >
                     {link.label}
@@ -136,27 +126,19 @@ export function Navbar() {
               })}
             </nav>
 
-            {/* Right: phone + CTA + hamburger */}
-            <div className="flex items-center gap-2 md:gap-3">
-              <a
-                href={`tel:${COMPANY_PHONE.replace(/\D/g, '')}`}
-                className="hidden xl:flex items-center gap-2 text-sm font-medium text-white/85 hover:text-white transition-colors"
-              >
-                <Phone className="w-4 h-4 shrink-0" />
-                {COMPANY_PHONE}
-              </a>
-
+            {/* Right: CTA + hamburger */}
+            <div className="flex items-center gap-3">
               <Button
                 asChild
-                size="sm"
-                className="hidden md:flex bg-white text-primary hover:bg-white/90 font-semibold rounded-full px-5"
+                size="default"
+                className="hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase"
               >
-                <Link href="/contact">Free Estimate</Link>
+                <Link href="/contact">Get Free Estimate</Link>
               </Button>
 
-              {/* Hamburger */}
+              {/* Hamburger — tablet & mobile */}
               <button
-                className="lg:hidden p-2 rounded-full hover:bg-white/15 text-white transition-colors"
+                className="lg:hidden p-2 text-white hover:bg-white/15 rounded-md transition-colors"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
               >
@@ -164,13 +146,13 @@ export function Navbar() {
               </button>
             </div>
           </div>
-        </header>
-      </div>
+        </div>
+      </header>
 
-      {/* Spacer so page content clears the pill */}
+      {/* Spacer — height matches the fixed header */}
       <div className="h-20 md:h-24" />
 
-      {/* ── Mobile drawer ── */}
+      {/* ── Mobile / tablet drawer ── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -192,44 +174,37 @@ export function Navbar() {
               className="fixed right-0 top-0 bottom-0 w-72 max-w-[85vw] bg-white z-50 shadow-2xl flex flex-col"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b bg-primary">
+              <div className="flex items-center justify-between px-4 py-3 bg-primary border-b border-white/10">
                 <Image
-                  src="/Logo.webp"
+                  src="/Logo1.jpg"
                   alt="Cabinets & Remodeling Depot"
-                  width={130}
-                  height={42}
-                  className="h-9 w-auto object-contain"
+                  width={140}
+                  height={46}
+                  className="h-10 w-auto object-contain"
                 />
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="p-1.5 rounded-full hover:bg-white/15 text-white transition-colors"
+                  className="p-1.5 rounded-md hover:bg-white/15 text-white transition-colors"
                   aria-label="Close menu"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Links */}
+              {/* Nav links */}
               <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-                {NAV_LINKS.map((link) => {
+                {NAV_LINKS.filter((link) => !link.hidden).map((link) => {
                   if (link.children) {
                     return (
                       <div key={link.href}>
                         <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                           {link.label}
                         </p>
-                        <Link
-                          href="/services"
-                          className="block px-3 py-2 text-sm rounded-md hover:bg-muted"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          All Services
-                        </Link>
                         {link.children.map((child) => (
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="block px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground"
+                            className="block px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors uppercase tracking-wide"
                             onClick={() => setMobileOpen(false)}
                           >
                             {child.title}
@@ -243,7 +218,7 @@ export function Navbar() {
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        'block px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                        'block px-3 py-2 rounded-md text-sm font-medium uppercase tracking-wide transition-colors',
                         isActive(link.href)
                           ? 'bg-primary/10 text-primary'
                           : 'hover:bg-muted'
@@ -265,7 +240,7 @@ export function Navbar() {
                   <Phone className="w-4 h-4 text-primary shrink-0" />
                   {COMPANY_PHONE}
                 </a>
-                <Button className="w-full rounded-full" asChild>
+                <Button className="w-full rounded-full uppercase tracking-wide font-bold" asChild>
                   <Link href="/contact" onClick={() => setMobileOpen(false)}>
                     Get Free Estimate
                   </Link>
