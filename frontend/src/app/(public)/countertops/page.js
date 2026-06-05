@@ -1,37 +1,16 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { getQueryClient } from '@/lib/queryClient'
-import { api } from '@/lib/api'
-import { ServicePageClient } from '@/components/sections/ServicePageClient'
+import { CountertopsPageClient } from '@/components/sections/CountertopsPageClient'
 
-const SLUG = 'countertops'
-
-export async function generateMetadata() {
-  try {
-    const { data } = await api.get(`/pages/${SLUG}`)
-    const seo = data?.data?.content?.seo || {}
-    return {
-      title: seo.metaTitle || 'Countertops Tampa Bay | Quartz & Granite | Cabinets & Remodeling Depot',
-      description: seo.metaDescription || 'Premium quartz and granite countertops in Tampa Bay. Large selection, expert fabrication and installation. Free estimates.',
-      openGraph: seo.ogImage ? { images: [seo.ogImage] } : undefined,
-    }
-  } catch {
-    return { title: 'Countertops | Cabinets & Remodeling Depot' }
-  }
+export const metadata = {
+  title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',
+  description:
+    'Looking for countertops in Tampa? Visit our Valrico showroom for granite countertops Tampa homeowners trust, custom fabrication, quartz countertops, and professional countertop installation services.',
+  openGraph: {
+    title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',
+    description:
+      'Premium granite and quartz countertops in Tampa Bay. In-house fabrication, expert installation, and a huge showroom selection. Free estimates available.',
+  },
 }
 
-export default async function CountertopsPage() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery({
-    queryKey: ['page', SLUG],
-    queryFn: async () => {
-      const { data } = await api.get(`/pages/${SLUG}`)
-      return data.data
-    },
-  }).catch(() => {})
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <ServicePageClient slug={SLUG} serviceName="Countertops" />
-    </HydrationBoundary>
-  )
+export default function CountertopsPage() {
+  return <CountertopsPageClient />
 }

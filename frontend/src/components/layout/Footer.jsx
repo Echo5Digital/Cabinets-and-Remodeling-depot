@@ -21,11 +21,11 @@ function InstagramIcon({ className }) {
 }
 
 const FOOTER_SERVICES = [
-  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling' },
-  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling' },
   { label: 'Countertops', href: '/countertops' },
+  { label: 'In-Stock Cabinets', href: '/cabinets' },
+  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling' },
   { label: 'Flooring', href: '/flooring' },
-  { label: 'Cabinets', href: '/cabinets' },
+  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling' },
 ]
 
 const FOOTER_LINKS = [

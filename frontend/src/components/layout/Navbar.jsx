@@ -5,10 +5,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X, Phone } from 'lucide-react'
+import { ChevronDown, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { NAV_LINKS, COMPANY_PHONE } from '@/lib/constants'
+
+const SERVICE_ICONS = {
+  ChefHat,
+  Droplets,
+  Layout,
+  Layers,
+  Grid3X3,
+}
 
 export function Navbar() {
   const pathname = usePathname()
@@ -87,23 +95,55 @@ export function Navbar() {
                       <AnimatePresence>
                         {servicesOpen && (
                           <motion.div
-                            initial={{ opacity: 0, y: 6 }}
+                            initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 6 }}
-                            transition={{ duration: 0.15 }}
-                            className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50"
+                            exit={{ opacity: 0, y: 8 }}
+                            transition={{ duration: 0.18 }}
+                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                           >
-                            {link.children.map((child) => (
+                            {/* Dropdown header */}
+                            <div className="flex items-center justify-between px-4 py-3 bg-primary/5 border-b border-gray-100">
+                              <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                                Our Services
+                              </p>
+                              <span className="text-xs text-muted-foreground">{link.children.length} services</span>
+                            </div>
+
+                            {/* Service items */}
+                            {link.children.map((child) => {
+                              const Icon = SERVICE_ICONS[child.icon]
+                              return (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  className="flex items-start gap-3.5 px-4 py-3.5 hover:bg-primary/5 transition-colors group border-b border-gray-50 last:border-0"
+                                >
+                                  <span className="shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+                                    {Icon && <Icon className="w-5 h-5" />}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
+                                      {child.title}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground leading-snug mt-0.5 line-clamp-1">
+                                      {child.description}
+                                    </p>
+                                  </div>
+                                </Link>
+                              )
+                            })}
+
+                            {/* Footer link */}
+                            <div className="px-4 py-3 bg-primary/5 border-t border-gray-100">
                               <Link
-                                key={child.href}
-                                href={child.href}
-                                className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-primary transition-colors"
+                                href="/services"
+                                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary hover:gap-2.5 transition-all"
                               >
-                                {child.title}
+                                View All Services <ArrowRight className="w-3.5 h-3.5" />
                               </Link>
-                            ))}
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>

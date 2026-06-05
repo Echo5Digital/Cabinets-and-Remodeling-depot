@@ -5,34 +5,34 @@ export const COMPANY_ADDRESS = '106 S St Cloud Ave, Valrico, FL 33594'
 
 export const SERVICES = [
   {
-    title: 'Kitchen Remodeling',
-    href: '/kitchen-remodeling',
-    icon: 'ChefHat',
-    description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',
-  },
-  {
-    title: 'Bathroom Remodeling',
-    href: '/bathroom-remodeling',
-    icon: 'Droplets',
-    description: 'Luxury bathroom renovations with custom tile, vanities, walk-in showers, and modern fixtures.',
-  },
-  {
-    title: 'Custom Cabinets',
-    href: '/cabinets',
-    icon: 'Layout',
-    description: 'Handcrafted custom and semi-custom cabinetry in hundreds of styles, finishes, and configurations.',
-  },
-  {
     title: 'Countertops',
     href: '/countertops',
     icon: 'Layers',
     description: 'Premium quartz and granite countertops fabricated and installed by certified professionals.',
   },
   {
+    title: 'In-Stock Cabinets',
+    href: '/cabinets',
+    icon: 'Layout',
+    description: 'Ready-to-install cabinets in stock at our Valrico showroom — no long waits, fast project turnaround.',
+  },
+  {
+    title: 'Kitchen Remodeling',
+    href: '/kitchen-remodeling',
+    icon: 'ChefHat',
+    description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',
+  },
+  {
     title: 'Flooring',
     href: '/flooring',
     icon: 'Grid3X3',
     description: 'Hardwood, tile, luxury vinyl plank, and laminate flooring expertly installed throughout your home.',
+  },
+  {
+    title: 'Bathroom Remodeling',
+    href: '/bathroom-remodeling',
+    icon: 'Droplets',
+    description: 'Luxury bathroom renovations with custom tile, vanities, walk-in showers, and modern fixtures.',
   },
 ]
 
@@ -100,7 +100,9 @@ export const LEAD_STATUSES = [
 ]
 
 export const SERVICES_LIST_FOR_FORM = [
+  { value: 'Countertops', label: 'Countertops' },
   { value: 'Kitchen Remodeling', label: 'Kitchen Remodeling' },
   { value: 'Bathroom Remodeling', label: 'Bathroom Remodeling' },
+  { value: 'Custom Cabinets', label: 'Custom Cabinets' },
   { value: 'Flooring', label: 'Flooring' },
 ]
