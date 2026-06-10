@@ -81,7 +81,7 @@ export function ClientSuccessSection() {
           >
             {/* Pattern / blueprint background */}
             <Image
-              src="/img_01bg.png"
+              src="/img_01bg.jpeg"
               alt=""
               fill
               aria-hidden="true"

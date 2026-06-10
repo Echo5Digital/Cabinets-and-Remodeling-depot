@@ -1,17 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useBlogs, useBlogCategories } from '@/hooks/useBlogs'
+import { useBlogs } from '@/hooks/useBlogs'
 import { BlogGrid } from '@/components/sections/BlogGrid'
 import { PageHeader } from '@/components/common/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function BlogListClient() {
-  const [categoryId, setCategoryId] = useState('')
   const [page, setPage] = useState(1)
-  const { data, isLoading } = useBlogs({ categoryId, page, limit: 9, isPublished: true })
-  const { data: categories } = useBlogCategories()
+  const { data, isLoading } = useBlogs({ page, limit: 9, isPublished: true })
 
   const blogs = data?.data || []
   const totalPages = data?.pagination?.pages || 1
@@ -25,28 +23,6 @@ export function BlogListClient() {
 
       <section className="section-padding">
         <div className="container-custom">
-          {/* Category filter */}
-          {categories && categories.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-              <Button
-                variant={categoryId === '' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => { setCategoryId(''); setPage(1) }}
-              >
-                All Topics
-              </Button>
-              {categories.map((cat) => (
-                <Button
-                  key={cat.id}
-                  variant={categoryId === cat.id ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => { setCategoryId(cat.id); setPage(1) }}
-                >
-                  {cat.name}
-                </Button>
-              ))}
-            </div>
-          )}
 
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

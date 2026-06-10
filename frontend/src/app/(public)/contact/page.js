@@ -8,11 +8,11 @@ export async function generateMetadata() {
     const { data } = await api.get('/pages/contact')
     const seo = data?.data?.content?.seo || {}
     return {
-      title: seo.metaTitle || 'Contact Us | Cabinets & Remodeling Depot',
-      description: seo.metaDescription || 'Contact Cabinets & Remodeling Depot for a free estimate on your kitchen remodeling, bathroom renovation, or cabinet project in Tampa Bay.',
+      title: seo.metaTitle || 'Contact Us - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'For assistance, call +1 813-651-2333 or visit us at 106 S St Cloud Ave, Valrico, FL 33594. Open Mon–Fri: 10AM–6PM, Sat: 10AM–4PM. Your remodeling needs, our priority!',
     }
   } catch {
-    return { title: 'Contact Us | Cabinets & Remodeling Depot' }
+    return { title: 'Contact Us - Cabinets And Remodeling Depot' }
   }
 }
 

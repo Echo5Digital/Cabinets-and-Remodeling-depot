@@ -57,7 +57,7 @@ export function EstimateMapSection() {
           className="rounded-xl overflow-hidden shadow-2xl w-full"
         >
           <iframe
-            src="https://maps.google.com/maps?cid=18201794426186346316&output=embed&hl=en-US"
+            src="https://maps.google.com/maps?cid=18201794426186346316&output=embed&hl=en-US&t=k"
             width="100%"
             height="450"
             style={{ border: 0, display: 'block' }}

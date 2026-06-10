@@ -3,29 +3,22 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 import { Send, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useSubmitLead } from '@/hooks/useLeads'
 import { SERVICES_LIST_FOR_FORM } from '@/lib/constants'
 
 const schema = z.object({
-  firstName: z.string().min(2, 'First name is required'),
-  lastName: z.string().min(2, 'Last name is required'),
+  name: z.string().min(2, 'Name is required'),
   email: z.string().email('Valid email required'),
   phone: z.string().optional(),
   service: z.string().optional(),
+  subject: z.string().optional(),
   message: z.string().min(10, 'Please provide some details (min 10 characters)'),
 })
 
-export function ContactForm({ source = 'contact-page' }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+export function ContactForm({ source = 'contact-page', dark = false }) {
   const { mutate: submitLead, isPending } = useSubmitLead()
 
   const {
@@ -34,13 +27,13 @@ export function ContactForm({ source = 'contact-page' }) {
     reset,
     setValue,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-  })
+  } = useForm({ resolver: zodResolver(schema) })
 
   const onSubmit = (data) => {
+    const [firstName, ...rest] = (data.name || '').trim().split(' ')
+    const lastName = rest.join(' ')
     submitLead(
-      { ...data, source },
+      { firstName, lastName, email: data.email, phone: data.phone, service: data.service, subject: data.subject, message: data.message, source },
       {
         onSuccess: () => {
           toast.success("Message sent! We'll be in touch within 24 hours.")
@@ -53,88 +46,90 @@ export function ContactForm({ source = 'contact-page' }) {
     )
   }
 
+  const inputCls = dark
+    ? 'w-full bg-gray-800 border border-gray-600 text-white placeholder:text-gray-500 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors'
+    : 'w-full border border-input bg-background rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-colors'
+
+  const labelCls = dark
+    ? 'block text-gray-300 text-sm font-medium mb-1.5'
+    : 'block text-sm font-medium text-foreground mb-1.5'
+
+  const errorCls = dark ? 'text-red-400 text-xs mt-1' : 'text-destructive text-xs mt-1'
+
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6 }}
-    >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First Name *</Label>
-            <Input id="firstName" {...register('firstName')} placeholder="John" />
-            {errors.firstName && (
-              <p className="text-destructive text-sm">{errors.firstName.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name *</Label>
-            <Input id="lastName" {...register('lastName')} placeholder="Smith" />
-            {errors.lastName && (
-              <p className="text-destructive text-sm">{errors.lastName.message}</p>
-            )}
-          </div>
-        </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <label className={labelCls}>Your Name *</label>
+        <input {...register('name')} placeholder="Your Name" className={inputCls} />
+        {errors.name && <p className={errorCls}>{errors.name.message}</p>}
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
-            <Input id="email" type="email" {...register('email')} placeholder="john@example.com" />
-            {errors.email && (
-              <p className="text-destructive text-sm">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
-            <Input id="phone" type="tel" {...register('phone')} placeholder="(813) 555-0100" />
-          </div>
-        </div>
+      <div>
+        <label className={labelCls}>Your Email *</label>
+        <input type="email" {...register('email')} placeholder="Your Email" className={inputCls} />
+        {errors.email && <p className={errorCls}>{errors.email.message}</p>}
+      </div>
 
-        <div className="space-y-2">
-          <Label>Service Interested In</Label>
-          <Select onValueChange={(val) => setValue('service', val)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a service..." />
-            </SelectTrigger>
-            <SelectContent>
-              {SERVICES_LIST_FOR_FORM.map((svc) => (
-                <SelectItem key={svc.value} value={svc.value}>
-                  {svc.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div>
+        <label className={labelCls}>Ph Number</label>
+        <input type="tel" {...register('phone')} placeholder="Ph Number" className={inputCls} />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="message">Message *</Label>
-          <Textarea
-            id="message"
-            {...register('message')}
-            placeholder="Tell us about your project..."
-            rows={5}
-          />
-          {errors.message && (
-            <p className="text-destructive text-sm">{errors.message.message}</p>
-          )}
-        </div>
+      <div>
+        <label className={labelCls}>Select Service</label>
+        <Select onValueChange={(val) => setValue('service', val)}>
+          <SelectTrigger
+            className={
+              dark
+                ? 'w-full bg-gray-800 border-gray-600 text-white data-placeholder:text-gray-500 focus:ring-primary'
+                : 'w-full'
+            }
+          >
+            <SelectValue placeholder="Select Service" />
+          </SelectTrigger>
+          <SelectContent>
+            {SERVICES_LIST_FOR_FORM.map((svc) => (
+              <SelectItem key={svc.value} value={svc.value}>
+                {svc.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-        <Button type="submit" size="lg" className="w-full" disabled={isPending}>
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Sending...
-            </>
-          ) : (
-            <>
-              <Send className="mr-2 h-4 w-4" />
-              Send Message
-            </>
-          )}
-        </Button>
-      </form>
-    </motion.div>
+      <div>
+        <label className={labelCls}>Subject</label>
+        <input {...register('subject')} placeholder="Subject" className={inputCls} />
+      </div>
+
+      <div>
+        <label className={labelCls}>Your Message *</label>
+        <textarea
+          {...register('message')}
+          placeholder="Your Message"
+          rows={4}
+          className={`${inputCls} resize-none`}
+        />
+        {errors.message && <p className={errorCls}>{errors.message.message}</p>}
+      </div>
+
+      <button
+        type="submit"
+        disabled={isPending}
+        className="w-full bg-primary text-white font-semibold text-sm tracking-widest uppercase py-3 px-6 rounded-md hover:bg-primary/90 transition-colors disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+      >
+        {isPending ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Send className="h-4 w-4" />
+            Send Message
+          </>
+        )}
+      </button>
+    </form>
   )
 }

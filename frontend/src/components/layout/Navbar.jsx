@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3, ArrowRight } from 'lucide-react'
+import { ChevronDown, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { NAV_LINKS, COMPANY_PHONE } from '@/lib/constants'
@@ -103,14 +103,6 @@ export function Navbar() {
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                           >
-                            {/* Dropdown header */}
-                            <div className="flex items-center justify-between px-4 py-3 bg-primary/5 border-b border-gray-100">
-                              <p className="text-xs font-bold uppercase tracking-widest text-primary">
-                                Our Services
-                              </p>
-                              <span className="text-xs text-muted-foreground">{link.children.length} services</span>
-                            </div>
-
                             {/* Service items */}
                             {link.children.map((child) => {
                               const Icon = SERVICE_ICONS[child.icon]
@@ -118,32 +110,17 @@ export function Navbar() {
                                 <Link
                                   key={child.href}
                                   href={child.href}
-                                  className="flex items-start gap-3.5 px-4 py-3.5 hover:bg-primary/5 transition-colors group border-b border-gray-50 last:border-0"
+                                  className="flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors group border-b border-gray-50 last:border-0"
                                 >
-                                  <span className="shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-primary">
-                                    {Icon && <Icon className="w-5 h-5" />}
+                                  <span className="shrink-0 w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+                                    {Icon && <Icon className="w-4 h-4" />}
                                   </span>
-                                  <div className="min-w-0">
-                                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
-                                      {child.title}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground leading-snug mt-0.5 line-clamp-1">
-                                      {child.description}
-                                    </p>
-                                  </div>
+                                  <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                                    {child.title}
+                                  </p>
                                 </Link>
                               )
                             })}
-
-                            {/* Footer link */}
-                            <div className="px-4 py-3 bg-primary/5 border-t border-gray-100">
-                              <Link
-                                href="/services"
-                                className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary hover:gap-2.5 transition-all"
-                              >
-                                View All Services <ArrowRight className="w-3.5 h-3.5" />
-                              </Link>
-                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>

@@ -1,37 +1,16 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { getQueryClient } from '@/lib/queryClient'
-import { api } from '@/lib/api'
-import { ServicePageClient } from '@/components/sections/ServicePageClient'
+import { FlooringPageClient } from '@/components/sections/FlooringPageClient'
 
-const SLUG = 'flooring'
-
-export async function generateMetadata() {
-  try {
-    const { data } = await api.get(`/pages/${SLUG}`)
-    const seo = data?.data?.content?.seo || {}
-    return {
-      title: seo.metaTitle || 'Flooring Installation Tampa Bay | Cabinets & Remodeling Depot',
-      description: seo.metaDescription || 'Premium flooring installation in Tampa Bay. Hardwood, tile, LVP, laminate and more. Expert installation with warranty. Free estimates.',
-      openGraph: seo.ogImage ? { images: [seo.ogImage] } : undefined,
-    }
-  } catch {
-    return { title: 'Flooring | Cabinets & Remodeling Depot' }
-  }
+export const metadata = {
+  title: 'Flooring Installation Tampa Bay | LVP, Tile, Hardwood & More | Cabinets & Remodeling Depot',
+  description:
+    'Premium flooring installation in Tampa Bay. Luxury vinyl plank, tile, hardwood, and laminate flooring expertly installed from our Valrico showroom. Free estimates available.',
+  openGraph: {
+    title: 'Flooring Installation Tampa Bay | LVP, Tile, Hardwood & More | Cabinets & Remodeling Depot',
+    description:
+      'Beautiful, durable flooring for Tampa Bay homes. LVP, tile, hardwood, and laminate installed by local professionals. Visit our Valrico showroom for free estimates.',
+  },
 }
 
-export default async function FlooringPage() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery({
-    queryKey: ['page', SLUG],
-    queryFn: async () => {
-      const { data } = await api.get(`/pages/${SLUG}`)
-      return data.data
-    },
-  }).catch(() => {})
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <ServicePageClient slug={SLUG} serviceName="Flooring" />
-    </HydrationBoundary>
-  )
+export default function FlooringPage() {
+  return <FlooringPageClient />
 }

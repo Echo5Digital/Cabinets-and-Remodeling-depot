@@ -1,8 +1,8 @@
 import { BlogListClient } from './BlogListClient'
 
 export const metadata = {
-  title: 'Remodeling Blog | Cabinets & Remodeling Depot',
-  description: 'Expert remodeling tips, design ideas, and home improvement advice from the team at Cabinets & Remodeling Depot.',
+  title: 'Our Blogs - Cabinet and Remodeling Depot',
+  description: 'Explore our blog library featuring cabinet makeovers, remodeling advice, and home improvement ideas from Cabinet and Remodeling Depot experts.',
 }
 
 export default function BlogPage() {

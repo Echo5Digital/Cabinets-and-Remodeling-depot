@@ -1,37 +1,16 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { getQueryClient } from '@/lib/queryClient'
-import { api } from '@/lib/api'
-import { ServicePageClient } from '@/components/sections/ServicePageClient'
+import { BathroomRemodelingPageClient } from '@/components/sections/BathroomRemodelingPageClient'
 
-const SLUG = 'bathroom-remodeling'
-
-export async function generateMetadata() {
-  try {
-    const { data } = await api.get(`/pages/${SLUG}`)
-    const seo = data?.data?.content?.seo || {}
-    return {
-      title: seo.metaTitle || 'Bathroom Remodeling Tampa Bay | Cabinets & Remodeling Depot',
-      description: seo.metaDescription || 'Transform your bathroom with expert remodeling services in Tampa Bay. Custom tile, vanities, showers & more. Free estimates.',
-      openGraph: seo.ogImage ? { images: [seo.ogImage] } : undefined,
-    }
-  } catch {
-    return { title: 'Bathroom Remodeling | Cabinets & Remodeling Depot' }
-  }
+export const metadata = {
+  title: 'Bathroom Remodeling Tampa Bay | Tile, Vanities & Full Renovations | Cabinets & Remodeling Depot',
+  description:
+    'Transform your bathroom with expert remodeling in Tampa Bay. Custom tile showers, vanity cabinets, countertops, and flooring — all coordinated from one trusted local team. Free estimates.',
+  openGraph: {
+    title: 'Bathroom Remodeling Tampa Bay | Tile, Vanities & Full Renovations | Cabinets & Remodeling Depot',
+    description:
+      'Expert bathroom remodeling in Tampa Bay. Custom tile, vanity installation, countertops, and flooring. Serving Tampa Bay from our Valrico showroom. Free estimates available.',
+  },
 }
 
-export default async function BathroomRemodelingPage() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery({
-    queryKey: ['page', SLUG],
-    queryFn: async () => {
-      const { data } = await api.get(`/pages/${SLUG}`)
-      return data.data
-    },
-  }).catch(() => {})
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <ServicePageClient slug={SLUG} serviceName="Bathroom Remodeling" />
-    </HydrationBoundary>
-  )
+export default function BathroomRemodelingPage() {
+  return <BathroomRemodelingPageClient />
 }
