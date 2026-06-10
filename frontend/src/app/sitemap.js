@@ -2,6 +2,11 @@ import { api } from '@/lib/api'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://cabinetsremodelingdepot.com'
 
+function safeDate(value) {
+  const d = new Date(value)
+  return isNaN(d.getTime()) ? new Date() : d
+}
+
 export default async function sitemap() {
   const staticPages = [
     { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
@@ -23,20 +28,20 @@ export default async function sitemap() {
 
   try {
     const [projectsRes, blogsRes] = await Promise.all([
-      api.get('/projects?limit=100&isPublished=true'),
-      api.get('/blogs?limit=100&isPublished=true'),
+      api.get('/projects?limit=100&published=true'),
+      api.get('/blogs?limit=100&published=true'),
     ])
 
     projectUrls = (projectsRes.data?.data || []).map((project) => ({
       url: `${BASE_URL}/projects/${project.slug}`,
-      lastModified: new Date(project.updatedAt),
+      lastModified: safeDate(project.updatedAt),
       changeFrequency: 'monthly',
       priority: 0.7,
     }))
 
     blogUrls = (blogsRes.data?.data || []).map((blog) => ({
       url: `${BASE_URL}/blog/${blog.slug}`,
-      lastModified: new Date(blog.updatedAt),
+      lastModified: safeDate(blog.updatedAt),
       changeFrequency: 'monthly',
       priority: 0.7,
     }))

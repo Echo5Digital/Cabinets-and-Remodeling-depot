@@ -30,7 +30,7 @@ export async function getAllBlogs(req, res, next) {
 
     const [blogs, total] = await Promise.all([
       Blog.find(filter)
-        .select('slug title excerpt coverImage authorName isPublished isFeatured publishedAt readTime category createdAt')
+        .select('slug title excerpt coverImage authorName isPublished isFeatured publishedAt readTime category createdAt updatedAt')
         .populate('category', 'id name slug')
         .sort({ isFeatured: -1, publishedAt: -1, createdAt: -1 })
         .skip(skip)
