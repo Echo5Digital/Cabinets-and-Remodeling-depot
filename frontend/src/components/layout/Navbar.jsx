@@ -37,13 +37,20 @@ export function Navbar() {
 
   const isActive = (href) => pathname === href
 
+  const linkActiveColor = scrolled ? 'text-white' : 'text-[#810E29]'
+  const linkInactiveColor = scrolled ? 'text-white/80' : 'text-[#810E29]'
+  const linkHoverColor = scrolled ? 'hover:text-white' : 'hover:text-[#810E29]'
+  const hamburgerColor = scrolled
+    ? 'text-white hover:bg-white/15'
+    : 'text-[#810E29] hover:bg-[#810E29]/10'
+
   return (
     <>
       {/* ── Full-width fixed header ── */}
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 bg-primary transition-shadow duration-300',
-          scrolled && 'shadow-lg'
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          scrolled ? 'bg-primary shadow-lg' : 'bg-white'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
@@ -69,15 +76,16 @@ export function Navbar() {
                     <div key={link.href} className="relative">
                       <button
                         className={cn(
-                          'flex items-center gap-1 px-4 py-2 text-base font-medium uppercase tracking-wide transition-colors hover:text-white',
+                          'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors',
+                          linkHoverColor,
                           pathname.startsWith('/kitchen') ||
                           pathname.startsWith('/bathroom') ||
                           pathname.startsWith('/cabinets') ||
                           pathname.startsWith('/countertops') ||
                           pathname.startsWith('/flooring') ||
                           pathname === '/services'
-                            ? 'text-white'
-                            : 'text-white/80'
+                            ? linkActiveColor
+                            : linkInactiveColor
                         )}
                         onMouseEnter={() => setServicesOpen(true)}
                         onMouseLeave={() => setServicesOpen(false)}
@@ -133,8 +141,9 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-4 py-2 text-base font-medium uppercase tracking-wide transition-colors hover:text-white',
-                      isActive(link.href) ? 'text-white' : 'text-white/80'
+                      'px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors',
+                      linkHoverColor,
+                      isActive(link.href) ? linkActiveColor : linkInactiveColor
                     )}
                   >
                     {link.label}
@@ -148,14 +157,17 @@ export function Navbar() {
               <Button
                 asChild
                 size="default"
-                className="hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase"
+                className={cn(
+                  'hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase',
+                  !scrolled && 'border border-[#810E29]'
+                )}
               >
                 <Link href="/contact">Get Free Estimate</Link>
               </Button>
 
               {/* Hamburger — tablet & mobile */}
               <button
-                className="lg:hidden p-2 text-white hover:bg-white/15 rounded-md transition-colors"
+                className={cn('lg:hidden p-2 rounded-md transition-colors', hamburgerColor)}
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
               >

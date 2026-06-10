@@ -54,6 +54,13 @@ const ImageGrid = Node.create({
   },
 })
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function formatFileSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
 // ─── Toolbar button ───────────────────────────────────────────────────────────
 function ToolbarButton({ onClick, active, title, children }) {
   return (
@@ -426,6 +433,9 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
               <p className="text-xs text-muted-foreground mt-0.5">Hero banner displayed at the top of the blog post page.</p>
             </div>
             <img src={coverPreview || defaultBanner} alt="Cover" className="w-full aspect-video object-cover rounded-md" />
+            {coverFile && (
+              <p className="text-xs text-muted-foreground">{coverFile.name} · {formatFileSize(coverFile.size)}</p>
+            )}
             <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => coverRef.current?.click()}>
               <Upload className="w-3.5 h-3.5 mr-2" />
               {coverPreview ? 'Change Image' : 'Upload Custom Image'}
@@ -441,6 +451,9 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             </div>
             {thumbnailPreview && (
               <img src={thumbnailPreview} alt="Thumbnail" className="w-full aspect-video object-cover rounded-md" />
+            )}
+            {thumbnailFile && (
+              <p className="text-xs text-muted-foreground">{thumbnailFile.name} · {formatFileSize(thumbnailFile.size)}</p>
             )}
             <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => thumbnailRef.current?.click()}>
               <Upload className="w-3.5 h-3.5 mr-2" />
