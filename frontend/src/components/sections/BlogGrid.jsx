@@ -21,19 +21,13 @@ function BlogCard({ blog, index, inView }) {
         <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
           {/* Cover Image */}
           <div className="relative h-52 bg-primary/10 overflow-hidden">
-            {blog.coverImage ? (
-              <Image
-                src={blog.coverImage}
-                alt={blog.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            ) : (
-              <div className="absolute inset-0 brand-gradient opacity-80 flex items-center justify-center">
-                <span className="text-white font-semibold text-lg">Blog</span>
-              </div>
-            )}
+            <Image
+              src={blog.coverImage || '/contact-no-1 (1).jpg'}
+              alt={blog.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
             {blog.category && (
               <div className="absolute top-3 left-3">
                 <Badge className="bg-primary text-primary-foreground text-xs">

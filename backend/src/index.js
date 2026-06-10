@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import app from './app.js'
 import { connectDB, disconnectDB } from './config/db.js'
+import { autoSeed } from './seed.js'
 
 const PORT = process.env.PORT || 5000
 
@@ -11,6 +12,13 @@ async function main() {
   } catch (error) {
     console.error('✗ Database connection failed:', error.message)
     process.exit(1)
+  }
+
+  // Seed database if empty (first run)
+  try {
+    await autoSeed()
+  } catch (error) {
+    console.error('⚠ Auto-seed failed (non-fatal):', error.message)
   }
 
   const server = app.listen(PORT, () => {

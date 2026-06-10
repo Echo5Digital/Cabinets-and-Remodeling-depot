@@ -49,6 +49,21 @@ export async function getAllBlogs(req, res, next) {
 }
 
 /**
+ * GET /api/blogs/admin/:id  (admin — fetch by ObjectId, no isPublished check)
+ */
+export async function getBlogById(req, res, next) {
+  try {
+    const blog = await Blog.findById(req.params.id).populate('category', 'id name slug')
+    if (!blog) {
+      return res.status(404).json({ success: false, error: 'Blog post not found.' })
+    }
+    res.json({ success: true, data: blog })
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
  * GET /api/blogs/:slug
  */
 export async function getBlogBySlug(req, res, next) {

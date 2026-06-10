@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   getAllBlogs,
+  getBlogById,
   getBlogBySlug,
   createBlog,
   updateBlog,
@@ -17,6 +18,10 @@ const router = Router()
 // Public
 router.get('/', getAllBlogs)
 router.get('/categories', getAllCategories)
+
+// Admin — must be before /:slug so the literal "admin" segment is matched first
+router.get('/admin/:id', authenticate, getBlogById)
+
 router.get('/:slug', getBlogBySlug)
 
 // Admin

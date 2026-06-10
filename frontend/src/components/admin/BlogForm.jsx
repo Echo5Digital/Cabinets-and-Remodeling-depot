@@ -37,7 +37,7 @@ function ToolbarButton({ onClick, active, title, children }) {
 export function BlogForm({ initialData = {}, onSubmit, isPending }) {
   const [title, setTitle] = useState(initialData.title || '')
   const [excerpt, setExcerpt] = useState(initialData.excerpt || '')
-  const [categoryId, setCategoryId] = useState(initialData.categoryId || '')
+  const [categoryId, setCategoryId] = useState(initialData.category?.id || initialData.categoryId || 'none')
   const [authorName, setAuthorName] = useState(initialData.authorName || 'Admin')
   const [isPublished, setIsPublished] = useState(initialData.isPublished || false)
   const [isFeatured, setIsFeatured] = useState(initialData.isFeatured || false)
@@ -78,7 +78,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     formData.append('title', title)
     formData.append('excerpt', excerpt)
     formData.append('body', editor.getHTML())
-    if (categoryId) formData.append('categoryId', categoryId)
+    if (categoryId && categoryId !== 'none') formData.append('categoryId', categoryId)
     formData.append('authorName', authorName)
     formData.append('isPublished', isPublished)
     formData.append('isFeatured', isFeatured)
@@ -212,7 +212,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Uncategorized</SelectItem>
+                <SelectItem value="none">Uncategorized</SelectItem>
                 {categories?.map((cat) => (
                   <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                 ))}

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '@/lib/api'
 import { BlogForm } from '@/components/admin/BlogForm'
 import { useUpdateBlog } from '@/hooks/useBlogs'
+import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ChevronLeft } from 'lucide-react'
@@ -14,15 +15,17 @@ import Link from 'next/link'
 export default function EditBlogPage() {
   const { id } = useParams()
   const router = useRouter()
+  const { user } = useAuth()
   const { mutate: updateBlog, isPending } = useUpdateBlog()
 
   const { data: blog, isLoading } = useQuery({
     queryKey: ['blog-by-id', id],
     queryFn: async () => {
-      const { data } = await api.get(`/blogs/${id}`)
+      const { data } = await api.get(`/blogs/admin/${id}`)
       return data.data
     },
-    enabled: !!id,
+    // Wait for auth to be restored before firing — prevents a 401 race on page refresh
+    enabled: !!id && !!user,
   })
 
   const handleSubmit = (formData) => {
