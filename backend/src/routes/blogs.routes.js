@@ -25,8 +25,13 @@ router.get('/admin/:id', authenticate, getBlogById)
 router.get('/:slug', getBlogBySlug)
 
 // Admin
-router.post('/', authenticate, uploadBlog.single('coverImage'), createBlog)
-router.put('/:id', authenticate, uploadBlog.single('coverImage'), updateBlog)
+const blogUploadFields = uploadBlog.fields([
+  { name: 'coverImage', maxCount: 1 },
+  { name: 'thumbnailImage', maxCount: 1 },
+])
+
+router.post('/', authenticate, blogUploadFields, createBlog)
+router.put('/:id', authenticate, blogUploadFields, updateBlog)
 router.delete('/:id', authenticate, deleteBlog)
 
 // Categories (admin)

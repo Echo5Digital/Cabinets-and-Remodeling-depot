@@ -3,10 +3,12 @@ import {
   getAllSettings,
   getSettingsByGroup,
   updateSettings,
+  uploadSettingImage,
 } from '../controllers/settings.controller.js'
 import { authenticate } from '../middleware/auth.js'
 import { validate } from '../middleware/validate.js'
 import { updateSettingsSchema } from '../validation/settings.schema.js'
+import { uploadGeneral } from '../middleware/upload.js'
 
 const router = Router()
 
@@ -16,5 +18,6 @@ router.get('/group/:group', getSettingsByGroup)
 
 // Admin
 router.put('/', authenticate, validate(updateSettingsSchema), updateSettings)
+router.post('/upload-image', authenticate, uploadGeneral.single('image'), uploadSettingImage)
 
 export default router

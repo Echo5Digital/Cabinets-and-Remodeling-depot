@@ -6,11 +6,11 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useSettings } from '@/hooks/useSettings'
 import { formatDate } from '@/lib/utils'
 
-function BlogCard({ blog, index, inView }) {
+function BlogCard({ blog, index, inView, defaultImage }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -22,19 +22,12 @@ function BlogCard({ blog, index, inView }) {
           {/* Cover Image */}
           <div className="relative h-52 bg-primary/10 overflow-hidden">
             <Image
-              src={blog.coverImage || '/contact-no-1 (1).jpg'}
+              src={blog.thumbnailImage || blog.coverImage || defaultImage}
               alt={blog.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
-            {blog.category && (
-              <div className="absolute top-3 left-3">
-                <Badge className="bg-primary text-primary-foreground text-xs">
-                  {blog.category.name}
-                </Badge>
-              </div>
-            )}
           </div>
 
           <CardContent className="p-5 space-y-3">
@@ -75,6 +68,8 @@ function BlogCard({ blog, index, inView }) {
 
 export function BlogGrid({ blogs = [], showViewAll = false }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+  const { data: settings } = useSettings()
+  const defaultImage = settings?.blogDefaultBannerImage || '/contact-no-1 (1).jpg'
 
   if (!blogs.length) return null
 
@@ -82,7 +77,7 @@ export function BlogGrid({ blogs = [], showViewAll = false }) {
     <div ref={ref}>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogs.map((blog, index) => (
-          <BlogCard key={blog.id || index} blog={blog} index={index} inView={inView} />
+          <BlogCard key={blog.id || index} blog={blog} index={index} inView={inView} defaultImage={defaultImage} />
         ))}
       </div>
 

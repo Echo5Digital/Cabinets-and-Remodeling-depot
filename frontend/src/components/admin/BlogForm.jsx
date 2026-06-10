@@ -12,10 +12,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useBlogCategories } from '@/hooks/useBlogs'
+import { useSettings } from '@/hooks/useSettings'
 import {
-  Bold, Italic, UnderlineIcon, Link2, List, ListOrdered,
+  Bold, Italic, UnderlineIcon, List, ListOrdered,
   Heading2, Heading3, Quote, Undo, Redo, Upload
 } from 'lucide-react'
 
@@ -35,19 +34,25 @@ function ToolbarButton({ onClick, active, title, children }) {
 }
 
 export function BlogForm({ initialData = {}, onSubmit, isPending }) {
+  const { data: settings } = useSettings()
+  const defaultBanner = settings?.blogDefaultBannerImage || '/contact-no-1 (1).jpg'
+
   const [title, setTitle] = useState(initialData.title || '')
-  const [excerpt, setExcerpt] = useState(initialData.excerpt || '')
-  const [categoryId, setCategoryId] = useState(initialData.category?.id || initialData.categoryId || 'none')
-  const [authorName, setAuthorName] = useState(initialData.authorName || 'Admin')
   const [isPublished, setIsPublished] = useState(initialData.isPublished || false)
   const [isFeatured, setIsFeatured] = useState(initialData.isFeatured || false)
   const [metaTitle, setMetaTitle] = useState(initialData.metaTitle || '')
   const [metaDescription, setMetaDescription] = useState(initialData.metaDescription || '')
+  const [schema, setSchema] = useState(initialData.schema || '')
   const [coverFile, setCoverFile] = useState(null)
   const [coverPreview, setCoverPreview] = useState(initialData.coverImage || '')
-  const fileRef = useRef()
+  const [thumbnailFile, setThumbnailFile] = useState(null)
+  const [thumbnailPreview, setThumbnailPreview] = useState(initialData.thumbnailImage || '')
+  const [publishedAt, setPublishedAt] = useState(
+    initialData.publishedAt ? new Date(initialData.publishedAt).toISOString().split('T')[0] : ''
+  )
 
-  const { data: categories } = useBlogCategories()
+  const coverRef = useRef()
+  const thumbnailRef = useRef()
 
   const editor = useEditor({
     extensions: [
@@ -70,21 +75,35 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     setCoverPreview(URL.createObjectURL(file))
   }
 
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setThumbnailFile(file)
+    setThumbnailPreview(URL.createObjectURL(file))
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!editor) return
+
+    const plainText = editor.getText().trim()
+    const excerpt = plainText.length > 220
+      ? plainText.slice(0, 220).replace(/\s+\S*$/, '') + '…'
+      : plainText
 
     const formData = new FormData()
     formData.append('title', title)
     formData.append('excerpt', excerpt)
     formData.append('body', editor.getHTML())
-    if (categoryId && categoryId !== 'none') formData.append('categoryId', categoryId)
-    formData.append('authorName', authorName)
+    formData.append('authorName', 'Cabinet and Remodeling Depot')
     formData.append('isPublished', isPublished)
     formData.append('isFeatured', isFeatured)
     if (metaTitle) formData.append('metaTitle', metaTitle)
     if (metaDescription) formData.append('metaDescription', metaDescription)
+    if (schema) formData.append('schema', schema)
     if (coverFile) formData.append('coverImage', coverFile)
+    if (thumbnailFile) formData.append('thumbnailImage', thumbnailFile)
+    if (publishedAt) formData.append('publishedAt', publishedAt)
 
     onSubmit(formData)
   }
@@ -100,17 +119,6 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Blog post title"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Excerpt *</Label>
-            <Textarea
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="Brief summary shown in blog listings (1-2 sentences)"
-              rows={2}
               required
             />
           </div>
@@ -174,11 +182,29 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
               <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars)" maxLength={160} rows={2} />
             </div>
           </div>
+
+          {/* Schema Markup */}
+          <div className="border rounded-lg p-4 space-y-3">
+            <div>
+              <h3 className="font-medium text-sm">Schema Markup</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Optional JSON-LD structured data for this post. Rendered as a{' '}
+                <code className="text-xs bg-muted px-1 rounded">{'<script type="application/ld+json">'}</code> tag.
+              </p>
+            </div>
+            <Textarea
+              value={schema}
+              onChange={(e) => setSchema(e.target.value)}
+              placeholder={`{\n  "@context": "https://schema.org",\n  "@type": "Article",\n  "headline": "Your blog title"\n}`}
+              rows={6}
+              className="font-mono text-xs"
+            />
+          </div>
         </div>
 
         {/* Sidebar */}
         <div className="space-y-4">
-          {/* Publish Status */}
+          {/* Publish Settings */}
           <div className="border rounded-lg p-4 space-y-3">
             <h3 className="font-medium text-sm">Publish Settings</h3>
             <div className="flex items-center justify-between">
@@ -189,42 +215,47 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
               <Label htmlFor="featured">Featured</Label>
               <Switch id="featured" checked={isFeatured} onCheckedChange={setIsFeatured} />
             </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="publishedAt">Published Date</Label>
+              <Input
+                id="publishedAt"
+                type="date"
+                value={publishedAt}
+                onChange={(e) => setPublishedAt(e.target.value)}
+              />
+            </div>
           </div>
 
-          {/* Cover Image */}
+          {/* Cover Image — post hero banner */}
           <div className="border rounded-lg p-4 space-y-3">
-            <h3 className="font-medium text-sm">Cover Image</h3>
-            {coverPreview && (
-              <img src={coverPreview} alt="Cover" className="w-full aspect-video object-cover rounded-md" />
-            )}
-            <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => fileRef.current?.click()}>
+            <div>
+              <h3 className="font-medium text-sm">Cover Image</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Hero banner displayed at the top of the blog post page.</p>
+            </div>
+            <img src={coverPreview || defaultBanner} alt="Cover" className="w-full aspect-video object-cover rounded-md" />
+            <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => coverRef.current?.click()}>
               <Upload className="w-3.5 h-3.5 mr-2" />
-              {coverPreview ? 'Change Image' : 'Upload Cover'}
+              {coverPreview ? 'Change Image' : 'Upload Custom Image'}
             </Button>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
+            <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={handleCoverChange} />
           </div>
 
-          {/* Category */}
+          {/* Card Thumbnail — blog listing grid */}
           <div className="border rounded-lg p-4 space-y-3">
-            <h3 className="font-medium text-sm">Category</h3>
-            <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">Uncategorized</SelectItem>
-                {categories?.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <h3 className="font-medium text-sm">Card Thumbnail</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Image shown on the blog listing card. If not set, falls back to the Cover Image.</p>
+            </div>
+            {thumbnailPreview && (
+              <img src={thumbnailPreview} alt="Thumbnail" className="w-full aspect-video object-cover rounded-md" />
+            )}
+            <Button type="button" variant="outline" size="sm" className="w-full" onClick={() => thumbnailRef.current?.click()}>
+              <Upload className="w-3.5 h-3.5 mr-2" />
+              {thumbnailPreview ? 'Change Image' : 'Upload Image'}
+            </Button>
+            <input ref={thumbnailRef} type="file" accept="image/*" className="hidden" onChange={handleThumbnailChange} />
           </div>
 
-          {/* Author */}
-          <div className="border rounded-lg p-4 space-y-3">
-            <h3 className="font-medium text-sm">Author</h3>
-            <Input value={authorName} onChange={(e) => setAuthorName(e.target.value)} placeholder="Author name" />
-          </div>
         </div>
       </div>
 

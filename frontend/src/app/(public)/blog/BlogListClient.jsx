@@ -16,10 +16,7 @@ export function BlogListClient() {
 
   return (
     <>
-      <PageHeader
-        title="Remodeling Tips & Ideas"
-        subtitle="Expert advice, design inspiration, and home improvement guides from our team."
-      />
+      <PageHeader title="Remodeling Tips & Ideas" subtitle="Expert advice, inspiration, and guides for your next home remodeling project." />
 
       <section className="section-padding">
         <div className="container-custom">

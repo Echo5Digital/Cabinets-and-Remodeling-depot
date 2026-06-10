@@ -35,9 +35,19 @@ export default async function BlogPostPage({ params }) {
     notFound()
   }
 
+  const blog = queryClient.getQueryData(['blog', slug])
+
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <BlogPostClient slug={slug} />
-    </HydrationBoundary>
+    <>
+      {blog?.schema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: blog.schema }}
+        />
+      )}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <BlogPostClient slug={slug} />
+      </HydrationBoundary>
+    </>
   )
 }

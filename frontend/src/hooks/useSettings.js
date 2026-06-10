@@ -24,3 +24,21 @@ export function useUpdateSettings() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['settings'] }),
   })
 }
+
+export function useUploadSettingImage() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ key, file, label, group }) => {
+      const formData = new FormData()
+      formData.append('image', file)
+      formData.append('key', key)
+      if (label) formData.append('label', label)
+      if (group) formData.append('group', group)
+      const { data } = await api.post('/settings/upload-image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      return data
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['settings'] }),
+  })
+}

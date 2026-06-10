@@ -30,7 +30,7 @@ export async function getAllBlogs(req, res, next) {
 
     const [blogs, total] = await Promise.all([
       Blog.find(filter)
-        .select('slug title excerpt coverImage authorName isPublished isFeatured publishedAt readTime category createdAt updatedAt')
+        .select('slug title excerpt coverImage thumbnailImage authorName isPublished isFeatured publishedAt readTime category createdAt updatedAt')
         .populate('category', 'id name slug')
         .sort({ isFeatured: -1, publishedAt: -1, createdAt: -1 })
         .skip(skip)
@@ -99,16 +99,19 @@ export async function createBlog(req, res, next) {
       title: data.title,
       excerpt: data.excerpt,
       body: data.body,
-      coverImage: req.file?.path || null,
-      coverPublicId: req.file?.filename || null,
+      coverImage: req.files?.coverImage?.[0]?.path || null,
+      coverPublicId: req.files?.coverImage?.[0]?.filename || null,
+      thumbnailImage: req.files?.thumbnailImage?.[0]?.path || null,
+      thumbnailPublicId: req.files?.thumbnailImage?.[0]?.filename || null,
       category: data.categoryId || null,
       authorName: data.authorName || 'Admin',
       isPublished: willPublish,
       isFeatured: data.isFeatured === 'true' || data.isFeatured === true,
-      publishedAt: willPublish ? new Date() : null,
+      publishedAt: willPublish ? (data.publishedAt ? new Date(data.publishedAt) : new Date()) : null,
       readTime,
       metaTitle: data.metaTitle || null,
       metaDescription: data.metaDescription || null,
+      schema: data.schema || null,
     })
 
     const populated = await blog.populate('category', 'id name slug')
@@ -143,24 +146,38 @@ export async function updateBlog(req, res, next) {
     if (data.authorName) updateData.authorName = data.authorName
     if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle
     if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription
+    if (data.schema !== undefined) updateData.schema = data.schema || null
 
     if (data.isPublished !== undefined) {
       const willPublish = data.isPublished === 'true' || data.isPublished === true
       updateData.isPublished = willPublish
-      if (willPublish && !existing.publishedAt) {
-        updateData.publishedAt = new Date()
-      } else if (!willPublish) {
+      if (willPublish) {
+        if (data.publishedAt) {
+          updateData.publishedAt = new Date(data.publishedAt)
+        } else if (!existing.publishedAt) {
+          updateData.publishedAt = new Date()
+        }
+      } else {
         updateData.publishedAt = null
       }
+    } else if (data.publishedAt) {
+      // Allow updating publishedAt even without toggling isPublished
+      updateData.publishedAt = new Date(data.publishedAt)
     }
     if (data.isFeatured !== undefined) {
       updateData.isFeatured = data.isFeatured === 'true' || data.isFeatured === true
     }
 
-    if (req.file) {
+    if (req.files?.coverImage?.[0]) {
       if (existing.coverPublicId) await deleteImage(existing.coverPublicId)
-      updateData.coverImage = req.file.path
-      updateData.coverPublicId = req.file.filename
+      updateData.coverImage = req.files.coverImage[0].path
+      updateData.coverPublicId = req.files.coverImage[0].filename
+    }
+
+    if (req.files?.thumbnailImage?.[0]) {
+      if (existing.thumbnailPublicId) await deleteImage(existing.thumbnailPublicId)
+      updateData.thumbnailImage = req.files.thumbnailImage[0].path
+      updateData.thumbnailPublicId = req.files.thumbnailImage[0].filename
     }
 
     const blog = await Blog.findByIdAndUpdate(id, { $set: updateData }, { new: true }).populate('category', 'id name slug')

@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, User, ChevronRight } from 'lucide-react'
 import { useBlog } from '@/hooks/useBlogs'
-import { Badge } from '@/components/ui/badge'
+import { useSettings } from '@/hooks/useSettings'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDate } from '@/lib/utils'
 
 export function BlogPostClient({ slug }) {
   const { data: blog, isLoading } = useBlog(slug)
+  const { data: settings } = useSettings()
+  const defaultBanner = settings?.blogDefaultBannerImage || '/contact-no-1 (1).jpg'
 
   if (isLoading) {
     return (
@@ -33,7 +35,7 @@ export function BlogPostClient({ slug }) {
       {/* Hero Banner */}
       <div className="relative w-full h-64 md:h-80 overflow-hidden">
         <Image
-          src={blog.coverImage || '/contact-no-1 (1).jpg'}
+          src={blog.coverImage || defaultBanner}
           alt={blog.title}
           fill
           priority
@@ -60,7 +62,7 @@ export function BlogPostClient({ slug }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-sm text-white/80 flex-shrink-0"
+            className="flex items-center gap-1.5 text-sm text-white/80 shrink-0"
           >
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight className="h-3.5 w-3.5 text-white/50" />
@@ -80,11 +82,6 @@ export function BlogPostClient({ slug }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Category */}
-            {blog.category && (
-              <Badge className="mb-4">{blog.category.name}</Badge>
-            )}
-
             {/* Meta */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8 pb-8 border-b">
               <span className="flex items-center gap-1.5">

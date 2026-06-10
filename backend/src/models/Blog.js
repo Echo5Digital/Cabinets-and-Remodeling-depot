@@ -21,6 +21,8 @@ const blogSchema = new mongoose.Schema(
     body: { type: String, required: true },
     coverImage: { type: String, default: null },
     coverPublicId: { type: String, default: null },
+    thumbnailImage: { type: String, default: null },
+    thumbnailPublicId: { type: String, default: null },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'BlogCategory', default: null },
     authorName: { type: String, default: 'Admin' },
     isPublished: { type: Boolean, default: false },
@@ -29,6 +31,7 @@ const blogSchema = new mongoose.Schema(
     readTime: { type: Number, default: null },
     metaTitle: { type: String, default: null },
     metaDescription: { type: String, default: null },
+    schema: { type: String, default: null },
   },
   opts
 )
