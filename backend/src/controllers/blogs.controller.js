@@ -209,6 +209,18 @@ export async function deleteBlog(req, res, next) {
   }
 }
 
+/**
+ * POST /api/blogs/upload-image (admin)
+ */
+export async function uploadBlogImage(req, res, next) {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, error: 'No image provided.' })
+    res.json({ success: true, data: { url: req.file.path } })
+  } catch (err) {
+    next(err)
+  }
+}
+
 // ─── Categories ───────────────────────────────────────────────────────────────
 
 export async function getAllCategories(req, res, next) {

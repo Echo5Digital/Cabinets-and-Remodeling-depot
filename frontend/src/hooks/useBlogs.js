@@ -64,6 +64,19 @@ export function useUpdateBlog() {
   })
 }
 
+export function useUploadBlogImage() {
+  return useMutation({
+    mutationFn: async (file) => {
+      const formData = new FormData()
+      formData.append('image', file)
+      const { data } = await api.post('/blogs/upload-image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      return data.data.url
+    },
+  })
+}
+
 export function useDeleteBlog() {
   const queryClient = useQueryClient()
   return useMutation({

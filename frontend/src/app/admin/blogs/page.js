@@ -47,7 +47,6 @@ export default function AdminBlogsPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -56,7 +55,7 @@ export default function AdminBlogsPage() {
             <TableBody>
               {(!data?.data || data.data.length === 0) && (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     No blog posts yet. <Link href="/admin/blogs/new" className="text-primary underline">Create your first post</Link>
                   </TableCell>
                 </TableRow>
@@ -69,7 +68,6 @@ export default function AdminBlogsPage() {
                       <p className="text-xs text-muted-foreground">{blog.readTime ? `${blog.readTime} min read` : ''}</p>
                     </div>
                   </TableCell>
-                  <TableCell>{blog.category?.name || <span className="text-muted-foreground text-sm">Uncategorized</span>}</TableCell>
                   <TableCell>
                     <Badge variant={blog.isPublished ? 'default' : 'secondary'}>
                       {blog.isPublished ? 'Published' : 'Draft'}

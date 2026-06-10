@@ -6,6 +6,7 @@ import {
   createBlog,
   updateBlog,
   deleteBlog,
+  uploadBlogImage,
   getAllCategories,
   createCategory,
   deleteCategory,
@@ -21,6 +22,7 @@ router.get('/categories', getAllCategories)
 
 // Admin — must be before /:slug so the literal "admin" segment is matched first
 router.get('/admin/:id', authenticate, getBlogById)
+router.post('/upload-image', authenticate, uploadBlog.single('image'), uploadBlogImage)
 
 router.get('/:slug', getBlogBySlug)
 

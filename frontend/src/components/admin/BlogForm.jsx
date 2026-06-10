@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
+import { Node } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
-import Image from '@tiptap/extension-image'
+import TiptapImage from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -13,11 +14,47 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { useSettings } from '@/hooks/useSettings'
+import { useUploadBlogImage } from '@/hooks/useBlogs'
 import {
   Bold, Italic, UnderlineIcon, List, ListOrdered,
-  Heading2, Heading3, Quote, Undo, Redo, Upload
+  Heading2, Heading3, Quote, Undo, Redo, Upload, Image as ImageIcon,
 } from 'lucide-react'
 
+// ─── Custom TipTap node: image grid ─────────────────────────────────────────
+const ImageGrid = Node.create({
+  name: 'imageGrid',
+  group: 'block',
+  content: 'image+',
+
+  addAttributes() {
+    return {
+      columns: {
+        default: 2,
+        parseHTML: (el) => parseInt(el.getAttribute('data-columns') || '2'),
+        renderHTML: (attrs) => ({ 'data-columns': attrs.columns }),
+      },
+    }
+  },
+
+  parseHTML() {
+    return [{ tag: 'div[data-img-grid]' }]
+  },
+
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      'div',
+      {
+        'data-img-grid': '',
+        'data-columns': node.attrs.columns,
+        class: `blog-img-grid blog-img-grid--${node.attrs.columns}`,
+        ...HTMLAttributes,
+      },
+      0,
+    ]
+  },
+})
+
+// ─── Toolbar button ───────────────────────────────────────────────────────────
 function ToolbarButton({ onClick, active, title, children }) {
   return (
     <button
@@ -33,6 +70,147 @@ function ToolbarButton({ onClick, active, title, children }) {
   )
 }
 
+// ─── Image insertion panel ────────────────────────────────────────────────────
+const LAYOUTS = [
+  { count: 1, label: 'Single' },
+  { count: 2, label: 'Side by Side' },
+  { count: 3, label: '3 Images' },
+]
+
+function ImagePanel({ editor, onClose }) {
+  const [layout, setLayout] = useState(1)
+  const [slots, setSlots] = useState([null, null, null])
+  const [uploading, setUploading] = useState(false)
+  const ref0 = useRef()
+  const ref1 = useRef()
+  const ref2 = useRef()
+  const inputRefs = [ref0, ref1, ref2]
+  const { mutateAsync: uploadImage } = useUploadBlogImage()
+
+  const handleLayoutChange = (count) => {
+    setLayout(count)
+    setSlots([null, null, null])
+  }
+
+  const handleSlotFile = (index, file) => {
+    if (!file) return
+    setSlots((prev) => {
+      const next = [...prev]
+      next[index] = file
+      return next
+    })
+  }
+
+  const allFilled = slots.slice(0, layout).every(Boolean)
+
+  const handleInsert = async () => {
+    if (!allFilled || uploading) return
+    setUploading(true)
+    try {
+      const urls = await Promise.all(slots.slice(0, layout).map((f) => uploadImage(f)))
+
+      if (layout === 1) {
+        editor.chain().focus().setImage({ src: urls[0], alt: '' }).run()
+      } else {
+        editor.chain().focus().insertContent({
+          type: 'imageGrid',
+          attrs: { columns: layout },
+          content: urls.map((src) => ({ type: 'image', attrs: { src, alt: '' } })),
+        }).run()
+      }
+      onClose()
+    } catch {
+      // silent — could add toast here
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div className="border-b bg-muted/20 p-3 space-y-3">
+      {/* Layout selector */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-muted-foreground shrink-0">Layout:</span>
+        {LAYOUTS.map(({ count, label }) => (
+          <button
+            key={count}
+            type="button"
+            onClick={() => handleLayoutChange(count)}
+            className={`px-2.5 py-1 text-xs rounded border transition-colors ${
+              layout === count
+                ? 'bg-primary text-white border-primary'
+                : 'border-border hover:bg-muted'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Image slots */}
+      <div
+        className={`grid gap-2 ${
+          layout === 1 ? 'grid-cols-1 max-w-[180px]' :
+          layout === 2 ? 'grid-cols-2' :
+          'grid-cols-2 sm:grid-cols-3'
+        }`}
+      >
+        {Array.from({ length: layout }).map((_, i) => {
+          const file = slots[i]
+          return (
+            <div key={i}>
+              {file ? (
+                <div className="relative group cursor-pointer" onClick={() => inputRefs[i].current?.click()}>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt=""
+                    className="w-full h-20 object-cover rounded border"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 rounded flex items-center justify-center text-white text-xs transition-opacity">
+                    Change
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => inputRefs[i].current?.click()}
+                  className="w-full h-20 border-2 border-dashed rounded flex flex-col items-center justify-center text-muted-foreground hover:bg-muted transition-colors gap-1"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  <span className="text-xs">Add Image</span>
+                </button>
+              )}
+              <input
+                ref={inputRefs[i]}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleSlotFile(i, e.target.files[0])}
+              />
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2">
+        <Button
+          type="button"
+          size="sm"
+          onClick={handleInsert}
+          disabled={!allFilled || uploading}
+        >
+          {uploading ? 'Uploading…' : 'Insert'}
+        </Button>
+        <Button type="button" size="sm" variant="ghost" onClick={onClose}>
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main form ────────────────────────────────────────────────────────────────
 export function BlogForm({ initialData = {}, onSubmit, isPending }) {
   const { data: settings } = useSettings()
   const defaultBanner = settings?.blogDefaultBannerImage || '/contact-no-1 (1).jpg'
@@ -50,6 +228,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
   const [publishedAt, setPublishedAt] = useState(
     initialData.publishedAt ? new Date(initialData.publishedAt).toISOString().split('T')[0] : ''
   )
+  const [imgPanel, setImgPanel] = useState(false)
 
   const coverRef = useRef()
   const thumbnailRef = useRef()
@@ -58,7 +237,8 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     extensions: [
       StarterKit,
       Underline,
-      Image,
+      TiptapImage,
+      ImageGrid,
       Link.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: 'Write your blog post content here...' }),
     ],
@@ -156,6 +336,10 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
                     <Quote className="w-3.5 h-3.5" />
                   </ToolbarButton>
                   <div className="w-px h-5 bg-border mx-1 self-center" />
+                  <ToolbarButton onClick={() => setImgPanel((v) => !v)} active={imgPanel} title="Insert Image">
+                    <ImageIcon className="w-3.5 h-3.5" />
+                  </ToolbarButton>
+                  <div className="w-px h-5 bg-border mx-1 self-center" />
                   <ToolbarButton onClick={() => editor.chain().focus().undo().run()} title="Undo">
                     <Undo className="w-3.5 h-3.5" />
                   </ToolbarButton>
@@ -163,6 +347,15 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
                     <Redo className="w-3.5 h-3.5" />
                   </ToolbarButton>
                 </div>
+
+                {/* Image insertion panel */}
+                {imgPanel && (
+                  <ImagePanel
+                    editor={editor}
+                    onClose={() => setImgPanel(false)}
+                  />
+                )}
+
                 <div className="p-4 min-h-[300px]">
                   <EditorContent editor={editor} />
                 </div>
@@ -175,11 +368,11 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             <h3 className="font-medium text-sm">SEO Settings</h3>
             <div className="space-y-2">
               <Label>Meta Title</Label>
-              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars)" maxLength={70} />
+              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars recommended)" />
             </div>
             <div className="space-y-2">
               <Label>Meta Description</Label>
-              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars)" maxLength={160} rows={2} />
+              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars recommended)" rows={2} />
             </div>
           </div>
 
@@ -255,7 +448,6 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             </Button>
             <input ref={thumbnailRef} type="file" accept="image/*" className="hidden" onChange={handleThumbnailChange} />
           </div>
-
         </div>
       </div>
 
