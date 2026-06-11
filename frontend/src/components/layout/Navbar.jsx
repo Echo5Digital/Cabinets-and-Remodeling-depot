@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { NAV_LINKS, COMPANY_PHONE } from '@/lib/constants'
+import { NAV_LINKS, COMPANY_PHONE, COMPANY_PHONE_DISPLAY } from '@/lib/constants'
 
 const SERVICE_ICONS = {
   ChefHat,
@@ -263,11 +263,11 @@ export function Navbar() {
               {/* Bottom CTA */}
               <div className="p-4 border-t space-y-3">
                 <a
-                  href={`tel:${COMPANY_PHONE.replace(/\D/g, '')}`}
+                  href={`tel:${COMPANY_PHONE}`}
                   className="flex items-center gap-2 text-sm font-medium"
                 >
                   <Phone className="w-4 h-4 text-primary shrink-0" />
-                  {COMPANY_PHONE}
+                  {COMPANY_PHONE_DISPLAY}
                 </a>
                 <Button className="w-full rounded-full uppercase tracking-wide font-bold" asChild>
                   <Link href="/contact" onClick={() => setMobileOpen(false)}>

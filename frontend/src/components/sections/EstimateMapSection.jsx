@@ -33,17 +33,26 @@ export function EstimateMapSection() {
           transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
+          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-white/50 mb-3">
+            Free Estimate
+          </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-3">
             Get the estimate for{' '}
-            <span className="text-primary italic">your Kitchen</span>
+            <span className="italic" style={{ color: '#e05a72' }}>your Kitchen</span>
           </h2>
+          {/* Decorative underline */}
+          <div className="flex items-center justify-center gap-2 mb-5">
+            <div className="h-0.5 w-10 bg-white/30 rounded-full" />
+            <div className="h-1 w-8 bg-white rounded-full" />
+            <div className="h-0.5 w-10 bg-white/30 rounded-full" />
+          </div>
           <p className="text-white/75 text-base md:text-lg mb-8">
             Get costing for your kitchen interiors.
           </p>
           <Button
             asChild
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-white font-bold tracking-widest uppercase rounded-md px-10"
+            className="bg-primary hover:bg-primary/90 text-white font-bold tracking-widest uppercase rounded-md px-10 h-12"
           >
             <Link href="/contact">Get Free Consultation</Link>
           </Button>

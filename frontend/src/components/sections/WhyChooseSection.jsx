@@ -1,8 +1,10 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { CheckCircle2, Navigation, Phone } from 'lucide-react'
 
 const FEATURES = [
   'Experienced remodeling professionals',
@@ -18,101 +20,182 @@ export function WhyChooseSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
 
   return (
-    <section ref={ref} className="relative section-padding overflow-hidden">
+    <section ref={ref} className="overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
 
-      {/* Background image */}
-      <Image
-        src="/img_01bg.jpeg"
-        alt=""
-        fill
-        className="object-cover object-center"
-        sizes="100vw"
-        aria-hidden="true"
-      />
-      {/* #810E29 tint — light enough to keep the image clearly visible */}
-      <div className="absolute inset-0" style={{ backgroundColor: 'rgba(129, 14, 41, 0.50)' }} />
-
-      <div className="relative z-10 container-custom">
+        {/* ── Panel 1 — Dark primary (Why Choose Us) ──────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
+          className="bg-primary px-8 py-14 sm:px-10 sm:py-16 lg:px-14 lg:py-20 flex flex-col justify-between"
         >
-          {/* Heading */}
-          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">
-            Why Homeowners Choose Cabinets &amp; Remodeling Depot
-          </h2>
-          <p className="text-white/75 text-base md:text-lg text-center max-w-3xl mx-auto mb-8">
-            Homeowners across Tampa Bay continue to choose Cabinets &amp; Remodeling Depot because
-            we focus on honest service, quality workmanship, and practical remodeling guidance.
-          </p>
+          <div>
+            {/* Label + rule */}
+            <p className="text-xs uppercase tracking-[0.22em] font-bold text-white/50 mb-2">
+              Why Choose Us
+            </p>
+            <div className="w-10 h-[2px] bg-white/25 mb-8" />
 
-          <p className="text-white font-semibold mb-5">What sets us apart:</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white uppercase leading-tight mb-5">
+              Why Homeowners Choose Cabinets &amp; Remodeling Depot
+            </h2>
 
-          {/* ── Grid: row 1 → cards 01–03 + circular image, row 2 → cards 04–07 ── */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-8">
+              Homeowners across Tampa Bay continue to choose Cabinets &amp; Remodeling Depot because we focus on honest service, quality workmanship, and practical remodeling guidance.
+            </p>
 
-            {/* Cards 01–03 */}
-            {FEATURES.slice(0, 3).map((feature, i) => (
-              <motion.div
-                key={feature}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="bg-white rounded-2xl shadow-lg h-48 md:h-52 flex flex-col overflow-hidden border-l-4 border-primary"
-              >
-                <div className="flex flex-col h-full px-5 py-5 md:px-6 md:py-6">
-                  <p className="text-5xl md:text-6xl font-extrabold text-gray-400 leading-none mb-3">
-                    {String(i + 1).padStart(2, '0')}.
-                  </p>
-                  <p className="text-gray-800 font-semibold text-base md:text-lg leading-snug">{feature}</p>
-                </div>
-              </motion.div>
-            ))}
+            <ul className="space-y-4 mb-6">
+              {FEATURES.map((text, i) => (
+                <motion.li
+                  key={text}
+                  initial={{ opacity: 0, x: -14 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.2 + i * 0.07 }}
+                  className="flex items-center gap-3"
+                >
+                  <CheckCircle2 className="h-5 w-5 text-white/60 shrink-0" />
+                  <span className="text-white/90 font-medium text-base leading-snug">{text}</span>
+                </motion.li>
+              ))}
+            </ul>
 
-            {/* Circular image — 4th slot, row 1, desktop only */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.28 }}
-              className="hidden md:flex items-center justify-center h-48 md:h-52"
-            >
-              <div className="relative w-44 h-44 rounded-full overflow-hidden border-4 border-white/80 shadow-2xl">
-                <Image
-                  src="/bathroom_remodeling.png"
-                  alt="Professional remodeling expert"
-                  fill
-                  className="object-cover object-top"
-                  sizes="176px"
-                />
-              </div>
-            </motion.div>
-
-            {/* Cards 04–07 (4 items fill the full second row) */}
-            {FEATURES.slice(3).map((feature, i) => (
-              <motion.div
-                key={feature}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: (i + 4) * 0.08 }}
-                className="bg-white rounded-2xl shadow-lg h-48 md:h-52 flex flex-col overflow-hidden border-l-4 border-primary"
-              >
-                <div className="flex flex-col h-full px-5 py-5 md:px-6 md:py-6">
-                  <p className="text-5xl md:text-6xl font-extrabold text-gray-400 leading-none mb-3">
-                    {String(i + 4).padStart(2, '0')}.
-                  </p>
-                  <p className="text-gray-800 font-semibold text-base md:text-lg leading-snug">{feature}</p>
-                </div>
-              </motion.div>
-            ))}
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-8">
+              We believe remodeling should feel organized, transparent, and tailored to your home—not rushed or overly complicated.
+            </p>
           </div>
 
-          {/* Closing note */}
-          <p className="text-white/75 text-sm md:text-base">
-            We believe remodeling should feel organized, transparent, and tailored to your
-            home&mdash;not rushed or overly complicated.
-          </p>
+          <div>
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2.5 border-2 border-white/60 text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-7 py-3.5 rounded-sm hover:bg-white hover:text-primary transition-colors duration-200"
+            >
+              Learn More About Us
+              <span className="text-base leading-none">›</span>
+            </Link>
+          </div>
         </motion.div>
+
+        {/* ── Panel 2 — Showroom image with overlay card ──────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="relative flex flex-col justify-end px-8 py-14 sm:px-10 sm:py-16 lg:px-14 lg:py-20 min-h-140 md:min-h-0"
+        >
+          {/* Background image */}
+          <Image
+            src="/cabinet-remodeling-shop.webp"
+            alt="Cabinets & Remodeling Depot Valrico showroom exterior"
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 60vw"
+          />
+
+          {/* Overlay — light tint overall, stronger vignette only at bottom for text legibility */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.42) 50%, rgba(0,0,0,0.15) 100%)',
+            }}
+          />
+
+          {/* Content */}
+          <div className="relative z-10">
+
+            {/* Come See Us — italic script label */}
+            <div className="flex items-center gap-3 mb-3">
+              <p
+                className="text-white/85 text-lg font-medium italic tracking-wide"
+                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+              >
+                Come See Us
+              </p>
+              <div className="flex-1 h-px bg-white/25" />
+            </div>
+
+            {/* Star divider */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-6 bg-white/25" />
+              <span className="text-primary text-sm">★</span>
+              <div className="flex-1 h-px bg-white/25" />
+            </div>
+
+            {/* Heading */}
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white uppercase leading-tight mb-2">
+              Visit Our Valrico Showroom
+            </h3>
+            <p className="text-white/60 text-xs font-bold uppercase tracking-[0.18em] mb-7">
+              See our quality. Plan your dream.
+            </p>
+
+            {/* Contact details — plain text, no box */}
+            <div className="space-y-5 mb-8">
+              {/* Address */}
+              <div className="border-b border-white/15 pb-4">
+                <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Address</p>
+                <p className="text-white font-semibold text-sm leading-snug">
+                  106 S St Cloud Ave, Valrico, FL 33594
+                </p>
+              </div>
+
+              {/* Phone */}
+              <div className="border-b border-white/15 pb-4">
+                <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Phone</p>
+                <a
+                  href="tel:+18136512333"
+                  className="text-white font-semibold text-sm hover:text-primary transition-colors"
+                >
+                  +1 813-651-2333
+                </a>
+              </div>
+
+              {/* Email */}
+              <div className="border-b border-white/15 pb-4">
+                <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Email</p>
+                <a
+                  href="mailto:sales@cabinetsandremodelingdepot.com"
+                  className="text-white font-semibold text-sm hover:text-primary transition-colors break-all"
+                >
+                  sales@cabinetsandremodelingdepot.com
+                </a>
+              </div>
+
+              {/* Hours */}
+              <div>
+                <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Hours</p>
+                <p className="text-white font-semibold text-sm leading-relaxed">
+                  Mon – Fri: 10:00AM – 6:00PM<br />
+                  Sat: 10:00AM – 4:00PM<br />
+                  Sun: Closed
+                </p>
+              </div>
+            </div>
+
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 bg-primary text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-6 py-3.5 rounded-sm hover:bg-primary/90 transition-colors duration-200"
+              >
+                <Navigation className="h-4 w-4 shrink-0" />
+                Directions
+              </a>
+              <a
+                href="tel:+18136512333"
+                className="flex-1 flex items-center justify-center gap-2 border-2 border-white/55 text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-6 py-3.5 rounded-sm hover:bg-white hover:text-gray-900 transition-colors duration-200"
+              >
+                <Phone className="h-4 w-4 shrink-0" />
+                Call Now
+              </a>
+            </div>
+
+          </div>
+        </motion.div>
+
       </div>
     </section>
   )

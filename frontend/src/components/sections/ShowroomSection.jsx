@@ -71,7 +71,7 @@ export function ShowroomSection() {
   }
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 overflow-hidden">
+    <section ref={ref} className="relative section-padding overflow-hidden">
       {/* ── Background image ── */}
       <Image
         src="/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg"
@@ -81,8 +81,14 @@ export function ShowroomSection() {
         sizes="100vw"
         priority
       />
-      {/* Light overlay keeps text legible over the bright kitchen photo */}
-      <div className="absolute inset-0 bg-white/80" />
+      {/* Directional overlay: solid on left, fades right so photo shows through */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(105deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 45%, rgba(255,255,255,0.72) 70%, rgba(255,255,255,0.35) 100%)',
+        }}
+      />
 
       <div className="relative z-10 container-custom">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -93,19 +99,31 @@ export function ShowroomSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+            {/* Section label */}
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
+              Tampa Bay&apos;s Trusted Showroom
+            </p>
+
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
               <span className="text-foreground">
                 Visit Our Kitchen Cabinet Showroom Tampa
               </span>{' '}
               <span className="text-primary">Homeowners Trust</span>
             </h2>
 
-            <p className="text-muted-foreground text-base leading-relaxed mb-4">
+            {/* Decorative underline */}
+            <div className="flex items-center gap-2 mb-6">
+              <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+              <div className="h-1 w-8 bg-primary rounded-full" />
+              <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+            </div>
+
+            <p className="text-gray-700 text-base leading-relaxed mb-4">
               Seeing cabinetry in person makes a difference. Our Valrico showroom gives
               homeowners the opportunity to explore cabinet styles, finishes, countertop
               materials, and remodeling options before making a final decision.
             </p>
-            <p className="text-muted-foreground text-base leading-relaxed">
+            <p className="text-gray-700 text-base leading-relaxed">
               If you&apos;ve been searching for a kitchen cabinet showroom Tampa homeowners
               recommend or looking online for a &ldquo;valrico showroom kitchen cabinets near
               me tampa,&rdquo; our showroom offers a convenient place to compare designs and
@@ -119,10 +137,11 @@ export function ShowroomSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15 }}
           >
-            <div className="bg-white rounded-2xl shadow-2xl p-7 md:p-8">
-              <h3 className="text-xl font-bold mb-6 text-foreground">
+            <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-7 md:p-8">
+              <h3 className="text-xl font-bold mb-1 text-foreground">
                 Book free consultation
               </h3>
+              <p className="text-muted-foreground text-sm mb-6">Fill out the form and we&apos;ll contact you within 1 business day.</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Row 1: Name + Email */}
@@ -214,7 +233,7 @@ export function ShowroomSection() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="w-full bg-gray-900 hover:bg-gray-700 text-white font-semibold"
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wide"
                   disabled={isPending}
                 >
                   {isPending ? (

@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -70,48 +69,29 @@ export function ClientSuccessSection() {
   return (
     <section ref={ref} className="section-padding bg-white overflow-hidden">
       <div className="container-custom">
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-stretch">
 
-          {/* ── Left: patterned background + technician image ── */}
+          {/* ── Left: heading + review carousel ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="relative rounded-2xl overflow-hidden min-h-95 sm:min-h-115 md:min-h-125"
+            className="flex flex-col justify-center"
           >
-            {/* Pattern / blueprint background */}
-            <Image
-              src="/img_01bg.jpeg"
-              alt=""
-              fill
-              aria-hidden="true"
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-
-            {/* Technician photo layered on top */}
-            <div className="absolute inset-0">
-              <Image
-                src="/Testimonials_sec-1.webp"
-                alt="Professional remodeling expert"
-                fill
-                className="object-contain object-bottom"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-          </motion.div>
-
-          {/* ── Right: heading + review carousel ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15 }}
-          >
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
+              Customer Reviews
+            </p>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">
               <span className="text-foreground">Client </span>
               <span className="text-primary">Success Stories</span>
             </h2>
-            <p className="text-muted-foreground text-base leading-relaxed mb-8">
+            {/* Decorative underline */}
+            <div className="flex items-center gap-2 mb-5">
+              <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+              <div className="h-1 w-8 bg-primary rounded-full" />
+              <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+            </div>
+            <p className="text-gray-700 text-base leading-relaxed mb-8">
               Discover how our Valrico showroom transforms Tampa Bay homes with custom cabinets and countertops.
             </p>
 
@@ -155,7 +135,7 @@ export function ClientSuccessSection() {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground text-sm">{review.name}</p>
-                      <p className="text-xs text-muted-foreground">{review.time}</p>
+                      <p className="text-xs text-muted-foreground">{review.location} · {review.time}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -195,6 +175,23 @@ export function ClientSuccessSection() {
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
+          </motion.div>
+
+          {/* ── Right: Google Map ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="relative rounded-2xl overflow-hidden shadow-lg min-h-80 sm:min-h-120 md:min-h-0 md:self-stretch"
+          >
+            <iframe
+              src="https://maps.google.com/maps?cid=18201794426186346316&output=embed&hl=en-US&t=k"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Cabinets & Remodeling Depot — 106 S St Cloud Ave, Valrico, FL 33594"
+            />
           </motion.div>
 
         </div>

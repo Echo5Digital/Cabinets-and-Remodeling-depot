@@ -49,8 +49,7 @@ export function StartProjectSection() {
             <Button
               asChild
               size="lg"
-              className="font-semibold px-8"
-              style={{ backgroundColor: '#811121' }}
+              className="bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wide px-8 h-12"
             >
               <Link href="/contact">Visit Our Showroom</Link>
             </Button>

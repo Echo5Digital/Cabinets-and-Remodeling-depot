@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ArrowRight, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { COMPANY_PHONE } from '@/lib/constants'
+import { COMPANY_PHONE, COMPANY_PHONE_DISPLAY } from '@/lib/constants'
 
 export function CTABanner({
   heading = 'Ready to Transform Your Home?',
@@ -61,7 +61,7 @@ export function CTABanner({
               className="flex items-center gap-2 text-white hover:text-white/80 transition-colors font-medium text-base"
             >
               <Phone className="h-5 w-5" />
-              {COMPANY_PHONE}
+              {COMPANY_PHONE_DISPLAY}
             </a>
           </motion.div>
         </motion.div>

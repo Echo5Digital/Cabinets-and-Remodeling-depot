@@ -31,19 +31,7 @@ export function TransformationSection() {
   const onTouchEnd   = ()  => { dragging.current = false }
 
   return (
-    <section ref={ref} className="relative section-padding overflow-hidden">
-
-      {/* Background image */}
-      <Image
-        src="/img_01bg.jpeg"
-        alt=""
-        fill
-        className="object-cover object-center"
-        sizes="100vw"
-        aria-hidden="true"
-      />
-      {/* Light overlay */}
-      <div className="absolute inset-0 bg-white/60" />
+    <section ref={ref} className="relative section-padding overflow-hidden bg-[#F8F3ED]">
 
       <div className="relative z-10 container-custom">
 
@@ -54,10 +42,19 @@ export function TransformationSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
+          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
+            Before &amp; After
+          </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             See Our <span className="text-primary">Transformations</span>
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
+          {/* Decorative underline */}
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+            <div className="h-1 w-8 bg-primary rounded-full" />
+            <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+          </div>
+          <p className="text-gray-600 text-base md:text-lg max-w-xl mx-auto">
             Drag the slider to see the dramatic difference our expert remodeling makes.
           </p>
         </motion.div>

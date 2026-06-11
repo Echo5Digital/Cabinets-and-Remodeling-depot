@@ -37,9 +37,18 @@ export function PartnersSection() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 leading-tight">
+          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
+            Our Partners
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 leading-tight mb-2">
             Our <span className="text-primary">Trusted Partners</span>
           </h2>
+          {/* Decorative underline */}
+          <div className="flex items-center justify-center gap-2 mt-2 mb-1">
+            <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+            <div className="h-1 w-8 bg-primary rounded-full" />
+            <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
+          </div>
           <p className="text-muted-foreground text-base md:text-lg mt-3">
             Brands we proudly work with to bring you quality products and materials.
           </p>

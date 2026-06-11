@@ -17,7 +17,7 @@ export function ServiceAreasSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
-    <section ref={ref} className="bg-primary py-12">
+    <section ref={ref} className="bg-primary py-14">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -25,16 +25,19 @@ export function ServiceAreasSection() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <p className="text-white font-semibold text-lg mb-6">
+          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-white/60 mb-2">
+            Service Coverage
+          </p>
+          <p className="text-white font-bold text-xl sm:text-2xl mb-6">
             We proudly serve homeowners across:
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-2.5">
             {AREAS.map((area) => (
               <div
                 key={area}
-                className="flex items-center gap-2 border border-white/60 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"
+                className="flex items-center gap-1.5 bg-white/10 border border-white/30 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-white/20 transition-colors"
               >
-                <MapPin className="w-4 h-4 shrink-0" />
+                <MapPin className="w-3.5 h-3.5 shrink-0" />
                 {area}
               </div>
             ))}
