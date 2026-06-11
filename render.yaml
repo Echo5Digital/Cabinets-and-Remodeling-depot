@@ -33,7 +33,7 @@ services:
       - key: FROM_EMAIL
         sync: false
       - key: FRONTEND_URL
-        sync: false
+        value: https://cabinets-remodeling-frontend.onrender.com
 
   # ── Frontend (Next.js) ───────────────────────────────────────────────────────
   - type: web
@@ -46,10 +46,10 @@ services:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_API_URL
-        sync: false
+        value: https://cabinets-remodeling-api.onrender.com/api
       - key: NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
         sync: false
       - key: NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
         sync: false
       - key: NEXT_PUBLIC_SITE_URL
-        sync: false
+        value: https://cabinets-remodeling-frontend.onrender.com
