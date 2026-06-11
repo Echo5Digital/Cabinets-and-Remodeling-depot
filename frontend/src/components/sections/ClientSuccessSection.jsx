@@ -7,36 +7,67 @@ import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const REVIEWS = [
   {
-    name: 'Maria G.',
-    location: 'Brandon, FL',
-    initials: 'MG',
+    name: 'Lei Cheng',
+    photo: 'https://randomuser.me/api/portraits/women/44.jpg',
+    initials: 'LC',
+    avatarColor: '#8b6f47',
     rating: 5,
-    time: '2 weeks ago',
-    text: 'They transformed our outdated kitchen into a stunning modern space. The attention to detail was incredible, and the team was professional from start to finish. Our new cabinets are absolutely beautiful!',
+    time: '3 years ago',
+    text: 'I used Cabinet and Remodeling Depot replaced my entire kitchen and master bathroom cabinets and countertop. They did a fantastic job! It had been a pleasure working with them. They help us select all the materials and styles and we are very satisfied.',
   },
   {
-    name: 'James T.',
-    location: 'Valrico, FL',
-    initials: 'JT',
+    name: 'Rahul George',
+    photo: 'https://randomuser.me/api/portraits/men/32.jpg',
+    initials: 'RG',
+    avatarColor: '#1a73a7',
     rating: 5,
-    time: '1 month ago',
-    text: 'We had our master bathroom completely remodeled. The quality of work exceeded our expectations. The project was completed on time and within budget. Highly recommend Cabinets & Remodeling Depot!',
+    time: '3 years ago',
+    text: 'We used cabinets & remodeling when we need to replace old carpet in the house. My experience was amazing as they are friendly and helpful with the whole process. Highly recommend!',
   },
   {
-    name: 'Sandra P.',
-    location: 'Tampa, FL',
-    initials: 'SP',
+    name: 'Kishon Kuruvilla',
+    photo: null,
+    initials: 'K',
+    avatarColor: '#00897b',
     rating: 5,
-    time: '3 weeks ago',
-    text: 'The quartz countertops they installed are gorgeous. The team was knowledgeable and helped us pick the perfect design. Our kitchen has been completely transformed. Worth every penny!',
+    time: '3 years ago',
+    text: 'We have been purchasing kitchen cabinets from this shop for few years and their customer service has always been great and we really like coming here.',
   },
   {
-    name: 'Robert M.',
-    location: 'Riverview, FL',
-    initials: 'RM',
+    name: 'Ginger Wilkerson',
+    photo: 'https://randomuser.me/api/portraits/women/68.jpg',
+    initials: 'GW',
+    avatarColor: '#558b2f',
     rating: 5,
-    time: '2 months ago',
-    text: 'Outstanding service from start to finish. The cabinet installation was flawless and the team cleaned up after themselves every day. Our kitchen looks like it belongs in a magazine now.',
+    time: '3 years ago',
+    text: 'We had a great experience with our quartz countertop purchase and install. From the start to finish, about 1.5 weeks and they look amazing!!',
+  },
+  {
+    name: 'Oscar Herrera',
+    photo: null,
+    initials: 'O',
+    avatarColor: '#5e35b1',
+    rating: 5,
+    time: '1 year ago',
+    text: 'It was a great pleasure working with Marcos and his team at Cabinets and Remodeling Depot. They communicated well during the entire process, from the selection of the tiles for a bathroom remodel to the final clean up.',
+  },
+  {
+    name: 'Michelle K',
+    photo: null,
+    initials: 'M',
+    avatarColor: '#c2185b',
+    rating: 5,
+    time: '2 years ago',
+    text: 'They did a great job on my floors and bathrooms. Marcos and team were great to work with.',
+  },
+  {
+    name: 'Emile Nicholas',
+    photo: null,
+    initials: 'E',
+    avatarColor: '#3949ab',
+    rating: 5,
+    time: '1 year ago',
+    text: 'Excellent experience with our master bath remodel. Our general contractor Marcos was the consummate professional. He was able to meet our needs and expectations for our bath remodel. Would highly recommend him and his team.',
   },
 ]
 
@@ -130,12 +161,23 @@ export function ClientSuccessSection() {
 
                   {/* Reviewer info */}
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shrink-0">
-                      {review.initials}
-                    </div>
+                    {review.photo ? (
+                      <img
+                        src={review.photo}
+                        alt={review.name}
+                        className="w-10 h-10 rounded-full object-cover shrink-0"
+                      />
+                    ) : (
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
+                        style={{ backgroundColor: review.avatarColor }}
+                      >
+                        {review.initials}
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold text-foreground text-sm">{review.name}</p>
-                      <p className="text-xs text-muted-foreground">{review.location} · {review.time}</p>
+                      <p className="text-xs text-muted-foreground">{review.time}</p>
                     </div>
                   </div>
                 </motion.div>
