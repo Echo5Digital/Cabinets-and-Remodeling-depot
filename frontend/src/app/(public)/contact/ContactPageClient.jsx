@@ -136,10 +136,10 @@ export function ContactPageClient() {
               transition={{ duration: 0.7 }}
               className="bg-white px-8 md:px-12 py-12 flex flex-col justify-center"
             >
-              {/* cabinet_fav logo */}
+              {/* logo_fav */}
               <div className="relative w-20 h-20 overflow-hidden mb-6 shrink-0">
                 <Image
-                  src="/cabinet_fav.jpg"
+                  src="/logo_fav.png"
                   alt="Cabinets & Remodeling Depot"
                   fill
                   sizes="80px"

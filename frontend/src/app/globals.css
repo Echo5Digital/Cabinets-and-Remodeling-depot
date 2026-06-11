@@ -197,5 +197,50 @@
 .tiptap-editor .ProseMirror .blog-img-grid { margin: 0.75rem 0; }
 .tiptap-editor .ProseMirror .blog-img-grid img { height: 130px; margin: 0 !important; }
 
+/* ─── Blog inline image alignment ──────────────────────────────────────────── */
+.img-align-full {
+  display: block !important;
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 1rem 0 !important;
+}
+.img-align-center {
+  display: block !important;
+  float: none !important;
+  margin: 1rem auto !important;
+  max-width: 80% !important;
+}
+.img-align-left {
+  float: left !important;
+  max-width: 45% !important;
+  margin: 0.25rem 1.25rem 0.75rem 0 !important;
+  border-radius: 0.375rem;
+}
+.img-align-right {
+  float: right !important;
+  max-width: 45% !important;
+  margin: 0.25rem 0 0.75rem 1.25rem !important;
+  border-radius: 0.375rem;
+}
+
+/* Mobile: clear floats — images stack full-width */
+@media (max-width: 639px) {
+  .img-align-left,
+  .img-align-right {
+    float: none !important;
+    max-width: 100% !important;
+    margin: 1rem 0 !important;
+  }
+}
+
+/* Clearfix so floated images don't overflow their containers */
+.tiptap-editor .ProseMirror::after,
+.prose::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
 /* ─── Smooth scrolling ──────────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }

@@ -20,6 +20,20 @@ import {
   Heading2, Heading3, Quote, Undo, Redo, Upload, Image as ImageIcon,
 } from 'lucide-react'
 
+// ─── TipTap image extension with class attribute support ─────────────────────
+const AlignableImage = TiptapImage.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      class: {
+        default: null,
+        parseHTML: (el) => el.getAttribute('class'),
+        renderHTML: (attrs) => (attrs.class ? { class: attrs.class } : {}),
+      },
+    }
+  },
+})
+
 // ─── Custom TipTap node: image grid ─────────────────────────────────────────
 const ImageGrid = Node.create({
   name: 'imageGrid',
@@ -84,8 +98,16 @@ const LAYOUTS = [
   { count: 3, label: '3 Images' },
 ]
 
+const ALIGNMENTS = [
+  { id: 'full',   label: 'Full Width' },
+  { id: 'left',   label: 'Left' },
+  { id: 'center', label: 'Center' },
+  { id: 'right',  label: 'Right' },
+]
+
 function ImagePanel({ editor, onClose }) {
   const [layout, setLayout] = useState(1)
+  const [alignment, setAlignment] = useState('full')
   const [slots, setSlots] = useState([null, null, null])
   const [uploading, setUploading] = useState(false)
   const ref0 = useRef()
@@ -97,6 +119,7 @@ function ImagePanel({ editor, onClose }) {
   const handleLayoutChange = (count) => {
     setLayout(count)
     setSlots([null, null, null])
+    setAlignment('full')
   }
 
   const handleSlotFile = (index, file) => {
@@ -117,7 +140,7 @@ function ImagePanel({ editor, onClose }) {
       const urls = await Promise.all(slots.slice(0, layout).map((f) => uploadImage(f)))
 
       if (layout === 1) {
-        editor.chain().focus().setImage({ src: urls[0], alt: '' }).run()
+        editor.chain().focus().setImage({ src: urls[0], alt: '', class: `img-align-${alignment}` }).run()
       } else {
         editor.chain().focus().insertContent({
           type: 'imageGrid',
@@ -153,6 +176,27 @@ function ImagePanel({ editor, onClose }) {
           </button>
         ))}
       </div>
+
+      {/* Alignment selector — single image only */}
+      {layout === 1 && (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium text-muted-foreground shrink-0">Align:</span>
+          {ALIGNMENTS.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setAlignment(id)}
+              className={`px-2.5 py-1 text-xs rounded border transition-colors ${
+                alignment === id
+                  ? 'bg-primary text-white border-primary'
+                  : 'border-border hover:bg-muted'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Image slots */}
       <div
@@ -244,7 +288,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     extensions: [
       StarterKit,
       Underline,
-      TiptapImage,
+      AlignableImage,
       ImageGrid,
       Link.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: 'Write your blog post content here...' }),

@@ -1,53 +1,19 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { useSettings, useUpdateSettings, useUploadSettingImage } from '@/hooks/useSettings'
+import { useState, useEffect } from 'react'
+import { useSettings, useUpdateSettings } from '@/hooks/useSettings'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Save, Upload } from 'lucide-react'
+import { Save } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function AdminSettingsPage() {
   const { data: settings, isLoading } = useSettings()
   const { mutate: updateSettings, isPending } = useUpdateSettings()
-  const { mutate: uploadImage, isPending: isUploading } = useUploadSettingImage()
-
-  const blogListingRef = useRef()
-  const blogPostRef = useRef()
-
-  const [bannerPreviews, setBannerPreviews] = useState({
-    blogListingBannerImage: '',
-    blogDefaultBannerImage: '',
-  })
-
-  useEffect(() => {
-    if (settings) {
-      setBannerPreviews({
-        blogListingBannerImage: settings.blogListingBannerImage || '',
-        blogDefaultBannerImage: settings.blogDefaultBannerImage || '',
-      })
-    }
-  }, [settings])
-
-  const handleBannerUpload = (key, file) => {
-    if (!file) return
-    const preview = URL.createObjectURL(file)
-    setBannerPreviews((prev) => ({ ...prev, [key]: preview }))
-    uploadImage(
-      { key, file, group: 'banners' },
-      {
-        onSuccess: () => toast.success('Banner image updated!'),
-        onError: () => {
-          toast.error('Failed to upload image')
-          setBannerPreviews((prev) => ({ ...prev, [key]: settings?.[key] || '' }))
-        },
-      }
-    )
-  }
 
   const [form, setForm] = useState({
     companyName: '',
@@ -208,73 +174,6 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Page Banners */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Page Banners</CardTitle>
-            <CardDescription>Hero background images for blog pages. Defaults to the site's standard banner if not set.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Blog Listing Banner */}
-            <div className="space-y-3">
-              <Label>Blog Listing Page Banner</Label>
-              <p className="text-xs text-muted-foreground">Shown on the /blog page behind the "Remodeling Tips & Ideas" heading.</p>
-              {bannerPreviews.blogListingBannerImage && (
-                <img
-                  src={bannerPreviews.blogListingBannerImage}
-                  alt="Blog listing banner"
-                  className="w-full max-h-40 object-cover rounded-md border"
-                />
-              )}
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={isUploading}
-                onClick={() => blogListingRef.current?.click()}
-              >
-                <Upload className="w-3.5 h-3.5 mr-2" />
-                {bannerPreviews.blogListingBannerImage ? 'Change Image' : 'Upload Image'}
-              </Button>
-              <input
-                ref={blogListingRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => handleBannerUpload('blogListingBannerImage', e.target.files?.[0])}
-              />
-            </div>
-
-            <div className="border-t pt-6 space-y-3">
-              <Label>Blog Post Default Banner</Label>
-              <p className="text-xs text-muted-foreground">Used as the banner on individual blog posts that don't have their own cover image.</p>
-              {bannerPreviews.blogDefaultBannerImage && (
-                <img
-                  src={bannerPreviews.blogDefaultBannerImage}
-                  alt="Blog post default banner"
-                  className="w-full max-h-40 object-cover rounded-md border"
-                />
-              )}
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={isUploading}
-                onClick={() => blogPostRef.current?.click()}
-              >
-                <Upload className="w-3.5 h-3.5 mr-2" />
-                {bannerPreviews.blogDefaultBannerImage ? 'Change Image' : 'Upload Image'}
-              </Button>
-              <input
-                ref={blogPostRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => handleBannerUpload('blogDefaultBannerImage', e.target.files?.[0])}
-              />
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       <div className="pt-4 border-t">
