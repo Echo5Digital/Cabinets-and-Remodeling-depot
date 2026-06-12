@@ -30,6 +30,11 @@ export function AuthProvider({ children }) {
     } finally {
       clearAccessToken()
       setUser(null)
+      // Clear the same-domain signal cookie so the middleware stops allowing
+      // admin route access immediately after logout.
+      if (typeof document !== 'undefined') {
+        document.cookie = 'adminLoggedIn=; path=/; max-age=0'
+      }
     }
   }, [])
 

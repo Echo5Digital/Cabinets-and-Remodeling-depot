@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
 import { useAuth } from '@/hooks/useAuth'
 import api from '@/lib/api'
@@ -9,6 +9,7 @@ import { setAccessToken } from '@/lib/auth'
 
 export function AdminLayoutClient({ children }) {
   const pathname = usePathname()
+  const router = useRouter()
   const { user, setUserFromToken } = useAuth()
   const isLoginPage = pathname === '/admin/login'
 
@@ -40,7 +41,11 @@ export function AdminLayoutClient({ children }) {
           setUserFromToken(meData.data, refreshData.data.accessToken)
         }
       } catch {
-        // No valid session — middleware handles redirect if needed
+        if (!cancelled) {
+          // Session is invalid — clear the signal cookie and send to login.
+          document.cookie = 'adminLoggedIn=; path=/; max-age=0'
+          router.replace('/admin/login')
+        }
       }
     }
 
@@ -48,7 +53,7 @@ export function AdminLayoutClient({ children }) {
     return () => {
       cancelled = true
     }
-  }, [isLoginPage, user, setUserFromToken])
+  }, [isLoginPage, user, setUserFromToken, router])
 
   // ── Login page: render completely standalone (no sidebar, no chrome) ──
   if (isLoginPage) {

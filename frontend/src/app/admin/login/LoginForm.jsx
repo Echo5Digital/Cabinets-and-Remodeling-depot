@@ -35,6 +35,11 @@ export function LoginForm() {
   const onSubmit = async (values) => {
     try {
       await login(values.email, values.password)
+      // Set a same-domain cookie so the Next.js middleware can gate admin routes.
+      // The cookie lives on the frontend domain and is readable server-side,
+      // unlike the httpOnly refreshToken which the backend sets on its own domain.
+      const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+      document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
       toast.success('Welcome back!')
       const redirect = searchParams.get('redirect') || '/admin/dashboard'
       router.push(redirect)

@@ -11,7 +11,7 @@ export default function TermsPage() {
       <PageHeader title="Terms of Service" subtitle="Last updated: January 1, 2025" />
 
       <section className="section-padding">
-        <div className="container-custom max-w-3xl prose prose-sm md:prose-base max-w-none text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
+        <div className="container-custom max-w-3xl prose prose-sm md:prose-base text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
           <h2>Acceptance of Terms</h2>
           <p>
             By accessing and using the Cabinets &amp; Remodeling Depot website, you accept and agree
@@ -56,8 +56,8 @@ export default function TermsPage() {
           <h2>Contact</h2>
           <p>
             Questions about these Terms of Service should be directed to{' '}
-            <a href="mailto:info@cabinetsremodelingdepot.com" className="text-primary underline">
-              info@cabinetsremodelingdepot.com
+            <a href="mailto:sales@cabinetsandremodelingdepot.com" className="text-primary underline">
+              sales@cabinetsandremodelingdepot.com
             </a>
             .
           </p>

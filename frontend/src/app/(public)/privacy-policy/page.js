@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
       <PageHeader title="Privacy Policy" subtitle="Last updated: January 1, 2025" />
 
       <section className="section-padding">
-        <div className="container-custom max-w-3xl prose prose-sm md:prose-base max-w-none text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
+        <div className="container-custom max-w-3xl prose prose-sm md:prose-base text-foreground prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
           <h2>Information We Collect</h2>
           <p>
             When you submit a contact form or consultation request on our website, we collect information
@@ -51,8 +51,8 @@ export default function PrivacyPolicyPage() {
           <h2>Contact Us</h2>
           <p>
             If you have any questions about this Privacy Policy, please contact us at{' '}
-            <a href="mailto:info@cabinetsremodelingdepot.com" className="text-primary underline">
-              info@cabinetsremodelingdepot.com
+            <a href="mailto:sales@cabinetsandremodelingdepot.com" className="text-primary underline">
+              sales@cabinetsandremodelingdepot.com
             </a>
             .
           </p>

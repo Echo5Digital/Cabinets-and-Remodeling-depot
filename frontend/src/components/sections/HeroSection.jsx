@@ -119,7 +119,7 @@ export function HeroSection({ data = {}, compact = false }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.1 }}
-              className="text-[1.8rem] sm:text-[2.2rem] lg:text-[2.8rem] xl:text-[3.2rem] font-extrabold leading-[1.12] mb-3 sm:mb-6"
+              className="text-[1.5rem] sm:text-[1.9rem] lg:text-[2.4rem] xl:text-[2.8rem] font-extrabold leading-[1.12] mb-3 sm:mb-6"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
             >
               <span className="block" style={{ color: '#e0455e' }}>{titleBold}</span>
@@ -148,7 +148,7 @@ export function HeroSection({ data = {}, compact = false }) {
             >
               {subtitle && (
                 <p
-                  className="text-white text-sm sm:text-base lg:text-lg xl:text-xl leading-relaxed line-clamp-3 xl:line-clamp-none"
+                  className="text-white text-xs sm:text-sm lg:text-base xl:text-lg leading-relaxed line-clamp-3 xl:line-clamp-none"
                   style={{ textShadow: '0 1px 8px rgba(0,0,0,0.55)' }}
                 >
                   {subtitle}
