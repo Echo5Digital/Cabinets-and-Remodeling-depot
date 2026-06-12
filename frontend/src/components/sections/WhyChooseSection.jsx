@@ -16,8 +16,22 @@ const FEATURES = [
   'One-stop remodeling solutions',
 ]
 
-export function WhyChooseSection() {
+export function WhyChooseSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const heading = data && data.heading ? data.heading : "Why Homeowners Choose Cabinets & Remodeling Depot"
+  const body = data && data.body ? data.body : "Homeowners across Tampa Bay continue to choose Cabinets & Remodeling Depot because we focus on honest service, quality workmanship, and practical remodeling guidance."
+  const features = data && data.features && data.features.length ? data.features : FEATURES
+  const closingText = data && data.closingText ? data.closingText : "We believe remodeling should feel organized, transparent, and tailored to your home—not rushed or overly complicated."
+  const bgImage = data && data.bgImage ? data.bgImage : '/cabinet-remodeling-shop.webp'
+  const address = data && data.address ? data.address : "106 S St Cloud Ave, Valrico, FL 33594"
+  const phone = data && data.phone ? data.phone : "+1 813-651-2333"
+  const phoneHref = "tel:+1" + (data && data.phone ? data.phone : "8136512333").replace(/D/g, "")
+  const email = data && data.email ? data.email : "sales@cabinetsandremodelingdepot.com"
+  const hours = data && data.hours ? data.hours : "Mon – Fri: 10:00AM – 6:00PM
+Sat: 10:00AM – 4:00PM
+Sun: Closed"
+  const mapLink = data && data.mapLink ? data.mapLink : "https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"
 
   return (
     <section ref={ref} className="overflow-hidden">
@@ -38,15 +52,15 @@ export function WhyChooseSection() {
             <div className="w-10 h-[2px] bg-white/25 mb-8" />
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white uppercase leading-tight mb-5">
-              Why Homeowners Choose Cabinets &amp; Remodeling Depot
+              {heading}
             </h2>
 
             <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-8">
-              Homeowners across Tampa Bay continue to choose Cabinets &amp; Remodeling Depot because we focus on honest service, quality workmanship, and practical remodeling guidance.
+              {body}
             </p>
 
             <ul className="space-y-4 mb-6">
-              {FEATURES.map((text, i) => (
+              {features.map((text, i) => (
                 <motion.li
                   key={text}
                   initial={{ opacity: 0, x: -14 }}
@@ -61,7 +75,7 @@ export function WhyChooseSection() {
             </ul>
 
             <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-8">
-              We believe remodeling should feel organized, transparent, and tailored to your home—not rushed or overly complicated.
+              {closingText}
             </p>
           </div>
 
@@ -85,7 +99,7 @@ export function WhyChooseSection() {
         >
           {/* Background image */}
           <Image
-            src="/cabinet-remodeling-shop.webp"
+            src={bgImage}
             alt="Cabinets & Remodeling Depot Valrico showroom exterior"
             fill
             className="object-cover object-center"
@@ -136,7 +150,7 @@ export function WhyChooseSection() {
               <div className="border-b border-white/15 pb-4">
                 <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Address</p>
                 <p className="text-white font-semibold text-sm leading-snug">
-                  106 S St Cloud Ave, Valrico, FL 33594
+                  {address}
                 </p>
               </div>
 
@@ -144,10 +158,9 @@ export function WhyChooseSection() {
               <div className="border-b border-white/15 pb-4">
                 <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Phone</p>
                 <a
-                  href="tel:+18136512333"
+                  href={phoneHref}
                   className="text-white font-semibold text-sm hover:text-primary transition-colors"
-                >
-                  +1 813-651-2333
+                >{phone}
                 </a>
               </div>
 
@@ -155,20 +168,17 @@ export function WhyChooseSection() {
               <div className="border-b border-white/15 pb-4">
                 <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Email</p>
                 <a
-                  href="mailto:sales@cabinetsandremodelingdepot.com"
+                  href={`mailto:${email}`}
                   className="text-white font-semibold text-sm hover:text-primary transition-colors break-all"
-                >
-                  sales@cabinetsandremodelingdepot.com
+                >{email}
                 </a>
               </div>
 
               {/* Hours */}
               <div>
                 <p className="text-[0.6rem] uppercase tracking-[0.16em] font-bold text-white/45 mb-1">Hours</p>
-                <p className="text-white font-semibold text-sm leading-relaxed">
-                  Mon – Fri: 10:00AM – 6:00PM<br />
-                  Sat: 10:00AM – 4:00PM<br />
-                  Sun: Closed
+                <p className="text-white font-semibold text-sm leading-relaxed whitespace-pre-wrap">
+                  {hours}
                 </p>
               </div>
             </div>
@@ -176,7 +186,7 @@ export function WhyChooseSection() {
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"
+                href={mapLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 bg-primary text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-6 py-3.5 rounded-sm hover:bg-primary/90 transition-colors duration-200"
@@ -185,7 +195,7 @@ export function WhyChooseSection() {
                 Directions
               </a>
               <a
-                href="tel:+18136512333"
+                href={phoneHref}
                 className="flex-1 flex items-center justify-center gap-2 border-2 border-white/55 text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-6 py-3.5 rounded-sm hover:bg-white hover:text-gray-900 transition-colors duration-200"
               >
                 <Phone className="h-4 w-4 shrink-0" />

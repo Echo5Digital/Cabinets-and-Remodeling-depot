@@ -4,15 +4,20 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
-export function ProfessionalInstallationSection() {
+export function ProfessionalInstallationSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const bgImage = data?.bgImage || '/cabinet_img.webp'
+  const label = data?.label || 'Expert Installation'
+  const heading = data?.heading || null  // null = use split heading
+  const paragraphs = data?.paragraphs?.length ? data.paragraphs : null
 
   return (
     <section ref={ref} className="relative section-padding overflow-hidden">
 
       {/* ── Full-bleed background image ── */}
       <Image
-        src="/cabinet_img.webp"
+        src={bgImage}
         alt="Professional cabinet installation Tampa"
         fill
         className="object-cover object-center"
@@ -39,12 +44,15 @@ export function ProfessionalInstallationSection() {
           >
             {/* Section label */}
             <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
-              Expert Installation
+              {label}
             </p>
 
             <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
-              <span className="text-foreground">Professional Cabinet Installation</span>{' '}
-              <span className="text-primary">Tampa</span>
+              {heading ? (
+                <span className="text-foreground">{heading}</span>
+              ) : (
+                <><span className="text-foreground">Professional Cabinet Installation</span>{' '}<span className="text-primary">Tampa</span></>
+              )}
             </h2>
 
             {/* Decorative underline */}
@@ -54,20 +62,28 @@ export function ProfessionalInstallationSection() {
               <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
             </div>
 
-            <p className="text-gray-700 text-base leading-relaxed mb-4">
-              Great cabinets deserve proper installation. Our experienced cabinet installation Tampa
-              team focuses on precision, alignment, functionality, and clean finishing details that
-              help your kitchen look polished and complete.
-            </p>
-            <p className="text-gray-700 text-base leading-relaxed mb-4">
-              We work closely with homeowners throughout the remodeling process, helping coordinate
-              cabinetry, countertops, and layout updates while minimizing unnecessary delays or
-              confusion.
-            </p>
-            <p className="text-gray-700 text-base leading-relaxed">
-              Every project is approached with attention to detail because we understand that a
-              kitchen is more than another room&mdash;it&apos;s where daily life happens.
-            </p>
+            {paragraphs ? (
+              paragraphs.map((p, i) => (
+                <p key={i} className="text-gray-700 text-base leading-relaxed mb-4">{p}</p>
+              ))
+            ) : (
+              <>
+                <p className="text-gray-700 text-base leading-relaxed mb-4">
+                  Great cabinets deserve proper installation. Our experienced cabinet installation Tampa
+                  team focuses on precision, alignment, functionality, and clean finishing details that
+                  help your kitchen look polished and complete.
+                </p>
+                <p className="text-gray-700 text-base leading-relaxed mb-4">
+                  We work closely with homeowners throughout the remodeling process, helping coordinate
+                  cabinetry, countertops, and layout updates while minimizing unnecessary delays or
+                  confusion.
+                </p>
+                <p className="text-gray-700 text-base leading-relaxed">
+                  Every project is approached with attention to detail because we understand that a
+                  kitchen is more than another room&mdash;it&apos;s where daily life happens.
+                </p>
+              </>
+            )}
           </motion.div>
 
           {/* ── Right: empty — image shows through on desktop ── */}

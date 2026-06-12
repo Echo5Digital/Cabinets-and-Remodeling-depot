@@ -8,11 +8,16 @@ import { useInView } from 'react-intersection-observer'
 const PARTNERS = Array.from({ length: 10 }, (_, i) => `/partner/${i + 1}.png`)
 const SPEED = 55 // px per second
 
-export function PartnersSection() {
+export function PartnersSection({ data }) {
   const [sectionRef, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
   const x = useMotionValue(0)
   const trackRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
+
+  const label = data?.label || 'Our Partners'
+  const heading = data?.heading || 'Our Trusted Partners'
+  const description = data?.description || 'Brands we proudly work with to bring you quality products and materials.'
+  const logos = data?.logos?.length ? data.logos : PARTNERS
 
   // Auto-scroll: continuously shift x left; loop when one full set is scrolled past
   useAnimationFrame((_, delta) => {
@@ -38,10 +43,10 @@ export function PartnersSection() {
           className="text-center"
         >
           <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
-            Our Partners
+            {label}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 leading-tight mb-2">
-            Our <span className="text-primary">Trusted Partners</span>
+            {heading}
           </h2>
           {/* Decorative underline */}
           <div className="flex items-center justify-center gap-2 mt-2 mb-1">
@@ -50,7 +55,7 @@ export function PartnersSection() {
             <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
           </div>
           <p className="text-muted-foreground text-base md:text-lg mt-3">
-            Brands we proudly work with to bring you quality products and materials.
+            {description}
           </p>
         </motion.div>
       </div>
@@ -67,14 +72,14 @@ export function PartnersSection() {
           className="flex gap-6 cursor-grab active:cursor-grabbing w-max px-3 py-2"
         >
           {/* Duplicate logos for seamless infinite loop */}
-          {[...PARTNERS, ...PARTNERS].map((src, i) => (
+          {[...logos, ...logos].map((src, i) => (
             <div
               key={i}
               className="shrink-0 w-44 h-24 bg-white rounded-xl border border-gray-100 shadow-md flex items-center justify-center px-5"
             >
               <Image
                 src={src}
-                alt={`Partner ${(i % PARTNERS.length) + 1}`}
+                alt={`Partner ${(i % logos.length) + 1}`}
                 width={148}
                 height={68}
                 className="object-contain max-h-16 w-auto"

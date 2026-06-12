@@ -6,11 +6,17 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-export function TransformationSection() {
+export function TransformationSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [sliderPos, setSliderPos] = useState(50) // percentage (0–100)
   const containerRef = useRef(null)
   const dragging = useRef(false)
+
+  const label = data?.label || 'Before & After'
+  const heading = data?.heading || null  // null = use split heading
+  const description = data?.description || 'Drag the slider to see the dramatic difference our expert remodeling makes.'
+  const beforeImage = data?.beforeImage || '/old.jpeg'
+  const afterImage = data?.afterImage || '/new.jpg'
 
   const clamp = (val) => Math.min(Math.max(val, 0), 100)
 
@@ -43,10 +49,14 @@ export function TransformationSection() {
           className="text-center mb-10"
         >
           <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
-            Before &amp; After
+            {label}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            See Our <span className="text-primary">Transformations</span>
+            {heading ? (
+              heading
+            ) : (
+              <>See Our <span className="text-primary">Transformations</span></>
+            )}
           </h2>
           {/* Decorative underline */}
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -55,7 +65,7 @@ export function TransformationSection() {
             <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
           </div>
           <p className="text-gray-600 text-base md:text-lg max-w-xl mx-auto">
-            Drag the slider to see the dramatic difference our expert remodeling makes.
+            {description}
           </p>
         </motion.div>
 
@@ -80,7 +90,7 @@ export function TransformationSection() {
             {/* ── BEFORE image (full width, behind) ── */}
             <div className="absolute inset-0">
               <Image
-                src="/old.jpeg"
+                src={beforeImage}
                 alt="Before remodeling"
                 fill
                 className="object-cover"
@@ -100,7 +110,7 @@ export function TransformationSection() {
               style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
             >
               <Image
-                src="/new.jpg"
+                src={afterImage}
                 alt="After remodeling"
                 fill
                 className="object-cover"

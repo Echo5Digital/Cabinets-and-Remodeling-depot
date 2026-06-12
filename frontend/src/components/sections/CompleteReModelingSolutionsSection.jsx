@@ -131,7 +131,13 @@ function ServiceCard({ item, index, inView }) {
 }
 
 // ── Section ───────────────────────────────────────────────────────────────────
-export function CompleteReModelingSolutionsSection() {
+export function CompleteReModelingSolutionsSection({ data }) {
+  const sectionLabel = data && data.label ? data.label : 'Our Services'
+  const sectionHeading = data && data.heading ? data.heading : null
+  const sectionDescription = data && data.description ? data.description : null
+  const sectionClosingText = data && data.closingText ? data.closingText : null
+  const solutionItems = data && data.items && data.items.length ? data.items : null
+
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
 
   return (
@@ -146,27 +152,65 @@ export function CompleteReModelingSolutionsSection() {
           className="text-center mb-12"
         >
           <p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
-            Our Services
+            {sectionLabel}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold text-primary mb-3">
-            Complete Kitchen Remodeling Solutions
+            {sectionHeading || 'Complete Kitchen Remodeling Solutions'}
           </h2>
           <div className="flex items-center justify-center gap-2 mb-5">
             <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
             <div className="h-1 w-8 bg-primary rounded-full" />
             <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
           </div>
-          <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            Cabinets &amp; Remodeling Depot offers more than cabinetry alone. Our showroom provides
-            access to complete kitchen and remodeling solutions, including:
-          </p>
+          {sectionDescription ? (
+            <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+              {sectionDescription}
+            </p>
+          ) : (
+            <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+              Cabinets &amp; Remodeling Depot offers more than cabinetry alone. Our showroom provides
+              access to complete kitchen and remodeling solutions, including:
+            </p>
+          )}
         </motion.div>
 
         {/* 3×2 card grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
-          {SOLUTIONS.map((item, i) => (
-            <ServiceCard key={item.label} item={item} index={i} inView={inView} />
-          ))}
+          {solutionItems ? (
+            solutionItems.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="flex"
+              >
+                <a
+                  href={item.href || '#'}
+                  className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col w-full"
+                >
+                  {item.image && (
+                    <div className="relative h-56 sm:h-60 shrink-0 overflow-hidden">
+                      <img src={item.image} alt={item.label || 'Service'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="font-bold text-gray-900 text-lg sm:text-xl mb-2 leading-snug">{item.label || '(no label)'}</h3>
+                    <p className="text-gray-500 text-[0.95rem] sm:text-base leading-relaxed mb-5 flex-1">{item.desc || ''}</p>
+                    <span className="inline-flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wider">
+                      Learn More
+                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </a>
+              </motion.div>
+            ))
+          ) : (
+            SOLUTIONS.map((item, i) => (
+              <ServiceCard key={item.label} item={item} index={i} inView={inView} />
+            ))
+          )}
         </div>
 
         {/* Closing quote */}
@@ -177,8 +221,7 @@ export function CompleteReModelingSolutionsSection() {
           className="border-l-4 border-primary pl-6 max-w-2xl mx-auto"
         >
           <p className="text-gray-600 text-base md:text-lg italic leading-relaxed">
-            Our goal is to help homeowners create spaces that feel comfortable, functional, and
-            built to last.
+            {sectionClosingText || 'Our goal is to help homeowners create spaces that feel comfortable, functional, and built to last.'}
           </p>
         </motion.blockquote>
 

@@ -6,15 +6,21 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Button } from '@/components/ui/button'
 
-export function StartProjectSection() {
+export function StartProjectSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const bgImage = data?.bgImage || '/kitchen-bg.webp'
+  const heading = data?.heading || 'Start Your Kitchen Remodeling Project Today'
+  const body = data?.body || null  // null = use hardcoded paragraphs
+  const ctaText = data?.ctaText || 'Visit Our Showroom'
+  const ctaLink = data?.ctaLink || '/contact'
 
   return (
     <section ref={ref} className="relative overflow-hidden min-h-105 md:min-h-125 flex items-center">
 
       {/* Full-section background: kitchen image */}
       <Image
-        src="/kitchen-bg.webp"
+        src={bgImage}
         alt="Beautiful kitchen remodel Tampa"
         fill
         className="object-cover object-center"
@@ -34,24 +40,30 @@ export function StartProjectSection() {
             className="max-w-lg"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-5">
-              Start Your Kitchen Remodeling Project Today
+              {heading}
             </h2>
-            <p className="text-muted-foreground text-base leading-relaxed mb-4">
-              If you&apos;re looking for kitchen cabinets Tampa homeowners trust for quality, value,
-              and professional installation, visit Cabinets &amp; Remodeling Depot today.
-            </p>
-            <p className="text-muted-foreground text-base leading-relaxed mb-8">
-              Explore cabinet styles, compare countertop materials, and speak with our team about
-              your remodeling goals. From affordable cabinets Tampa clients love to ready to install
-              cabinets Tampa homeowners need quickly, we&apos;re ready to help bring your kitchen
-              project to life.
-            </p>
+            {body ? (
+              <div className="text-muted-foreground text-base leading-relaxed mb-8 [&_p]:mb-4" dangerouslySetInnerHTML={{ __html: body }} />
+            ) : (
+              <>
+                <p className="text-muted-foreground text-base leading-relaxed mb-4">
+                  If you&apos;re looking for kitchen cabinets Tampa homeowners trust for quality, value,
+                  and professional installation, visit Cabinets &amp; Remodeling Depot today.
+                </p>
+                <p className="text-muted-foreground text-base leading-relaxed mb-8">
+                  Explore cabinet styles, compare countertop materials, and speak with our team about
+                  your remodeling goals. From affordable cabinets Tampa clients love to ready to install
+                  cabinets Tampa homeowners need quickly, we&apos;re ready to help bring your kitchen
+                  project to life.
+                </p>
+              </>
+            )}
             <Button
               asChild
               size="lg"
               className="bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-wide px-8 h-12"
             >
-              <Link href="/contact">Visit Our Showroom</Link>
+              <Link href={ctaLink}>{ctaText}</Link>
             </Button>
           </motion.div>
         </div>

@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { PageBuilderPanel } from './PageBuilderPanel'
 import { SEOEditor } from './SEOEditor'
 import { SchemaEditor } from './SchemaEditor'
-import { normalizeContent } from '@/lib/pageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 import { Save, Eye, AlertCircle, CheckCircle2, LayoutTemplate, Search, Code2 } from 'lucide-react'
 
 function PanelNumber({ n }) {
@@ -18,14 +18,18 @@ function PanelNumber({ n }) {
 }
 
 export function PageContentEditor({ content, onSave, isSaving, slug }) {
-  const [draft, setDraft] = useState(() => normalizeContent(content))
+  const [draft, setDraft] = useState(() => {
+    const normalized = normalizeContent(content)
+    return { ...normalized, sections: mergeWithPageDefaults(slug, normalized.sections) }
+  })
   const [isDirty, setIsDirty] = useState(false)
   const [openPanels, setOpenPanels] = useState(['content', 'seo', 'schema'])
 
   useEffect(() => {
-    setDraft(normalizeContent(content))
+    const normalized = normalizeContent(content)
+    setDraft({ ...normalized, sections: mergeWithPageDefaults(slug, normalized.sections) })
     setIsDirty(false)
-  }, [content])
+  }, [content, slug])
 
   const updateSections = (sections) => {
     setDraft((p) => ({ ...p, sections }))

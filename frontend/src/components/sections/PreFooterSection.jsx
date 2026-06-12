@@ -12,8 +12,14 @@ const TRUST_ITEMS = [
   { Icon: ShieldCheck,  label: 'Financing Options Available' },
 ]
 
-export function PreFooterSection() {
+export function PreFooterSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const heading = data?.heading || 'Ready to Start Your Project?'
+  const description = data?.description || "Get a free quote and expert design inspiration from our team—let's build!"
+  const phone = data?.phone || '(813) 651-2333'
+  const phoneHref = 'tel:+1' + (data?.phone || '8136512333').replace(/\D/g, '')
+  const trustItems = data?.trustItems?.length ? data.trustItems : null
 
   return (
     <div ref={ref}>
@@ -35,10 +41,10 @@ export function PreFooterSection() {
               </div>
               <div>
                 <h3 className="text-white font-extrabold text-xl md:text-2xl leading-snug mb-1 text-center md:text-left">
-                  Ready to Start Your Project?
+                  {heading}
                 </h3>
                 <p className="text-white/75 text-sm md:text-base leading-snug text-center md:text-left">
-                  Get a free quote and expert design inspiration from our team&mdash;let&apos;s build!
+                  {description}
                 </p>
               </div>
             </div>
@@ -53,11 +59,11 @@ export function PreFooterSection() {
                 Schedule a Visit
               </Link>
               <a
-                href="tel:+18136512333"
+                href={phoneHref}
                 className="flex items-center justify-center gap-2.5 border-2 border-white/80 text-white font-bold text-xs sm:text-sm uppercase tracking-widest px-7 py-3.5 rounded hover:bg-white/10 transition-colors duration-200 whitespace-nowrap"
               >
                 <Phone className="h-5 w-5 shrink-0" />
-                Call (813) 651-2333
+                {`Call ${phone}`}
               </a>
             </div>
 
@@ -77,21 +83,32 @@ export function PreFooterSection() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
             {/* Trust items — 2-col grid on mobile, single row on lg */}
-            <div className="grid grid-cols-2 lg:flex lg:items-center lg:divide-x lg:divide-gray-200 gap-3 lg:gap-0">
-              {TRUST_ITEMS.map(({ Icon, label }, i) => (
-                <div
-                  key={label}
-                  className={`flex items-center gap-2 ${
-                    i === 0 ? 'lg:pr-5' : 'lg:px-5'
-                  }`}
-                >
-                  <Icon className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
-                  <span className="text-gray-700 font-bold text-[0.68rem] sm:text-xs uppercase tracking-wide leading-tight">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {trustItems ? (
+              <div className="grid grid-cols-2 lg:flex lg:items-center lg:divide-x lg:divide-gray-200 gap-3 lg:gap-0">
+                {trustItems.map((label, i) => (
+                  <div key={label} className={`flex items-center gap-2 ${i === 0 ? 'lg:pr-5' : 'lg:px-5'}`}>
+                    <span className="w-4 h-4 text-primary font-bold text-base shrink-0">✓</span>
+                    <span className="text-gray-700 font-bold text-[0.68rem] sm:text-xs uppercase tracking-wide leading-tight">{label}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 lg:flex lg:items-center lg:divide-x lg:divide-gray-200 gap-3 lg:gap-0">
+                {TRUST_ITEMS.map(({ Icon, label }, i) => (
+                  <div
+                    key={label}
+                    className={`flex items-center gap-2 ${
+                      i === 0 ? 'lg:pr-5' : 'lg:px-5'
+                    }`}
+                  >
+                    <Icon className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
+                    <span className="text-gray-700 font-bold text-[0.68rem] sm:text-xs uppercase tracking-wide leading-tight">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Payment logos — always in a single row, left-aligned on mobile */}
             <div className="flex items-center gap-2 shrink-0">

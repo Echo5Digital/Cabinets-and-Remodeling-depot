@@ -31,7 +31,12 @@ const schema = z.object({
   message: z.string().optional(),
 })
 
-export function ShowroomSection() {
+export function ShowroomSection({ data }) {
+  const bgImage = data && data.bgImage ? data.bgImage : '/Kitchen-Cabinet-Showroom-Tampa.jpg'
+  const sectionLabel = data && data.label ? data.label : "Tampa Bay's Trusted Showroom"
+  const sectionHeading = data && data.heading ? data.heading : null
+  const sectionBody = data && data.body ? data.body : null
+
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const { mutate: submitLead, isPending } = useSubmitLead()
 
@@ -74,7 +79,7 @@ export function ShowroomSection() {
     <section ref={ref} className="relative section-padding overflow-hidden">
       {/* ── Background image ── */}
       <Image
-        src="/Kitchen-Cabinet-Showroom-Tampa.jpg"
+        src={bgImage}
         alt="Kitchen cabinet showroom Tampa"
         fill
         className="object-cover object-center"
@@ -101,14 +106,18 @@ export function ShowroomSection() {
           >
             {/* Section label */}
             <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary mb-3">
-              Tampa Bay&apos;s Trusted Showroom
+              {sectionLabel}
             </p>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
-              <span className="text-foreground">
-                Visit Our Kitchen Cabinet Showroom Tampa
-              </span>{' '}
-              <span className="text-primary">Homeowners Trust</span>
+              {sectionHeading ? (
+                <span className="text-foreground">{sectionHeading}</span>
+              ) : (
+                <>
+                  <span className="text-foreground">Visit Our Kitchen Cabinet Showroom Tampa</span>{' '}
+                  <span className="text-primary">Homeowners Trust</span>
+                </>
+              )}
             </h2>
 
             {/* Decorative underline */}
@@ -118,17 +127,23 @@ export function ShowroomSection() {
               <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
             </div>
 
-            <p className="text-gray-900 text-base leading-relaxed mb-4">
-              Seeing cabinetry in person makes a difference. Our Valrico showroom gives
-              homeowners the opportunity to explore cabinet styles, finishes, countertop
-              materials, and remodeling options before making a final decision.
-            </p>
-            <p className="text-gray-900 text-base leading-relaxed">
-              If you&apos;ve been searching for a kitchen cabinet showroom Tampa homeowners
-              recommend or looking online for a &ldquo;valrico showroom kitchen cabinets near
-              me tampa,&rdquo; our showroom offers a convenient place to compare designs and
-              speak directly with experienced remodeling professionals.
-            </p>
+            {sectionBody ? (
+              <div className="text-gray-900 text-base leading-relaxed [&_p]:mb-4" dangerouslySetInnerHTML={{ __html: sectionBody }} />
+            ) : (
+              <>
+                <p className="text-gray-900 text-base leading-relaxed mb-4">
+                  Seeing cabinetry in person makes a difference. Our Valrico showroom gives
+                  homeowners the opportunity to explore cabinet styles, finishes, countertop
+                  materials, and remodeling options before making a final decision.
+                </p>
+                <p className="text-gray-900 text-base leading-relaxed">
+                  If you&apos;ve been searching for a kitchen cabinet showroom Tampa homeowners
+                  recommend or looking online for a &ldquo;valrico showroom kitchen cabinets near
+                  me tampa,&rdquo; our showroom offers a convenient place to compare designs and
+                  speak directly with experienced remodeling professionals.
+                </p>
+              </>
+            )}
           </motion.div>
 
           {/* ── Right: consultation form card ── */}

@@ -14,15 +14,25 @@ const CABINET_INVENTORY = [
   'Durable finishes designed for everyday use',
 ]
 
-export function AffordableCabinetsSection() {
+export function AffordableCabinetsSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const bgImage = data?.bgImage || '/Budget-kitchen-remodel-Tampa-featuring-affordable-upgrades-and-modern-finishes.jpg'
+  const label = data?.label || 'Affordable Options'
+  const heading = data?.heading || null  // null = use split heading
+  const body = data?.body || null  // null = use hardcoded paragraphs
+  const items = data?.items?.length ? data.items : CABINET_INVENTORY
+  const cta1Text = data?.cta1Text || 'Visit Our Showroom'
+  const cta1Link = data?.cta1Link || '/contact'
+  const cta2Text = data?.cta2Text || 'Request a Quote'
+  const cta2Link = data?.cta2Link || '/contact'
 
   return (
     <section ref={ref} className="relative section-padding overflow-hidden">
 
       {/* ── Full-bleed background image ── */}
       <Image
-        src="/Budget-kitchen-remodel-Tampa-featuring-affordable-upgrades-and-modern-finishes.jpg"
+        src={bgImage}
         alt="Affordable kitchen cabinets Tampa remodel"
         fill
         className="object-cover object-center"
@@ -58,12 +68,15 @@ export function AffordableCabinetsSection() {
           >
             {/* Section label */}
             <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
-              Affordable Options
+              {label}
             </p>
 
             <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
-              <span className="text-primary">Affordable Cabinets</span>{' '}
-              <span className="text-foreground">Tampa Families Can Rely On</span>
+              {heading ? (
+                <span className="text-foreground">{heading}</span>
+              ) : (
+                <><span className="text-primary">Affordable Cabinets</span>{' '}<span className="text-foreground">Tampa Families Can Rely On</span></>
+              )}
             </h2>
 
             {/* Decorative underline */}
@@ -73,16 +86,22 @@ export function AffordableCabinetsSection() {
               <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
             </div>
 
-            <p className="text-gray-700 text-base leading-relaxed mb-5">
-              A kitchen upgrade should feel exciting, not financially overwhelming. That&apos;s why we
-              offer affordable cabinets Tampa homeowners can choose based on their style preferences,
-              timeline, and remodeling goals.
-            </p>
+            {body ? (
+              <p className="text-gray-700 text-base leading-relaxed mb-5">{body}</p>
+            ) : (
+              <>
+                <p className="text-gray-700 text-base leading-relaxed mb-5">
+                  A kitchen upgrade should feel exciting, not financially overwhelming. That&apos;s why we
+                  offer affordable cabinets Tampa homeowners can choose based on their style preferences,
+                  timeline, and remodeling goals.
+                </p>
 
-            <p className="font-semibold text-foreground mb-4">Our inventory includes:</p>
+                <p className="font-semibold text-foreground mb-4">Our inventory includes:</p>
+              </>
+            )}
 
             <ul className="space-y-3 mb-6">
-              {CABINET_INVENTORY.map((item) => (
+              {items.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-gray-800 font-medium">{item}</span>
@@ -97,10 +116,10 @@ export function AffordableCabinetsSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="flex-1 font-bold uppercase tracking-wide">
-                <Link href="/contact">Visit Our Showroom</Link>
+                <Link href={cta1Link}>{cta1Text}</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="flex-1 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-wide">
-                <Link href="/contact">Request a Quote</Link>
+                <Link href={cta2Link}>{cta2Text}</Link>
               </Button>
             </div>
           </motion.div>

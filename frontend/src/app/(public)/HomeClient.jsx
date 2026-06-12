@@ -4,7 +4,7 @@ import { usePageContent } from '@/hooks/usePageContent'
 import { useProjects } from '@/hooks/useProjects'
 import { useBlogs } from '@/hooks/useBlogs'
 import { useGallery } from '@/hooks/useGallery'
-import { normalizeContent } from '@/lib/pageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
@@ -131,6 +131,9 @@ const FEATURE_STRIP = [
   },
 ]
 
+// Map CMS iconName strings to lucide-react Icon components
+const FEATURE_STRIP_ICON_MAP = { BadgePercent, Store, Wrench, Star, Heart }
+
 // ── Main home page component ──────────────────────────────────────────────────
 
 export function HomeClient() {
@@ -143,14 +146,37 @@ export function HomeClient() {
   const blogs = blogsData?.data || []
   const gallery = galleryData?.data || []
 
-  // Parse the unified sections format from the admin
+  // Parse the unified sections format from the admin and merge with page defaults
   const normalized = normalizeContent(pageData?.content)
-  const sections = normalized.sections
+  const sections = mergeWithPageDefaults('home', normalized.sections)
 
-  const heroSection = sections.find((s) => s.type === 'hero')
-  const faqSection  = sections.find((s) => s.type === 'faq')
+  // Extract each section by type
+  const heroSection         = sections.find((s) => s.type === 'hero')
+  const featureStripSection = sections.find((s) => s.type === 'feature-strip')
+  const solutionsSection    = sections.find((s) => s.type === 'solutions')
+  const showroomSection     = sections.find((s) => s.type === 'showroom')
+  const serviceAreasSection = sections.find((s) => s.type === 'service-areas')
+  const affordableSection   = sections.find((s) => s.type === 'affordable')
+  const howItWorksSection   = sections.find((s) => s.type === 'how-it-works')
+  const transformSection    = sections.find((s) => s.type === 'transformation')
+  const installSection      = sections.find((s) => s.type === 'installation')
+  const whyChooseSection    = sections.find((s) => s.type === 'why-choose')
+  const reviewsSection      = sections.find((s) => s.type === 'testimonials')
+  const faqSection          = sections.find((s) => s.type === 'faq')
+  const startProjectSection = sections.find((s) => s.type === 'start-project')
+  const preFooterSection    = sections.find((s) => s.type === 'pre-footer')
+  const partnersSection     = sections.find((s) => s.type === 'partners')
 
   const faqs = faqSection?.items?.length > 0 ? faqSection.items : DEFAULT_FAQS
+
+  // Build feature strip items: CMS items mapped to Icon components, else static fallback
+  const featureStripItems = featureStripSection?.items?.length
+    ? featureStripSection.items.map((item) => ({
+        Icon: FEATURE_STRIP_ICON_MAP[item.iconName] || Star,
+        title: item.title || '',
+        desc: item.desc || '',
+      }))
+    : FEATURE_STRIP
 
   return (
     <>
@@ -176,7 +202,7 @@ export function HomeClient() {
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-gray-100">
-              {FEATURE_STRIP.map(({ Icon, title, desc }, i, arr) => (
+              {featureStripItems.map(({ Icon, title, desc }, i, arr) => (
                 <div
                   key={title}
                   className={`bg-white flex flex-col items-center text-center px-5 sm:px-6 py-8 sm:py-9 lg:py-11 hover:bg-primary/3 transition-colors ${
@@ -201,25 +227,25 @@ export function HomeClient() {
       </div>
 
       {/* H2: Complete Kitchen Remodeling Solutions */}
-      <CompleteReModelingSolutionsSection />
+      <CompleteReModelingSolutionsSection data={solutionsSection} />
 
       {/* H2: Visit Our Kitchen Cabinet Showroom Tampa Homeowners Trust */}
-      <ShowroomSection />
+      <ShowroomSection data={showroomSection} />
 
       {/* Service areas banner */}
-      <ServiceAreasSection />
+      <ServiceAreasSection data={serviceAreasSection} />
 
       {/* H2: Affordable Cabinets Tampa Families Can Rely On */}
-      <AffordableCabinetsSection />
+      <AffordableCabinetsSection data={affordableSection} />
 
       {/* How It Works — 4-step process */}
-      <HowItWorksSection />
+      <HowItWorksSection data={howItWorksSection} />
 
       {/* Before / After transformation slider */}
-      <TransformationSection />
+      <TransformationSection data={transformSection} />
 
       {/* H2: Professional Cabinet Installation Tampa */}
-      <ProfessionalInstallationSection />
+      <ProfessionalInstallationSection data={installSection} />
 
       {/* Featured Projects */}
       {projects.length > 0 && (
@@ -250,13 +276,13 @@ export function HomeClient() {
       )}
 
       {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
-      <WhyChooseSection />
+      <WhyChooseSection data={whyChooseSection} />
 
       {/* Client Success Stories — Google review carousel */}
-      <ClientSuccessSection />
+      <ClientSuccessSection reviewItems={reviewsSection?.items} />
 
       {/* Trusted Partners logo carousel */}
-      <PartnersSection />
+      <PartnersSection data={partnersSection} />
 
       {/* Blog Preview — temporarily hidden */}
       {/* {blogs.length > 0 && (
@@ -276,10 +302,10 @@ export function HomeClient() {
       <FAQSection faqs={faqs} />
 
       {/* Start Your Kitchen Remodeling Project Today */}
-      <StartProjectSection />
+      <StartProjectSection data={startProjectSection} />
 
       {/* Pre-footer: CTA band + trust/payment strip */}
-      <PreFooterSection />
+      <PreFooterSection data={preFooterSection} />
 
     </>
   )

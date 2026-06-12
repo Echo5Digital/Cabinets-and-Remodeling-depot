@@ -17,6 +17,18 @@ import {
   Briefcase,
   ListOrdered,
   MessageSquare,
+  Zap,
+  Layers,
+  Home,
+  MapPin,
+  Tag,
+  Repeat,
+  ArrowLeftRight,
+  Wrench,
+  ThumbsUp,
+  Rocket,
+  PanelBottom,
+  Award,
 } from 'lucide-react'
 
 const SECTION_TYPES = [
@@ -74,6 +86,78 @@ const SECTION_TYPES = [
     description: 'Client reviews with name, location, star rating, and quote',
     icon: MessageSquare,
   },
+  {
+    type: 'feature-strip',
+    label: 'Feature Strip',
+    description: 'Horizontal strip of icon + title + description highlight items',
+    icon: Zap,
+  },
+  {
+    type: 'solutions',
+    label: 'Solutions',
+    description: 'Service cards with image, label, description, and link',
+    icon: Layers,
+  },
+  {
+    type: 'showroom',
+    label: 'Showroom',
+    description: 'Heading, body text, and optional background image (e.g. showroom visit CTA)',
+    icon: Home,
+  },
+  {
+    type: 'service-areas',
+    label: 'Service Areas',
+    description: 'List of cities / areas served displayed as chips',
+    icon: MapPin,
+  },
+  {
+    type: 'affordable',
+    label: 'Affordable',
+    description: 'Heading, body, bullet-point list, background image, and two CTA buttons',
+    icon: Tag,
+  },
+  {
+    type: 'how-it-works',
+    label: 'How It Works',
+    description: 'Numbered steps shown in a grid (consult → plan → install → enjoy)',
+    icon: Repeat,
+  },
+  {
+    type: 'transformation',
+    label: 'Transformation',
+    description: 'Before & after image comparison with draggable slider',
+    icon: ArrowLeftRight,
+  },
+  {
+    type: 'installation',
+    label: 'Installation',
+    description: 'Heading, background image, and text paragraphs about installation',
+    icon: Wrench,
+  },
+  {
+    type: 'why-choose',
+    label: 'Why Choose Us',
+    description: 'Heading, feature bullets, contact info block, and background image',
+    icon: ThumbsUp,
+  },
+  {
+    type: 'start-project',
+    label: 'Start Project',
+    description: 'Heading, body text, background image, and single CTA button',
+    icon: Rocket,
+  },
+  {
+    type: 'pre-footer',
+    label: 'Pre-Footer',
+    description: 'CTA heading, description, phone number, and trust badge pills',
+    icon: PanelBottom,
+  },
+  {
+    type: 'partners',
+    label: 'Partners',
+    description: 'Heading and carousel of partner/brand logo images',
+    icon: Award,
+  },
 ]
 
 export function AddSectionDialog({ open, onOpenChange, onAdd }) {
@@ -95,7 +179,7 @@ export function AddSectionDialog({ open, onOpenChange, onAdd }) {
               onClick={() => onAdd(type)}
               className="flex items-start gap-3 p-3.5 border rounded-lg text-left hover:border-primary hover:bg-primary/5 transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <div className="w-9 h-9 rounded-md bg-muted flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors">
+              <div className="w-9 h-9 rounded-md bg-muted flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors">
                 <Icon className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
               <div className="min-w-0">

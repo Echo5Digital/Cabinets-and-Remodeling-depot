@@ -71,6 +71,15 @@ const REVIEWS = [
   },
 ]
 
+function getInitials(name) {
+  return (name || '').split(' ').map(w => w[0] || '').join('').slice(0, 2).toUpperCase() || '?'
+}
+
+const AVATAR_COLORS = ['#8b6f47', '#1a73a7', '#00897b', '#558b2f', '#5e35b1', '#c2185b', '#3949ab']
+
+function colorForName(name) {
+  return AVATAR_COLORS[(name || '').length % AVATAR_COLORS.length]
+}
 function GoogleIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Google">
@@ -84,16 +93,28 @@ function GoogleIcon() {
 
 const MAX_CHARS = 140
 
-export function ClientSuccessSection() {
+export function ClientSuccessSection({ reviewItems }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [current, setCurrent] = useState(0)
   const [expanded, setExpanded] = useState(false)
 
-  const goTo = (i) => { setCurrent(i); setExpanded(false) }
-  const prev = () => goTo(current === 0 ? REVIEWS.length - 1 : current - 1)
-  const next = () => goTo(current === REVIEWS.length - 1 ? 0 : current + 1)
+  const reviews = reviewItems && reviewItems.length
+    ? reviewItems.map((item) => ({
+        name: item.name || '',
+        photo: item.avatar || null,
+        initials: getInitials(item.name),
+        avatarColor: colorForName(item.name),
+        rating: item.rating != null ? item.rating : 5,
+        time: item.location || '',
+        text: item.text || '',
+      }))
+    : REVIEWS
 
-  const review = REVIEWS[current]
+  const goTo = (i) => { setCurrent(i); setExpanded(false) }
+  const prev = () => goTo(current === 0 ? reviews.length - 1 : current - 1)
+  const next = () => goTo(current === reviews.length - 1 ? 0 : current + 1)
+
+  const review = reviews[current]
   const isLong = review.text.length > MAX_CHARS
   const displayText = isLong && !expanded ? review.text.slice(0, MAX_CHARS) + '…' : review.text
 
@@ -195,7 +216,7 @@ export function ClientSuccessSection() {
               </button>
 
               <div className="flex gap-2 items-center">
-                {REVIEWS.map((_, i) => (
+                {reviews.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => goTo(i)}

@@ -31,8 +31,14 @@ const STEPS = [
   },
 ]
 
-export function HowItWorksSection() {
+export function HowItWorksSection({ data }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+
+  const STEP_ICONS = [Phone, Ruler, Wrench, ClipboardCheck]
+  const heading = data?.heading || 'How It Works'
+  const steps = data?.steps?.length
+    ? data.steps.map((s, i) => ({ number: i + 1, Icon: STEP_ICONS[i] || ClipboardCheck, title: s.title, desc: s.desc }))
+    : STEPS
 
   return (
     <section ref={ref} className="section-padding bg-white">
@@ -46,7 +52,7 @@ export function HowItWorksSection() {
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 uppercase tracking-wide mb-5">
-            How It Works
+            {heading}
           </h2>
           <div className="flex items-center justify-center gap-2">
             <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
@@ -74,7 +80,7 @@ export function HowItWorksSection() {
 
           {/* Step cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-10 lg:gap-4">
-            {STEPS.map(({ number, Icon, title, desc }, i) => (
+            {steps.map(({ number, Icon, title, desc }, i) => (
               <motion.div
                 key={title}
                 initial={{ opacity: 0, y: 28 }}
