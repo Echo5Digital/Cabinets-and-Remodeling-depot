@@ -74,19 +74,19 @@ export function ShowroomSection() {
     <section ref={ref} className="relative section-padding overflow-hidden">
       {/* ── Background image ── */}
       <Image
-        src="/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg"
+        src="/Kitchen-Cabinet-Showroom-Tampa.jpg"
         alt="Kitchen cabinet showroom Tampa"
         fill
-        className="object-cover"
+        className="object-cover object-center"
         sizes="100vw"
         priority
       />
-      {/* Directional overlay: solid on left, fades right so photo shows through */}
+      {/* Overlay: light on left for text readability, fades to near-transparent on right so image shows across the full section */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(105deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 45%, rgba(255,255,255,0.72) 70%, rgba(255,255,255,0.35) 100%)',
+            'linear-gradient(105deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.70) 40%, rgba(255,255,255,0.38) 65%, rgba(255,255,255,0.10) 100%)',
         }}
       />
 
@@ -100,7 +100,7 @@ export function ShowroomSection() {
             transition={{ duration: 0.7 }}
           >
             {/* Section label */}
-            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary mb-3">
               Tampa Bay&apos;s Trusted Showroom
             </p>
 
@@ -118,12 +118,12 @@ export function ShowroomSection() {
               <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
             </div>
 
-            <p className="text-gray-700 text-base leading-relaxed mb-4">
+            <p className="text-gray-900 text-base leading-relaxed mb-4">
               Seeing cabinetry in person makes a difference. Our Valrico showroom gives
               homeowners the opportunity to explore cabinet styles, finishes, countertop
               materials, and remodeling options before making a final decision.
             </p>
-            <p className="text-gray-700 text-base leading-relaxed">
+            <p className="text-gray-900 text-base leading-relaxed">
               If you&apos;ve been searching for a kitchen cabinet showroom Tampa homeowners
               recommend or looking online for a &ldquo;valrico showroom kitchen cabinets near
               me tampa,&rdquo; our showroom offers a convenient place to compare designs and

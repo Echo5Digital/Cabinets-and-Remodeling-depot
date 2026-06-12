@@ -83,18 +83,23 @@ export function HeroSection({ data = {}, compact = false }) {
           <div className="absolute inset-0 bg-primary" />
         )}
 
-        {/* Directional overlay — moderate left for text, opens up on the right */}
+        {/* Base dark wash — keeps all text readable on any image, lightens on large screens */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'rgba(0,0,0,0.45)' }}
+        />
+        {/* Directional overlay — heavier left for text column, opens up on the right */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(105deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.50) 40%, rgba(0,0,0,0.22) 65%, rgba(0,0,0,0.04) 100%)',
+              'linear-gradient(105deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.40) 45%, rgba(0,0,0,0.15) 70%, rgba(0,0,0,0.00) 100%)',
           }}
         />
-        {/* Subtle bottom vignette */}
+        {/* Bottom vignette — anchors CTA buttons and trust chips */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.30) 0%, transparent 32%)' }}
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 38%)' }}
         />
       </div>
 

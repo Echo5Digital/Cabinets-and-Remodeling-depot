@@ -16,7 +16,7 @@ const REVIEWS = [
     text: 'I used Cabinet and Remodeling Depot replaced my entire kitchen and master bathroom cabinets and countertop. They did a fantastic job! It had been a pleasure working with them. They help us select all the materials and styles and we are very satisfied.',
   },
   {
-    name: 'Rahul George',
+    name: 'R George',
     photo: 'https://randomuser.me/api/portraits/men/32.jpg',
     initials: 'RG',
     avatarColor: '#1a73a7',

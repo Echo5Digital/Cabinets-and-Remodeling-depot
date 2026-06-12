@@ -70,14 +70,14 @@ export function PartnersSection() {
           {[...PARTNERS, ...PARTNERS].map((src, i) => (
             <div
               key={i}
-              className="shrink-0 w-36 h-20 bg-white rounded-xl border border-gray-100 shadow-sm flex items-center justify-center px-4"
+              className="shrink-0 w-44 h-24 bg-white rounded-xl border border-gray-100 shadow-md flex items-center justify-center px-5"
             >
               <Image
                 src={src}
                 alt={`Partner ${(i % PARTNERS.length) + 1}`}
-                width={120}
-                height={56}
-                className="object-contain max-h-14 w-auto"
+                width={148}
+                height={68}
+                className="object-contain max-h-16 w-auto"
                 draggable={false}
               />
             </div>

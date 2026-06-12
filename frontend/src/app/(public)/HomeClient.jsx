@@ -156,8 +156,7 @@ export function HomeClient() {
             "From custom designs to in-stock cabinets Tampa homeowners can install quickly, our team provides expert guidance, quality materials, and dependable cabinet installation Tampa services all from our Valrico showroom. Whether you're updating a single kitchen or planning a full remodel, we're here to help make the process simpler, smoother, and more practical from start to finish.",
           ctaText: 'Visit Our Showroom',
           ctaLink: '/contact',
-          backgroundImage: content.hero?.backgroundImage || '',
-          videoSrc: '/1698799-Kitchen-Apartment-1920X1080.mp4',
+          backgroundImage: content.hero?.backgroundImage || '/home-hero-bg.jpg',
         }}
       />
 
