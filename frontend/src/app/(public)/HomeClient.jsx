@@ -4,6 +4,7 @@ import { usePageContent } from '@/hooks/usePageContent'
 import { useProjects } from '@/hooks/useProjects'
 import { useBlogs } from '@/hooks/useBlogs'
 import { useGallery } from '@/hooks/useGallery'
+import { normalizeContent } from '@/lib/pageContent'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
@@ -138,25 +139,35 @@ export function HomeClient() {
   const { data: blogsData } = useBlogs({ limit: 3, isPublished: true })
   const { data: galleryData } = useGallery({ limit: 12 })
 
-  const content = pageData?.content || {}
   const projects = projectsData?.data || []
   const blogs = blogsData?.data || []
   const gallery = galleryData?.data || []
-  const faqs = content.faqs?.length > 0 ? content.faqs : DEFAULT_FAQS
+
+  // Parse the unified sections format from the admin
+  const normalized = normalizeContent(pageData?.content)
+  const sections = normalized.sections
+
+  const heroSection = sections.find((s) => s.type === 'hero')
+  const faqSection  = sections.find((s) => s.type === 'faq')
+
+  const faqs = faqSection?.items?.length > 0 ? faqSection.items : DEFAULT_FAQS
 
   return (
     <>
       {/* H1: Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation */}
       <HeroSection
         data={{
-          title: 'Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation',
+          title: heroSection?.title || 'Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation',
           subtitle:
+            heroSection?.subtitle ||
             'Transform your kitchen with beautifully crafted cabinetry designed for the way you live. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay find stylish, functional, and affordable kitchen solutions without the stress that often comes with remodeling projects.',
           description:
             "From custom designs to in-stock cabinets Tampa homeowners can install quickly, our team provides expert guidance, quality materials, and dependable cabinet installation Tampa services all from our Valrico showroom. Whether you're updating a single kitchen or planning a full remodel, we're here to help make the process simpler, smoother, and more practical from start to finish.",
-          ctaText: 'Visit Our Showroom',
-          ctaLink: '/contact',
-          backgroundImage: content.hero?.backgroundImage || '/home-hero-bg.jpg',
+          ctaText: heroSection?.ctaText || 'Visit Our Showroom',
+          ctaLink: heroSection?.ctaLink || '/contact',
+          secondaryCtaText: heroSection?.secondaryCtaText || '',
+          secondaryCtaLink: heroSection?.secondaryCtaLink || '',
+          backgroundImage: heroSection?.backgroundImage || '/home-hero-bg.jpg',
         }}
       />
 

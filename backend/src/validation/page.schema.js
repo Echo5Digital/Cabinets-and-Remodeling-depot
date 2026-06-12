@@ -30,15 +30,28 @@ const ctaSchema = Joi.object({
   backgroundImage: Joi.string().allow(''),
 }).unknown(true)
 
+// Unified section schema — each section must have an id + type; all other fields are open
+const sectionSchema = Joi.object({
+  id: Joi.string().required(),
+  type: Joi.string()
+    .valid('hero', 'text', 'features', 'faq', 'cta', 'stats', 'services', 'process', 'testimonials')
+    .required(),
+}).unknown(true)
+
 export const updatePageContentSchema = Joi.object({
   title: Joi.string().max(200),
   description: Joi.string().max(500).allow(''),
   content: Joi.object({
+    // New unified sections array
+    sections: Joi.array().items(sectionSchema),
+    schema: Joi.string().allow('', null),
+    seo: seoSchema,
+
+    // Legacy named-key format kept for backward-compat reads
     hero: heroSchema,
     faq: Joi.array().items(faqItemSchema),
+    faqs: Joi.array().items(faqItemSchema),
     cta: ctaSchema,
-    seo: seoSchema,
-    sections: Joi.array().items(Joi.object().unknown(true)),
   })
     .unknown(true)
     .required(),

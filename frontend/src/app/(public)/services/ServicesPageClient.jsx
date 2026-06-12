@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ArrowRight, ChefHat, Droplets, Layout, Layers, Grid3X3, PencilRuler } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent } from '@/lib/pageContent'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { CTABanner } from '@/components/sections/CTABanner'
 import { Card, CardContent } from '@/components/ui/card'
@@ -14,12 +15,19 @@ const ICON_MAP = { ChefHat, Droplets, Layout, Layers, Grid3X3, PencilRuler }
 
 export function ServicesPageClient() {
   const { data: pageData } = usePageContent('services')
-  const content = pageData?.content || {}
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const normalized = normalizeContent(pageData?.content)
+  const heroSection = normalized.sections.find((s) => s.type === 'hero')
+  const ctaSection  = normalized.sections.find((s) => s.type === 'cta')
 
   return (
     <>
-      <HeroSection data={content.hero} />
+      <HeroSection data={heroSection || {
+        title: 'Our Remodeling Services',
+        subtitle: 'Comprehensive home transformation services tailored to your vision and budget.',
+        backgroundImage: '',
+      }} />
 
       <section className="section-padding" ref={ref}>
         <div className="container-custom">
@@ -77,10 +85,10 @@ export function ServicesPageClient() {
       </section>
 
       <CTABanner
-        heading={content.cta?.heading || 'Start Your Project Today'}
-        subheading={content.cta?.subheading || 'Get a free estimate from our remodeling experts.'}
-        buttonText={content.cta?.buttonText || 'Get Free Estimate'}
-        buttonLink={content.cta?.buttonLink || '/contact'}
+        heading={ctaSection?.heading || 'Start Your Project Today'}
+        subheading={ctaSection?.subheading || 'Get a free estimate from our remodeling experts.'}
+        buttonText={ctaSection?.buttonText || 'Get Free Estimate'}
+        buttonLink={ctaSection?.buttonLink || '/contact'}
       />
     </>
   )

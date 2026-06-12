@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent } from '@/lib/pageContent'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import {
@@ -17,6 +19,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ConsultationForm } from '@/components/forms/ConsultationForm'
 import { COMPANY_PHONE, COMPANY_ADDRESS } from '@/lib/constants'
+import { JsonLd } from '@/components/common/JsonLd'
 
 // ── Fade-in animation wrapper ──────────────────────────────────────────────────
 function FadeIn({ children, delay = 0, className = '', x = 0, y = 24 }) {
@@ -83,7 +86,7 @@ function GoogleIcon() {
   )
 }
 
-const faqs = [
+const DEFAULT_FAQS = [
   {
     question: 'What types of flooring do you install?',
     answer:
@@ -130,6 +133,18 @@ const faqs = [
 const REVIEW_MAX_CHARS = 140
 
 export function FlooringPageClient() {
+  const { data: page } = usePageContent('flooring')
+  const apiContent = page?.content ? normalizeContent(page.content) : null
+  const heroSection = apiContent?.sections?.find((s) => s.type === 'hero')
+  const faqSection  = apiContent?.sections?.find((s) => s.type === 'faq')
+  const ctaSection  = apiContent?.sections?.find((s) => s.type === 'cta')
+  const heroTitle    = heroSection?.title    || 'Flooring Tampa Bay Homeowners Love'
+  const heroSubtitle = heroSection?.subtitle || null
+  const ctaHeading   = ctaSection?.heading   || 'Get Your Free Flooring Estimate Today'
+  const ctaLink      = ctaSection?.buttonLink || '/contact'
+  const faqs         = faqSection?.items?.length ? faqSection.items : DEFAULT_FAQS
+  const schemaJson   = page?.content?.schema || null
+
   const [openFaq, setOpenFaq] = useState(0)
   const [reviewIdx, setReviewIdx] = useState(0)
   const [reviewExpanded, setReviewExpanded] = useState(false)
@@ -140,6 +155,7 @@ export function FlooringPageClient() {
 
   return (
     <>
+      <JsonLd schema={schemaJson} />
       {/* ═══════════════════════════════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════════════════════════════ */}
@@ -183,11 +199,13 @@ export function FlooringPageClient() {
                 className="text-[2rem] sm:text-[2.6rem] lg:text-[3.2rem] font-extrabold leading-[1.13] mb-5"
               >
                 <span className="block" style={{ color: '#c9334e' }}>
-                  Flooring Tampa Bay<br className="hidden sm:block" /> Homeowners Love
+                  {heroTitle}
                 </span>
-                <span className="block text-white font-normal mt-1">
-                  LVP, Tile, Hardwood &amp; More
-                </span>
+                {heroSubtitle && (
+                  <span className="block text-white font-normal mt-1">
+                    {heroSubtitle}
+                  </span>
+                )}
               </motion.h1>
 
               <motion.div
@@ -1070,9 +1088,7 @@ export function FlooringPageClient() {
 
             <FadeIn x={-30} y={0}>
               <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold leading-tight mb-5">
-                Get Your{' '}
-                <span className="text-primary">Free Flooring Estimate</span>{' '}
-                Today
+                {ctaHeading}
               </h2>
               <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-2">
                 Whether you are replacing old carpet with LVP, updating tile in your kitchen, or installing hardwood throughout your home, Cabinets &amp; Remodeling Depot can help.

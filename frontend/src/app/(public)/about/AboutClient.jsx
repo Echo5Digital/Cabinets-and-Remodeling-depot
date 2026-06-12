@@ -3,55 +3,79 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { User, Wrench } from 'lucide-react'
+import { User, Wrench, Heart, Star, Users, Zap, Shield, Award } from 'lucide-react'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent } from '@/lib/pageContent'
 
-const ABOUT_PARAGRAPHS = [
-  `Cabinets & Remodeling Depot have been designing and supplying bathroom and kitchen cabinets throughout the Tampa area for years. We aim to succeed but to also go beyond every client's expectations. Our background of success was founded on the principles that if we treat our clients right from the moment, they call us, that they have no other choice but to flaunt to their friends and family about us. To Cabinets & Remodeling Depot, your referral is our highest possible compliment.`,
-  `Coming up with a cohesive kitchen begins with getting the right material which is in coordinating colors. When you will be putting your kitchen together, you will have to choose countertops, cupboards, appliances and floor styles. All these represent your taste. Moreover, how you mix and match the materials and colors creates a direct correlation with the types of vibes a kitchen gives off. There are several ways of enabling one to coordinate cupboards, cabinets, and countertops to get an appealing and creative aesthetic.`,
-]
+// ── Icon map for admin features section icons ─────────────────────────────────
 
-const BOLD_ITEMS = [
-  {
-    label: 'Color',
-    text: 'Color of your kitchen will give an integral look to it. At the same time, the color choice shapes up the overall space into something that is elegant, fun, and light-hearted. If you are thinking of choosing a monochromatic scheme, you would think of having different shades of the selected color. Like if you have finalized shades of beige, you should go for white or brown as contrasts.',
-  },
-  {
-    label: 'Material',
-    text: 'Overall quality of a kitchen largely depends on the type of material you choose. There are different materials that you may use for countertops and cabinets.',
-  },
-  {
-    label: 'Cabinet material',
-    text: 'Most common material in this regards is wood. However, there are other options such as plywood, veneer, and laminating.',
-  },
-  {
-    label: 'Countertop material',
-    text: 'There is a variety of countertop material in the market as well. For instance; engineered stone, natural stone, ceramic tile, solid surface material, butcher block, laminate, concrete, and stainless steel etc are few to be mentioned.',
-  },
-]
+const ICON_MAP = {
+  heart: Heart, star: Star, users: Users, zap: Zap,
+  shield: Shield, award: Award, wrench: Wrench, user: User,
+}
 
-const CLOSING_PARAGRAPHS = [
-  `Once again it is suggested that color of your cabinets and countertops give an overall look to your kitchen indeed and hence it needs to be well taken care of.`,
-  `We at Cabinets & Remodeling Depot will ensure our professional facilitation in this regards. We know it well that as homeowners, we all like to have options. Since there are so many choices available out there; options turn in to chores and no one likes chores. Therefore, it is significant that you whittle down the alternatives by following a set of criteria. The criteria must reflect what is important for you while remodeling of your kitchen or bathroom.`,
-  `This wonderful world of kitchen countertops, cabinets and bathroom vanities is loaded with every main style along with the sub-style that one can think of. Here once again, we are there to help you out. It does not matter if you are looking forward to renovate your kitchen or bathroom; we will provide you with our professional experience and guidance. We excel in providing kitchen and bathroom shower faucets; custom designed kitchen cabinets Tampa FL, quartz, granite table tops, bathroom vanities and much more. Similarly we amuse our valuable clients with waterproof vinyl and laminate flooring enhancing beauty of your place in every manner.`,
-  `We will share with you different options of cabinet and countertops colors and materials. Moreover, we will save you from pain remodeling your kitchen or bathroom this year and having it outdated next year. Do not feel hesitate and allow us to serve you with our professional services. We are just a few clicks away from you at Cabinets & Remodeling Depot. Cabinets And Remodeling Depot provides you with the best kitchen countertops in Tampa.`,
-]
+// ── Fallback hardcoded content ────────────────────────────────────────────────
 
-const SPECIALS = [
+const DEFAULT_BODY = `Cabinets & Remodeling Depot have been designing and supplying bathroom and kitchen cabinets throughout the Tampa area for years. We aim to succeed but to also go beyond every client's expectations. Our background of success was founded on the principles that if we treat our clients right from the moment, they call us, that they have no other choice but to flaunt to their friends and family about us. To Cabinets & Remodeling Depot, your referral is our highest possible compliment.
+
+Coming up with a cohesive kitchen begins with getting the right material which is in coordinating colors. When you will be putting your kitchen together, you will have to choose countertops, cupboards, appliances and floor styles. All these represent your taste. Moreover, how you mix and match the materials and colors creates a direct correlation with the types of vibes a kitchen gives off. There are several ways of enabling one to coordinate cupboards, cabinets, and countertops to get an appealing and creative aesthetic.
+
+<strong>Color:</strong> Color of your kitchen will give an integral look to it. At the same time, the color choice shapes up the overall space into something that is elegant, fun, and light-hearted.
+
+<strong>Material:</strong> Overall quality of a kitchen largely depends on the type of material you choose. There are different materials that you may use for countertops and cabinets.
+
+<strong>Cabinet material:</strong> Most common material in this regards is wood. However, there are other options such as plywood, veneer, and laminating.
+
+<strong>Countertop material:</strong> There is a variety of countertop material in the market as well. For instance; engineered stone, natural stone, ceramic tile, solid surface material, butcher block, laminate, concrete, and stainless steel etc are few to be mentioned.
+
+Once again it is suggested that color of your cabinets and countertops give an overall look to your kitchen indeed and hence it needs to be well taken care of.
+
+We at Cabinets & Remodeling Depot will ensure our professional facilitation in this regards. We know it well that as homeowners, we all like to have options. Since there are so many choices available out there; options turn in to chores and no one likes chores. Therefore, it is significant that you whittle down the alternatives by following a set of criteria.`
+
+const DEFAULT_SPECIALS = [
   {
-    icon: User,
+    Icon: User,
     title: 'Our History',
     text: `We created Cabinets & Remodeling Depot, formerly known as Brandon Discount Cabinets, because we wanted to create a place where our customers saw us as hardworking, honest, and have pride in the work that we do. Cabinets & Remodeling Depot is a company that wants to change the standard and give our clients quality products that will not disappoint them. We are proud of the work we have done, and we are expecting a greater future with our clients. Thank you for taking an interest in Cabinets & Remodeling Depot.`,
   },
   {
-    icon: Wrench,
+    Icon: Wrench,
     title: 'Our Values',
     text: `At Cabinet & Remodeling Depot, we value our clients. Our team believes in developing an impactful community with our Cabinets & Remodeling family. We take pride in being proactive and consistent with our approach to new projects and making sure our clients are happy.`,
   },
 ]
 
+// ── Main component ────────────────────────────────────────────────────────────
+
 export function AboutClient() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [specialsRef, specialsInView] = useInView({ triggerOnce: true, threshold: 0.05 })
+
+  const { data: pageData } = usePageContent('about')
+
+  const normalized = normalizeContent(pageData?.content)
+  const sections = normalized.sections
+
+  const heroSection     = sections.find((s) => s.type === 'hero')
+  const textSection     = sections.find((s) => s.type === 'text')
+  const featuresSection = sections.find((s) => s.type === 'features')
+
+  // Hero title
+  const heroTitle = heroSection?.title || 'About Us'
+
+  // Body: prefer admin text section body (supports HTML from TipTap); fall back to default
+  const bodyHtml = textSection?.body || DEFAULT_BODY
+
+  // Specials / features cards
+  const specials = featuresSection?.items?.length > 0
+    ? featuresSection.items.map((item) => ({
+        Icon: ICON_MAP[item.icon?.toLowerCase()] || Wrench,
+        title: item.title || '',
+        text: item.description || '',
+      }))
+    : DEFAULT_SPECIALS
+
+  const specialsHeading = featuresSection?.heading || 'Our Specials'
 
   return (
     <>
@@ -63,7 +87,7 @@ export function AboutClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">About Us</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">{heroTitle}</h1>
             <p className="text-white/50 text-sm tracking-wide">Home&nbsp;/&nbsp;About Us</p>
           </motion.div>
         </div>
@@ -85,7 +109,7 @@ export function AboutClient() {
                 <div className="w-8 h-8 bg-primary mb-4" />
                 <div className="inline-block border-2 border-gray-200 px-6 py-3 mb-4">
                   <h2 className="text-base md:text-lg font-bold tracking-[0.12em] uppercase text-foreground leading-snug">
-                    Pair Your Kitchen Cabinets And Countertops
+                    {textSection?.heading || 'Pair Your Kitchen Cabinets And Countertops'}
                   </h2>
                 </div>
                 <div className="flex items-center gap-3">
@@ -98,20 +122,10 @@ export function AboutClient() {
               </div>
 
               {/* Body text */}
-              <div className="space-y-4 text-gray-600 text-sm md:text-base leading-relaxed">
-                {ABOUT_PARAGRAPHS.map((p, i) => (
-                  <p key={`intro-${i}`}>{p}</p>
-                ))}
-                {BOLD_ITEMS.map((item, i) => (
-                  <p key={`bold-${i}`}>
-                    <strong className="text-gray-800">{item.label}: </strong>
-                    {item.text}
-                  </p>
-                ))}
-                {CLOSING_PARAGRAPHS.map((p, i) => (
-                  <p key={`close-${i}`}>{p}</p>
-                ))}
-              </div>
+              <div
+                className="text-gray-600 text-sm md:text-base leading-relaxed space-y-4 [&_p]:my-1 [&_strong]:text-gray-800 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                dangerouslySetInnerHTML={{ __html: bodyHtml }}
+              />
             </motion.div>
 
             {/* Right: sticky image */}
@@ -123,7 +137,7 @@ export function AboutClient() {
             >
               <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden">
                 <Image
-                  src="/gti.webp"
+                  src={textSection?.image || '/gti.webp'}
                   alt="Cabinets & Remodeling Depot showroom"
                   fill
                   className="object-cover object-center"
@@ -136,7 +150,7 @@ export function AboutClient() {
         </div>
       </section>
 
-      {/* ── Our Specials ── */}
+      {/* ── Specials / Features ── */}
       <section ref={specialsRef} className="relative py-16 md:py-24 overflow-hidden">
         {/* Background */}
         <Image
@@ -160,7 +174,7 @@ export function AboutClient() {
             </div>
             <div className="inline-block border-2 border-white/30 px-10 py-3 mb-4">
               <h2 className="text-xl md:text-2xl font-bold tracking-[0.25em] uppercase text-white">
-                Our Specials
+                {specialsHeading}
               </h2>
             </div>
             <div className="flex items-center justify-center gap-3">
@@ -174,9 +188,9 @@ export function AboutClient() {
 
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {SPECIALS.map(({ icon: Icon, title, text }, i) => (
+            {specials.map(({ Icon, title, text }, i) => (
               <motion.div
-                key={title}
+                key={title || i}
                 initial={{ opacity: 0, y: 30 }}
                 animate={specialsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: i * 0.15 }}

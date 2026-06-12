@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent } from '@/lib/pageContent'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
@@ -17,6 +19,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ConsultationForm } from '@/components/forms/ConsultationForm'
 import { COMPANY_PHONE, COMPANY_ADDRESS } from '@/lib/constants'
+import { JsonLd } from '@/components/common/JsonLd'
 
 // ── Fade-in animation wrapper ──────────────────────────────────────────────────
 function FadeIn({ children, delay = 0, className = '', x = 0, y = 24 }) {
@@ -83,7 +86,7 @@ function GoogleIcon() {
   )
 }
 
-const faqs = [
+const DEFAULT_FAQS = [
   {
     question: 'How much does a bathroom remodel cost in Tampa Bay?',
     answer:
@@ -130,6 +133,18 @@ const faqs = [
 const REVIEW_MAX_CHARS = 140
 
 export function BathroomRemodelingPageClient() {
+  // ── API-driven content with hardcoded fallbacks ─────────────────────────
+  const { data: page } = usePageContent('bathroom-remodeling')
+  const apiContent = page?.content ? normalizeContent(page.content) : null
+  const heroSection = apiContent?.sections?.find((s) => s.type === 'hero')
+  const faqSection  = apiContent?.sections?.find((s) => s.type === 'faq')
+
+  const heroTitle    = heroSection?.title    || 'Bathroom Remodeling Tampa Bay Homeowners Love'
+  const heroSubtitle = heroSection?.subtitle || null
+  const faqs         = faqSection?.items?.length ? faqSection.items : DEFAULT_FAQS
+  const schemaJson   = page?.content?.schema || null
+  // ────────────────────────────────────────────────────────────────────────
+
   const [openFaq, setOpenFaq] = useState(0)
   const [reviewIdx, setReviewIdx] = useState(0)
   const [reviewExpanded, setReviewExpanded] = useState(false)
@@ -140,6 +155,7 @@ export function BathroomRemodelingPageClient() {
 
   return (
     <>
+      <JsonLd schema={schemaJson} />
       {/* ═══════════════════════════════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════════════════════════════ */}
@@ -183,11 +199,13 @@ export function BathroomRemodelingPageClient() {
                 className="text-[2rem] sm:text-[2.6rem] lg:text-[3.2rem] font-extrabold leading-[1.13] mb-5"
               >
                 <span className="block" style={{ color: '#c9334e' }}>
-                  Bathroom Remodeling Tampa Bay<br className="hidden sm:block" /> Homeowners Love
+                  {heroTitle}
                 </span>
-                <span className="block text-white font-normal mt-1">
-                  Tile, Vanities &amp; Full Renovations
-                </span>
+                {heroSubtitle && (
+                  <span className="block text-white font-normal mt-1">
+                    {heroSubtitle}
+                  </span>
+                )}
               </motion.h1>
 
               <motion.div

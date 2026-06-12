@@ -2,6 +2,7 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { ContactPageClient } from './ContactPageClient'
+import { JsonLd } from '@/components/common/JsonLd'
 
 export async function generateMetadata() {
   try {
@@ -18,16 +19,22 @@ export async function generateMetadata() {
 
 export default async function ContactPage() {
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery({
-    queryKey: ['page', 'contact'],
-    queryFn: async () => {
-      const { data } = await api.get('/pages/contact')
-      return data.data
-    },
-  }).catch(() => {})
+  let schema = ''
+  try {
+    const { data } = await api.get('/pages/contact')
+    schema = data?.data?.content?.schema || ''
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'contact'],
+      queryFn: async () => {
+        const { data: d } = await api.get('/pages/contact')
+        return d.data
+      },
+    })
+  } catch {}
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <JsonLd schema={schema} />
       <ContactPageClient />
     </HydrationBoundary>
   )
