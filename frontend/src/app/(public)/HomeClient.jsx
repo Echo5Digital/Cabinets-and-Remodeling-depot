@@ -167,7 +167,7 @@ export function HomeClient() {
   const preFooterSection    = sections.find((s) => s.type === 'pre-footer')
   const partnersSection     = sections.find((s) => s.type === 'partners')
 
-  const faqs = faqSection?.items?.length > 0 ? faqSection.items : DEFAULT_FAQS
+  const faqs = DEFAULT_FAQS
 
   // Build feature strip items: CMS items mapped to Icon components, else static fallback
   const featureStripItems = featureStripSection?.items?.length

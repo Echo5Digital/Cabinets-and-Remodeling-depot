@@ -175,12 +175,12 @@ export function CabinetsPageClient() {
 
       {/* ── Contact CTA ──────────────────────────────────────────────────── */}
       <section className="pt-6 pb-14 md:pt-8 md:pb-20 bg-white">
-        <div className="container-custom text-center">
+        <div className="container-custom">
           <FadeIn>
             <Button
               asChild
               size="lg"
-              className="bg-primary text-white hover:bg-primary/90 font-bold rounded-full px-14 uppercase tracking-widest text-base h-14"
+              className="w-full bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>

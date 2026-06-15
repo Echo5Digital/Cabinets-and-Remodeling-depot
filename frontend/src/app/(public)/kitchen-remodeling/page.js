@@ -1,13 +1,13 @@
 import { KitchenRemodelingPageClient } from '@/components/sections/KitchenRemodelingPageClient'
 
 export const metadata = {
-  title: 'Kitchen Remodeling Tampa Bay | Cabinets, Countertops & Flooring | Cabinets & Remodeling Depot',
+  title: 'Kitchen Remodel Tampa | Renovation Solutions, Cabinetry & Countertops | Cabinets & Remodeling Depot',
   description:
-    'Expert kitchen remodeling in Tampa Bay. Full kitchen renovations including custom cabinets, countertops, flooring, and backsplash — all coordinated from one trusted local team. Free estimates.',
+    'Kitchen remodel Tampa renovation solutions, cabinetry, countertops, and professional remodeling services. Visit our Valrico showroom for custom kitchen design and free estimates.',
   openGraph: {
-    title: 'Kitchen Remodeling Tampa Bay | Cabinets, Countertops & Flooring | Cabinets & Remodeling Depot',
+    title: 'Kitchen Remodel Tampa | Renovation Solutions, Cabinetry & Countertops | Cabinets & Remodeling Depot',
     description:
-      'Transform your kitchen with Cabinets & Remodeling Depot. Complete kitchen remodels including cabinets, countertops, flooring, and backsplash. Serving Tampa Bay from our Valrico showroom.',
+      'Custom kitchen renovation Tampa solutions from Cabinets & Remodeling Depot. Cabinetry, countertops, flooring, and professional installation from our Valrico showroom.',
   },
 }
 

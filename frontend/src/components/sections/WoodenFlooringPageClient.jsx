@@ -1,16 +1,13 @@
 'use client'
 
-import { usePageContent } from '@/hooks/usePageContent'
-import { normalizeContent } from '@/lib/pageContent'
-import { PageHeader } from '@/components/common/PageHeader'
-import { ConsultationForm } from '@/components/forms/ConsultationForm'
+import { useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { useState } from 'react'
-import { Plus, Minus } from 'lucide-react'
-import Link from 'next/link'
+import { ZoomIn } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { JsonLd } from '@/components/common/JsonLd'
+import { ImageLightbox } from '@/components/common/ImageLightbox'
 
 function FadeIn({ children, delay = 0, className = '' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -27,184 +24,181 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
-// ── Default fallback content ───────────────────────────────────────────────────
+// ── Wood flooring images ────────────────────────────────────────────────────────
+const WOOD_IMAGES = [
+  { src: '/wd1.png', alt: 'Wooden Flooring Tampa 1' },
+  { src: '/wd2.png', alt: 'Wooden Flooring Tampa 2' },
+  { src: '/wd3.png', alt: 'Wooden Flooring Tampa 3' },
+  { src: '/wd4.png', alt: 'Wooden Flooring Tampa 4' },
+  { src: '/wd5.png', alt: 'Wooden Flooring Tampa 5' },
+  { src: '/wd6.png', alt: 'Wooden Flooring Tampa 6' },
+]
 
-const DEFAULT = {
-  hero: {
-    title: 'Wooden Flooring Tampa Bay',
-    subtitle:
-      'Transform your home with the timeless beauty of hardwood flooring. From solid oak to engineered wood, we offer premium wooden flooring options expertly installed throughout Tampa Bay.',
-  },
-  features: {
-    heading: 'Our Wooden Flooring Options',
-    subheading: 'Natural beauty and lasting durability for every room',
-    items: [
-      {
-        title: 'Solid Hardwood',
-        description:
-          'Classic solid wood flooring available in oak, maple, cherry, hickory, and more. Can be sanded and refinished multiple times.',
-      },
-      {
-        title: 'Engineered Wood',
-        description:
-          'Real hardwood top layer over a stable plywood core. More resistant to humidity and temperature changes — ideal for Tampa Bay homes.',
-      },
-      {
-        title: 'Exotic Hardwoods',
-        description:
-          'Premium species like Brazilian cherry, teak, and mahogany for a truly distinctive look and exceptional hardness.',
-      },
-      {
-        title: 'Reclaimed Wood',
-        description:
-          'Eco-friendly flooring with unique character and patina from repurposed timbers. Each plank tells a story.',
-      },
-    ],
-  },
-  faq: {
-    heading: 'Wooden Flooring FAQs',
-    items: [
-      {
-        question: 'Is hardwood flooring suitable for Florida\'s humidity?',
-        answer:
-          'Yes — engineered hardwood in particular is well-suited for Florida\'s climate. Its layered construction resists the expansion and contraction caused by humidity changes better than solid wood.',
-      },
-      {
-        question: 'How long does wooden flooring installation take?',
-        answer:
-          'A typical room (300–400 sq ft) takes 1–2 days. Larger projects are quoted individually. We handle all prep, installation, and finishing.',
-      },
-      {
-        question: 'Can hardwood flooring be installed over concrete slab?',
-        answer:
-          'Engineered hardwood can be glued or floated over concrete. Solid hardwood typically requires a plywood subfloor. We assess your specific situation during the free estimate.',
-      },
-      {
-        question: 'Do you offer free estimates?',
-        answer:
-          'Yes! Contact us or visit our Valrico showroom for a free, no-obligation estimate tailored to your project.',
-      },
-    ],
-  },
-}
-
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-function FeaturesSection({ data }) {
-  const d = data || DEFAULT.features
-  return (
-    <section className="section-padding bg-white">
-      <div className="container-custom">
-        <FadeIn className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">{d.heading}</h2>
-          {d.subheading && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{d.subheading}</p>}
-        </FadeIn>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {(d.items || []).map((item, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="bg-primary/5 rounded-2xl p-6 h-full">
-                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function FaqSection({ data }) {
-  const d = data || DEFAULT.faq
-  const [open, setOpen] = useState(null)
-  return (
-    <section className="section-padding bg-muted/30">
-      <div className="container-custom max-w-3xl">
-        <FadeIn className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold">{d.heading}</h2>
-        </FadeIn>
-        <div className="space-y-3">
-          {(d.items || []).map((item, i) => (
-            <FadeIn key={i} delay={i * 0.06}>
-              <div className="bg-white rounded-xl border overflow-hidden">
-                <button
-                  className="w-full flex items-center justify-between px-5 py-4 text-left font-semibold gap-4"
-                  onClick={() => setOpen(open === i ? null : i)}
-                >
-                  <span>{item.question}</span>
-                  {open === i ? <Minus className="w-4 h-4 shrink-0 text-primary" /> : <Plus className="w-4 h-4 shrink-0 text-primary" />}
-                </button>
-                {open === i && (
-                  <div className="px-5 pb-4 text-muted-foreground text-sm leading-relaxed border-t">
-                    <p className="pt-3">{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function CtaSection({ data }) {
-  const heading = data?.heading || 'Ready to Transform Your Floors?'
-  const subheading = data?.subheading || 'Visit our Valrico showroom or contact us for a free estimate on wooden flooring installation.'
-  const ctaText = data?.ctaText || 'Get Free Estimate'
-  const ctaLink = data?.ctaLink || '/contact'
-  return (
-    <section className="section-padding bg-primary text-white text-center">
-      <div className="container-custom max-w-2xl">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
-          <p className="text-white/80 text-lg mb-8">{subheading}</p>
-          <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-bold rounded-full px-10 uppercase tracking-wide">
-            <Link href={ctaLink}>{ctaText}</Link>
-          </Button>
-        </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
-
+// ── Page ───────────────────────────────────────────────────────────────────────
 export function WoodenFlooringPageClient() {
-  const { data: page } = usePageContent('wood-flooring')
-  const { sections, schema } = normalizeContent(page?.content)
-
-  const hero = sections.find((s) => s.type === 'hero') || DEFAULT.hero
-  const features = sections.find((s) => s.type === 'features')
-  const faq = sections.find((s) => s.type === 'faq')
-  const cta = sections.find((s) => s.type === 'cta')
+  const [lightboxIndex, setLightboxIndex] = useState(null)
 
   return (
     <>
-      {schema && <JsonLd schema={schema} />}
-
-      <PageHeader
-        title={hero.title}
-        subtitle={hero.subtitle}
-      />
-
-      <FeaturesSection data={features} />
-
-      <FaqSection data={faq} />
-
-      <CtaSection data={cta} />
-
-      <section className="section-padding bg-white">
-        <div className="container-custom max-w-3xl">
-          <FadeIn className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-3">Request a Free Estimate</h2>
-            <p className="text-muted-foreground">
-              Fill out the form below and our team will get back to you shortly.
-            </p>
-          </FadeIn>
-          <ConsultationForm />
+      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
+      <section className="relative h-56 sm:h-72 md:h-80 overflow-hidden bg-gray-900">
+        <Image
+          src="/wd1.png"
+          alt="Wooden Flooring in Tampa, FL"
+          fill
+          className="object-cover object-center opacity-70"
+          priority
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/60" />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+          <p className="text-white/70 text-xs sm:text-sm mb-3 uppercase tracking-widest">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            {' / '}
+            <Link href="/flooring" className="hover:text-white transition-colors">Flooring</Link>
+            {' / '}
+            Wooden Flooring in Tampa, FL
+          </p>
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-wide drop-shadow-lg">
+            Wooden Flooring In Tampa, FL
+          </h1>
         </div>
       </section>
+
+      {/* ── Framed Heading ───────────────────────────────────────────────── */}
+      <section className="pt-10 pb-4 md:pt-14 md:pb-6 bg-white">
+        <div className="container-custom max-w-4xl text-center">
+          <div className="border border-gray-200 rounded-2xl p-5 sm:p-8 md:p-12 shadow-sm">
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/cabinet_fav.jpg"
+                alt="Cabinets & Remodeling Depot"
+                width={60}
+                height={60}
+                className="rounded-full object-cover"
+              />
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase tracking-wide text-gray-900 mb-1">
+              Most Affordable Wood Installation Around Valrico &amp; Tampa, FL
+            </h2>
+            <p className="text-sm text-muted-foreground uppercase tracking-widest mt-2">
+              Tampa, Florida
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Main Content ─────────────────────────────────────────────────── */}
+      <section className="pt-6 pb-10 md:pt-8 md:pb-14 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn delay={0.1} className="space-y-5 text-gray-700 text-base leading-relaxed">
+            <p>
+              Wooden flooring, also known as hardwood flooring, is a type of flooring made from
+              natural hardwoods such as oak, maple, and walnut. It is a popular choice for its
+              durability, natural beauty, and versatility. Wooden flooring is available in a range
+              of finishes and can be easily maintained with regular cleaning and occasional
+              refinishing. It is also a natural insulator and has acoustic properties that can help
+              reduce noise levels. While wooden flooring may be prone to scratching and denting over
+              time, this can be minimized with proper care and the use of furniture pads in
+              high-traffic areas. Overall, wooden flooring is a timeless and valuable addition to
+              any space. Cabinets and Remodeling Depot provides you with the{' '}
+              <Link href="/flooring" className="text-primary font-semibold hover:underline underline-offset-2">
+                Best Flooring In Tampa
+              </Link>
+              .
+            </p>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      {/* ── Contact CTA ──────────────────────────────────────────────────── */}
+      <section className="pt-4 pb-8 md:pt-6 md:pb-10 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">
+              Contact Cabinets &amp; Remodeling Depot For Free Wood Flooring Estimates
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.1} className="space-y-5 text-gray-700 text-base leading-relaxed">
+            <p>
+              Cabinets &amp; Remodeling Depot is trusted in flooring. We have the best team who are
+              more than happy in assisting you with your needs. We will help you find the best wood
+              flooring that will match your home and install it for you at a reasonable price. Our
+              team is well equipped in floor installation and will do their best in making your
+              floors beautiful.
+            </p>
+            <p>
+              There is a style of wood flooring that can match you, especially with a vast array of
+              wood finishes and colors. The &ldquo;grade&rdquo; of the wood is determined by the
+              appearance, and all grades can give you a different look.
+            </p>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      {/* ── Image Row ────────────────────────────────────────────────────── */}
+      <section className="pb-8 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            {WOOD_IMAGES.map(({ src, alt }, i) => (
+              <FadeIn key={src} delay={i * 0.05}>
+                <div
+                  className="relative aspect-square overflow-hidden rounded-lg shadow-sm cursor-pointer group"
+                  onClick={() => setLightboxIndex(i)}
+                >
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 1024px) 33vw, 16vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                    <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6" />
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Closing + CTA Button ─────────────────────────────────────────── */}
+      <section className="pt-8 pb-16 md:pt-10 md:pb-20 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn delay={0.1} className="mb-8 text-center">
+            <p className="text-gray-500 italic text-base leading-relaxed">
+              With our experienced team, we can assure you that you will receive the highest level
+              of satisfaction with our wood installation. Cabinets &amp; Remodeling Depot will
+              service you with laminate, hardwood, and solid wood flooring.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <Button
+              asChild
+              size="lg"
+              className="w-full bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14"
+            >
+              <Link href="/contact">Contact Us</Link>
+            </Button>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      <ImageLightbox
+        images={WOOD_IMAGES}
+        currentIndex={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onPrev={() => setLightboxIndex((i) => Math.max(0, i - 1))}
+        onNext={() => setLightboxIndex((i) => Math.min(WOOD_IMAGES.length - 1, i + 1))}
+      />
     </>
   )
 }

@@ -142,7 +142,7 @@ export function CountertopsPageClient() {
 
   const heroTitle    = heroSection?.title    || 'Countertops Tampa Bay Homeowners Love'
   const heroSubtitle = heroSection?.subtitle || null
-  const faqs         = faqSection?.items?.length ? faqSection.items : DEFAULT_FAQS
+  const faqs         = DEFAULT_FAQS
   const schemaJson   = page?.content?.schema || null
   // ────────────────────────────────────────────────────────────────────────
 
@@ -959,7 +959,7 @@ export function CountertopsPageClient() {
             <FadeIn x={-30} y={0} className="relative rounded-2xl overflow-hidden min-h-[380px] sm:min-h-[460px] md:min-h-[500px]">
               {/* Blueprint / pattern background */}
               <Image
-                src="/img_01bg.png"
+                src="/img_01bg.jpeg"
                 alt=""
                 fill
                 aria-hidden="true"

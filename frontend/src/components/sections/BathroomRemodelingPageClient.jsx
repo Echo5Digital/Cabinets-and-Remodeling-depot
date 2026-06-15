@@ -194,7 +194,7 @@ export function BathroomRemodelingPageClient() {
             <Button
               asChild
               size="lg"
-              className="bg-primary text-white hover:bg-primary/90 font-bold rounded-full px-8 sm:px-14 uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14"
+              className="w-full bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>
