@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useGallery } from '@/hooks/useGallery'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
@@ -49,7 +50,7 @@ function GalleryHeading() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.15 }}
-      className="bg-white flex flex-col items-center text-center px-4 pt-8 pb-10 sm:pt-10 sm:pb-12"
+      className="bg-white flex flex-col items-center text-center px-4 pt-8 pb-4 sm:pt-10 sm:pb-6"
     >
       {/* Icon badge */}
       <div className="w-12 h-12 sm:w-14 sm:h-14 overflow-hidden mb-4 shrink-0 shadow-md">
@@ -144,56 +145,56 @@ function VisitShowroom() {
           <p>
             You will find a one-stop shop for anything and everything that you will need for your
             home, kitchen, and{' '}
-            <strong className="text-primary font-bold">Bathroom Remodeling In Tampa</strong>.
+            <Link href="/bathroom-remodeling" className="text-primary font-bold hover:underline underline-offset-2">Bathroom Remodeling In Tampa</Link>.
             Visiting us, you will not have to visit from one shop to another. Just stop by our
             showroom and you will find:
           </p>
 
           <p>
             <strong className="text-gray-900">Cabinets:</strong> These include the{' '}
-            <strong className="text-primary font-bold">Custom Kitchen Cabinets Tampa</strong>,
+            <Link href="/cabinets" className="text-primary font-bold hover:underline underline-offset-2">Custom Kitchen Cabinets Tampa</Link>,
             Solid Wood Cabinets, Online Kitchen Cabinets Fully Assembled, Etc.
           </p>
 
           <p>
             <strong className="text-gray-900">Countertops:</strong> You will find all kinds of
             countertops, such as{' '}
-            <strong className="text-primary font-bold">Granite Countertops Tampa</strong>,{' '}
-            <strong className="text-primary font-bold">Quartz Countertops Tampa</strong>, Laminate
+            <Link href="/countertops" className="text-primary font-bold hover:underline underline-offset-2">Granite Countertops Tampa</Link>,{' '}
+            <Link href="/countertops" className="text-primary font-bold hover:underline underline-offset-2">Quartz Countertops Tampa</Link>, Laminate
             Countertops, DIY Laminate Countertops, Solid Surface Countertops, etc.
           </p>
 
           <p>
             <strong className="text-gray-900">Faucets:</strong> Our range of Faucets will amuse
             you with{' '}
-            <strong className="text-primary font-bold">Kitchen Faucets</strong>, Kitchen Faucets
+            <Link href="/kitchen-remodeling" className="text-primary font-bold hover:underline underline-offset-2">Kitchen Faucets</Link>, Kitchen Faucets
             With Sprayer,{' '}
-            <strong className="text-primary font-bold">Bathroom Faucets</strong>, Bathroom Shower
+            <Link href="/bathroom-remodeling" className="text-primary font-bold hover:underline underline-offset-2">Bathroom Faucets</Link>, Bathroom Shower
             Faucets, Bathtub Faucets, Bathroom Sink Faucets, and many more.
           </p>
 
           <p>
             <strong className="text-gray-900">Vanities:</strong> Our modern{' '}
-            <strong className="text-primary font-bold">Bathroom Vanities In Tampa</strong>, with
+            <Link href="/bathroom-remodeling" className="text-primary font-bold hover:underline underline-offset-2">Bathroom Vanities In Tampa</Link>, with
             and without basins, will enhance the overall look of your bathroom.
           </p>
 
           <p>
             <strong className="text-gray-900">Flooring:</strong> Last but not least, we offer{' '}
-            <strong className="text-primary font-bold">Flooring In Tampa</strong> to our valued
+            <Link href="/flooring" className="text-primary font-bold hover:underline underline-offset-2">Flooring In Tampa</Link> to our valued
             customers, too. These options include wood flooring, Engineered{' '}
-            <strong className="text-primary font-bold">Wood Flooring</strong>, solid wood
+            <Link href="/flooring/wood-flooring" className="text-primary font-bold hover:underline underline-offset-2">Wood Flooring</Link>, solid wood
             flooring,{' '}
-            <strong className="text-primary font-bold">Laminate Flooring</strong>, waterproofing,
+            <Link href="/flooring/laminate-flooring-in-tampa" className="text-primary font-bold hover:underline underline-offset-2">Laminate Flooring</Link>, waterproofing,
             etc.
           </p>
 
           <p>
             Cabinets and Remodeling Depot provides you with{' '}
-            <strong className="text-primary font-bold">Kitchen Remodel Tampa</strong>. We take
+            <Link href="/kitchen-remodeling" className="text-primary font-bold hover:underline underline-offset-2">Kitchen Remodel Tampa</Link>. We take
             pride in offering high-quality services at competitive prices. You can have a free
             estimate of your remodeling activity with us.{' '}
-            <strong className="text-primary font-bold">Contact us</strong> and allow us to serve
+            <Link href="/contact" className="text-primary font-bold hover:underline underline-offset-2">Contact us</Link> and allow us to serve
             you with our highly professional services. We are waiting for you.
           </p>
         </motion.div>
@@ -214,7 +215,7 @@ export function GalleryPageClient() {
       <GalleryBanner />
       <GalleryHeading />
 
-      <section className="section-padding">
+      <section className="pt-4 pb-10 md:pt-6 md:pb-16">
         <div className="container-custom">
           {isPending ? (
             <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">

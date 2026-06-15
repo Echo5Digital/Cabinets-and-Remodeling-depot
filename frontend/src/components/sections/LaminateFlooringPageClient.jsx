@@ -1,16 +1,12 @@
 'use client'
 
-import { usePageContent } from '@/hooks/usePageContent'
-import { normalizeContent } from '@/lib/pageContent'
-import { PageHeader } from '@/components/common/PageHeader'
-import { ConsultationForm } from '@/components/forms/ConsultationForm'
+import { useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { useState } from 'react'
-import { Plus, Minus } from 'lucide-react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { JsonLd } from '@/components/common/JsonLd'
+import { ZoomIn } from 'lucide-react'
+import { ImageLightbox } from '@/components/common/ImageLightbox'
 
 function FadeIn({ children, delay = 0, className = '' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -27,184 +23,205 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
-// ── Default fallback content ───────────────────────────────────────────────────
+// ── Laminate images ────────────────────────────────────────────────────────────
+const LAMINATE_IMAGES = [
+  { src: '/L1-.jpeg', alt: 'Laminate Flooring Tampa 1' },
+  { src: '/L2-.jpeg', alt: 'Laminate Flooring Tampa 2' },
+  { src: '/L3-.jpeg', alt: 'Laminate Flooring Tampa 3' },
+  { src: '/L4-.jpeg', alt: 'Laminate Flooring Tampa 4' },
+  { src: '/L5-.jpeg', alt: 'Laminate Flooring Tampa 5' },
+  { src: '/L6-.jpeg', alt: 'Laminate Flooring Tampa 6' },
+]
 
-const DEFAULT = {
-  hero: {
-    title: 'Laminate Flooring Tampa Bay',
-    subtitle:
-      'Get the look of hardwood or stone at a fraction of the cost. Our laminate flooring options are durable, easy to maintain, and available in a wide variety of styles for Tampa Bay homes.',
+// ── Features ───────────────────────────────────────────────────────────────────
+const FEATURES = [
+  {
+    title: 'Fast Installation',
+    desc: 'Quick to install and on average, laminate flooring could be installed in a day.',
   },
-  features: {
-    heading: 'Why Choose Laminate Flooring?',
-    subheading: 'The smart, budget-friendly flooring solution for modern homes',
-    items: [
-      {
-        title: 'Affordable Style',
-        description:
-          'Achieve the look of real hardwood or stone without the premium price tag. Laminate offers exceptional value for any budget.',
-      },
-      {
-        title: 'Durable & Scratch-Resistant',
-        description:
-          'High-quality laminate resists scratches, dents, and stains — making it ideal for high-traffic areas and homes with pets or children.',
-      },
-      {
-        title: 'Easy Maintenance',
-        description:
-          'A simple sweep and occasional damp mop keeps laminate floors looking great. No special cleaners or refinishing required.',
-      },
-      {
-        title: 'Wide Style Range',
-        description:
-          'From light oak to dark walnut, from rustic to modern, our laminate collection covers every aesthetic. Visit our showroom to see the full range.',
-      },
-    ],
+  {
+    title: 'Super Durable',
+    desc: 'Laminate flooring is resistant to scratches, fading, stains, and impacts.',
   },
-  faq: {
-    heading: 'Laminate Flooring FAQs',
-    items: [
-      {
-        question: 'Is laminate flooring waterproof?',
-        answer:
-          'Many modern laminate floors are water-resistant, but not fully waterproof. For areas prone to moisture like bathrooms, we recommend waterproof laminate or LVP. We can advise on the best option for your needs.',
-      },
-      {
-        question: 'How long does laminate flooring last?',
-        answer:
-          'With proper care, quality laminate flooring typically lasts 15–25 years. The wear layer thickness (measured in AC rating) determines durability — we carry AC3 through AC5 options.',
-      },
-      {
-        question: 'Can laminate be installed over existing flooring?',
-        answer:
-          'In many cases, yes. Laminate can float over existing vinyl, tile, or hardwood as long as the subfloor is level and in good condition. We assess this during the free estimate.',
-      },
-      {
-        question: 'How is laminate different from LVP?',
-        answer:
-          'Laminate has a wood-fiber core with a photographic image layer, while LVP (luxury vinyl plank) is made entirely of PVC and is fully waterproof. Both are excellent options — we can help you decide which is right for your project.',
-      },
-    ],
+  {
+    title: 'Appearance',
+    desc: "There's a variety of different wood styles to choose from in laminate flooring.",
   },
-}
+]
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
-function FeaturesSection({ data }) {
-  const d = data || DEFAULT.features
-  return (
-    <section className="section-padding bg-white">
-      <div className="container-custom">
-        <FadeIn className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">{d.heading}</h2>
-          {d.subheading && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{d.subheading}</p>}
-        </FadeIn>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {(d.items || []).map((item, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="bg-primary/5 rounded-2xl p-6 h-full">
-                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function FaqSection({ data }) {
-  const d = data || DEFAULT.faq
-  const [open, setOpen] = useState(null)
-  return (
-    <section className="section-padding bg-muted/30">
-      <div className="container-custom max-w-3xl">
-        <FadeIn className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold">{d.heading}</h2>
-        </FadeIn>
-        <div className="space-y-3">
-          {(d.items || []).map((item, i) => (
-            <FadeIn key={i} delay={i * 0.06}>
-              <div className="bg-white rounded-xl border overflow-hidden">
-                <button
-                  className="w-full flex items-center justify-between px-5 py-4 text-left font-semibold gap-4"
-                  onClick={() => setOpen(open === i ? null : i)}
-                >
-                  <span>{item.question}</span>
-                  {open === i ? <Minus className="w-4 h-4 shrink-0 text-primary" /> : <Plus className="w-4 h-4 shrink-0 text-primary" />}
-                </button>
-                {open === i && (
-                  <div className="px-5 pb-4 text-muted-foreground text-sm leading-relaxed border-t">
-                    <p className="pt-3">{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function CtaSection({ data }) {
-  const heading = data?.heading || 'Love the Look of Laminate?'
-  const subheading = data?.subheading || 'Visit our Valrico showroom or contact us for a free estimate on laminate flooring installation.'
-  const ctaText = data?.ctaText || 'Get Free Estimate'
-  const ctaLink = data?.ctaLink || '/contact'
-  return (
-    <section className="section-padding bg-primary text-white text-center">
-      <div className="container-custom max-w-2xl">
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
-          <p className="text-white/80 text-lg mb-8">{subheading}</p>
-          <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-bold rounded-full px-10 uppercase tracking-wide">
-            <Link href={ctaLink}>{ctaText}</Link>
-          </Button>
-        </FadeIn>
-      </div>
-    </section>
-  )
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
-
+// ── Page ───────────────────────────────────────────────────────────────────────
 export function LaminateFlooringPageClient() {
-  const { data: page } = usePageContent('laminate-flooring-in-tampa')
-  const { sections, schema } = normalizeContent(page?.content)
-
-  const hero = sections.find((s) => s.type === 'hero') || DEFAULT.hero
-  const features = sections.find((s) => s.type === 'features')
-  const faq = sections.find((s) => s.type === 'faq')
-  const cta = sections.find((s) => s.type === 'cta')
+  const [lightboxIndex, setLightboxIndex] = useState(null)
 
   return (
     <>
-      {schema && <JsonLd schema={schema} />}
-
-      <PageHeader
-        title={hero.title}
-        subtitle={hero.subtitle}
-      />
-
-      <FeaturesSection data={features} />
-
-      <FaqSection data={faq} />
-
-      <CtaSection data={cta} />
-
-      <section className="section-padding bg-white">
-        <div className="container-custom max-w-3xl">
-          <FadeIn className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-3">Request a Free Estimate</h2>
-            <p className="text-muted-foreground">
-              Fill out the form below and our team will get back to you shortly.
-            </p>
-          </FadeIn>
-          <ConsultationForm />
+      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
+      <section className="relative h-56 sm:h-72 md:h-80 overflow-hidden bg-gray-900">
+        <Image
+          src="/L1-.jpeg"
+          alt="Laminate Flooring in Tampa, FL"
+          fill
+          className="object-cover object-center opacity-70"
+          priority
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/60" />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+          <p className="text-white/70 text-xs sm:text-sm mb-3 uppercase tracking-widest">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            {' / '}
+            <Link href="/flooring" className="hover:text-white transition-colors">Flooring</Link>
+            {' / '}
+            Laminate Flooring in Tampa, FL
+          </p>
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-wide drop-shadow-lg">
+            Laminate Flooring In Tampa, FL
+          </h1>
         </div>
       </section>
+
+      {/* ── Framed Heading ───────────────────────────────────────────────── */}
+      <section className="pt-10 pb-4 md:pt-14 md:pb-6 bg-white">
+        <div className="container-custom max-w-4xl text-center">
+          <div className="border border-gray-200 rounded-2xl p-5 sm:p-8 md:p-12 shadow-sm">
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/cabinet_fav.jpg"
+                alt="Cabinets & Remodeling Depot"
+                width={60}
+                height={60}
+                className="rounded-full object-cover"
+              />
+            </div>
+            <h2 className="text-xl sm:text-2xl md:text-4xl font-bold uppercase tracking-wide text-gray-900 mb-1">
+              High-Quality Laminate Flooring In Tampa
+            </h2>
+            <p className="text-sm text-muted-foreground uppercase tracking-widest mt-2">
+              Tampa, Florida
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Main Content ─────────────────────────────────────────────────── */}
+      <section className="pt-6 pb-10 md:pt-8 md:pb-14 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">
+              Transform Your Space With High-Quality Laminate Flooring In Tampa
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.1} className="space-y-5 text-gray-700 text-base leading-relaxed">
+            <p>
+              <Link href="/" className="text-primary font-semibold hover:underline underline-offset-2">
+                Cabinets &amp; Remodeling Depot
+              </Link>{' '}
+              offers a wide selection of high-quality laminate flooring at affordable prices. We
+              also offer a free in-home estimate as well. Laminate flooring is a great flooring
+              option since it is affordable, durable, and makes any room look nice.
+            </p>
+            <p>
+              Compared to hardwood flooring,{' '}
+              <strong>Laminate Flooring In Tampa</strong>{' '}
+              requires less maintenance and can be quickly installed. Stop by{' '}
+              <Link href="/" className="text-primary font-semibold hover:underline underline-offset-2">
+                Cabinets &amp; Remodeling Depot
+              </Link>{' '}
+              to check out our showroom to view flooring samples and talk with our experts.
+              Cabinets And Remodeling Depot provides you with the Best{' '}
+              <Link href="/flooring" className="text-primary font-semibold hover:underline underline-offset-2">
+                Flooring In Tampa
+              </Link>
+              .
+            </p>
+            <p>
+              Or call 813-651-5333 to schedule a free in-home estimate.
+            </p>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      {/* ── Image Row ────────────────────────────────────────────────────── */}
+      <section className="pb-8 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            {LAMINATE_IMAGES.map(({ src, alt }, i) => (
+              <FadeIn key={src} delay={i * 0.05}>
+                <div
+                  className="relative aspect-3/4 overflow-hidden rounded-lg shadow-sm cursor-pointer group"
+                  onClick={() => setLightboxIndex(i)}
+                >
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 1024px) 33vw, 16vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                    <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6" />
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Features ─────────────────────────────────────────────────────── */}
+      <section className="pt-8 pb-10 md:pt-10 md:pb-14 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+              Affordable &amp; Long-Lasting Laminate Flooring In Tampa
+            </h2>
+          </FadeIn>
+
+          <div className="space-y-4 text-gray-700 text-base leading-relaxed text-center">
+            {FEATURES.map(({ title, desc }, i) => (
+              <FadeIn key={title} delay={i * 0.06}>
+                <p>
+                  <strong className="text-gray-900">{title}–</strong>{' '}{desc}
+                </p>
+              </FadeIn>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Professional Installation ─────────────────────────────────── */}
+      <section className="pt-4 pb-10 md:pt-6 md:pb-14 bg-white">
+        <div className="container-custom max-w-4xl">
+
+          <FadeIn>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center uppercase tracking-wide">
+              Professional Installation
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.1} className="text-gray-700 text-base leading-relaxed">
+            <p>
+              Let us, the professionals at Cabinets &amp; Remodeling Depot, install your new
+              laminated wood floors. We have installed hundreds of floors all over Tampa, Valrico
+              Florida for our wonderful customers. We can guarantee that you will love our service,
+              craftsmanship, and most importantly, your new floor!
+            </p>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      <ImageLightbox
+        images={LAMINATE_IMAGES}
+        currentIndex={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onPrev={() => setLightboxIndex((i) => Math.max(0, i - 1))}
+        onNext={() => setLightboxIndex((i) => Math.min(LAMINATE_IMAGES.length - 1, i + 1))}
+      />
     </>
   )
 }
