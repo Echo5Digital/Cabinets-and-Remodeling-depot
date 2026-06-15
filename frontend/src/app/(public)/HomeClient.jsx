@@ -180,22 +180,8 @@ export function HomeClient() {
 
   return (
     <>
-      {/* H1: Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation */}
-      <HeroSection
-        data={{
-          title: heroSection?.title || 'Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation',
-          subtitle:
-            heroSection?.subtitle ||
-            'Transform your kitchen with beautifully crafted cabinetry designed for the way you live. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay find stylish, functional, and affordable kitchen solutions without the stress that often comes with remodeling projects.',
-          description:
-            "From custom designs to in-stock cabinets Tampa homeowners can install quickly, our team provides expert guidance, quality materials, and dependable cabinet installation Tampa services all from our Valrico showroom. Whether you're updating a single kitchen or planning a full remodel, we're here to help make the process simpler, smoother, and more practical from start to finish.",
-          ctaText: heroSection?.ctaText || 'Visit Our Showroom',
-          ctaLink: heroSection?.ctaLink || '/contact',
-          secondaryCtaText: heroSection?.secondaryCtaText || '',
-          secondaryCtaLink: heroSection?.secondaryCtaLink || '',
-          backgroundImage: heroSection?.backgroundImage || '/home-hero-bg.jpg',
-        }}
-      />
+      {/* H1: hero is always the original hardcoded content — not driven by DB */}
+      <HeroSection data={{ backgroundImage: '/home-hero-bg.jpg' }} />
 
       {/* ── Floating 5-card feature strip ──────────────────────────────────── */}
       <div className="relative z-20 -mt-10 sm:-mt-14 px-4 sm:px-6 lg:px-8 pb-0">

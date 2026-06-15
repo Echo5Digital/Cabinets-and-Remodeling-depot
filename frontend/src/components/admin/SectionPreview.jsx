@@ -21,40 +21,89 @@ function StarRating({ rating = 5 }) {
 // ── Hero ──────────────────────────────────────────────────────────────────────
 
 function HeroPreview({ section }) {
+  // Replicate the live two-tone title split at em-dash
+  const dashIndex = (section.title || '').indexOf(' \u2013 ')
+  const titleBold  = dashIndex !== -1 ? section.title.slice(0, dashIndex) : (section.title || '')
+  const titleLight = dashIndex !== -1 ? section.title.slice(dashIndex + 3) : ''
+
   return (
     <div
-      className="relative overflow-hidden min-h-[160px] bg-slate-900 flex flex-col justify-center p-6"
+      className="relative overflow-hidden bg-slate-900"
       style={
         section.backgroundImage
-          ? {
-              backgroundImage: `url(${section.backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }
+          ? { backgroundImage: `url(${section.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
           : {}
       }
     >
-      {section.backgroundImage && (
-        <div className="absolute inset-0 bg-black/55" />
-      )}
-      <div className="relative space-y-2">
-        <h2 className="text-white text-xl font-bold leading-snug">
-          {section.title || <span className="opacity-40 italic">No title set</span>}
-        </h2>
+      {/* Overlays — match the live page */}
+      <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.45)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.30) 55%, rgba(0,0,0,0.00) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 40%)' }} />
+
+      {/* Content */}
+      <div className="relative z-10 px-5 py-7 sm:px-7 sm:py-9 max-w-2xl">
+        {/* Eyebrow label */}
+        <p className="text-[0.65rem] uppercase tracking-[0.18em] font-semibold text-white/70 mb-2">
+          Serving Tampa Bay From Our Valrico Showroom
+        </p>
+
+        {/* Two-tone H1 */}
+        <div className="mb-3">
+          {section.title ? (
+            <>
+              <span className="block text-base sm:text-lg font-extrabold leading-tight" style={{ color: '#e0455e' }}>
+                {titleBold}
+              </span>
+              {titleLight && (
+                <span className="block text-sm sm:text-base text-white font-normal leading-snug mt-0.5">
+                  {titleLight}
+                </span>
+              )}
+            </>
+          ) : (
+            <span className="text-white/40 italic text-sm">No title set</span>
+          )}
+        </div>
+
+        {/* Accent rule */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-[3px] w-8 rounded-full bg-red-500" />
+          <div className="h-px w-16 rounded-full bg-white/30" />
+        </div>
+
+        {/* Subtitle */}
         {section.subtitle && (
-          <p className="text-white/80 text-sm whitespace-pre-wrap">{section.subtitle}</p>
+          <p className="text-white/85 text-xs sm:text-sm leading-relaxed mb-2 line-clamp-3">
+            {section.subtitle}
+          </p>
         )}
-        <div className="flex flex-wrap gap-2 mt-3">
+
+        {/* Description */}
+        {section.description && (
+          <p className="text-white/65 text-xs leading-relaxed mb-3 line-clamp-2">
+            {section.description}
+          </p>
+        )}
+
+        {/* CTA pills */}
+        <div className="flex flex-wrap gap-2 mt-1">
           {section.ctaText && (
-            <span className="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold rounded">
+            <span className="px-3 py-1.5 bg-red-600 text-white text-[0.7rem] font-semibold rounded">
               {section.ctaText}
             </span>
           )}
-          {section.secondaryCtaText && (
-            <span className="px-3 py-1.5 border border-white/60 text-white text-xs font-semibold rounded">
-              {section.secondaryCtaText}
+          <span className="px-3 py-1.5 border border-white/40 text-white text-[0.7rem] font-semibold rounded" style={{ background: 'rgba(255,255,255,0.07)' }}>
+            Call (813) 651-2333
+          </span>
+        </div>
+
+        {/* Trust chips */}
+        <div className="flex flex-wrap gap-1.5 mt-3">
+          {['Free Estimates', 'In-Stock Cabinets', '5-Star Rated'].map((label) => (
+            <span key={label} className="text-[0.6rem] font-semibold text-white/80 border border-white/20 rounded-full px-2.5 py-1" style={{ background: 'rgba(0,0,0,0.28)' }}>
+              • {label}
             </span>
-          )}
+          ))}
         </div>
       </div>
     </div>

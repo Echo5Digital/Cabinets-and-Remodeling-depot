@@ -28,6 +28,11 @@ export const SERVICES = [
     href: '/flooring',
     icon: 'Grid3X3',
     description: 'Hardwood, tile, luxury vinyl plank, and laminate flooring expertly installed throughout your home.',
+    children: [
+      { title: 'Wooden Flooring', href: '/flooring/wood-flooring' },
+      { title: 'Tiles', href: '/flooring/tiles-in-tampa' },
+      { title: 'Laminate Flooring', href: '/flooring/laminate-flooring-in-tampa' },
+    ],
   },
   {
     title: 'Bathroom Remodeling',

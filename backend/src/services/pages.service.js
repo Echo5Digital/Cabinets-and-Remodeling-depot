@@ -640,6 +640,147 @@ export function getDefaultContent(slug) {
       seo: { metaTitle: 'Terms of Service | Cabinets & Remodeling Depot', metaDescription: 'Terms of service for Cabinets & Remodeling Depot website.', ogImage: '' },
       schema: '',
     },
+
+    'wood-flooring': {
+      sections: [
+        {
+          id: 'wooden-flooring-hero',
+          type: 'hero',
+          title: 'Wooden Flooring Tampa Bay',
+          subtitle: 'Transform your home with the timeless beauty of hardwood flooring. From solid oak to engineered wood, we offer premium wooden flooring options expertly installed throughout Tampa Bay.',
+          backgroundImage: '',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+        {
+          id: 'wooden-flooring-features',
+          type: 'features',
+          heading: 'Our Wooden Flooring Options',
+          subheading: 'Natural beauty and lasting durability for every room',
+          items: [
+            { title: 'Solid Hardwood', description: 'Classic solid wood flooring in oak, maple, cherry, hickory, and more. Can be sanded and refinished multiple times.' },
+            { title: 'Engineered Wood', description: 'Real hardwood top layer over a stable plywood core — more resistant to humidity and temperature changes.' },
+            { title: 'Exotic Hardwoods', description: 'Premium species like Brazilian cherry, teak, and mahogany for a truly distinctive look and exceptional hardness.' },
+            { title: 'Reclaimed Wood', description: 'Eco-friendly flooring with unique character from repurposed timbers. Each plank tells a story.' },
+          ],
+        },
+        {
+          id: 'wooden-flooring-faq',
+          type: 'faq',
+          heading: 'Wooden Flooring FAQs',
+          items: [
+            { question: 'Is hardwood flooring suitable for Florida\'s humidity?', answer: 'Yes — engineered hardwood in particular is well-suited for Florida\'s climate. Its layered construction resists the expansion and contraction caused by humidity changes better than solid wood.' },
+            { question: 'How long does wooden flooring installation take?', answer: 'A typical room (300–400 sq ft) takes 1–2 days. Larger projects are quoted individually. We handle all prep, installation, and finishing.' },
+            { question: 'Can hardwood flooring be installed over concrete slab?', answer: 'Engineered hardwood can be glued or floated over concrete. Solid hardwood typically requires a plywood subfloor. We assess your specific situation during the free estimate.' },
+            { question: 'Do you offer free estimates?', answer: 'Yes! Contact us or visit our Valrico showroom for a free, no-obligation estimate tailored to your project.' },
+          ],
+        },
+        {
+          id: 'wooden-flooring-cta',
+          type: 'cta',
+          heading: 'Ready to Transform Your Floors?',
+          subheading: 'Visit our Valrico showroom or contact us for a free estimate on wooden flooring installation.',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+      ],
+      seo: { metaTitle: 'Wooden Flooring Tampa Bay | Hardwood Floor Installation | Cabinets & Remodeling Depot', metaDescription: 'Expert hardwood and engineered wooden flooring installation in Tampa Bay. Solid wood, engineered wood, and exotic hardwoods installed by our certified professionals.', ogImage: '' },
+      schema: '',
+    },
+
+    'tiles-in-tampa': {
+      sections: [
+        {
+          id: 'tiles-hero',
+          type: 'hero',
+          title: 'Tile Flooring Tampa Bay',
+          subtitle: 'Durable, low-maintenance, and endlessly stylish. Our tile flooring solutions include ceramic, porcelain, natural stone, and large-format tiles — expertly installed throughout Tampa Bay.',
+          backgroundImage: '',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+        {
+          id: 'tiles-features',
+          type: 'features',
+          heading: 'Our Tile Flooring Options',
+          subheading: 'Versatile and durable flooring for kitchens, bathrooms, and beyond',
+          items: [
+            { title: 'Ceramic Tile', description: 'Affordable and water-resistant, ceramic tile is ideal for kitchens, bathrooms, and laundry rooms. Available in hundreds of colors and patterns.' },
+            { title: 'Porcelain Tile', description: 'Denser and more durable than ceramic, porcelain handles heavy foot traffic and outdoor applications with ease.' },
+            { title: 'Large-Format Tile', description: 'Oversized tiles (24"x24" and larger) create a seamless, modern look with fewer grout lines for an open, airy feel.' },
+            { title: 'Natural Stone', description: 'Marble, travertine, slate, and limestone tiles deliver a luxurious, one-of-a-kind aesthetic to any space.' },
+          ],
+        },
+        {
+          id: 'tiles-faq',
+          type: 'faq',
+          heading: 'Tile Flooring FAQs',
+          items: [
+            { question: 'Is tile flooring good for Florida homes?', answer: 'Tile is one of the best flooring choices for Florida — it stays cool underfoot, resists moisture, and is easy to clean. Perfect for Tampa Bay\'s warm, humid climate.' },
+            { question: 'How long does tile installation take?', answer: 'Installation time depends on the area size and tile complexity. On average, a standard bathroom takes 2–3 days including curing time. We provide a detailed timeline with every estimate.' },
+            { question: 'Can tile be installed over existing flooring?', answer: 'In some cases, yes. We assess the existing subfloor condition to determine if tile can be installed on top or if removal is needed for the best long-term result.' },
+            { question: 'Do you offer grout color options?', answer: 'Absolutely. We carry a wide range of grout colors to complement your tile choice. Our team can help you select the perfect pairing during the consultation.' },
+          ],
+        },
+        {
+          id: 'tiles-cta',
+          type: 'cta',
+          heading: 'Ready for Beautiful Tile Floors?',
+          subheading: 'Visit our Valrico showroom or contact us for a free estimate on tile installation.',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+      ],
+      seo: { metaTitle: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot', metaDescription: 'Premium ceramic and porcelain tile flooring installation in Tampa Bay. Kitchen tiles, bathroom tiles, large-format tiles, and more. Expert installation from our Valrico showroom.', ogImage: '' },
+      schema: '',
+    },
+
+    'laminate-flooring-in-tampa': {
+      sections: [
+        {
+          id: 'laminate-flooring-hero',
+          type: 'hero',
+          title: 'Laminate Flooring Tampa Bay',
+          subtitle: 'Get the look of hardwood or stone at a fraction of the cost. Our laminate flooring options are durable, easy to maintain, and available in a wide variety of styles for Tampa Bay homes.',
+          backgroundImage: '',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+        {
+          id: 'laminate-flooring-features',
+          type: 'features',
+          heading: 'Why Choose Laminate Flooring?',
+          subheading: 'The smart, budget-friendly flooring solution for modern homes',
+          items: [
+            { title: 'Affordable Style', description: 'Achieve the look of real hardwood or stone without the premium price tag. Laminate offers exceptional value for any budget.' },
+            { title: 'Durable & Scratch-Resistant', description: 'High-quality laminate resists scratches, dents, and stains — ideal for high-traffic areas and homes with pets or children.' },
+            { title: 'Easy Maintenance', description: 'A simple sweep and occasional damp mop keeps laminate floors looking great. No special cleaners or refinishing required.' },
+            { title: 'Wide Style Range', description: 'From light oak to dark walnut, rustic to modern — our laminate collection covers every aesthetic. Visit our showroom to see the full range.' },
+          ],
+        },
+        {
+          id: 'laminate-flooring-faq',
+          type: 'faq',
+          heading: 'Laminate Flooring FAQs',
+          items: [
+            { question: 'Is laminate flooring waterproof?', answer: 'Many modern laminate floors are water-resistant, but not fully waterproof. For areas prone to moisture like bathrooms, we recommend waterproof laminate or LVP. We can advise on the best option for your needs.' },
+            { question: 'How long does laminate flooring last?', answer: 'With proper care, quality laminate flooring typically lasts 15–25 years. The wear layer thickness (AC rating) determines durability — we carry AC3 through AC5 options.' },
+            { question: 'Can laminate be installed over existing flooring?', answer: 'In many cases, yes. Laminate can float over existing vinyl, tile, or hardwood as long as the subfloor is level and in good condition. We assess this during the free estimate.' },
+            { question: 'How is laminate different from LVP?', answer: 'Laminate has a wood-fiber core with a photographic image layer, while LVP (luxury vinyl plank) is made entirely of PVC and is fully waterproof. Both are excellent options — we can help you decide which is right for your project.' },
+          ],
+        },
+        {
+          id: 'laminate-flooring-cta',
+          type: 'cta',
+          heading: 'Love the Look of Laminate?',
+          subheading: 'Visit our Valrico showroom or contact us for a free estimate on laminate flooring installation.',
+          ctaText: 'Get Free Estimate',
+          ctaLink: '/contact',
+        },
+      ],
+      seo: { metaTitle: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot', metaDescription: 'High-quality laminate flooring installation in Tampa Bay. Durable, beautiful, and budget-friendly laminate options for every room. Expert installation from our Valrico showroom.', ogImage: '' },
+      schema: '',
+    },
   }
 
   return defaults[slug] || {

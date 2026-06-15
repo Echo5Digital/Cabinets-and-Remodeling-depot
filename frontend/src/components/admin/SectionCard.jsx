@@ -166,8 +166,11 @@ function HeroSectionEditor({ data, onChange }) {
       <Field label="Page Title">
         <Input value={data.title || ''} onChange={(e) => set('title', e.target.value)} placeholder="e.g. Kitchen Remodeling Tampa" />
       </Field>
-      <Field label="Subtitle / Description">
+      <Field label="Subtitle (first paragraph)">
         <Textarea value={data.subtitle || ''} onChange={(e) => set('subtitle', e.target.value)} placeholder="Supporting text below the title" rows={3} />
+      </Field>
+      <Field label="Description (second paragraph)">
+        <Textarea value={data.description || ''} onChange={(e) => set('description', e.target.value)} placeholder="Additional paragraph shown below the subtitle" rows={3} />
       </Field>
       <ImageField
         label="Background Image URL"
@@ -181,12 +184,6 @@ function HeroSectionEditor({ data, onChange }) {
         </Field>
         <Field label="Primary CTA Link">
           <Input value={data.ctaLink || ''} onChange={(e) => set('ctaLink', e.target.value)} placeholder="/contact" />
-        </Field>
-        <Field label="Secondary CTA Text">
-          <Input value={data.secondaryCtaText || ''} onChange={(e) => set('secondaryCtaText', e.target.value)} placeholder="View Our Work" />
-        </Field>
-        <Field label="Secondary CTA Link">
-          <Input value={data.secondaryCtaLink || ''} onChange={(e) => set('secondaryCtaLink', e.target.value)} placeholder="/projects" />
         </Field>
       </div>
     </div>

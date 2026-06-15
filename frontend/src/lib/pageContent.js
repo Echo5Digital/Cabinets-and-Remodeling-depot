@@ -252,6 +252,7 @@ export function getSectionDefaults(type) {
     hero: {
       title: '',
       subtitle: '',
+      description: '',
       backgroundImage: '',
       ctaText: 'Get Free Estimate',
       ctaLink: '/contact',
@@ -385,6 +386,7 @@ const PAGE_DEFAULT_SECTIONS = {
       type: 'hero',
       title: 'Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation',
       subtitle: 'Transform your kitchen with beautifully crafted cabinetry designed for the way you live. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay find stylish, functional, and affordable kitchen solutions without the stress that often comes with remodeling projects.',
+      description: "From custom designs to in-stock cabinets Tampa homeowners can install quickly, our team provides expert guidance, quality materials, and dependable cabinet installation Tampa services all from our Valrico showroom. Whether you're updating a single kitchen or planning a full remodel, we're here to help make the process simpler, smoother, and more practical from start to finish.",
       backgroundImage: '/home-hero-bg.jpg',
       ctaText: 'Visit Our Showroom',
       ctaLink: '/contact',
@@ -559,35 +561,75 @@ const PAGE_DEFAULT_SECTIONS = {
 }
 
 /**
+ * Fill any empty / missing fields in a DB-saved section with values from the
+ * corresponding page default. Only applied for:
+ *  - string fields that are empty, null, or undefined
+ *  - array fields that are missing or have zero items
+ * Non-empty DB values are always preserved (intentional edits are kept).
+ */
+function fillSectionDefaults(dbSection, defaultSection) {
+  const result = { ...dbSection }
+  for (const [key, defaultVal] of Object.entries(defaultSection)) {
+    if (key === 'id' || key === 'type') continue
+    const dbVal = result[key]
+    if (typeof defaultVal === 'string' && (dbVal === undefined || dbVal === null || dbVal === '')) {
+      result[key] = defaultVal
+    }
+    if (Array.isArray(defaultVal) && (!Array.isArray(dbVal) || dbVal.length === 0)) {
+      result[key] = defaultVal
+    }
+  }
+  return result
+}
+
+/**
+ * Section types whose content is hardcoded on the live page and must never be
+ * overridden by DB values.  The admin always shows the PAGE_DEFAULT_SECTIONS
+ * original content for these types, regardless of what may be stored in the DB.
+ */
+const HARDCODED_SECTION_TYPES = {
+  home: new Set(['hero']),
+}
+
+/**
  * Merge existing sections with the default sections for a given page slug.
  * The default order is preserved. For each default section type:
- *  - if a matching section exists in the DB, use it (user's saved content)
- *  - otherwise use the hardcoded default
+ *  - if the type is in HARDCODED_SECTION_TYPES: always use the page default
+ *  - if a matching section exists in the DB: use it, filling any empty/missing
+ *    fields from the page default so no original content is ever lost
+ *  - otherwise: use the page default in full
  * Any extra existing sections not in the default set are appended at the end.
- *
- * This ensures the admin always sees ALL sections for the page, even when the
- * DB only has a subset (e.g., hero + faq) from before new sections were added.
- * The public page also calls this so un-customised sections show default content.
  */
 export function mergeWithPageDefaults(slug, existingSections) {
   const defaults = PAGE_DEFAULT_SECTIONS[slug]
   if (!defaults || !defaults.length) return existingSections
 
+  const hardcoded = HARDCODED_SECTION_TYPES[slug] || new Set()
+
+  // Strip hardcoded-type sections from the DB list so they never override defaults
+  const mergeSource = hardcoded.size
+    ? existingSections.filter((s) => !hardcoded.has(s.type))
+    : existingSections
+
   const usedIndices = new Set()
 
   const result = defaults.map((defaultSection) => {
-    const idx = existingSections.findIndex(
+    // Hardcoded sections always use the page default — ignore DB
+    if (hardcoded.has(defaultSection.type)) return defaultSection
+
+    const idx = mergeSource.findIndex(
       (s, i) => s.type === defaultSection.type && !usedIndices.has(i)
     )
     if (idx !== -1) {
       usedIndices.add(idx)
-      return existingSections[idx]
+      // Fill any empty / missing fields so original content is never lost
+      return fillSectionDefaults(mergeSource[idx], defaultSection)
     }
     return defaultSection
   })
 
-  // Append any existing sections not matched to a default
-  existingSections.forEach((s, i) => {
+  // Append any remaining DB sections not matched to a default
+  mergeSource.forEach((s, i) => {
     if (!usedIndices.has(i)) result.push(s)
   })
 

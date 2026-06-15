@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3 } from 'lucide-react'
+import { ChevronDown, ChevronRight, Menu, X, Phone, ChefHat, Droplets, Layout, Layers, Grid3X3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { NAV_LINKS, COMPANY_PHONE, COMPANY_PHONE_DISPLAY } from '@/lib/constants'
@@ -22,6 +22,8 @@ export function Navbar() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const [flooringOpen, setFlooringOpen] = useState(false)
+  const [mobileFlooringOpen, setMobileFlooringOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -33,6 +35,8 @@ export function Navbar() {
   useEffect(() => {
     setMobileOpen(false)
     setServicesOpen(false)
+    setFlooringOpen(false)
+    setMobileFlooringOpen(false)
   }, [pathname])
 
   const isActive = (href) => pathname === href
@@ -107,13 +111,64 @@ export function Navbar() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 8 }}
                             transition={{ duration: 0.18 }}
-                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-visible z-50"
                             onMouseEnter={() => setServicesOpen(true)}
                             onMouseLeave={() => setServicesOpen(false)}
                           >
                             {/* Service items */}
                             {link.children.map((child) => {
                               const Icon = SERVICE_ICONS[child.icon]
+
+                              // Items with sub-pages (e.g. Flooring) get a side flyout on hover
+                              if (child.children) {
+                                return (
+                                  <div
+                                    key={child.href}
+                                    className="relative border-b border-gray-50 last:border-0"
+                                    onMouseEnter={() => setFlooringOpen(true)}
+                                    onMouseLeave={() => setFlooringOpen(false)}
+                                  >
+                                    <Link
+                                      href={child.href}
+                                      className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-primary/5 transition-colors group"
+                                    >
+                                      <div className="flex items-center gap-3">
+                                        <span className="shrink-0 w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+                                          {Icon && <Icon className="w-4 h-4" />}
+                                        </span>
+                                        <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                                          {child.title}
+                                        </p>
+                                      </div>
+                                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                                    </Link>
+
+                                    {/* Side flyout panel — appears to the right on hover */}
+                                    <AnimatePresence>
+                                      {flooringOpen && (
+                                        <motion.div
+                                          initial={{ opacity: 0, x: 6 }}
+                                          animate={{ opacity: 1, x: 0 }}
+                                          exit={{ opacity: 0, x: 6 }}
+                                          transition={{ duration: 0.15 }}
+                                          className="absolute left-full top-0 ml-1 w-52 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                                        >
+                                          {child.children.map((sub) => (
+                                            <Link
+                                              key={sub.href}
+                                              href={sub.href}
+                                              className="block px-4 py-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary transition-colors border-b border-gray-50 last:border-0"
+                                            >
+                                              {sub.title}
+                                            </Link>
+                                          ))}
+                                        </motion.div>
+                                      )}
+                                    </AnimatePresence>
+                                  </div>
+                                )
+                              }
+
                               return (
                                 <Link
                                   key={child.href}
@@ -230,14 +285,57 @@ export function Navbar() {
                           {link.label}
                         </p>
                         {link.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="block px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors uppercase tracking-wide"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {child.title}
-                          </Link>
+                          <div key={child.href}>
+                            {child.children ? (
+                              <>
+                                {/* Flooring — tappable row + toggle */}
+                                <div className="flex items-center">
+                                  <Link
+                                    href={child.href}
+                                    className="flex-1 block px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors uppercase tracking-wide"
+                                    onClick={() => setMobileOpen(false)}
+                                  >
+                                    {child.title}
+                                  </Link>
+                                  <button
+                                    className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                                    onClick={() => setMobileFlooringOpen((v) => !v)}
+                                    aria-label="Toggle flooring sub-menu"
+                                  >
+                                    <ChevronDown
+                                      className={cn(
+                                        'w-3.5 h-3.5 transition-transform duration-200',
+                                        mobileFlooringOpen && 'rotate-180'
+                                      )}
+                                    />
+                                  </button>
+                                </div>
+                                {/* Sub-items */}
+                                {mobileFlooringOpen && (
+                                  <div className="pl-4 space-y-0.5">
+                                    {child.children.map((sub) => (
+                                      <Link
+                                        key={sub.href}
+                                        href={sub.href}
+                                        className="block px-3 py-1.5 text-xs text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors uppercase tracking-wide"
+                                        onClick={() => setMobileOpen(false)}
+                                      >
+                                        {sub.title}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <Link
+                                href={child.href}
+                                className="block px-3 py-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors uppercase tracking-wide"
+                                onClick={() => setMobileOpen(false)}
+                              >
+                                {child.title}
+                              </Link>
+                            )}
+                          </div>
                         ))}
                       </div>
                     )
