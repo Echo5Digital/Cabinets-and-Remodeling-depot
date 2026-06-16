@@ -26,7 +26,8 @@ export function WhyChooseSection({ data }) {
   const bgImage = data && data.bgImage ? data.bgImage : '/cabinet-remodeling-shop.webp'
   const address = data && data.address ? data.address : "106 S St Cloud Ave, Valrico, FL 33594"
   const phone = data && data.phone ? data.phone : "+1 813-651-2333"
-  const phoneHref = "tel:+1" + (data && data.phone ? data.phone : "8136512333").replace(/D/g, "")
+  const rawDigits = (data && data.phone ? data.phone : "8136512333").replace(/\D/g, "")
+  const phoneHref = "tel:+" + (rawDigits.length === 11 ? rawDigits : "1" + rawDigits)
   const email = data && data.email ? data.email : "sales@cabinetsandremodelingdepot.com"
   const hours = data && data.hours ? data.hours : "Mon \u2013 Fri: 10:00AM \u2013 6:00PM\nSat: 10:00AM \u2013 4:00PM\nSun: Closed"
   const mapLink = data && data.mapLink ? data.mapLink : "https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"

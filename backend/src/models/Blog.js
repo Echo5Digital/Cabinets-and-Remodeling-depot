@@ -31,6 +31,8 @@ const blogSchema = new mongoose.Schema(
     readTime: { type: Number, default: null },
     metaTitle: { type: String, default: null },
     metaDescription: { type: String, default: null },
+    primaryKeyword: { type: String, default: null },
+    secondaryKeywords: { type: String, default: null },
     schema: { type: String, default: null },
   },
   opts

@@ -111,6 +111,8 @@ export async function createBlog(req, res, next) {
       readTime,
       metaTitle: data.metaTitle || null,
       metaDescription: data.metaDescription || null,
+      primaryKeyword: data.primaryKeyword || null,
+      secondaryKeywords: data.secondaryKeywords || null,
       schema: data.schema || null,
     })
 
@@ -146,6 +148,8 @@ export async function updateBlog(req, res, next) {
     if (data.authorName) updateData.authorName = data.authorName
     if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle || null
     if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription || null
+    if (data.primaryKeyword !== undefined) updateData.primaryKeyword = data.primaryKeyword || null
+    if (data.secondaryKeywords !== undefined) updateData.secondaryKeywords = data.secondaryKeywords || null
     if (data.schema !== undefined) updateData.schema = data.schema || null
 
     if (data.isPublished !== undefined) {

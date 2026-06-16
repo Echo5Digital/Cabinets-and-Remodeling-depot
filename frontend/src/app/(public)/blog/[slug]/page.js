@@ -9,9 +9,16 @@ export async function generateMetadata({ params }) {
   try {
     const { data } = await api.get(`/blogs/${slug}`)
     const blog = data?.data
+    // Build keywords string from primary + secondary
+    const keywordParts = [
+      blog.primaryKeyword,
+      blog.secondaryKeywords,
+    ].filter(Boolean).join(', ')
+
     return {
       ...(blog.metaTitle        && { title: blog.metaTitle }),
       ...(blog.metaDescription  && { description: blog.metaDescription }),
+      ...(keywordParts          && { keywords: keywordParts }),
       openGraph: blog.coverImage ? { images: [blog.coverImage] } : undefined,
     }
   } catch {

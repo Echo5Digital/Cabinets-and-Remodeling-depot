@@ -199,8 +199,19 @@
 .blog-content s { text-decoration: line-through; }
 
 /* Links */
-.blog-content a { color: hsl(var(--primary)); text-decoration: underline; cursor: pointer; }
+.blog-content a { color: hsl(var(--primary)); text-decoration: none; cursor: pointer; }
 .blog-content a:hover { opacity: 0.8; }
+
+/* ── User-applied color fix ──────────────────────────────────────────────────
+   TipTap's Color extension wraps selected text in <span style="color: X">.
+   When that span contains <strong>, <em>, or <a>, CSS rules on those elements
+   (color: foreground / color: primary) have higher specificity than inheritance,
+   so they override the user's color. This rule forces them to inherit instead.  */
+.blog-content span[style*="color"] strong,
+.blog-content span[style*="color"] em,
+.blog-content span[style*="color"] u,
+.blog-content span[style*="color"] s,
+.blog-content span[style*="color"] a { color: inherit; }
 
 /* Lists */
 .blog-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; color: hsl(var(--muted-foreground)); }
@@ -709,6 +720,182 @@
   display: table;
   clear: both;
 }
+
+/* ─── Text + Image two-column layout ────────────────────────────────────────── */
+.blog-text-image-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .blog-text-image-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Remove last-child paragraph margin inside text column */
+.blog-text-image-layout .text-image-text-col > p:last-child,
+.blog-text-image-layout .text-image-text > p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Image column ── */
+.text-image-img-col {
+  min-width: 0;
+}
+
+.text-image-img {
+  width: 100%;
+  border-radius: 0.5rem;
+  display: block;
+  margin: 0 !important;
+  object-fit: cover;
+}
+
+/* ── Editor: image wrapper with hover overlay ── */
+.text-image-img-wrapper {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.text-image-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background 0.18s ease;
+}
+
+.text-image-img-wrapper:hover .text-image-img-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.text-image-img-overlay--uploading {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Upload hint — center of overlay */
+.text-image-upload-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.text-image-img-wrapper:hover .text-image-upload-hint {
+  opacity: 1;
+}
+
+/* Flip button inside overlay */
+.text-image-flip-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.18s ease, background 0.12s ease;
+}
+
+.text-image-img-wrapper:hover .text-image-flip-btn {
+  opacity: 1;
+}
+
+.text-image-flip-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Editor: placeholder when no image yet ── */
+.text-image-img-placeholder {
+  width: 100%;
+  min-height: 160px;
+  border: 2px dashed hsl(var(--border));
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.text-image-img-placeholder:hover {
+  background: hsl(var(--muted));
+}
+
+/* Flip button for placeholder (no dark overlay) */
+.text-image-flip-btn-outside {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.text-image-flip-btn-outside:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+/* ── Editor container: dashed outline + label ── */
+.tiptap-editor .blog-text-image-layout {
+  border: 1px dashed hsl(var(--border));
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  position: relative;
+}
+
+.tiptap-editor .blog-text-image-layout::before {
+  content: 'Text + Image';
+  position: absolute;
+  top: -0.6rem;
+  left: 0.75rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--background));
+  padding: 0 0.3rem;
+  pointer-events: none;
+}
+
+/* ── Editor: CSS order for image-left variant ──────────────────────────────
+   NodeViewContent (.text-image-text-col) is always first in DOM.
+   For --left layouts, use `order` to visually move the image before the text.
+   The public page uses renderHTML's correct HTML child order instead.       */
+.tiptap-editor .blog-text-image-layout--left .text-image-text-col { order: 2; }
+.tiptap-editor .blog-text-image-layout--left .text-image-img-col  { order: 1; }
 
 /* ─── Smooth scrolling ──────────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }

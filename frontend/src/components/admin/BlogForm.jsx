@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
-import { useEditor, EditorContent, ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react'
+import { useEditor, EditorContent, ReactNodeViewRenderer, NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import { Node, Extension } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
@@ -27,6 +27,8 @@ import {
   ImageUp, Palette, X,
   Eye,
   MoveVertical,
+  Columns2,
+  ArrowLeftRight,
 } from 'lucide-react'
 
 // ─── FontSize extension (piggybacks on the existing TextStyle mark) ──────────
@@ -196,6 +198,159 @@ const ImageGrid = Node.create({
       },
       0,
     ]
+  },
+})
+
+// ─── Custom TipTap node: text + image two-column layout ──────────────────────
+
+function TextImageLayoutView({ node, updateAttributes }) {
+  const { imagePosition, imageSrc, imageAlt } = node.attrs
+  const fileInputRef = useRef()
+  const { mutateAsync: uploadImage } = useUploadBlogImage()
+  const [uploading, setUploading] = useState(false)
+
+  const handleImageClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!uploading) fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    setUploading(true)
+    try {
+      const url = await uploadImage(file)
+      updateAttributes({ imageSrc: url })
+    } catch {
+      // silent
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const flipPosition = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    updateAttributes({ imagePosition: imagePosition === 'right' ? 'left' : 'right' })
+  }
+
+  return (
+    <NodeViewWrapper className={`blog-text-image-layout blog-text-image-layout--${imagePosition}`}>
+      {/* Text column — always first in DOM; CSS order flips it for --left in the editor */}
+      <NodeViewContent as="div" className="text-image-text-col" />
+
+      {/* Image column */}
+      <div className="text-image-img-col">
+        {imageSrc ? (
+          <div className="text-image-img-wrapper" onClick={handleImageClick}>
+            <img src={imageSrc} alt={imageAlt || ''} className="text-image-img" draggable="false" />
+            {uploading ? (
+              <div className="text-image-img-overlay text-image-img-overlay--uploading">
+                <span className="clickable-image-spinner" />
+              </div>
+            ) : (
+              <div className="text-image-img-overlay">
+                <span className="text-image-upload-hint">
+                  <ImageUp className="w-5 h-5" />
+                  <span className="text-xs">Replace</span>
+                </span>
+                <button
+                  type="button"
+                  className="text-image-flip-btn"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={flipPosition}
+                  title="Move image to other side"
+                >
+                  <ArrowLeftRight className="w-3.5 h-3.5" />
+                  Flip Side
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-image-img-placeholder" onClick={handleImageClick}>
+            {uploading ? (
+              <span className="clickable-image-spinner" style={{ borderColor: 'rgba(0,0,0,0.15)', borderTopColor: 'hsl(var(--primary))' }} />
+            ) : (
+              <>
+                <ImageUp className="w-7 h-7 text-muted-foreground/50" />
+                <span className="text-sm text-muted-foreground">Click to add image</span>
+                <button
+                  type="button"
+                  className="text-image-flip-btn-outside"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={flipPosition}
+                  title="Move image to other side"
+                >
+                  <ArrowLeftRight className="w-3.5 h-3.5" />
+                  Flip Side
+                </button>
+              </>
+            )}
+          </div>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
+    </NodeViewWrapper>
+  )
+}
+
+const TextImageLayout = Node.create({
+  name: 'textImageLayout',
+  group: 'block',
+  content: 'block+',
+
+  addAttributes() {
+    return {
+      imagePosition: {
+        default: 'right',
+        parseHTML: (el) => el.getAttribute('data-image-position') || 'right',
+        renderHTML: (attrs) => ({ 'data-image-position': attrs.imagePosition }),
+      },
+      imageSrc: {
+        default: null,
+        parseHTML: (el) => el.querySelector('img.text-image-img')?.getAttribute('src') || null,
+        renderHTML: () => ({}),
+      },
+      imageAlt: {
+        default: '',
+        parseHTML: (el) => el.querySelector('img.text-image-img')?.getAttribute('alt') || '',
+        renderHTML: () => ({}),
+      },
+    }
+  },
+
+  parseHTML() {
+    return [{ tag: 'div[data-text-image-layout]', contentElement: '.text-image-text' }]
+  },
+
+  renderHTML({ node, HTMLAttributes }) {
+    const { imagePosition, imageSrc, imageAlt } = node.attrs
+    const textDiv = ['div', { class: 'text-image-text' }, 0]
+    const imgDiv = ['div', { class: 'text-image-img-col' },
+      ...(imageSrc ? [['img', { src: imageSrc, alt: imageAlt || '', class: 'text-image-img' }]] : []),
+    ]
+    return [
+      'div',
+      {
+        'data-text-image-layout': '',
+        class: `blog-text-image-layout blog-text-image-layout--${imagePosition}`,
+        ...HTMLAttributes,
+      },
+      ...(imagePosition === 'left' ? [imgDiv, textDiv] : [textDiv, imgDiv]),
+    ]
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(TextImageLayoutView)
   },
 })
 
@@ -395,6 +550,86 @@ function ImagePanel({ editor, onClose }) {
         <Button type="button" size="sm" variant="ghost" onClick={onClose}>
           Cancel
         </Button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Text + Image layout insertion panel ─────────────────────────────────────
+function TextImagePanel({ editor, onClose }) {
+  const [imageFile, setImageFile] = useState(null)
+  const [position, setPosition] = useState('right')
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef()
+  const { mutateAsync: uploadImage } = useUploadBlogImage()
+
+  const handleInsert = async () => {
+    setUploading(true)
+    try {
+      let imageSrc = null
+      if (imageFile) imageSrc = await uploadImage(imageFile)
+      editor.chain().focus().insertContent({
+        type: 'textImageLayout',
+        attrs: { imagePosition: position, imageSrc, imageAlt: '' },
+        content: [{ type: 'paragraph' }],
+      }).run()
+      onClose()
+    } catch {
+      // silent
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div className="border-b bg-muted/20 p-3 space-y-3">
+      {/* Position selector */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium text-muted-foreground shrink-0">Image side:</span>
+        {[{ value: 'right', label: 'Right' }, { value: 'left', label: 'Left' }].map(({ value, label }) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setPosition(value)}
+            className={`px-2.5 py-1 text-xs rounded border transition-colors ${
+              position === value
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border hover:bg-muted'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Image slot (optional) */}
+      <div className="max-w-[200px]">
+        {imageFile ? (
+          <div className="relative group cursor-pointer" onClick={() => fileRef.current?.click()}>
+            <img src={URL.createObjectURL(imageFile)} alt="" className="w-full h-24 object-cover rounded border" />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 rounded flex items-center justify-center text-white text-xs transition-opacity">
+              Change
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="w-full h-24 border-2 border-dashed rounded flex flex-col items-center justify-center text-muted-foreground hover:bg-muted transition-colors gap-1"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            <span className="text-xs">Add Image (optional)</span>
+          </button>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => setImageFile(e.target.files[0] || null)} />
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2">
+        <Button type="button" size="sm" onClick={handleInsert} disabled={uploading}>
+          {uploading ? 'Inserting…' : 'Insert Layout'}
+        </Button>
+        <Button type="button" size="sm" variant="ghost" onClick={onClose}>Cancel</Button>
       </div>
     </div>
   )
@@ -690,6 +925,8 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
   const [isFeatured, setIsFeatured] = useState(initialData.isFeatured || false)
   const [metaTitle, setMetaTitle] = useState(initialData.metaTitle || '')
   const [metaDescription, setMetaDescription] = useState(initialData.metaDescription || '')
+  const [primaryKeyword, setPrimaryKeyword] = useState(initialData.primaryKeyword || '')
+  const [secondaryKeywords, setSecondaryKeywords] = useState(initialData.secondaryKeywords || '')
   const [schema, setSchema] = useState(initialData.schema || '')
   const [coverFile, setCoverFile] = useState(null)
   const [coverPreview, setCoverPreview] = useState(initialData.coverImage || '')
@@ -716,6 +953,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
       FontSize,
       AlignableImage,
       ImageGrid,
+      TextImageLayout,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: 'Write your blog post content here...' }),
@@ -758,6 +996,8 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     formData.append('isFeatured', isFeatured)
     formData.append('metaTitle', metaTitle)
     formData.append('metaDescription', metaDescription)
+    formData.append('primaryKeyword', primaryKeyword)
+    formData.append('secondaryKeywords', secondaryKeywords)
     if (schema) formData.append('schema', schema)
     if (coverFile) formData.append('coverImage', coverFile)
     if (thumbnailFile) formData.append('thumbnailImage', thumbnailFile)
@@ -908,6 +1148,11 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
                       <ImageIcon className="w-4 h-4" />
                     </ToolbarButton>
 
+                    {/* Text + Image layout */}
+                    <ToolbarButton onClick={() => togglePanel('textImage')} active={panel === 'textImage'} title="Insert Text + Image Layout">
+                      <Columns2 className="w-4 h-4" />
+                    </ToolbarButton>
+
                     <Sep />
 
                     {/* History */}
@@ -927,6 +1172,9 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
                 {panel === 'image' && (
                   <ImagePanel editor={editor} onClose={() => setPanel(null)} />
                 )}
+                {panel === 'textImage' && (
+                  <TextImagePanel editor={editor} onClose={() => setPanel(null)} />
+                )}
 
                 {/* ── Editable area ────────────────────────────────────── */}
                 <div className="p-4 min-h-80">
@@ -943,11 +1191,31 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             <h3 className="font-medium text-sm">SEO Settings</h3>
             <div className="space-y-2">
               <Label>Meta Title</Label>
-              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars recommended)" />
+              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars recommended)" maxLength={70} />
+              <p className={`text-xs ${metaTitle.length >= 65 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaTitle.length}/70 characters</p>
             </div>
             <div className="space-y-2">
               <Label>Meta Description</Label>
-              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars recommended)" rows={2} />
+              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars recommended)" rows={2} maxLength={160} />
+              <p className={`text-xs ${metaDescription.length >= 145 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaDescription.length}/160 characters</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Primary Keyword</Label>
+              <Input
+                value={primaryKeyword}
+                onChange={(e) => setPrimaryKeyword(e.target.value)}
+                placeholder="e.g. kitchen remodeling Tampa"
+              />
+              <p className="text-xs text-muted-foreground">The main keyword this post targets.</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Secondary Keywords</Label>
+              <Input
+                value={secondaryKeywords}
+                onChange={(e) => setSecondaryKeywords(e.target.value)}
+                placeholder="e.g. bathroom renovation, custom cabinets, countertops"
+              />
+              <p className="text-xs text-muted-foreground">Comma-separated additional target keywords.</p>
             </div>
           </div>
 

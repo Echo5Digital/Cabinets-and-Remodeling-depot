@@ -10,6 +10,8 @@ export const createBlogSchema = Joi.object({
   isFeatured: Joi.boolean().default(false),
   metaTitle: Joi.string().max(70).allow('', null),
   metaDescription: Joi.string().max(160).allow('', null),
+  primaryKeyword: Joi.string().max(100).allow('', null),
+  secondaryKeywords: Joi.string().max(500).allow('', null),
 })
 
 export const updateBlogSchema = createBlogSchema.fork(
