@@ -72,7 +72,7 @@ export function ServicePageClient({ slug, serviceName }) {
       {/* Sections */}
       {content.sections && content.sections.length > 0 && (
         <section className="section-padding">
-          <div className="container-custom space-y-20">
+          <div className="container-custom space-y-12 md:space-y-20">
             {content.sections.map((section, index) => (
               <FeatureSection key={index} section={section} index={index} />
             ))}

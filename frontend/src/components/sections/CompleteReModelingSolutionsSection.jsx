@@ -154,7 +154,7 @@ export function CompleteReModelingSolutionsSection({ data }) {
           <p className="text-sm uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
             {sectionLabel}
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-3">
             {sectionHeading || 'Complete Kitchen Remodeling Solutions'}
           </h2>
           <div className="flex items-center justify-center gap-2 mb-5">

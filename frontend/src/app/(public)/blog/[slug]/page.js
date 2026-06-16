@@ -10,8 +10,8 @@ export async function generateMetadata({ params }) {
     const { data } = await api.get(`/blogs/${slug}`)
     const blog = data?.data
     return {
-      title: blog.metaTitle || `${blog.title} | Cabinets & Remodeling Depot`,
-      description: blog.metaDescription || blog.excerpt,
+      ...(blog.metaTitle        && { title: blog.metaTitle }),
+      ...(blog.metaDescription  && { description: blog.metaDescription }),
       openGraph: blog.coverImage ? { images: [blog.coverImage] } : undefined,
     }
   } catch {

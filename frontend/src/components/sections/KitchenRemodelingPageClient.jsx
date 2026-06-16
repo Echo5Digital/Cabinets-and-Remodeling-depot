@@ -80,10 +80,10 @@ export function KitchenRemodelingPageClient() {
                 transition={{ duration: 0.65 }}
               >
                 <h1 className="mb-6 leading-tight">
-                  <span className="block text-primary font-extrabold text-4xl sm:text-5xl md:text-[3.2rem] uppercase tracking-wide">
+                  <span className="block text-primary font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] uppercase tracking-wide">
                     Kitchen Remodel
                   </span>
-                  <span className="block text-primary font-extrabold text-4xl sm:text-5xl md:text-[3.2rem] uppercase tracking-wide">
+                  <span className="block text-primary font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] uppercase tracking-wide">
                     Tampa
                   </span>
                   <span className="block text-primary font-bold text-xl sm:text-2xl md:text-3xl uppercase tracking-wide mt-2">
@@ -93,7 +93,7 @@ export function KitchenRemodelingPageClient() {
                     Kitchen Design Solutions
                   </span>
                 </h1>
-                <div className="space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed max-w-lg mb-7">
+                <div className="space-y-4 text-gray-900 text-sm sm:text-base leading-relaxed max-w-lg mb-7">
                   <p>
                     A kitchen remodel is rarely just about replacing cabinets or upgrading countertops.
                     Most homeowners come in looking for something deeper, better functionality, more
@@ -187,7 +187,7 @@ export function KitchenRemodelingPageClient() {
                 <span className="text-primary">Tailored to Your Home</span>
               </h2>
 
-              <div className="space-y-4 text-gray-700 text-base leading-relaxed">
+              <div className="space-y-4 text-gray-900 text-base leading-relaxed">
                 <p>
                   Good kitchen design is not only about appearance. A well-designed kitchen should feel
                   natural to use day after day. That means paying attention to storage, spacing,
@@ -201,7 +201,7 @@ export function KitchenRemodelingPageClient() {
                 </p>
               </div>
 
-              <p className="font-semibold text-primary text-base">Our kitchen remodeling services include:</p>
+              <p className="text-lg font-bold text-primary">Our kitchen remodeling services include:</p>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                 {[
@@ -213,7 +213,7 @@ export function KitchenRemodelingPageClient() {
                   'Countertop fabrication and installation',
                   'Full kitchen renovation support',
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-gray-700 text-sm">
+                  <li key={item} className="flex items-center gap-2 text-gray-900 text-sm">
                     <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
                     {item}
                   </li>
@@ -234,16 +234,18 @@ export function KitchenRemodelingPageClient() {
       {/* ── Kitchen Renovation — full-width bg image section ──────────────── */}
       <section className="relative py-14 md:py-20 overflow-hidden">
         {/* Background image */}
-        <Image
-          src="/Kitchen-Cabinet-Showroom-Tampa.jpg"
-          alt="Kitchen Cabinet Showroom Tampa"
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority={false}
-        />
-        {/* Light overlay */}
-        <div className="absolute inset-0 bg-white/88" />
+        <div className="absolute inset-0">
+          <Image
+            src="/beautiful-shot-modern-house-kitchen.jpg"
+            alt="Beautiful modern kitchen renovation Tampa"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority={false}
+          />
+          {/* Overlay — keeps text readable while showing the kitchen image */}
+          <div className="absolute inset-0 bg-white/75" />
+        </div>
 
         <div className="relative z-10 container-custom max-w-5xl space-y-8">
 
@@ -254,7 +256,7 @@ export function KitchenRemodelingPageClient() {
             </h2>
           </FadeIn>
 
-          <FadeIn delay={0.1} className="space-y-4 text-gray-700 text-base leading-relaxed max-w-3xl mx-auto text-center">
+          <FadeIn delay={0.1} className="space-y-4 text-gray-900 text-base leading-relaxed max-w-3xl mx-auto text-center">
             <p>
               A successful kitchen renovation requires more than materials alone. Communication,
               planning, and installation quality make a major difference once construction begins.
@@ -274,7 +276,7 @@ export function KitchenRemodelingPageClient() {
           </FadeIn>
 
           <FadeIn delay={0.15}>
-            <p className="font-semibold text-primary text-base mb-4 text-center">
+            <p className="text-lg font-bold text-primary mb-4 text-center">
               Our Valrico showroom allows homeowners to compare:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -299,7 +301,7 @@ export function KitchenRemodelingPageClient() {
 
           <FadeIn delay={0.2}>
             <div className="bg-white/90 border-l-4 border-primary rounded-r-xl px-6 py-4 max-w-3xl mx-auto text-center">
-              <p className="text-gray-700 text-base leading-relaxed italic">
+              <p className="text-gray-900 text-base leading-relaxed italic">
                 That hands-on experience tends to make the remodeling process feel far more manageable.
               </p>
             </div>
@@ -329,7 +331,7 @@ export function KitchenRemodelingPageClient() {
             </h2>
           </FadeIn>
 
-          <FadeIn delay={0.1} className="space-y-4 text-gray-700 text-base leading-relaxed max-w-3xl">
+          <FadeIn delay={0.1} className="space-y-4 text-gray-900 text-base leading-relaxed max-w-3xl">
             <p>
               As experienced kitchen remodeling contractors Tampa Valrico showroom homeowners rely
               on, we focus on delivering remodeling solutions that feel cohesive from start to
@@ -340,7 +342,7 @@ export function KitchenRemodelingPageClient() {
           </FadeIn>
 
           <FadeIn delay={0.15} className="space-y-4">
-            <p className="font-semibold text-primary text-base">We proudly provide:</p>
+            <p className="text-lg font-bold text-primary">We proudly provide:</p>
             <ul className="space-y-2">
               {[
                 'Kitchen remodel Tampa services',
@@ -350,7 +352,7 @@ export function KitchenRemodelingPageClient() {
                 'Kitchen renovation support',
                 'Full-service remodeling guidance',
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-gray-700 text-base">
+                <li key={item} className="flex items-center gap-3 text-gray-900 text-base">
                   <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
                   {item}
                 </li>
@@ -359,7 +361,7 @@ export function KitchenRemodelingPageClient() {
           </FadeIn>
 
           <FadeIn delay={0.2} className="max-w-3xl">
-            <p className="text-gray-700 text-base leading-relaxed">
+            <p className="text-gray-900 text-base leading-relaxed">
               Over the years, we&rsquo;ve worked on kitchens ranging from compact family homes to
               larger open-concept renovations designed around entertaining and gathering spaces.
               Every project brings different goals, budgets, and design preferences, which is why
@@ -371,8 +373,22 @@ export function KitchenRemodelingPageClient() {
       </section>
 
       {/* ── Why Homeowners Choose ─────────────────────────────────────────── */}
-      <section className="py-14 md:py-20 bg-white">
-        <div className="container-custom max-w-6xl space-y-10">
+      <section className="relative py-14 md:py-20 overflow-hidden">
+
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/cabinet_remodeling_kitchen-03.webp"
+            alt="Kitchen remodeling Tampa showroom"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          {/* White overlay — light enough to keep text readable, transparent enough to show image */}
+          <div className="absolute inset-0 bg-white/75" />
+        </div>
+
+        <div className="relative z-10 container-custom max-w-6xl space-y-10">
 
           {/* Top row — heading left | intro text right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
@@ -383,7 +399,7 @@ export function KitchenRemodelingPageClient() {
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
-              <p className="text-gray-700 text-base leading-relaxed">
+              <p className="text-gray-900 text-base leading-relaxed">
                 Homeowners across Tampa Bay continue to choose{' '}
                 <strong>Cabinets &amp; Remodeling Depot</strong> because we combine remodeling
                 experience with personalized customer support and local showroom access.
@@ -392,11 +408,11 @@ export function KitchenRemodelingPageClient() {
           </div>
 
           {/* Divider */}
-          <div className="border-t border-gray-200" />
+          <div className="border-t border-gray-300" />
 
           {/* Bullet grid */}
           <FadeIn delay={0.1} className="text-center">
-            <p className="font-semibold text-primary text-base mb-5">Why clients work with us:</p>
+            <p className="text-lg font-bold text-primary mb-5">Why clients work with us:</p>
             <ul className="inline-grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-16 text-left mx-auto">
               {[
                 'Local Valrico showroom',
@@ -407,7 +423,7 @@ export function KitchenRemodelingPageClient() {
                 'Personalized project guidance',
                 'Cabinet and countertop selections',
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-gray-700 text-base">
+                <li key={item} className="flex items-center gap-3 text-gray-900 text-base">
                   <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
                   {item}
                 </li>
@@ -417,8 +433,8 @@ export function KitchenRemodelingPageClient() {
 
           {/* Quote block */}
           <FadeIn delay={0.2}>
-            <div className="bg-gray-50 border-l-4 border-primary rounded-r-xl px-6 py-5 max-w-3xl mx-auto text-center">
-              <p className="text-gray-700 text-base leading-relaxed italic">
+            <div className="bg-white shadow-sm border-l-4 border-primary rounded-r-xl px-6 py-5 max-w-3xl mx-auto text-center">
+              <p className="text-gray-900 text-base leading-relaxed italic">
                 We believe homeowners should feel informed and comfortable throughout the remodeling
                 process, not pressured into rushed decisions or unnecessary upgrades.
               </p>
@@ -497,7 +513,7 @@ export function KitchenRemodelingPageClient() {
                 <span className="text-gray-900"> Today</span>
               </h2>
 
-              <div className="space-y-4 text-gray-700 text-base leading-relaxed">
+              <div className="space-y-4 text-gray-900 text-base leading-relaxed">
                 <p>
                   If you&rsquo;re planning a kitchen remodel Tampa homeowners can genuinely feel
                   confident about, visit Cabinets &amp; Remodeling Depot today.

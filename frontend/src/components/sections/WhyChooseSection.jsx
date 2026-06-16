@@ -93,7 +93,7 @@ export function WhyChooseSection({ data }) {
           initial={{ opacity: 0, x: 30 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="relative flex flex-col justify-end px-8 py-14 sm:px-10 sm:py-16 lg:px-14 lg:py-20 min-h-140 md:min-h-0"
+          className="relative flex flex-col justify-end px-8 py-14 sm:px-10 sm:py-16 lg:px-14 lg:py-20 min-h-80 sm:min-h-100 md:min-h-0"
         >
           {/* Background image */}
           <Image

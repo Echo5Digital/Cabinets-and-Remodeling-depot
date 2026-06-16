@@ -86,7 +86,7 @@ export function FAQSection({ faqs = [], title = 'Frequently Asked Questions', su
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <div className="pl-17 pr-5 pb-5 text-muted-foreground leading-relaxed text-sm md:text-base">
+                      <div className="pl-4 sm:pl-17 pr-5 pb-5 text-muted-foreground leading-relaxed text-sm md:text-base">
                         {faq.answer}
                       </div>
                     </motion.div>

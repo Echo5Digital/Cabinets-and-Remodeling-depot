@@ -51,7 +51,7 @@ export function HowItWorksSection({ data }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 uppercase tracking-wide mb-5">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 uppercase tracking-wide mb-5">
             {heading}
           </h2>
           <div className="flex items-center justify-center gap-2">

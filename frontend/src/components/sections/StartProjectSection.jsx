@@ -28,7 +28,7 @@ export function StartProjectSection({ data }) {
       />
 
       {/* Cream gradient overlay — solid on the left, fades to transparent on desktop */}
-      <div className="absolute inset-0 bg-linear-to-r from-[#f5ede4] via-[#f5ede4]/90 to-[#f5ede4]/50 md:to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-[#f5ede4] via-[#f5ede4]/90 to-[#f5ede4] md:to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 w-full py-16 md:py-24">

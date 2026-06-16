@@ -144,8 +144,8 @@ export async function updateBlog(req, res, next) {
     }
     if (data.categoryId !== undefined) updateData.category = data.categoryId || null
     if (data.authorName) updateData.authorName = data.authorName
-    if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle
-    if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription
+    if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle || null
+    if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription || null
     if (data.schema !== undefined) updateData.schema = data.schema || null
 
     if (data.isPublished !== undefined) {

@@ -1144,7 +1144,7 @@ export function CountertopsPageClient() {
                           transition={{ duration: 0.28, ease: 'easeInOut' }}
                           className="overflow-hidden"
                         >
-                          <div className="px-4 sm:px-5 pb-5 pl-16 text-muted-foreground leading-relaxed text-sm sm:text-base">
+                          <div className="px-4 sm:px-5 pb-5 pl-4 sm:pl-16 text-muted-foreground leading-relaxed text-sm sm:text-base">
                             {faq.answer}
                           </div>
                         </motion.div>

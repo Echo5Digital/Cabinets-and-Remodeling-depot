@@ -71,7 +71,7 @@ export function AffordableCabinetsSection({ data }) {
               {label}
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4">
               {heading ? (
                 <span className="text-foreground">{heading}</span>
               ) : (

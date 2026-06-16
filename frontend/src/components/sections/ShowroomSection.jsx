@@ -109,7 +109,7 @@ export function ShowroomSection({ data }) {
               {sectionLabel}
             </p>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
               {sectionHeading ? (
                 <span className="text-foreground">{sectionHeading}</span>
               ) : (

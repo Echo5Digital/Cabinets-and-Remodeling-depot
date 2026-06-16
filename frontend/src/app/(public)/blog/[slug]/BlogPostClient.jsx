@@ -104,13 +104,7 @@ export function BlogPostClient({ slug }) {
 
             {/* Body */}
             <div
-              className="prose prose-lg max-w-none text-foreground
-                prose-headings:font-bold prose-headings:text-foreground
-                prose-p:text-muted-foreground prose-p:leading-relaxed
-                prose-a:text-primary prose-a:underline
-                prose-strong:text-foreground
-                prose-ul:text-muted-foreground prose-ol:text-muted-foreground
-                prose-blockquote:border-primary prose-blockquote:text-muted-foreground"
+              className="blog-content"
               dangerouslySetInnerHTML={{ __html: blog.body }}
             />
           </motion.div>
