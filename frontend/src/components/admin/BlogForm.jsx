@@ -1191,13 +1191,13 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             <h3 className="font-medium text-sm">SEO Settings</h3>
             <div className="space-y-2">
               <Label>Meta Title</Label>
-              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars recommended)" maxLength={70} />
-              <p className={`text-xs ${metaTitle.length >= 65 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaTitle.length}/70 characters</p>
+              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="SEO title (60-70 chars recommended)" />
+              <p className={`text-xs ${metaTitle.length > 70 ? 'text-red-500' : metaTitle.length >= 60 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaTitle.length}/70 characters</p>
             </div>
             <div className="space-y-2">
               <Label>Meta Description</Label>
-              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars recommended)" rows={2} maxLength={160} />
-              <p className={`text-xs ${metaDescription.length >= 145 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaDescription.length}/160 characters</p>
+              <Textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="SEO description (120-160 chars recommended)" rows={2} />
+              <p className={`text-xs ${metaDescription.length > 160 ? 'text-red-500' : metaDescription.length >= 120 ? 'text-amber-500' : 'text-muted-foreground'}`}>{metaDescription.length}/160 characters</p>
             </div>
             <div className="space-y-2">
               <Label>Primary Keyword</Label>

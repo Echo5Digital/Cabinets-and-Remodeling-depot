@@ -8,8 +8,8 @@ export const createBlogSchema = Joi.object({
   authorName: Joi.string().max(100).default('Admin'),
   isPublished: Joi.boolean().default(false),
   isFeatured: Joi.boolean().default(false),
-  metaTitle: Joi.string().max(70).allow('', null),
-  metaDescription: Joi.string().max(160).allow('', null),
+  metaTitle: Joi.string().max(500).allow('', null),
+  metaDescription: Joi.string().max(1000).allow('', null),
   primaryKeyword: Joi.string().max(100).allow('', null),
   secondaryKeywords: Joi.string().max(500).allow('', null),
 })
