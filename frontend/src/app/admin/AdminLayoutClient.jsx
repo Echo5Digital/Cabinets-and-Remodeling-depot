@@ -39,12 +39,21 @@ export function AdminLayoutClient({ children }) {
         const { data: meData } = await api.get('/auth/me')
         if (!cancelled) {
           setUserFromToken(meData.data, refreshData.data.accessToken)
+          // Renew the client-side cookie so its expiry stays in sync with the
+          // rotated refresh token (which gets a fresh 7-day window each time).
+          const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+          document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
         }
-      } catch {
+      } catch (err) {
         if (!cancelled) {
-          // Session is invalid — clear the signal cookie and send to login.
-          document.cookie = 'adminLoggedIn=; path=/; max-age=0'
-          router.replace('/admin/login')
+          // Only destroy the session on actual auth failures (401/403).
+          // Network errors (server sleeping, timeout, DNS) must NOT log the
+          // user out — they should reload when the server is back up.
+          const isAuthError = err.response?.status === 401 || err.response?.status === 403
+          if (isAuthError) {
+            document.cookie = 'adminLoggedIn=; path=/; max-age=0'
+            router.replace('/admin/login')
+          }
         }
       }
     }
@@ -65,7 +74,7 @@ export function AdminLayoutClient({ children }) {
     <div className="flex min-h-screen bg-muted/30">
       <AdminSidebar />
       <main className="flex-1 overflow-auto">
-        <div className="p-6 md:p-8">{children}</div>
+        <div className="p-4 pt-16 md:p-8">{children}</div>
       </main>
     </div>
   )

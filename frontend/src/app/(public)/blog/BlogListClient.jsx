@@ -7,12 +7,35 @@ import { PageHeader } from '@/components/common/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
+/**
+ * Returns an array of page numbers and '...' ellipsis strings for pagination.
+ * Always shows first, last, current, and the pages immediately around current.
+ */
+function getPageNumbers(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const pages = new Set([1, total, current])
+  if (current > 1) pages.add(current - 1)
+  if (current < total) pages.add(current + 1)
+  return Array.from(pages)
+    .sort((a, b) => a - b)
+    .reduce((acc, p, i, arr) => {
+      if (i > 0 && p - arr[i - 1] > 1) acc.push('...')
+      acc.push(p)
+      return acc
+    }, [])
+}
+
 export function BlogListClient() {
   const [page, setPage] = useState(1)
   const { data, isLoading } = useBlogs({ page, limit: 9, isPublished: true })
 
   const blogs = data?.data || []
   const totalPages = data?.pagination?.pages || 1
+
+  const goToPage = (p) => {
+    setPage(p)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <>
@@ -37,15 +60,43 @@ export function BlogListClient() {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-10">
-                  <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-                    Previous
+                <div className="flex items-center justify-center gap-1 mt-10 flex-wrap">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page <= 1}
+                    onClick={() => goToPage(page - 1)}
+                  >
+                    ← Previous
                   </Button>
-                  <span className="flex items-center px-4 text-sm text-muted-foreground">
-                    Page {page} of {totalPages}
-                  </span>
-                  <Button variant="outline" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
-                    Next
+
+                  {getPageNumbers(page, totalPages).map((p, i) =>
+                    p === '...' ? (
+                      <span
+                        key={`ellipsis-${i}`}
+                        className="px-2 text-muted-foreground select-none"
+                      >
+                        …
+                      </span>
+                    ) : (
+                      <Button
+                        key={p}
+                        size="sm"
+                        variant={p === page ? 'default' : 'outline'}
+                        onClick={() => goToPage(p)}
+                      >
+                        {p}
+                      </Button>
+                    )
+                  )}
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page >= totalPages}
+                    onClick={() => goToPage(page + 1)}
+                  >
+                    Next →
                   </Button>
                 </div>
               )}

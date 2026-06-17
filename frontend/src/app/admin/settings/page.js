@@ -91,7 +91,7 @@ export default function AdminSettingsPage() {
             <CardDescription>Used throughout the website and email templates</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Company Name</Label>
                 <Input {...f('companyName')} placeholder="Cabinets & Remodeling Depot" />
@@ -101,7 +101,7 @@ export default function AdminSettingsPage() {
                 <Input {...f('tagline')} placeholder="Tampa Bay's Premier Remodeling Company" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Phone</Label>
                 <Input {...f('phone')} placeholder="(813) 555-0100" />

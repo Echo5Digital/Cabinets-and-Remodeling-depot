@@ -37,7 +37,7 @@ export default function AdminBlogsPage() {
         </Button>
       </div>
 
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg overflow-hidden overflow-x-auto">
         {isLoading ? (
           <div className="p-4 space-y-3">
             {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}
@@ -48,7 +48,7 @@ export default function AdminBlogsPage() {
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead className="hidden sm:table-cell">Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -73,7 +73,7 @@ export default function AdminBlogsPage() {
                       {blog.isPublished ? 'Published' : 'Draft'}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{formatDate(blog.createdAt)}</TableCell>
+                  <TableCell className="hidden sm:table-cell text-sm text-muted-foreground">{formatDate(blog.createdAt)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-1">
                       <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
