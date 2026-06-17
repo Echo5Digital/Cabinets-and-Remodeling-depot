@@ -4,13 +4,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Phone } from 'lucide-react'
+import { Check } from 'lucide-react'
 
 export function HeroSection({ data = {}, compact = false }) {
   const {
-    title = 'Kitchen Cabinets Tampa – Quality Cabinets & Professional Installation',
-    subtitle = 'Transform your kitchen with beautifully crafted cabinetry designed for the way you live. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay find stylish, functional, and affordable kitchen solutions without the stress that often comes with remodeling projects.',
-    description = "From custom designs to in-stock cabinets Tampa homeowners can install quickly, our team provides expert guidance, quality materials, and dependable cabinet installation Tampa services all from our Valrico showroom. Whether you're updating a single kitchen or planning a full remodel, we're here to help make the process simpler, smoother, and more practical from start to finish.",
+    title = 'Kitchen Remodeling, Cabinets & Countertops in Tampa Bay',
+    subtitle = 'Transform your home with premium cabinetry, countertops, flooring, and professional remodeling services from our Valrico showroom.',
+    description = '',
     backgroundImage = '',
     ctaText = 'Visit Our Showroom',
     ctaLink = '/contact',
@@ -185,14 +185,15 @@ export function HeroSection({ data = {}, compact = false }) {
                   <Link href={ctaLink}>{ctaText}</Link>
                 </Button>
               )}
-              <a
-                href="tel:+18136512333"
-                className="flex items-center justify-center gap-2.5 border border-white/30 text-white rounded-md px-7 sm:px-9 h-12 sm:h-14 text-sm sm:text-base font-semibold uppercase tracking-wide hover:bg-white/10 transition-colors"
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 hover:text-white font-bold text-sm sm:text-base tracking-wide px-8 sm:px-10 h-12 sm:h-14 uppercase shadow-lg shadow-black/20"
                 style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(6px)' }}
+                asChild
               >
-                <Phone className="h-5 w-5" />
-                Call (813) 651-2333
-              </a>
+                <Link href="/contact">Get Free Estimate</Link>
+              </Button>
             </motion.div>
 
             {/* Trust chips */}
@@ -202,13 +203,18 @@ export function HeroSection({ data = {}, compact = false }) {
               transition={{ duration: 0.5, delay: 0.52 }}
               className="flex flex-wrap gap-3"
             >
-              {['Free Estimates', 'In-Stock Cabinets', '5-Star Rated'].map((label) => (
+              {[
+                'Free Estimates',
+                'Professional Installation',
+                'In-Stock Cabinets Available',
+                '5-Star Rated',
+              ].map((label) => (
                 <span
                   key={label}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white/90 border border-white/25 rounded-full px-4 py-2"
                   style={{ background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)' }}
                 >
-                  <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-primary shrink-0" strokeWidth={3} />
                   {label}
                 </span>
               ))}

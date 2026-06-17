@@ -55,12 +55,12 @@ export function FAQSection({ faqs = [], title = 'Frequently Asked Questions', su
                 {/* Question row */}
                 <button
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="w-full flex items-center gap-4 px-5 py-4 text-left cursor-pointer"
+                  className="w-full flex items-start gap-4 px-5 py-4 text-left cursor-pointer"
                   aria-expanded={isOpen}
                 >
                   {/* +/- icon */}
                   <span
-                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                    className={`shrink-0 mt-0.5 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${
                       isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500'
                     }`}
                   >

@@ -30,24 +30,29 @@ import { BadgePercent, Store, Wrench, Star, Heart } from 'lucide-react'
 
 const DEFAULT_FAQS = [
   {
-    question: 'Do you offer affordable kitchen cabinets in Tampa?',
+    question: 'How much do kitchen cabinets cost in Tampa Bay?',
     answer:
-      'Yes. We provide affordable cabinets Tampa homeowners can choose from, including stock and custom cabinet options.',
+      'The cost depends on your kitchen size, cabinet style, material selection, and installation requirements. We offer stock, semi-custom, and custom cabinet options to fit a variety of budgets. Contact us or visit our Valrico showroom for a free estimate.',
   },
   {
-    question: 'Do you have in-stock cabinets available?',
+    question: 'What is the difference between stock, semi-custom, and custom cabinets?',
     answer:
-      'Absolutely. We carry in-stock cabinets Tampa homeowners often choose for faster remodeling timelines.',
+      'Stock cabinets come in standard sizes and are budget-friendly. Semi-custom cabinets offer more flexibility in finishes and configurations, while custom cabinets are built specifically for your space, style, and storage needs.',
   },
   {
-    question: 'Do you provide cabinet installation Tampa services?',
+    question: 'Do you provide complete kitchen remodeling services?',
     answer:
-      'Yes. Our experienced team handles professional cabinet installation throughout the Tampa Bay area.',
+      'Yes. In addition to kitchen cabinets, we offer countertops, flooring, backsplashes, and complete kitchen remodeling solutions. Our team manages the process from design consultation to professional installation.',
   },
   {
-    question: 'Where is your kitchen cabinet showroom located?',
+    question: 'Why should I visit your Valrico showroom?',
     answer:
-      'Our showroom is located in Valrico, serving homeowners throughout Tampa and nearby communities.',
+      'Our showroom allows you to explore cabinet styles, countertop materials, colors, finishes, and design options in person. You\'ll also receive expert guidance to help you choose the best solutions for your home and budget.',
+  },
+  {
+    question: 'What areas do you serve?',
+    answer:
+      'We proudly serve homeowners throughout Tampa Bay, including Tampa, Valrico, Brandon, Riverview, Lithia, Plant City, Apollo Beach, Wesley Chapel, and surrounding communities.',
   },
 ]
 
@@ -247,8 +252,8 @@ export function HomeClient() {
         </section>
       )}
 
-      {/* Gallery Preview */}
-      {gallery.length > 0 && (
+      {/* Gallery Preview — hidden */}
+      {/* {gallery.length > 0 && (
         <section className="section-padding bg-white">
           <div className="container-custom">
             <SectionWrapper
@@ -259,7 +264,7 @@ export function HomeClient() {
             </SectionWrapper>
           </div>
         </section>
-      )}
+      )} */}
 
       {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
       <WhyChooseSection data={whyChooseSection} />
