@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata = {
   title: {
     default: 'Cabinets & Remodeling Depot | Tampa Kitchen & Bathroom Remodeling',
-    template: '%s | Cabinets & Remodeling Depot',
+    template: '%s',
   },
   description:
     'Expert kitchen remodeling, bathroom renovation, custom cabinets, quartz & granite countertops, and flooring in Tampa Bay. Free in-home estimates.',
