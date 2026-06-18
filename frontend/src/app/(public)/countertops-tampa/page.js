@@ -1,4 +1,8 @@
-import { CountertopsPageClient } from '@/components/sections/CountertopsPageClient'
+import dynamic from 'next/dynamic'
+const CountertopsPageClient = dynamic(
+  () => import('@/components/sections/CountertopsPageClient').then(m => ({ default: m.CountertopsPageClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',

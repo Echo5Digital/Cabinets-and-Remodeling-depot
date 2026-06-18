@@ -1,4 +1,8 @@
-import { LaminateFlooringPageClient } from '@/components/sections/LaminateFlooringPageClient'
+import dynamic from 'next/dynamic'
+const LaminateFlooringPageClient = dynamic(
+  () => import('@/components/sections/LaminateFlooringPageClient').then(m => ({ default: m.LaminateFlooringPageClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot',

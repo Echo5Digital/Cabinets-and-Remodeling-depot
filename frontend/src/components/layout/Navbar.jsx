@@ -82,11 +82,11 @@ export function Navbar() {
                         className={cn(
                           'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors',
                           linkHoverColor,
-                          pathname.startsWith('/kitchen') ||
-                          pathname.startsWith('/bathroom') ||
-                          pathname.startsWith('/cabinets') ||
-                          pathname.startsWith('/countertops') ||
-                          pathname.startsWith('/flooring') ||
+                          pathname.startsWith('/kitchen-remodeling-tampa') ||
+                          pathname.startsWith('/bathroom-remodeling-tampa') ||
+                          pathname.startsWith('/in-stock-cabinets') ||
+                          pathname.startsWith('/countertops-tampa') ||
+                          pathname.startsWith('/flooring-in-tampa') ||
                           pathname === '/services'
                             ? linkActiveColor
                             : linkInactiveColor

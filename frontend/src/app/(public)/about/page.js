@@ -1,4 +1,8 @@
-import { AboutClient } from './AboutClient'
+import dynamic from 'next/dynamic'
+const AboutClient = dynamic(
+  () => import('./AboutClient').then(m => ({ default: m.AboutClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'About Us | Cabinets & Remodeling Depot',

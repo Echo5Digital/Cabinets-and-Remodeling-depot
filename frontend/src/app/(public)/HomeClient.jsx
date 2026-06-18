@@ -5,22 +5,23 @@ import { useProjects } from '@/hooks/useProjects'
 import { useBlogs } from '@/hooks/useBlogs'
 import { useGallery } from '@/hooks/useGallery'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
+import dynamic from 'next/dynamic'
 import { HeroSection } from '@/components/sections/HeroSection'
-import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
-import { GalleryGrid } from '@/components/sections/GalleryGrid'
-import { FAQSection } from '@/components/sections/FAQSection'
-import { BlogGrid } from '@/components/sections/BlogGrid'
-import { ShowroomSection } from '@/components/sections/ShowroomSection'
-import { ServiceAreasSection } from '@/components/sections/ServiceAreasSection'
-import { AffordableCabinetsSection } from '@/components/sections/AffordableCabinetsSection'
-import { TransformationSection } from '@/components/sections/TransformationSection'
-import { ProfessionalInstallationSection } from '@/components/sections/ProfessionalInstallationSection'
 import { CompleteReModelingSolutionsSection } from '@/components/sections/CompleteReModelingSolutionsSection'
-import { WhyChooseSection } from '@/components/sections/WhyChooseSection'
-import { PartnersSection } from '@/components/sections/PartnersSection'
-import { ClientSuccessSection } from '@/components/sections/ClientSuccessSection'
-import { HowItWorksSection } from '@/components/sections/HowItWorksSection'
-import { PreFooterSection } from '@/components/sections/PreFooterSection'
+const ShowroomSection            = dynamic(() => import('@/components/sections/ShowroomSection').then(m => ({ default: m.ShowroomSection })))
+const ServiceAreasSection        = dynamic(() => import('@/components/sections/ServiceAreasSection').then(m => ({ default: m.ServiceAreasSection })))
+const AffordableCabinetsSection  = dynamic(() => import('@/components/sections/AffordableCabinetsSection').then(m => ({ default: m.AffordableCabinetsSection })))
+const HowItWorksSection          = dynamic(() => import('@/components/sections/HowItWorksSection').then(m => ({ default: m.HowItWorksSection })))
+const TransformationSection      = dynamic(() => import('@/components/sections/TransformationSection').then(m => ({ default: m.TransformationSection })))
+const ProfessionalInstallationSection = dynamic(() => import('@/components/sections/ProfessionalInstallationSection').then(m => ({ default: m.ProfessionalInstallationSection })))
+const ProjectsGrid               = dynamic(() => import('@/components/sections/ProjectsGrid').then(m => ({ default: m.ProjectsGrid })))
+const GalleryGrid                = dynamic(() => import('@/components/sections/GalleryGrid').then(m => ({ default: m.GalleryGrid })))
+const WhyChooseSection           = dynamic(() => import('@/components/sections/WhyChooseSection').then(m => ({ default: m.WhyChooseSection })))
+const ClientSuccessSection       = dynamic(() => import('@/components/sections/ClientSuccessSection').then(m => ({ default: m.ClientSuccessSection })))
+const PartnersSection            = dynamic(() => import('@/components/sections/PartnersSection').then(m => ({ default: m.PartnersSection })))
+const BlogGrid                   = dynamic(() => import('@/components/sections/BlogGrid').then(m => ({ default: m.BlogGrid })))
+const FAQSection                 = dynamic(() => import('@/components/sections/FAQSection').then(m => ({ default: m.FAQSection })))
+const PreFooterSection           = dynamic(() => import('@/components/sections/PreFooterSection').then(m => ({ default: m.PreFooterSection })))
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { BadgePercent, Store, Wrench, Star, Heart } from 'lucide-react'

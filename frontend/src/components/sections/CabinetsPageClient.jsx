@@ -3,20 +3,36 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { ZoomIn } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { ImageLightbox } from '@/components/common/ImageLightbox'
+import {
+  Package,
+  Wrench,
+  Building2,
+  CheckCircle,
+  Check,
+  ArrowRight,
+  ClipboardList,
+  Hammer,
+  MessageSquare,
+  Settings2,
+  Clock,
+  ShoppingBag,
+  ZoomIn,
+  Plus,
+  Minus,
+} from 'lucide-react'
 
+/* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
 function FadeIn({ children, delay = 0, className = '' }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay }}
+      transition={{ duration: 0.6, delay }}
       className={className}
     >
       {children}
@@ -24,170 +40,900 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
+/* ─── Section label component ───────────────────────────────────────────────── */
+function SectionLabel({ children }) {
+  return (
+    <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">
+      <span className="w-6 h-px bg-primary inline-block" />
+      {children}
+      <span className="w-6 h-px bg-primary inline-block" />
+    </p>
+  )
+}
+
+/* ─── Data ──────────────────────────────────────────────────────────────────── */
+const TRUST_ITEMS = [
+  { icon: Package,   line1: 'In-Stock',        line2: 'Inventory Available' },
+  { icon: Check,     line1: 'Affordable',       line2: 'Cabinet Options' },
+  { icon: Wrench,    line1: 'Professional',     line2: 'Installation' },
+  { icon: Building2, line1: 'Valrico',          line2: 'Showroom' },
+]
+
+const CABINET_OPTIONS = [
+  {
+    image: '/instock-cabinets-1.jpg',
+    alt: 'Stock cabinets Tampa',
+    title: 'Stock Cabinets',
+    description:
+      'Stock cabinets are a popular solution for homeowners who want quality cabinetry without long lead times. Available in standard sizes and styles, ideal for faster remodeling projects.',
+  },
+  {
+    image: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg',
+    alt: 'Semi-custom cabinets Tampa',
+    title: 'Semi-Custom Cabinets',
+    description:
+      'Semi-custom cabinets offer additional flexibility in finishes, storage features, and configurations while maintaining a more manageable budget than fully custom options.',
+  },
+  {
+    image: '/instock-cabinets-2.jpg',
+    alt: 'Ready-to-install cabinets Tampa',
+    title: 'Ready-to-Install Cabinets',
+    description:
+      'Ready-to-install cabinets provide homeowners with an efficient way to upgrade their kitchen while reducing project timelines and simplifying the remodeling process.',
+  },
+  {
+    image: '/cabinet_remodeling_kitchen-03.webp',
+    alt: 'Cabinet replacement solutions Tampa',
+    title: 'Cabinet Replacement Solutions',
+    description:
+      "Replacing outdated cabinets can dramatically improve a kitchen's appearance and functionality without requiring a complete renovation.",
+  },
+]
+
+const WHY_CHOOSE = [
+  {
+    icon: Building2,
+    title: 'Local Valrico Showroom',
+    description:
+      'Explore cabinet styles, finishes, and design options in person before making important remodeling decisions.',
+  },
+  {
+    icon: Package,
+    title: 'In-Stock & Ready-to-Install Options',
+    description: 'Reduce wait times and move your project forward more efficiently.',
+  },
+  {
+    icon: Wrench,
+    title: 'Professional Installation Services',
+    description:
+      'Our experienced team ensures cabinets are installed with precision and attention to detail.',
+  },
+  {
+    icon: Settings2,
+    title: 'Personalized Design Guidance',
+    description:
+      'We help homeowners select cabinet solutions that align with their goals, lifestyle, and budget.',
+  },
+  {
+    icon: ShoppingBag,
+    title: 'One-Stop Remodeling Support',
+    description:
+      'From cabinets and countertops to flooring and renovation planning, we help simplify the remodeling process.',
+  },
+]
+
+const INSPIRATION_STYLES = [
+  'White Shaker Cabinets',
+  'Modern Flat-Panel Cabinets',
+  'Transitional Kitchen Designs',
+  'Traditional Raised-Panel Cabinets',
+  'Two-Tone Cabinet Combinations',
+  'Contemporary Storage Solutions',
+]
+
+const PROCESS_STEPS = [
+  {
+    step: '01',
+    icon: Building2,
+    title: 'Visit Our Showroom',
+    description: 'Explore cabinet displays, finishes, and design ideas in person.',
+  },
+  {
+    step: '02',
+    icon: ClipboardList,
+    title: 'Compare Cabinet Options',
+    description: 'Review stock, semi-custom, and ready-to-install solutions.',
+  },
+  {
+    step: '03',
+    icon: MessageSquare,
+    title: 'Receive Design Guidance',
+    description: 'Work with our team to select cabinetry that fits your space and budget.',
+  },
+  {
+    step: '04',
+    icon: Hammer,
+    title: 'Schedule Installation',
+    description: 'Coordinate professional installation and project planning.',
+  },
+  {
+    step: '05',
+    icon: CheckCircle,
+    title: 'Enjoy Your Updated Kitchen',
+    description:
+      'Experience a kitchen that feels more functional, organized, and visually appealing.',
+  },
+]
+
+const FAQS = [
+  {
+    question: 'Do you offer in-stock cabinets Tampa homeowners can purchase quickly?',
+    answer:
+      'Yes. We provide a wide selection of in-stock cabinets available for faster remodeling timelines.',
+  },
+  {
+    question: 'Are ready-to-install cabinets durable?',
+    answer:
+      'Absolutely. Many modern ready-to-install cabinets offer strong construction, reliable hardware, and long-lasting finishes.',
+  },
+  {
+    question: 'Can I view cabinet styles in person before purchasing?',
+    answer:
+      'Yes. Our Valrico showroom allows homeowners to compare cabinet finishes, storage features, and design combinations firsthand.',
+  },
+  {
+    question: 'Do you provide quick cabinet installation Tampa services?',
+    answer:
+      'Yes. We offer professional cabinet installation services throughout Tampa Bay and surrounding communities.',
+  },
+  {
+    question: "What's the difference between stock and semi-custom cabinets?",
+    answer:
+      'Stock cabinets come in standard sizes and configurations, while semi-custom cabinets offer greater flexibility in finishes, storage features, and design options.',
+  },
+]
+
 const CABINET_IMAGES = [
-  { src: '/ca1.png', alt: 'In-Stock Cabinet Style 1' },
-  { src: '/ca2.png', alt: 'In-Stock Cabinet Style 2' },
-  { src: '/ca4.png', alt: 'In-Stock Cabinet Style 4' },
-  { src: '/ca5.png', alt: 'In-Stock Cabinet Style 5' },
-  { src: '/ca6.png', alt: 'In-Stock Cabinet Style 6' },
-  { src: '/ca8.png', alt: 'In-Stock Cabinet Style 8' },
-  { src: '/ca9.png', alt: 'In-Stock Cabinet Style 9' },
+  { src: '/kitchen-remodel.webp',                            alt: 'Kitchen remodel with new cabinets Tampa' },
+  { src: '/kitchen-remodel-2.webp',                          alt: 'Modern kitchen cabinet remodel Tampa Bay' },
+  { src: '/kitchen_cabinet_4.jpg',                           alt: 'Custom kitchen cabinets Tampa showroom' },
+  { src: '/kitchen_cabinet_5.jpg',                           alt: 'Affordable kitchen cabinets Tampa' },
+  { src: '/kitchen-cabinet-2.jpg',                           alt: 'White shaker cabinets Tampa installation' },
+  { src: '/kitchen-cabinet-3.jpg',                           alt: 'In-stock kitchen cabinets Tampa Bay' },
+  { src: '/instock-cabinets-1.jpg',                          alt: 'In-stock cabinets available in Valrico showroom' },
+  { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Semi-custom cabinets and countertops Tampa' },
 ]
 
-const FEATURES = [
-  'We offer strong and sturdy frames',
-  'Better storage',
-  'Strong adjustable shelves',
-  'Dependable hinges',
-  'Excellent alignment',
-  'Moisture resistant cabinets',
-]
+/* ═══════════════════════════════════════════════════════════════════════════════
+   FAQ ACCORDION (inline, for split layout)
+══════════════════════════════════════════════════════════════════════════════ */
+function FAQAccordion({ faqs }) {
+  const [openIndex, setOpenIndex] = useState(0)
+  return (
+    <div className="space-y-3">
+      {faqs.map((faq, index) => {
+        const isOpen = openIndex === index
+        return (
+          <div
+            key={index}
+            className={`border rounded-lg overflow-hidden transition-shadow duration-200 ${
+              isOpen ? 'border-primary/30 shadow-sm' : 'border-gray-200'
+            }`}
+          >
+            <button
+              onClick={() => setOpenIndex(isOpen ? -1 : index)}
+              className="w-full flex items-start gap-3 px-4 py-4 text-left cursor-pointer"
+              aria-expanded={isOpen}
+            >
+              <span
+                className={`shrink-0 mt-0.5 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 ${
+                  isOpen ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500'
+                }`}
+              >
+                {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+              </span>
+              <span
+                className={`font-semibold text-sm md:text-base leading-snug ${
+                  isOpen ? 'text-primary' : 'text-gray-800'
+                }`}
+              >
+                {faq.question}
+              </span>
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  key="content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.28, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="pl-4 pr-4 pb-4 text-gray-500 leading-relaxed text-sm md:text-base">
+                    {faq.answer}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PAGE COMPONENT
+══════════════════════════════════════════════════════════════════════════════ */
 export function CabinetsPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
 
   return (
     <>
-      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="relative h-56 sm:h-72 md:h-80 overflow-hidden bg-gray-900">
-        <Image
-          src="/Cabinet-Slide-650x350-1.jpg"
-          alt="In-Stock Cabinets in Tampa, FL"
-          fill
-          className="object-cover object-top opacity-70"
-          priority
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/60" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-          <p className="text-white/70 text-xs sm:text-sm mb-3 uppercase tracking-widest">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            {' / '}
-            In-Stock Cabinets in Tampa, FL
-          </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-wide drop-shadow-lg">
-            In-Stock Cabinets In Tampa, FL
-          </h1>
-        </div>
-      </section>
+      {/* ════════════════════════════════════════════════════════════════════
+          1. HERO — full-bleed dark image (homepage style)
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="relative w-full min-h-105 sm:min-h-120 md:min-h-135 overflow-hidden flex items-center">
 
-      {/* ── Framed Heading ───────────────────────────────────────────────── */}
-      <section className="pt-10 pb-4 md:pt-14 md:pb-6 bg-white">
-        <div className="container-custom max-w-4xl text-center">
-          <div className="border border-gray-200 rounded-2xl p-8 md:p-12 shadow-sm">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/cabinet_fav.jpg"
-                alt="Cabinets & Remodeling Depot"
-                width={60}
-                height={60}
-                className="rounded-full object-cover"
-              />
+        {/* Background image — direct child of relative section (same as kitchen page) */}
+        <Image
+          src="/beautiful-shot-modern-house-kitchen.jpg"
+          alt="In-stock cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+
+        {/* Base dark wash */}
+        <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.50)' }} />
+        {/* Directional overlay — heavier left for text, opens right */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(105deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0.00) 100%)',
+          }}
+        />
+        {/* Bottom vignette */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 38%)' }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 w-full py-14 sm:py-16 md:py-20">
+          <div className="container-custom max-w-7xl">
+            <div className="max-w-2xl lg:max-w-3xl">
+
+              {/* Section label */}
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-white/80 mb-3 sm:mb-5"
+                style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
+              >
+                Serving Tampa Bay From Our Valrico Showroom
+              </motion.p>
+
+              {/* H1 — two-tone */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.1 }}
+                className="text-[1.6rem] sm:text-[2rem] lg:text-[2.5rem] xl:text-[2.9rem] font-extrabold leading-[1.12] mb-3 sm:mb-5"
+                style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
+              >
+                <span className="block text-primary">In-Stock Cabinets Tampa &ndash;</span>
+                <span className="block text-white font-normal mt-1 leading-snug">
+                  Affordable &amp; Ready-to-Install Cabinet Solutions
+                </span>
+              </motion.h1>
+
+              {/* Accent divider */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.45, delay: 0.2 }}
+                className="flex items-center gap-3 mb-3 sm:mb-6"
+              >
+                <div className="h-[3px] w-10 rounded-full bg-primary" />
+                <div className="h-px w-24 rounded-full bg-white/35" />
+              </motion.div>
+
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.28 }}
+                className="text-white text-xs sm:text-sm lg:text-base leading-relaxed mb-5 sm:mb-8 max-w-xl"
+                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.55)' }}
+              >
+                Explore quality in-stock kitchen cabinets, affordable cabinet options, and
+                professional installation services from our Valrico showroom.
+              </motion.p>
+
+              {/* Single CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.38 }}
+                className="mb-5 sm:mb-8"
+              >
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white font-bold text-sm sm:text-base tracking-wide px-8 sm:px-10 h-12 sm:h-14 uppercase rounded-lg shadow-lg shadow-black/30 transition-colors"
+                >
+                  Request Cabinet Pricing
+                </Link>
+              </motion.div>
+
+              {/* Trust chips */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex flex-wrap gap-2 sm:gap-3"
+              >
+                {TRUST_ITEMS.map(({ line1, line2 }) => (
+                  <span
+                    key={line1}
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white/90 border border-white/25 rounded-full px-3 sm:px-4 py-1.5 sm:py-2"
+                    style={{ background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)' }}
+                  >
+                    <Check className="w-3.5 h-3.5 text-primary shrink-0" strokeWidth={3} />
+                    {line1} {line2}
+                  </span>
+                ))}
+              </motion.div>
+
             </div>
-            <h2 className="text-2xl md:text-4xl font-bold uppercase tracking-wide text-gray-900 mb-1">
-              Affordable In-Stock Cabinets In Valrico &amp; Tampa, FL
-            </h2>
-            <p className="text-sm text-muted-foreground uppercase tracking-widest mt-2">
-              Tampa, Florida
-            </p>
           </div>
         </div>
       </section>
 
-      {/* ── Main Content ─────────────────────────────────────────────────── */}
-      <section className="pt-6 pb-10 md:pt-8 md:pb-14 bg-white">
-        <div className="container-custom max-w-4xl">
+      {/* ════════════════════════════════════════════════════════════════════
+          2. AFFORDABLE CABINET SOLUTIONS WITHOUT THE LONG WAIT
+             image left | text right
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-gray-50 overflow-hidden">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
-          <FadeIn>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
-              Cabinets &amp; Remodeling Depot Offers The Best In-Stock Cabinets With Free Estimates
+            {/* Left — image */}
+            <FadeIn className="relative">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="/Budget-kitchen-remodel-Tampa-featuring-affordable-upgrades-and-modern-finishes.jpg"
+                  alt="Affordable in-stock cabinets Tampa"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
+            </FadeIn>
+
+            {/* Right — text */}
+            <FadeIn delay={0.1} className="flex flex-col gap-4">
+              <div>
+                <SectionLabel>Affordable Cabinet Solutions</SectionLabel>
+                <h2 className="text-2xl sm:text-3xl md:text-[2.2rem] font-extrabold text-gray-900 leading-tight">
+                  Affordable Cabinet Solutions{' '}
+                  <span className="text-primary">Without the Long Wait</span>
+                </h2>
+              </div>
+              <div className="space-y-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p>
+                  Kitchen remodeling projects don&rsquo;t always require lengthy manufacturing
+                  timelines or expensive custom orders. Many homeowners simply want quality
+                  cabinetry that looks great, functions efficiently, and can be installed quickly.
+                  At Cabinets &amp; Remodeling Depot, we offer in-stock cabinets Tampa homeowners
+                  can rely on for faster renovations, practical budgets, and lasting performance.
+                </p>
+                <p>
+                  Whether you&rsquo;re replacing outdated cabinets, preparing a home for sale,
+                  or updating your kitchen to better suit your family&rsquo;s needs, our team
+                  helps you find affordable cabinet solutions that balance style, durability,
+                  and value.
+                </p>
+              </div>
+              <div className="pt-1">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-xs h-11 px-6 rounded-lg transition-colors shadow-md shadow-primary/20"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </FadeIn>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          3. READY-TO-INSTALL CABINETS — VIEW IN PERSON
+             text left | image right
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-white overflow-hidden">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+            {/* Left — text */}
+            <FadeIn className="flex flex-col gap-4">
+              <div>
+                <SectionLabel>Valrico Showroom</SectionLabel>
+                <h2 className="text-2xl sm:text-3xl md:text-[2.2rem] font-extrabold text-gray-900 leading-tight">
+                  Ready-to-Install Cabinets Tampa{' '}
+                  <span className="text-primary">Homeowners Can View in Person</span>
+                </h2>
+              </div>
+              <div className="space-y-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p>
+                  Online photos only tell part of the story. Cabinet finishes, construction quality,
+                  storage features, and color variations often look very different in person.
+                </p>
+                <p>
+                  That&rsquo;s why many homeowners searching for stock kitchen cabinets Tampa
+                  Valrico showroom options visit us to compare products firsthand.
+                </p>
+                <p className="font-medium text-gray-700">At our showroom, you can explore:</p>
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2">
+                {[
+                  'Cabinet colors and finishes',
+                  'Shaker, traditional, and modern door styles',
+                  'Soft-close cabinet features',
+                  'Storage and organization solutions',
+                  'Kitchen layout ideas',
+                  'Countertop and flooring combinations',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                    <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-primary" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                Seeing cabinets in person helps homeowners make confident decisions while ensuring
+                the final design fits both their space and lifestyle.
+              </p>
+            </FadeIn>
+
+            {/* Right — image */}
+            <FadeIn delay={0.1} className="relative">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="/Kitchen-Cabinet-Showroom-Tampa.jpg"
+                  alt="Visit our Valrico showroom to view in-stock cabinets Tampa"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="absolute -bottom-3 -left-3 w-24 h-24 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
+            </FadeIn>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          4. CABINET OPTIONS AVAILABLE — 4 image cards
+      ════════════════════════════════════════════════════════════════════ */}
+      <section id="cabinet-options" className="py-14 md:py-20 bg-gray-50">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-10">
+            <SectionLabel>What We Offer</SectionLabel>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+              Cabinet Options <span className="text-primary">Available</span>
             </h2>
           </FadeIn>
 
-          <FadeIn delay={0.1} className="space-y-5 text-gray-700 text-base leading-relaxed mb-8">
-            <p>
-              At Cabinets &amp; Remodeling Depot we carry elegant Kitchen designs from our new in-stock
-              Aristokraft cabinets, which provides our customers with exceptional cabinets at a great
-              value. Stop by to see our in-stock cabinets that are stocked at our showroom and check
-              them out for yourself or call us at 813-651-5333 for a free estimate!
-            </p>
-            <p>
-              Cabinets &amp; Remodeling Depot has the best Kitchen cabinets in the greater Tampa area.
-              We only offer the BEST brands with cabinets that are crafted with long lasting materials
-              and beautiful finishes. You must stop by and see our outstanding cabinets, its best that
-              you see our cabinets in person.
-            </p>
-            <p>
-              In addition, Cabinets &amp; Remodeling Depot also offers custom cabinets for our customers
-              who want to personalize their cabinets. We offer the best deals in Tampa, Valrico Florida
-              for custom cabinets, so be sure to check us out!
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.2} className="mb-6">
-            <p className="text-gray-700 text-base font-medium mb-4">
-              Here are the reasons why Cabinet &amp; Remodeling Depot have cabinets that are worth buying:
-            </p>
-            <ul className="space-y-3">
-              {FEATURES.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-gray-700 text-base">
-                  <span className="text-primary font-bold text-lg leading-tight mt-0.5 shrink-0">✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
-
-          <FadeIn delay={0.3}>
-            <p className="text-gray-700 text-base leading-relaxed">
-              Cabinets And Remodeling Depot provides you with the best in-stock cabinets in Tampa.
-            </p>
-          </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {CABINET_OPTIONS.map(({ image, alt, title, description }, i) => (
+              <FadeIn key={title} delay={i * 0.07}>
+                <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full">
+                  {/* Card image */}
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={image}
+                      alt={alt}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                    />
+                  </div>
+                  {/* Card content */}
+                  <div className="p-5 flex flex-col gap-2 flex-1">
+                    <h3 className="font-bold text-gray-900 text-base leading-snug">{title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
 
         </div>
       </section>
 
-      {/* ── Cabinet Image Gallery ────────────────────────────────────────── */}
-      <section className="pb-8 bg-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {CABINET_IMAGES.map(({ src, alt }, i) => (
-              <FadeIn key={src} delay={i * 0.05}>
+      {/* ════════════════════════════════════════════════════════════════════
+          5. AFFORDABLE CABINETS WITHOUT SACRIFICING QUALITY
+             text left | image right
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-white overflow-hidden">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+            {/* Left — text */}
+            <FadeIn className="flex flex-col gap-4">
+              <div>
+                <SectionLabel>Quality Without Compromise</SectionLabel>
+                <h2 className="text-2xl sm:text-3xl md:text-[2.2rem] font-extrabold text-gray-900 leading-tight">
+                  Affordable Cabinets Tampa{' '}
+                  <span className="text-primary">Without Sacrificing Quality</span>
+                </h2>
+              </div>
+              <div className="space-y-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p>
+                  Affordable cabinetry should still feel durable, functional, and professionally finished.
+                </p>
+                <p>
+                  Many homeowners assume budget cabinets Tampa projects automatically mean lower
+                  quality, but modern in-stock cabinet solutions often deliver excellent durability,
+                  attractive finishes, and reliable performance.
+                </p>
+                <p className="font-medium text-gray-700">
+                  Our team helps homeowners compare options based on:
+                </p>
+              </div>
+              <ul className="grid grid-cols-2 gap-x-5 gap-y-2">
+                {[
+                  'Kitchen layout',
+                  'Storage requirements',
+                  'Budget expectations',
+                  'Remodeling timeline',
+                  'Design preferences',
+                  'Long-term durability',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                    <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-primary" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                We focus on helping clients choose cabinetry that offers the right balance of
+                value and performance.
+              </p>
+            </FadeIn>
+
+            {/* Right — image */}
+            <FadeIn delay={0.1} className="relative">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="/kitchen_cabinet_5.jpg"
+                  alt="Affordable quality cabinets Tampa"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
+            </FadeIn>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          6. QUICK CABINET INSTALLATION TAMPA SERVICES
+             image left | text right
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-gray-50 overflow-hidden">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+            {/* Left — image */}
+            <FadeIn className="relative">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="/kitchen_cabinet_remodeling-01.webp"
+                  alt="Quick cabinet installation Tampa services"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
+            </FadeIn>
+
+            {/* Right — text */}
+            <FadeIn delay={0.1} className="flex flex-col gap-4">
+              <div>
+                <SectionLabel>Professional Installation</SectionLabel>
+                <h2 className="text-2xl sm:text-3xl md:text-[2.2rem] font-extrabold text-gray-900 leading-tight">
+                  Quick Cabinet Installation{' '}
+                  <span className="text-primary">Tampa Services</span>
+                </h2>
+              </div>
+              <div className="space-y-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p>
+                  Fast cabinet availability only delivers results when installation is handled properly.
+                </p>
+                <p>
+                  Our quick cabinet installation Tampa services help homeowners complete projects
+                  efficiently while maintaining professional installation standards.
+                </p>
+                <p className="font-medium text-gray-700">Services include:</p>
+              </div>
+              <ul className="grid grid-cols-2 gap-x-5 gap-y-2">
+                {[
+                  'In-stock cabinet installation',
+                  'Kitchen cabinet replacement',
+                  'Layout planning',
+                  'Countertop coordination',
+                  'Remodeling support',
+                  'Installation guidance',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                    <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-primary" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                Even small cabinet upgrades can significantly improve kitchen functionality and
+                everyday convenience.
+              </p>
+              <div className="pt-1">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-xs h-11 px-6 rounded-lg transition-colors shadow-md shadow-primary/20"
+                >
+                  Request Cabinet Pricing
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </FadeIn>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          7. WHY HOMEOWNERS CHOOSE — 5 icon cards
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-white">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-10">
+            <SectionLabel>Why Homeowners Choose</SectionLabel>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900">
+              Cabinets &amp; Remodeling Depot
+            </h2>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
+              <FadeIn key={title} delay={i * 0.07}>
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center gap-3 h-full hover:shadow-md hover:border-primary/20 transition-all duration-200">
+                  <div className="w-12 h-12 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm mb-1.5 leading-snug">{title}</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed">{description}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          8. KITCHEN CABINET INSPIRATION — gallery grid + button
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-gray-50">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-8">
+            <SectionLabel>Kitchen Cabinet Inspiration</SectionLabel>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">
+              Kitchen Cabinet{' '}
+              <span className="text-primary">Inspiration</span>
+            </h2>
+            <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-4">
+              Whether you&rsquo;re drawn to clean modern designs or timeless traditional styles,
+              exploring different cabinet options can help you visualize your ideal kitchen.
+            </p>
+            <p className="text-gray-700 text-sm font-semibold mb-3">Popular styles include:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {INSPIRATION_STYLES.map((style) => (
+                <span
+                  key={style}
+                  className="inline-flex items-center gap-1.5 bg-white border border-primary/20 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm"
+                >
+                  <Check className="w-3 h-3 text-primary shrink-0" />
+                  {style}
+                </span>
+              ))}
+            </div>
+          </FadeIn>
+
+          {/* Gallery grid */}
+          <FadeIn delay={0.1}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {CABINET_IMAGES.map(({ src, alt }, i) => (
                 <div
-                  className="aspect-square relative overflow-hidden rounded-lg shadow-sm cursor-pointer group"
+                  key={src}
+                  className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm cursor-pointer group hover:shadow-md transition-shadow duration-200"
                   onClick={() => setLightboxIndex(i)}
                 >
                   <Image
                     src={src}
                     alt={alt}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 14vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-400"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center pointer-events-none">
                     <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6" />
                   </div>
                 </div>
-              </FadeIn>
-            ))}
+              ))}
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.15} className="text-center mt-8">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-xs h-11 px-8 rounded-lg transition-colors"
+            >
+              View More Cabinet Inspiration
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          9. OUR CABINET SELECTION PROCESS — 5 numbered steps
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-white">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-12">
+            <SectionLabel>Our Cabinet Selection Process</SectionLabel>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900">
+              How We Help You{' '}
+              <span className="text-primary">Find the Right Cabinets</span>
+            </h2>
+          </FadeIn>
+
+          <div className="relative">
+            {/* Connecting line — desktop only */}
+            <div className="hidden lg:block absolute top-8 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
+              {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
+                <FadeIn key={step} delay={i * 0.09}>
+                  <div className="relative z-10 flex flex-col items-center text-center gap-3">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full bg-primary shadow-md shadow-primary/30 flex items-center justify-center">
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-primary text-primary text-[10px] font-extrabold flex items-center justify-center leading-none">
+                        {i + 1}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-sm mb-1">{title}</h3>
+                      <p className="text-gray-500 text-xs leading-relaxed">{description}</p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          10. FAQ + SIDE CTA PANEL
+              left: accordion | right: image card with CTA
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-gray-50">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-12 items-start">
+
+            {/* Left — FAQ accordion (3/5 width) */}
+            <FadeIn className="lg:col-span-3 flex flex-col gap-6">
+              <div>
+                <SectionLabel>Have Questions?</SectionLabel>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900">
+                  Frequently Asked{' '}
+                  <span className="text-primary">Questions</span>
+                </h2>
+              </div>
+              <FAQAccordion faqs={FAQS} />
+            </FadeIn>
+
+            {/* Right — CTA image card (2/5 width) */}
+            <FadeIn delay={0.12} className="lg:col-span-2">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl min-h-105 flex flex-col justify-end">
+                {/* Background image */}
+                <Image
+                  src="/Modern-kitchen-renovation-Tampa-completed-project.jpg"
+                  alt="Visit our Valrico cabinet showroom today"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/10" />
+
+                {/* CTA content */}
+                <div className="relative z-10 p-6 flex flex-col gap-4">
+                  <div>
+                    <p className="italic text-white/80 text-base font-medium leading-tight mb-1">
+                      Visit Our Valrico
+                    </p>
+                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                      Cabinet Showroom{' '}
+                      <span className="text-white/80">Today</span>
+                    </h3>
+                  </div>
+                  <p className="text-white/75 text-sm leading-relaxed">
+                    Whether you&rsquo;re replacing outdated cabinets, planning a renovation, or
+                    searching for affordable ready-to-install solutions, our team is here to help.
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-xs h-11 px-6 rounded-lg transition-colors shadow-md"
+                    >
+                      Visit Our Showroom
+                    </Link>
+                    <div className="flex gap-2">
+                      <Link
+                        href="/contact"
+                        className="flex-1 inline-flex items-center justify-center gap-1 border border-white/50 text-white hover:bg-white/10 font-bold uppercase tracking-wider text-[10px] h-10 px-3 rounded-lg transition-colors text-center"
+                      >
+                        Request Cabinet Pricing
+                      </Link>
+                      <Link
+                        href="/contact"
+                        className="flex-1 inline-flex items-center justify-center gap-1 border border-white/50 text-white hover:bg-white/10 font-bold uppercase tracking-wider text-[10px] h-10 px-3 rounded-lg transition-colors text-center"
+                      >
+                        Free Consultation
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
           </div>
         </div>
       </section>
 
-      {/* ── Contact CTA ──────────────────────────────────────────────────── */}
-      <section className="pt-6 pb-14 md:pt-8 md:pb-20 bg-white">
-        <div className="container-custom">
-          <FadeIn>
-            <Button
-              asChild
-              size="lg"
-              className="w-full bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14"
-            >
-              <Link href="/contact">Contact Us</Link>
-            </Button>
-          </FadeIn>
-        </div>
-      </section>
-
+      {/* Lightbox */}
       <ImageLightbox
         images={CABINET_IMAGES}
         currentIndex={lightboxIndex}

@@ -1,4 +1,8 @@
-import { BlogListClient } from './BlogListClient'
+import dynamic from 'next/dynamic'
+const BlogListClient = dynamic(
+  () => import('./BlogListClient').then(m => ({ default: m.BlogListClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Our Blogs - Cabinet and Remodeling Depot',

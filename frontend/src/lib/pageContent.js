@@ -412,12 +412,12 @@ const PAGE_DEFAULT_SECTIONS = {
       description: 'Cabinets & Remodeling Depot offers more than cabinetry alone. Our showroom provides access to complete kitchen and remodeling solutions, including:',
       closingText: 'Our goal is to help homeowners create spaces that feel comfortable, functional, and built to last.',
       items: [
-        { label: 'Kitchen Remodeling', desc: 'Full kitchen remodels tailored to your style and budget.', image: '/07_img.jpg', href: '/kitchen-remodeling' },
-        { label: 'Bathroom Remodeling', desc: 'Beautiful, functional bathrooms designed for everyday living.', image: '/06_img.webp', href: '/bathroom-remodeling' },
-        { label: 'Kitchen Cabinets', desc: 'Quality cabinets in a variety of styles and finishes.', image: '/1_img.jpg', href: '/cabinets' },
-        { label: 'Countertops', desc: 'Quartz, granite, marble, quartzite & porcelain.', image: '/03_img.webp', href: '/countertops' },
-        { label: 'In-Stock Cabinets', desc: 'Ready-to-install cabinets available for faster delivery.', image: '/05_img.jpg', href: '/cabinets' },
-        { label: 'Flooring', desc: 'Durable, beautiful flooring for every room.', image: '/2_img.webp', href: '/flooring' },
+        { label: 'Kitchen Remodeling', desc: 'Full kitchen remodels tailored to your style and budget.', image: '/07_img.jpg', href: '/kitchen-remodeling-tampa' },
+        { label: 'Bathroom Remodeling', desc: 'Beautiful, functional bathrooms designed for everyday living.', image: '/06_img.webp', href: '/bathroom-remodeling-tampa' },
+        { label: 'Kitchen Cabinets', desc: 'Quality cabinets in a variety of styles and finishes.', image: '/1_img.jpg', href: '/in-stock-cabinets' },
+        { label: 'Countertops', desc: 'Quartz, granite, marble, quartzite & porcelain.', image: '/03_img.webp', href: '/countertops-tampa' },
+        { label: 'In-Stock Cabinets', desc: 'Ready-to-install cabinets available for faster delivery.', image: '/05_img.jpg', href: '/in-stock-cabinets' },
+        { label: 'Flooring', desc: 'Durable, beautiful flooring for every room.', image: '/2_img.webp', href: '/flooring-in-tampa' },
       ],
     },
     {

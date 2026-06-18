@@ -56,7 +56,7 @@ export function LaminateFlooringPageClient() {
   return (
     <>
       {/* ── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="relative h-56 sm:h-72 md:h-80 overflow-hidden bg-gray-900">
+      <section className="relative h-48 sm:h-64 md:h-72 overflow-hidden bg-gray-900">
         <Image
           src="/L1-.jpeg"
           alt="Laminate Flooring in Tampa, FL"
@@ -69,7 +69,7 @@ export function LaminateFlooringPageClient() {
           <p className="text-white/70 text-xs sm:text-sm mb-3 uppercase tracking-widest">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             {' / '}
-            <Link href="/flooring" className="hover:text-white transition-colors">Flooring</Link>
+            <Link href="/flooring-in-tampa" className="hover:text-white transition-colors">Flooring</Link>
             {' / '}
             Laminate Flooring in Tampa, FL
           </p>
@@ -130,7 +130,7 @@ export function LaminateFlooringPageClient() {
               </Link>{' '}
               to check out our showroom to view flooring samples and talk with our experts.
               Cabinets And Remodeling Depot provides you with the Best{' '}
-              <Link href="/flooring" className="text-primary font-semibold hover:underline underline-offset-2">
+              <Link href="/flooring-in-tampa" className="text-primary font-semibold hover:underline underline-offset-2">
                 Flooring In Tampa
               </Link>
               .

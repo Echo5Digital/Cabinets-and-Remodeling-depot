@@ -1,4 +1,8 @@
-import { WoodenFlooringPageClient } from '@/components/sections/WoodenFlooringPageClient'
+import dynamic from 'next/dynamic'
+const WoodenFlooringPageClient = dynamic(
+  () => import('@/components/sections/WoodenFlooringPageClient').then(m => ({ default: m.WoodenFlooringPageClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot',

@@ -53,7 +53,7 @@ export function TilesPageClient() {
   return (
     <>
       {/* ── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="relative h-56 sm:h-72 md:h-80 overflow-hidden bg-gray-900">
+      <section className="relative h-48 sm:h-64 md:h-72 overflow-hidden bg-gray-900">
         <Image
           src="/porcelain.webp"
           alt="Tiles in Tampa, FL"
@@ -66,7 +66,7 @@ export function TilesPageClient() {
           <p className="text-white/70 text-xs sm:text-sm mb-3 uppercase tracking-widest">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             {' / '}
-            <Link href="/flooring" className="hover:text-white transition-colors">Flooring</Link>
+            <Link href="/flooring-in-tampa" className="hover:text-white transition-colors">Flooring</Link>
             {' / '}
             Tiles In Tampa, FL
           </p>
@@ -144,7 +144,7 @@ export function TilesPageClient() {
             </p>
             <p>
               Cabinets And Remodeling Depot provides you with the{' '}
-              <Link href="/flooring" className="text-primary font-semibold hover:underline underline-offset-2">
+              <Link href="/flooring-in-tampa" className="text-primary font-semibold hover:underline underline-offset-2">
                 Best Flooring Stores Tampa
               </Link>. Give us a
               call at 813-651-5333 and get your free in-home estimate scheduled right there and

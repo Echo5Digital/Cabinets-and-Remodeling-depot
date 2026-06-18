@@ -4,18 +4,37 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Button } from '@/components/ui/button'
 import { FAQSection } from '@/components/sections/FAQSection'
-import { ConsultationForm } from '@/components/forms/ConsultationForm'
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  MapPin,
+  Calendar,
+  Building2,
+  Wrench,
+  Star,
+  ShieldCheck,
+  Palette,
+  CheckCircle,
+  Check,
+  ArrowRight,
+  ClipboardList,
+  Hammer,
+  Search,
+  MessageSquare,
+  Settings2,
+  ChevronRight,
+  Quote,
+} from 'lucide-react'
 
+/* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
 function FadeIn({ children, delay = 0, className = '' }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 })
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay }}
+      transition={{ duration: 0.6, delay }}
       className={className}
     >
       {children}
@@ -23,207 +42,326 @@ function FadeIn({ children, delay = 0, className = '' }) {
   )
 }
 
+/* ─── Data ──────────────────────────────────────────────────────────────────── */
+const TRUST_ITEMS = [
+  { icon: Calendar,  label: 'Free Estimates' },
+  { icon: Building2, label: 'Valrico Showroom' },
+  { icon: Wrench,    label: 'Professional Installation' },
+  { icon: Star,      label: '5-Star Rated' },
+]
 
-const FAQS = [
+const WHY_CHOOSE = [
   {
-    question: 'Do you offer complete kitchen remodel Tampa services?',
-    answer:
-      'Yes. We provide full kitchen remodeling services including cabinets, countertops, flooring, design support, and installation.',
+    icon: Building2,
+    title: 'Local Valrico Showroom',
+    description: 'Explore cabinets, countertops, finishes, and design options in person before making important decisions.',
   },
   {
-    question: 'Can I visit your showroom before starting my kitchen renovation?',
-    answer:
-      'Absolutely. Our Valrico showroom allows homeowners to compare materials, layouts, and finishes in person.',
+    icon: Settings2,
+    title: 'Complete Remodeling Solutions',
+    description: 'From cabinetry and countertops to flooring and finishing touches, we provide comprehensive kitchen renovation services.',
   },
   {
-    question: 'Do you help with kitchen design?',
-    answer:
-      'Yes. Our tampa kitchen design team helps homeowners create layouts that improve functionality, storage, and overall kitchen flow.',
+    icon: Wrench,
+    title: 'Professional Installation',
+    description: 'Our experienced team ensures every component is installed with precision and attention to detail.',
   },
   {
-    question: 'Do you work on smaller kitchen renovation projects?',
-    answer:
-      "Yes. We work on both complete renovations and smaller kitchen upgrades depending on the homeowner's goals and budget.",
+    icon: Palette,
+    title: 'Personalized Design Guidance',
+    description: 'We help homeowners create kitchens that reflect their style while maximizing storage, workflow, and comfort.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Quality Products',
+    description: 'Choose from trusted materials, modern designs, and durable finishes built to withstand daily use.',
   },
 ]
 
-// ── Page ───────────────────────────────────────────────────────────────────────
-export function KitchenRemodelingPageClient() {
+const SERVICES = [
+  {
+    image: '/07_img.jpg',
+    alt: 'Kitchen design and planning Tampa Bay',
+    title: 'Kitchen Design & Planning',
+    href: '/contact',
+    description: 'Thoughtful planning that balances aesthetics, functionality, and your lifestyle needs.',
+    paragraphs: [
+      'Every successful kitchen remodel starts with thoughtful planning. Our team works closely with homeowners to understand their goals, evaluate the existing space, and develop a design that balances aesthetics with functionality.',
+      "Whether you're seeking a contemporary kitchen, a timeless traditional style, or a completely customized layout, we help bring your ideas to life.",
+    ],
+  },
+  {
+    image: '/1_img.jpg',
+    alt: 'Cabinet solutions Tampa Bay',
+    title: 'Cabinet Solutions',
+    href: '/in-stock-cabinets',
+    description: 'Stock, semi-custom, and custom cabinetry to fit your style, budget, and storage needs.',
+    paragraphs: [
+      'Cabinets play a major role in both the appearance and functionality of your kitchen. We offer a variety of options, including stock, semi-custom, and custom cabinetry to fit different budgets and design preferences.',
+      'Our design team can help you select cabinet styles, finishes, storage features, and organizational solutions that maximize efficiency while enhancing visual appeal.',
+    ],
+  },
+  {
+    image: '/03_img.webp',
+    alt: 'Countertops and surfaces Tampa Bay',
+    title: 'Countertops & Surfaces',
+    href: '/countertops-tampa',
+    description: 'Premium quartz, granite, and other surfaces that elevate the look and performance of your kitchen.',
+    paragraphs: [
+      'The right countertop can transform the look and performance of your kitchen. We offer a variety of premium materials, including quartz, granite, and other popular surfaces that combine durability with style.',
+      'Our team helps homeowners select options that complement their cabinetry and withstand the demands of everyday use.',
+    ],
+  },
+  {
+    image: '/2_img.webp',
+    alt: 'Flooring and finishing details Tampa Bay',
+    title: 'Flooring & Finishing Details',
+    href: '/flooring-in-tampa',
+    description: 'Flooring, backsplashes, hardware, and finishing elements that create a cohesive, polished look.',
+    paragraphs: [
+      'A complete kitchen renovation goes beyond cabinets and countertops. We help homeowners choose flooring, backsplashes, hardware, and finishing elements that create a cohesive, polished look throughout the space.',
+    ],
+  },
+]
 
+const GALLERY = [
+  { src: '/kitchen-remodel.webp',               alt: 'Modern kitchen remodel Tampa Bay' },
+  { src: '/kitchen-remodel-2.webp',              alt: 'Kitchen renovation Tampa' },
+  { src: '/Modern-kitchen-renovation-Tampa-completed-project.jpg', alt: 'Completed kitchen renovation Tampa' },
+  { src: '/kitchen_cabinet_remodeling-01.webp',  alt: 'Kitchen cabinet remodeling Tampa' },
+  { src: '/kitchen_countertops_marble.webp',     alt: 'Marble countertops kitchen Tampa' },
+]
+
+const PROCESS_STEPS = [
+  {
+    step: '01',
+    icon: MessageSquare,
+    title: 'Consultation',
+    description: 'We begin by discussing your goals, budget, and design preferences.',
+  },
+  {
+    step: '02',
+    icon: Search,
+    title: 'Design & Material Selection',
+    description: 'Visit our Valrico showroom to explore cabinets, countertops, and finishes while finalizing your plan.',
+  },
+  {
+    step: '03',
+    icon: ClipboardList,
+    title: 'Project Planning',
+    description: 'Our team develops a detailed project scope and timeline so you know exactly what to expect.',
+  },
+  {
+    step: '04',
+    icon: Hammer,
+    title: 'Professional Installation',
+    description: 'We complete your kitchen remodel with careful attention to craftsmanship, quality, and efficiency.',
+  },
+  {
+    step: '05',
+    icon: CheckCircle,
+    title: 'Final Walkthrough',
+    description: 'Before project completion, we review every detail to ensure your satisfaction.',
+  },
+]
+
+const SERVICE_AREAS = [
+  'Tampa', 'Apollo Beach', 'Valrico', 'Plant City',
+  'Brandon', 'Wesley Chapel', 'Riverview', 'Lithia',
+]
+
+const TESTIMONIALS = [
+  {
+    name: 'Sarah M.',
+    location: 'Riverview, FL',
+    quote: 'We finally redid our kitchen after 12 years putting it off. Went into the Valrico showroom with no idea what we wanted and they were so patient, spent over an hour going through cabinet styles and countertop samples with us. Ended up with white shaker cabinets and quartz countertops and I obsess over it every single morning. The crew was in and out in a week and left everything spotless.',
+  },
+  {
+    name: 'James T.',
+    location: 'Brandon, FL',
+    quote: "Got quotes from three places before coming here. Best price, no pressure, and they actually listened. The semi-custom cabinets look completely custom, you'd never know the difference. There was one small issue during install and they fixed it the same day without us having to follow up. Kitchen looks amazing, added real value to the house.",
+  },
+  {
+    name: 'Michelle R.',
+    location: 'Valrico, FL',
+    quote: 'We redid the kitchen before listing our home and honestly it changed everything. They helped us pick finishes that photograph well without going over budget. Whole project was done in under two weeks. Our realtor said it was one of the best kitchen updates she had seen at that price point. We ended up not even selling because we fell back in love with the house!',
+  },
+]
+
+const FAQS = [
+  {
+    question: 'How much does a kitchen remodel cost in Tampa?',
+    answer: 'The cost of a kitchen remodel depends on factors such as project size, material selections, cabinetry, countertops, and installation requirements. We provide free estimates and personalized recommendations based on your goals and budget.',
+  },
+  {
+    question: 'How long does a kitchen renovation take?',
+    answer: 'Project timelines vary depending on the scope of work. Smaller updates may take a few weeks, while complete kitchen renovations can require additional time. We provide clear timelines before work begins.',
+  },
+  {
+    question: 'Do you help with kitchen design?',
+    answer: 'Yes. Our team assists homeowners with kitchen layouts, cabinet selections, material choices, and design planning to create a space that balances functionality and style.',
+  },
+  {
+    question: 'Why should I visit your Valrico showroom?',
+    answer: 'Our showroom allows homeowners to compare cabinet styles, countertop materials, colors, and finishes in person while receiving expert guidance from our team.',
+  },
+  {
+    question: 'What areas do you serve?',
+    answer: 'We serve homeowners throughout Tampa Bay, including Tampa, Valrico, Brandon, Riverview, Lithia, Apollo Beach, Wesley Chapel, and surrounding communities.',
+  },
+]
+
+/* ─── Section label component ───────────────────────────────────────────────── */
+function SectionLabel({ children }) {
+  return (
+    <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">
+      <span className="w-6 h-px bg-primary inline-block" />
+      {children}
+      <span className="w-6 h-px bg-primary inline-block" />
+    </p>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PAGE COMPONENT
+══════════════════════════════════════════════════════════════════════════════ */
+export function KitchenRemodelingPageClient() {
   return (
     <>
-      {/* ── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="relative min-h-[90vh] md:min-h-screen overflow-hidden flex items-center">
+      {/* ════════════════════════════════════════════════════════════════════
+          1. HERO — split: left text | right kitchen image
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="relative w-full min-h-105 sm:min-h-120 md:min-h-135 overflow-hidden flex items-center">
 
-        {/* Background: bright kitchen photo */}
+        {/* Background kitchen photo */}
         <Image
-          src="/kitchen-remodeling-banner-new.webp"
-          alt="Kitchen remodel Tampa modern kitchen"
+          src="/kitchen-remodeling-banner-new2.webp"
+          alt="Kitchen remodeling Tampa Bay"
           fill
           priority
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Light overlay — keeps the bright kitchen visible, ensures text contrast */}
-        <div className="absolute inset-0 bg-white/50" />
+
+        {/* Gradient: fully opaque white on left → transparent on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/97 to-white/10 lg:from-white lg:via-white/90 lg:to-transparent" />
+        {/* Extra overlay for small screens so text is always readable */}
+        <div className="absolute inset-0 bg-white/50 lg:hidden" />
 
         {/* Content */}
-        <div className="relative z-10 w-full py-16 md:py-20">
-          <div className="container-custom max-w-6xl">
+        <div className="relative z-10 w-full flex items-center py-14 md:py-20">
+          <div className="container-custom max-w-7xl">
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="max-w-xl xl:max-w-2xl"
+            >
+              {/* Pre-headline */}
+              <div className="inline-flex items-center gap-2 mb-5">
+                <MapPin className="w-4 h-4 text-primary shrink-0" />
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+                  Serving Tampa Bay from Our Valrico Showroom
+                </span>
+              </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+              {/* H1 */}
+              <h1 className="text-4xl sm:text-5xl md:text-[3.4rem] lg:text-[3.8rem] font-extrabold text-gray-900 leading-[1.08] mb-5">
+                Kitchen Remodeling{' '}
+                <span className="text-primary">in Tampa Bay</span>
+              </h1>
 
-              {/* Left: heading + body + CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65 }}
-              >
-                <h1 className="mb-6 leading-tight">
-                  <span className="block text-primary font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] uppercase tracking-wide">
-                    Kitchen Remodel
+              {/* Subheadline */}
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-7 max-w-lg">
+                Transform your kitchen with custom cabinetry, premium countertops, and professional
+                remodeling solutions tailored to your style, needs, and budget.
+              </p>
+
+              {/* Trust indicators */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-8">
+                {TRUST_ITEMS.map(({ icon: Icon, label }, i) => (
+                  <span key={label} className="flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+                    <Icon className="w-4 h-4 text-primary shrink-0" />
+                    {label}
+                    {i < TRUST_ITEMS.length - 1 && (
+                      <span className="ml-4 hidden sm:inline w-px h-4 bg-gray-300" />
+                    )}
                   </span>
-                  <span className="block text-primary font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] uppercase tracking-wide">
-                    Tampa
-                  </span>
-                  <span className="block text-primary font-bold text-xl sm:text-2xl md:text-3xl uppercase tracking-wide mt-2">
-                    Custom Renovation &amp;
-                  </span>
-                  <span className="block text-primary font-bold text-xl sm:text-2xl md:text-3xl uppercase tracking-wide">
-                    Kitchen Design Solutions
-                  </span>
-                </h1>
-                <div className="space-y-4 text-gray-900 text-sm sm:text-base leading-relaxed max-w-lg mb-7">
-                  <p>
-                    A kitchen remodel is rarely just about replacing cabinets or upgrading countertops.
-                    Most homeowners come in looking for something deeper, better functionality, more
-                    storage, improved lighting, or simply a kitchen that finally feels comfortable to
-                    spend time in again. At Cabinets &amp; Remodeling Depot, we help homeowners
-                    throughout Tampa Bay create kitchens that work better for everyday living while still
-                    reflecting personal style and long-term value.
-                  </p>
-                  <p>
-                    From complete kitchen renovation Tampa projects to smaller layout updates and cabinet
-                    replacements, our team provides practical remodeling guidance, professional
-                    craftsmanship, and personalized design support from our Valrico showroom. Every
-                    kitchen has different challenges, and honestly, that&rsquo;s what makes remodeling
-                    interesting. Some homes need more efficient storage. Others need better traffic flow
-                    for busy families or open-concept layouts that feel less closed off than older kitchen
-                    designs.
-                  </p>
-                </div>
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14 px-8"
+                ))}
+              </div>
+
+              {/* CTA buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-md shadow-primary/25"
                 >
-                  <Link href="/contact">Schedule a Free Consultation</Link>
-                </Button>
-              </motion.div>
-
-              {/* Right: consultation form card */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.18 }}
-                className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8"
-              >
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
-                  Book Free Consultation
-                </h2>
-                <p className="text-muted-foreground text-sm mb-6">
-                  Fill out the form and we&apos;ll contact you within 1 business day.
-                </p>
-                <ConsultationForm serviceName="Kitchen Remodeling" />
-              </motion.div>
-
-            </div>
+                  Get a Free Estimate
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors bg-white/80"
+                >
+                  Visit Our Showroom
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── Tampa Kitchen Design — 2-col: images left | text right ─────── */}
-      <section className="py-12 md:py-16 bg-gray-50">
-        <div className="container-custom max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+      {/* ════════════════════════════════════════════════════════════════════
+          2. TRUSTED PARTNER — image left | text right
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-white overflow-hidden">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-            {/* Left — stacked images */}
-            <FadeIn className="space-y-3">
-              <div className="relative w-full aspect-4/3 overflow-hidden rounded-xl shadow-md">
+            {/* Left — kitchen image */}
+            <FadeIn className="relative">
+              <div className="relative w-full aspect-[4/3] lg:aspect-[5/4] rounded-2xl overflow-hidden shadow-xl">
                 <Image
                   src="/Modern-kitchen-renovation-Tampa-completed-project.jpg"
-                  alt="Modern kitchen renovation Tampa completed project"
+                  alt="Your trusted kitchen remodeling partner Tampa Bay"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative w-full aspect-4/3 overflow-hidden rounded-xl shadow-md">
-                  <Image
-                    src="/freepik__quartz-vs-granite-for-bathroom-countertops-which-s__53320.webp"
-                    alt="Quartz vs granite countertops Tampa"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                  />
-                </div>
-                <div className="relative w-full aspect-4/3 overflow-hidden rounded-xl shadow-md">
-                  <Image
-                    src="/blog2-.jpeg"
-                    alt="Kitchen remodeling Tampa"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                  />
-                </div>
-              </div>
+              {/* Floating accent */}
+              <div className="absolute -bottom-4 -right-4 w-28 h-28 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
             </FadeIn>
 
-            {/* Right — text content */}
-            <FadeIn delay={0.1} className="space-y-5">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide leading-tight">
-                <span className="text-gray-900">Tampa Kitchen Design </span>
-                <span className="text-primary">Tailored to Your Home</span>
-              </h2>
-
-              <div className="space-y-4 text-gray-900 text-base leading-relaxed">
+            {/* Right — text */}
+            <FadeIn delay={0.12} className="flex flex-col gap-5">
+              <div>
+                <SectionLabel>Your Trusted</SectionLabel>
+                <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight">
+                  Kitchen Remodeling Partner{' '}
+                  <span className="text-primary">in Tampa Bay</span>
+                </h2>
+              </div>
+              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
                 <p>
-                  Good kitchen design is not only about appearance. A well-designed kitchen should feel
-                  natural to use day after day. That means paying attention to storage, spacing,
-                  lighting, appliance placement, and how people actually move through the room.
+                  A kitchen is more than just a place to cook. It&rsquo;s where families gather,
+                  meals are shared, and memories are made. Whether you&rsquo;re updating an
+                  outdated layout or planning a complete kitchen renovation, our team provides
+                  personalized solutions designed around your lifestyle, needs, and budget.
                 </p>
                 <p>
-                  Our Tampa kitchen design team works closely with homeowners to create kitchens that
-                  balance style with functionality. In many Tampa homes, especially older properties,
-                  we often see layouts that waste space or limit storage unnecessarily. Even small
-                  adjustments can completely change how a kitchen feels once the remodel is finished.
+                  We proudly serve homeowners across Tampa, Valrico, Brandon, Riverview, Lithia,
+                  Apollo Beach, Wesley Chapel, and surrounding communities with professional
+                  kitchen remodeling services that enhance both beauty and functionality.
                 </p>
               </div>
-
-              <p className="text-lg font-bold text-primary">Our kitchen remodeling services include:</p>
-
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-                {[
-                  'Custom cabinetry solutions',
-                  'Quartz and granite countertops',
-                  'Kitchen layout redesign',
-                  'Flooring upgrades',
-                  'Lighting recommendations',
-                  'Countertop fabrication and installation',
-                  'Full kitchen renovation support',
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-gray-900 text-sm">
-                    <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
               <div className="pt-2">
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white">
-                  <Link href="#consultation">Start Your Kitchen Remodel</Link>
-                </Button>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-7 rounded-lg transition-colors shadow-md shadow-primary/25"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </FadeIn>
 
@@ -231,267 +369,228 @@ export function KitchenRemodelingPageClient() {
         </div>
       </section>
 
-      {/* ── Kitchen Renovation — full-width bg image section ──────────────── */}
-      <section className="relative py-14 md:py-20 overflow-hidden">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/beautiful-shot-modern-house-kitchen.jpg"
-            alt="Beautiful modern kitchen renovation Tampa"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-            priority={false}
-          />
-          {/* Overlay — keeps text readable while showing the kitchen image */}
-          <div className="absolute inset-0 bg-white/75" />
-        </div>
+      {/* ════════════════════════════════════════════════════════════════════
+          3. WHY HOMEOWNERS CHOOSE — 5 horizontal cards
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container-custom max-w-7xl">
 
-        <div className="relative z-10 container-custom max-w-5xl space-y-8">
-
-          <FadeIn>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide leading-tight text-center">
-              <span className="text-primary">Kitchen Renovation Tampa </span>
-              <span className="text-gray-900">Homeowners Can Trust</span>
+          <FadeIn className="text-center mb-12">
+            <SectionLabel>Why Homeowners Choose</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+              Cabinets &amp; Remodeling Depot
             </h2>
           </FadeIn>
 
-          <FadeIn delay={0.1} className="space-y-4 text-gray-900 text-base leading-relaxed max-w-3xl mx-auto text-center">
-            <p>
-              A successful kitchen renovation requires more than materials alone. Communication,
-              planning, and installation quality make a major difference once construction begins.
-            </p>
-            <p>
-              At Cabinets &amp; Remodeling Depot, we help homeowners navigate every phase of the
-              remodeling process from selecting finishes to coordinating cabinetry, countertops,
-              and installation timelines. Our goal is to make the renovation process feel organized
-              rather than overwhelming.
-            </p>
-            <p>
-              Homeowners searching for a kitchen remodel near me Tampa often visit our showroom
-              because they want to see materials in person before making decisions. Photos online
-              can help, but they rarely show how colors, textures, and finishes actually look under
-              real lighting conditions.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <p className="text-lg font-bold text-primary mb-4 text-center">
-              Our Valrico showroom allows homeowners to compare:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {[
-                'Cabinet finishes',
-                'Countertop materials',
-                'Flooring options',
-                'Kitchen color combinations',
-                'Storage configurations',
-                'Design styles and layouts',
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-4 flex items-center justify-center gap-3"
-                >
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary shrink-0" />
-                  <span className="text-gray-800 text-sm font-medium">{item}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+            {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
+              <FadeIn key={title} delay={i * 0.07}>
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center gap-4 h-full hover:shadow-md hover:border-primary/20 transition-shadow duration-200">
+                  {/* Icon ring */}
+                  <div className="w-14 h-14 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-base mb-2 leading-snug">{title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <div className="bg-white/90 border-l-4 border-primary rounded-r-xl px-6 py-4 max-w-3xl mx-auto text-center">
-              <p className="text-gray-900 text-base leading-relaxed italic">
-                That hands-on experience tends to make the remodeling process feel far more manageable.
-              </p>
-            </div>
-          </FadeIn>
-
-        </div>
-      </section>
-
-      {/* ── Valrico Kitchen Remodel — full-width bg image, left-aligned ───── */}
-      <section className="relative py-14 md:py-20 overflow-hidden">
-        {/* Background image */}
-        <Image
-          src="/kitchen_countertops_marble.webp"
-          alt="Kitchen remodeling contractors Tampa"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-        {/* Light overlay */}
-        <div className="absolute inset-0 bg-white/88" />
-
-        <div className="relative z-10 container-custom max-w-5xl space-y-6">
-
-          <FadeIn>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide leading-tight text-primary">
-              Valrico Kitchen Remodel &amp; Professional Installation Services
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.1} className="space-y-4 text-gray-900 text-base leading-relaxed max-w-3xl">
-            <p>
-              As experienced kitchen remodeling contractors Tampa Valrico showroom homeowners rely
-              on, we focus on delivering remodeling solutions that feel cohesive from start to
-              finish. Our team coordinates design, fabrication, and installation with close
-              attention to detail because even small finishing issues can affect the overall
-              appearance of a completed kitchen.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.15} className="space-y-4">
-            <p className="text-lg font-bold text-primary">We proudly provide:</p>
-            <ul className="space-y-2">
-              {[
-                'Kitchen remodel Tampa services',
-                'Valrico kitchen remodel solutions',
-                'Cabinet installation',
-                'Countertop fabrication',
-                'Kitchen renovation support',
-                'Full-service remodeling guidance',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-gray-900 text-base">
-                  <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
-
-          <FadeIn delay={0.2} className="max-w-3xl">
-            <p className="text-gray-900 text-base leading-relaxed">
-              Over the years, we&rsquo;ve worked on kitchens ranging from compact family homes to
-              larger open-concept renovations designed around entertaining and gathering spaces.
-              Every project brings different goals, budgets, and design preferences, which is why
-              we avoid taking a one-size-fits-all approach to remodeling.
-            </p>
-          </FadeIn>
-
-        </div>
-      </section>
-
-      {/* ── Why Homeowners Choose ─────────────────────────────────────────── */}
-      <section className="relative py-14 md:py-20 overflow-hidden">
-
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/cabinet_remodeling_kitchen-03.webp"
-            alt="Kitchen remodeling Tampa showroom"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          {/* White overlay — light enough to keep text readable, transparent enough to show image */}
-          <div className="absolute inset-0 bg-white/75" />
-        </div>
-
-        <div className="relative z-10 container-custom max-w-6xl space-y-10">
-
-          {/* Top row — heading left | intro text right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
-            <FadeIn>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide leading-tight">
-                <span className="text-gray-900">Why Homeowners Choose </span>
-                <span className="text-primary">Cabinets &amp; Remodeling Depot</span>
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <p className="text-gray-900 text-base leading-relaxed">
-                Homeowners across Tampa Bay continue to choose{' '}
-                <strong>Cabinets &amp; Remodeling Depot</strong> because we combine remodeling
-                experience with personalized customer support and local showroom access.
-              </p>
-            </FadeIn>
+              </FadeIn>
+            ))}
           </div>
 
-          {/* Divider */}
-          <div className="border-t border-gray-300" />
+        </div>
+      </section>
 
-          {/* Bullet grid */}
-          <FadeIn delay={0.1} className="text-center">
-            <p className="text-lg font-bold text-primary mb-5">Why clients work with us:</p>
-            <ul className="inline-grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-16 text-left mx-auto">
-              {[
-                'Local Valrico showroom',
-                'Professional installation services',
-                'Experienced remodeling professionals',
-                'One-stop remodeling solutions',
-                'Custom kitchen design support',
-                'Personalized project guidance',
-                'Cabinet and countertop selections',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-gray-900 text-base">
-                  <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+      {/* ════════════════════════════════════════════════════════════════════
+          4. COMPREHENSIVE SERVICES — image cards
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-12">
+            <SectionLabel>Comprehensive Kitchen Remodeling Services</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight">
+              Everything You Need for Your{' '}
+              <span className="text-primary">Dream Kitchen</span>
+            </h2>
           </FadeIn>
 
-          {/* Quote block */}
-          <FadeIn delay={0.2}>
-            <div className="bg-white shadow-sm border-l-4 border-primary rounded-r-xl px-6 py-5 max-w-3xl mx-auto text-center">
-              <p className="text-gray-900 text-base leading-relaxed italic">
-                We believe homeowners should feel informed and comfortable throughout the remodeling
-                process, not pressured into rushed decisions or unnecessary upgrades.
-              </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES.map(({ image, alt, title, description, href }, i) => (
+              <FadeIn key={title} delay={i * 0.07}>
+                <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  {/* Image */}
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={image}
+                      alt={alt}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                    />
+                  </div>
+                  {/* Content */}
+                  <div className="p-5 flex flex-col gap-3 flex-1">
+                    <h3 className="font-bold text-gray-900 text-lg leading-snug">{title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{description}</p>
+                    <Link
+                      href={href}
+                      className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200 mt-auto"
+                    >
+                      Learn More <ChevronRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          5. KITCHEN DESIGN INSPIRATION — image gallery
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-20 bg-gray-50">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-10">
+            <SectionLabel>Kitchen Design Inspiration</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+              See What&apos;s Possible for Your Kitchen
+            </h2>
+          </FadeIn>
+
+          {/* Gallery row */}
+          <FadeIn delay={0.1}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              {GALLERY.map(({ src, alt }, i) => (
+                <div
+                  key={i}
+                  className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+                >
+                  <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  />
+                </div>
+              ))}
             </div>
+          </FadeIn>
+
+          <FadeIn delay={0.2} className="text-center mt-8">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors"
+            >
+              View More Inspiration
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </FadeIn>
 
         </div>
       </section>
 
-      {/* ── Frequently Asked Questions ────────────────────────────────────── */}
-      <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+      {/* ════════════════════════════════════════════════════════════════════
+          6. PROCESS — 5 numbered steps with connector line
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container-custom max-w-7xl">
 
-      {/* ── Visit Our Valrico Showroom Today ──────────────────────────────── */}
-      <section className="relative py-14 md:py-20 overflow-hidden">
+          <FadeIn className="text-center mb-14">
+            <SectionLabel>Our Kitchen Remodeling Process</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+              How We Bring Your{' '}
+              <span className="text-primary">Kitchen Vision to Life</span>
+            </h2>
+          </FadeIn>
 
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/kitchen_cabinet_remodeling-01.webp"
-            alt="Kitchen cabinet remodeling Tampa"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-white/55" />
+          {/* Steps */}
+          <div className="relative">
+
+            {/* Connecting line (desktop only) */}
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
+              {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
+                <FadeIn key={step} delay={i * 0.09}>
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4">
+
+                    {/* Step circle */}
+                    <div className="relative">
+                      <div className="w-[4.5rem] h-[4.5rem] rounded-full bg-primary shadow-lg shadow-primary/30 flex items-center justify-center">
+                        <Icon className="w-7 h-7 text-white" />
+                      </div>
+                      {/* Step number badge */}
+                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-primary text-primary text-[10px] font-extrabold flex items-center justify-center leading-none">
+                        {i + 1}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-base mb-1.5">{title}</h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+                    </div>
+
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+
+          </div>
+
         </div>
+      </section>
 
-        <div className="relative z-10 container-custom max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      {/* ════════════════════════════════════════════════════════════════════
+          7. SERVICE AREAS + TESTIMONIALS — 2-col
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
 
-            {/* Left: 2 image cards + Google Map */}
-            <FadeIn className="space-y-4">
+            {/* Left — service areas + map */}
+            <FadeIn>
+              <SectionLabel>Our Service Area</SectionLabel>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-5">
+                Serving Homeowners Throughout{' '}
+                <span className="text-primary">Tampa Bay</span>
+              </h2>
+              <div className="space-y-3 text-gray-600 text-base leading-relaxed mb-6">
+                <p>
+                  Cabinets &amp; Remodeling Depot proudly provides kitchen remodeling and kitchen
+                  renovation services throughout Tampa Bay, including Tampa, Valrico, Brandon,
+                  Riverview, Lithia, Apollo Beach, Plant City, Wesley Chapel, and nearby communities.
+                </p>
+                <p>
+                  Whether you&rsquo;re searching for a trusted kitchen remodeling contractor in
+                  Tampa or planning a kitchen renovation near Valrico, our team is ready to help
+                  transform your space.
+                </p>
+              </div>
 
-              {/* Two image cards side by side */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative aspect-4/3 overflow-hidden rounded-xl shadow-lg">
-                  <Image
-                    src="/kitchen-remodel.webp"
-                    alt="Kitchen remodel Tampa"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                  />
-                </div>
-                <div className="relative aspect-4/3 overflow-hidden rounded-xl shadow-lg">
-                  <Image
-                    src="/kitchen-remodel-2.webp"
-                    alt="Kitchen renovation Tampa"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                  />
-                </div>
+              {/* Area checklist — 2 columns */}
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-7">
+                {SERVICE_AREAS.map((area) => (
+                  <span key={area} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                    <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <Check className="w-3 h-3 text-primary" />
+                    </span>
+                    {area}
+                  </span>
+                ))}
+                <span className="flex items-center gap-2 text-primary text-sm font-semibold col-span-2 mt-1">
+                  <MapPin className="w-4 h-4 shrink-0" />
+                  And all surrounding communities
+                </span>
               </div>
 
               {/* Google Map */}
-              <div className="relative w-full h-56 sm:h-64 rounded-xl overflow-hidden shadow-lg">
+              <div className="relative w-full h-52 rounded-xl overflow-hidden shadow-md border border-gray-200">
                 <iframe
                   src="https://maps.google.com/maps?cid=18201794426186346316&output=embed&hl=en-US&t=k"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, display: 'block' }}
@@ -501,44 +600,109 @@ export function KitchenRemodelingPageClient() {
                   title="Cabinets & Remodeling Depot — 106 S St Cloud Ave, Valrico, FL 33594"
                 />
               </div>
-
             </FadeIn>
 
-            {/* Right: heading + text + CTA */}
-            <FadeIn delay={0.15} className="flex flex-col justify-center space-y-6 pt-2">
-
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug">
-                <span className="text-gray-900">Visit Our </span>
-                <span className="text-primary">Valrico<br className="hidden sm:block" /> Showroom</span>
-                <span className="text-gray-900"> Today</span>
+            {/* Right — testimonials */}
+            <FadeIn delay={0.12}>
+              <SectionLabel>Client Reviews</SectionLabel>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
+                What Homeowners{' '}
+                <span className="text-primary">Are Saying</span>
               </h2>
 
-              <div className="space-y-4 text-gray-900 text-base leading-relaxed">
-                <p>
-                  If you&rsquo;re planning a kitchen remodel Tampa homeowners can genuinely feel
-                  confident about, visit Cabinets &amp; Remodeling Depot today.
-                </p>
-                <p>
-                  Explore cabinetry, countertops, and design solutions in person while speaking
-                  directly with experienced remodeling professionals who understand how to create
-                  kitchens that feel practical, comfortable, and built around everyday living.
-                </p>
+              <div className="space-y-4">
+                {TESTIMONIALS.map(({ name, location, quote }, i) => (
+                  <Card key={name} className="hover:shadow-md transition-shadow">
+                    <CardContent className="p-5 flex flex-col gap-4">
+                      {/* Stars + Quote icon */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex gap-0.5">
+                          {Array.from({ length: 5 }).map((_, s) => (
+                            <Star key={s} className="w-4 h-4 fill-primary text-primary" />
+                          ))}
+                        </div>
+                        <Quote className="w-5 h-5 text-primary/30 shrink-0" />
+                      </div>
+                      {/* Quote text */}
+                      <p className="text-muted-foreground text-sm leading-relaxed italic grow">
+                        &ldquo;{quote}&rdquo;
+                      </p>
+                      {/* Profile */}
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <span className="text-primary font-bold text-sm">{name.charAt(0)}</span>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-900 text-sm">{name}</p>
+                          <p className="text-xs text-muted-foreground">{location}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-
-              <div className="pt-2">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm sm:text-base h-12 sm:h-14 px-8"
-                >
-                  <Link href="/contact">Visit Our Valrico Showroom</Link>
-                </Button>
-              </div>
-
             </FadeIn>
 
           </div>
         </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          8. FAQ — shared FAQSection (same design as homepage)
+      ════════════════════════════════════════════════════════════════════ */}
+      <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+
+      {/* ════════════════════════════════════════════════════════════════════
+          9. FINAL CTA — dark brand background
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-20 md:py-28 overflow-hidden">
+
+        {/* Background */}
+        <div className="absolute inset-0">
+          <Image
+            src="/kitchen_cabinet_remodeling-01.webp"
+            alt="Start your kitchen remodeling project Tampa Bay"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 brand-gradient opacity-90" />
+        </div>
+
+        <div className="relative z-10 container-custom max-w-3xl text-center">
+          <FadeIn>
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/70 mb-4">
+              <span className="w-6 h-px bg-white/50 inline-block" />
+              Tampa Bay Kitchen Experts
+              <span className="w-6 h-px bg-white/50 inline-block" />
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+              Start Your Kitchen Remodeling{' '}
+              <span className="text-white/80">Project Today</span>
+            </h2>
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl mx-auto">
+              If you&rsquo;re planning a kitchen remodel in Tampa or considering a complete kitchen
+              renovation, Cabinets &amp; Remodeling Depot is here to help. Visit our Valrico
+              showroom, explore quality products, and work with a team committed to delivering
+              beautiful, functional results tailored to your home and lifestyle.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors shadow-lg"
+              >
+                Visit Our Showroom
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors"
+              >
+                Request a Free Estimate
+              </Link>
+            </div>
+          </FadeIn>
+        </div>
+
       </section>
 
     </>

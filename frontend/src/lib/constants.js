@@ -7,36 +7,31 @@ export const COMPANY_ADDRESS = '106 S St Cloud Ave, Valrico, FL 33594'
 export const SERVICES = [
   {
     title: 'Countertops',
-    href: '/countertops',
+    href: '/countertops-tampa',
     icon: 'Layers',
     description: 'Premium quartz and granite countertops fabricated and installed by certified professionals.',
   },
   {
     title: 'In-Stock Cabinets',
-    href: '/cabinets',
+    href: '/in-stock-cabinets',
     icon: 'Layout',
     description: 'Ready-to-install cabinets in stock at our Valrico showroom — no long waits, fast project turnaround.',
   },
   {
     title: 'Kitchen Remodeling',
-    href: '/kitchen-remodeling',
+    href: '/kitchen-remodeling-tampa',
     icon: 'ChefHat',
     description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',
   },
   {
     title: 'Flooring',
-    href: '/flooring',
+    href: '/flooring-in-tampa',
     icon: 'Grid3X3',
     description: 'Hardwood, tile, luxury vinyl plank, and laminate flooring expertly installed throughout your home.',
-    children: [
-      { title: 'Wooden Flooring', href: '/flooring/wood-flooring' },
-      { title: 'Tiles', href: '/flooring/tiles-in-tampa' },
-      { title: 'Laminate Flooring', href: '/flooring/laminate-flooring-in-tampa' },
-    ],
   },
   {
     title: 'Bathroom Remodeling',
-    href: '/bathroom-remodeling',
+    href: '/bathroom-remodeling-tampa',
     icon: 'Droplets',
     description: 'Luxury bathroom renovations with custom tile, vanities, walk-in showers, and modern fixtures.',
   },
@@ -50,7 +45,7 @@ export const NAV_LINKS = [
     children: SERVICES,
   },
   { label: 'Projects', href: '/projects', hidden: true },
-  { label: 'Gallery', href: '/gallery' },
+  { label: 'Gallery', href: '/showroom-gallery' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]

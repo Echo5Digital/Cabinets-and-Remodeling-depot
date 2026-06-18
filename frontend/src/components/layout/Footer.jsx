@@ -21,17 +21,17 @@ function InstagramIcon({ className }) {
 }
 
 const FOOTER_SERVICES = [
-  { label: 'Countertops', href: '/countertops' },
-  { label: 'In-Stock Cabinets', href: '/cabinets' },
-  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling' },
-  { label: 'Flooring', href: '/flooring' },
-  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling' },
+  { label: 'Countertops', href: '/countertops-tampa' },
+  { label: 'In-Stock Cabinets', href: '/in-stock-cabinets' },
+  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling-tampa' },
+  { label: 'Flooring', href: '/flooring-in-tampa' },
+  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
 ]
 
 const FOOTER_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Gallery', href: '/gallery' },
+  { label: 'Gallery', href: '/showroom-gallery' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact Us', href: '/contact' },
 ]

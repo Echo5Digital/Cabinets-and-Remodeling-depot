@@ -1,4 +1,8 @@
-import { GalleryPageClient } from './GalleryPageClient'
+import dynamic from 'next/dynamic'
+const GalleryPageClient = dynamic(
+  () => import('./GalleryPageClient').then(m => ({ default: m.GalleryPageClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Project Gallery | Cabinets & Remodeling Depot',

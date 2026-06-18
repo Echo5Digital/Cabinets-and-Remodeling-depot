@@ -1,4 +1,8 @@
-import { TilesPageClient } from '@/components/sections/TilesPageClient'
+import dynamic from 'next/dynamic'
+const TilesPageClient = dynamic(
+  () => import('@/components/sections/TilesPageClient').then(m => ({ default: m.TilesPageClient })),
+  { loading: () => <div className="min-h-screen" /> }
+)
 
 export const metadata = {
   title: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot',
