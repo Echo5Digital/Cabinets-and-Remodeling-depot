@@ -19,7 +19,6 @@ import { CompleteReModelingSolutionsSection } from '@/components/sections/Comple
 import { WhyChooseSection } from '@/components/sections/WhyChooseSection'
 import { PartnersSection } from '@/components/sections/PartnersSection'
 import { ClientSuccessSection } from '@/components/sections/ClientSuccessSection'
-import { StartProjectSection } from '@/components/sections/StartProjectSection'
 import { HowItWorksSection } from '@/components/sections/HowItWorksSection'
 import { PreFooterSection } from '@/components/sections/PreFooterSection'
 import { motion } from 'framer-motion'
@@ -291,9 +290,6 @@ export function HomeClient() {
 
       {/* H2: Frequently Asked Questions */}
       <FAQSection faqs={faqs} />
-
-      {/* Start Your Kitchen Remodeling Project Today */}
-      <StartProjectSection data={startProjectSection} />
 
       {/* Pre-footer: CTA band + trust/payment strip */}
       <PreFooterSection data={preFooterSection} />
