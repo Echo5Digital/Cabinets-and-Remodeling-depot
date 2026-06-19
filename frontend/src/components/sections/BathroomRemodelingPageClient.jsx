@@ -264,30 +264,34 @@ export function BathroomRemodelingPageClient() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
-          1. HERO — full viewport, bathroom-02.webp background
-             Mirrors the home page HeroSection layout & overlay approach
+          1. HERO — premium luxury bathroom hero
+             Soft overlay, full bathroom visible, strong CTA hierarchy
       ════════════════════════════════════════════════════════════════════ */}
       <section id="bathroom-hero" className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
 
-        {/* ── Background image — fully visible, no dark wash ────────── */}
+        {/* ── Background — object-center shows full bathroom incl. bathtub ── */}
         <div className="absolute inset-0">
           <Image
             src="/bathroom-02.webp"
-            alt="Bathroom remodeling Tampa Bay"
+            alt="Luxury bathroom remodeling Tampa Bay"
             fill
             priority
-            className="object-cover object-right"
+            className="object-cover object-center"
             sizes="100vw"
           />
 
-          {/* Single feather-light left scrim — only enough for text contrast.
-              Right half stays 100 % clear so the bathroom photo shines. */}
+          {/* Softer left-to-right gradient — lets the image breathe more */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 35%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.00) 82%)',
+                'linear-gradient(to right, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.40) 28%, rgba(0,0,0,0.10) 56%, rgba(0,0,0,0.00) 76%)',
             }}
+          />
+          {/* Subtle bottom vignette to ground the hero */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.26) 0%, transparent 28%)' }}
           />
         </div>
 
@@ -298,99 +302,111 @@ export function BathroomRemodelingPageClient() {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="max-w-xl lg:max-w-2xl"
+              className="max-w-lg lg:max-w-xl xl:max-w-2xl lg:pl-6 xl:pl-10"
             >
-              {/* Location badge */}
+
+              {/* ── Location badge pill ─────────────────────────────── */}
               <motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.08 }}
-                className="inline-flex items-center gap-2 mb-5"
+                transition={{ duration: 0.5, delay: 0.06 }}
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-7 border border-white/20"
+                style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(10px)' }}
               >
-                <MapPin className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,1)) drop-shadow(0 1px 3px rgba(0,0,0,1))' }} />
+                <MapPin className="w-3.5 h-3.5 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.7))' }} />
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.18em] text-gold"
-                  style={{ textShadow: '0 0 12px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9)' }}
+                  className="text-white text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]"
+                  style={{ textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
                 >
                   Serving Tampa Bay from Our Valrico Showroom
                 </span>
               </motion.div>
 
-              {/* H1 */}
+              {/* ── H1 — 2-line luxury headline ─────────────────────── */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.12 }}
-                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold leading-[1.1] mb-4 ${serif}`}
-                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.95), 0 1px 8px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7)' }}
+                className={`font-extrabold leading-[1.08] mb-5 ${serif}`}
+                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
-                <span className="text-white">Bathroom Remodeling Tampa –</span>{' '}
-                <span className="text-gold">Custom Vanities &amp; Renovation Solutions</span>
+                <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
+                  Bathroom Remodeling Tampa
+                </span>
+                <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
+                  Custom Vanities &amp; Luxury Renovations
+                </span>
               </motion.h1>
 
-              {/* Gold accent divider */}
+              {/* ── Gold accent divider ──────────────────────────────── */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.45, delay: 0.22 }}
-                className="flex items-center gap-3 mb-5"
+                transition={{ duration: 0.45, delay: 0.20 }}
+                className="flex items-center gap-3 mb-6"
               >
-                <div className="h-0.75 w-10 rounded-full bg-gold" />
-                <div className="h-px w-24 rounded-full bg-white/40" />
+                <div className="h-0.75 w-12 rounded-full bg-gold" />
+                <div className="h-px w-20 rounded-full bg-white/30" />
               </motion.div>
 
-              {/* Subheadline */}
+              {/* ── Sub-headline ─────────────────────────────────────── */}
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.28 }}
-                className="text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-lg"
-                style={{ textShadow: '0 1px 12px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.9)' }}
+                transition={{ duration: 0.65, delay: 0.26 }}
+                className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
+                style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
                 Transform your bathroom with custom vanities, premium countertops, modern fixtures,
                 and professional renovation solutions designed around your lifestyle.
               </motion.p>
 
-              {/* CTA buttons */}
+              {/* ── CTA buttons ─────────────────────────────────────── */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.38 }}
-                className="flex flex-col sm:flex-row gap-3 mb-7"
+                transition={{ duration: 0.6, delay: 0.34 }}
+                className="flex flex-col sm:flex-row gap-3 mb-8"
               >
+                {/* Primary — solid white, strong contrast */}
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-primary font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-[8px] [background:rgba(255,255,255,0.85)]"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
-                  Visit Our Valrico Showroom
+                  Schedule a Free Consultation
                 </Link>
+                {/* Secondary — light maroon-border glass */}
                 <a
                   href="tel:+18136512333"
-                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/80 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-xl shadow-black/40 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 border border-primary/65 text-white hover:bg-primary/10 font-semibold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-sm"
                 >
-                  <Phone className="w-4 h-4 shrink-0" />
-                  (813) 651-2333
+                  <Phone className="w-4 h-4 shrink-0 text-primary/80" />
+                  Call (813) 651-2333
                 </a>
               </motion.div>
 
-              {/* Trust items — inline, pipe-separated, no background */}
+              {/* ── Simplified trust indicators ──────────────────────── */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="flex items-center flex-wrap gap-y-2"
+                transition={{ duration: 0.5, delay: 0.46 }}
+                className="flex items-center flex-wrap gap-y-2.5"
               >
-                {TRUST_ITEMS.map(({ icon: Icon, label }, i) => (
+                {[
+                  { icon: Calendar, label: 'Free Estimates' },
+                  { icon: MapPin,   label: 'Local Tampa Experts' },
+                  { icon: Star,     label: '5-Star Rated' },
+                ].map(({ icon: Icon, label }, i, arr) => (
                   <span key={label} className="inline-flex items-center">
                     <span
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white"
-                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85)' }}
+                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-white/85"
+                      style={{ textShadow: '0 1px 8px rgba(0,0,0,0.88), 0 0 16px rgba(0,0,0,0.72)' }}
                     >
-                      <Icon className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.9))' }} />
+                      <Icon className="w-3.5 h-3.5 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 3px rgba(0,0,0,0.8))' }} />
                       {label}
                     </span>
-                    {i < TRUST_ITEMS.length - 1 && (
-                      <span className="mx-3 text-white/40 font-light select-none">|</span>
+                    {i < arr.length - 1 && (
+                      <span className="mx-3 text-white/30 select-none">·</span>
                     )}
                   </span>
                 ))}
@@ -403,118 +419,86 @@ export function BathroomRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. TRUSTED PARTNER — true half/half split panel
+          2. TRUSTED PARTNER — light gradient background, 2-col layout
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="flex flex-col lg:flex-row min-h-[560px] lg:min-h-[640px] overflow-hidden">
+      <section
+        className="relative overflow-hidden py-20 md:py-28"
+        style={{ background: 'linear-gradient(135deg, #ffffff 0%, #F5F0E8 55%, #ffffff 100%)' }}
+      >
 
-        {/* ── LEFT PANEL — wood background + photo on wall ── */}
-        <div className="relative flex-1 min-h-[400px] lg:min-h-0 flex items-center justify-center px-8 py-16 lg:py-20">
+        {/* ── Content ── */}
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* Background fills entire left panel */}
-          <div className="absolute inset-0">
-            <Image
-              src="/bathroom-designing-02.jpg"
-              alt=""
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              aria-hidden="true"
-            />
-            {/* Subtle darkening to give depth and let frame stand out */}
-            <div className="absolute inset-0 bg-black/25" />
+            {/* ── LEFT — label + heading ── */}
+            <FadeIn className="flex flex-col gap-5">
+
+              {/* Label */}
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-px bg-primary shrink-0" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                  Your Trusted
+                </p>
+                <span className="w-8 h-px bg-primary shrink-0" />
+              </div>
+
+              {/* Heading */}
+              <h2
+                className={`text-3xl sm:text-4xl md:text-[2.7rem] font-extrabold text-gray-900 leading-[1.1] ${serif}`}
+              >
+                Bathroom Remodeling Partner{' '}
+                <span className="text-primary">in Tampa Bay</span>
+              </h2>
+
+              {/* Rule */}
+              <div className="w-14 h-0.5 bg-primary/30" />
+
+              {/* CTA — desktop only in left col */}
+              <div className="hidden lg:block pt-2">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+            </FadeIn>
+
+            {/* ── RIGHT — body text + mobile CTA ── */}
+            <FadeIn delay={0.14} className="flex flex-col gap-6">
+
+              <div className="space-y-4 text-gray-600 text-base leading-[1.82]">
+                <p>
+                  A well-designed bathroom should feel comfortable, functional, and easy to maintain.
+                  For many homeowners, older bathrooms often feel cramped, outdated, or no longer
+                  practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
+                  homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
+                  long-term functionality without making the remodeling process overwhelming.
+                </p>
+                <p>
+                  Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
+                  replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
+                  team provides personalized guidance from our Valrico showroom. Every renovation is
+                  designed around your goals, lifestyle, and budget.
+                </p>
+              </div>
+
+              {/* CTA — mobile only, below text */}
+              <div className="lg:hidden">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+            </FadeIn>
+
           </div>
-
-          {/* Bathroom photo — picture hanging on the wood wall */}
-          <FadeIn className="relative z-10">
-            <div className="relative inline-block">
-
-              {/* Hanging wire */}
-              <div className="absolute -top-7 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                <div className="w-2 h-2 rounded-full bg-gold/80" />
-                <div className="w-px h-6 bg-gold/50" />
-              </div>
-
-              {/* Gold picture frame — outer border */}
-              <div
-                className="p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
-                style={{ background: 'linear-gradient(145deg,#E8CFA0,#C9A96E,#9A6E30,#C9A96E,#E8CFA0)' }}
-              >
-                {/* Photo */}
-                <div className="relative w-[340px] h-[255px] sm:w-[440px] sm:h-[330px] lg:w-[400px] lg:h-[300px] xl:w-[500px] xl:h-[375px] overflow-hidden">
-                  <Image
-                    src="/bathroom-remodeling-2.jpg"
-                    alt="Your trusted bathroom remodeling partner Tampa Bay"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 340px, (max-width: 1024px) 440px, 500px"
-                  />
-                </div>
-              </div>
-
-              {/* Cast shadow below frame */}
-              <div className="absolute -bottom-3 left-4 right-4 h-5 bg-black/35 blur-md rounded-full -z-10" />
-            </div>
-          </FadeIn>
-        </div>
-
-        {/* ── RIGHT PANEL — maroon gradient + text ── */}
-        <div
-          className="relative flex-1 flex items-center px-8 sm:px-12 lg:px-14 xl:px-16 py-16 lg:py-20"
-          style={{ background: 'linear-gradient(150deg,#8B1428 0%,#5C0A1D 55%,#3D0512 100%)' }}
-        >
-          {/* Subtle gold corner accent */}
-          <div className="absolute top-0 right-0 w-32 h-32 opacity-10"
-            style={{ background: 'radial-gradient(circle at top right, #C9A96E, transparent 70%)' }} />
-
-          <FadeIn delay={0.12} className="relative z-10 flex flex-col gap-6 max-w-lg w-full">
-
-            {/* Gold label */}
-            <div className="flex items-center gap-3">
-              <span className="w-8 h-px bg-gold shrink-0" />
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold whitespace-nowrap">
-                Your Trusted
-              </p>
-              <span className="w-8 h-px bg-gold shrink-0" />
-            </div>
-
-            {/* Heading */}
-            <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-white leading-tight ${serif}`}>
-              Bathroom Remodeling Partner{' '}
-              <span className="text-gold">in Tampa Bay</span>
-            </h2>
-
-            {/* Gold rule */}
-            <div className="w-14 h-0.5 bg-gold/60" />
-
-            {/* Body */}
-            <div className="space-y-4 text-white/85 text-base leading-relaxed">
-              <p>
-                A well-designed bathroom should feel comfortable, functional, and easy to maintain.
-                For many homeowners, older bathrooms often feel cramped, outdated, or no longer
-                practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
-                homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
-                long-term functionality without making the remodeling process overwhelming.
-              </p>
-              <p>
-                Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
-                replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
-                team provides personalized guidance from our Valrico showroom. Every renovation is
-                designed around your goals, lifestyle, and budget.
-              </p>
-            </div>
-
-            {/* CTA */}
-            <div className="pt-1">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
-              >
-                Visit Our Showroom
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-          </FadeIn>
         </div>
 
       </section>

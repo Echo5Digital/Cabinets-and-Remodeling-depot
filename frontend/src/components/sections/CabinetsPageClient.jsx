@@ -22,6 +22,7 @@ import {
   ZoomIn,
   Plus,
   Minus,
+  MapPin,
 } from 'lucide-react'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -263,6 +264,9 @@ function FAQAccordion({ faqs }) {
   )
 }
 
+/* ─── Shared serif class ─────────────────────────────────────────────────────── */
+const serif = 'font-[family-name:var(--font-playfair)]'
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
@@ -272,126 +276,134 @@ export function CabinetsPageClient() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
-          1. HERO — full-bleed dark image (homepage style)
+          1. HERO — full viewport, cabinets background
+             Mirrors the bathroom remodeling page hero layout & overlay
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full min-h-105 sm:min-h-120 md:min-h-135 overflow-hidden flex items-center">
+      <section id="cabinets-hero" className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
 
-        {/* Background image — direct child of relative section (same as kitchen page) */}
-        <Image
-          src="/beautiful-shot-modern-house-kitchen.jpg"
-          alt="In-stock cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {/* ── Background image — no dark wash on right, text-contrast scrim on left ── */}
+        <div className="absolute inset-0">
+          <Image
+            src="/beautiful-shot-modern-house-kitchen.jpg"
+            alt="In-stock cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
 
-        {/* Base dark wash */}
-        <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.50)' }} />
-        {/* Directional overlay — heavier left for text, opens right */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(105deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0.00) 100%)',
-          }}
-        />
-        {/* Bottom vignette */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 38%)' }}
-        />
+          {/* Feather-light left scrim — enough for text contrast, right half stays clear */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 35%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.00) 82%)',
+            }}
+          />
+        </div>
 
-        {/* Content */}
-        <div className="relative z-10 w-full py-14 sm:py-16 md:py-20">
-          <div className="container-custom max-w-7xl">
-            <div className="max-w-2xl lg:max-w-3xl">
-
-              {/* Section label */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
+        {/* ── Main content ─────────────────────────────────────────────── */}
+        <div className="relative z-10 flex-1 flex items-center py-20 sm:py-24 md:py-32">
+          <div className="container-custom w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="max-w-xl lg:max-w-2xl"
+            >
+              {/* Location badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-xs sm:text-sm uppercase tracking-[0.18em] font-semibold text-white/80 mb-3 sm:mb-5"
-                style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
+                transition={{ duration: 0.5, delay: 0.08 }}
+                className="inline-flex items-center gap-2 mb-5"
               >
-                Serving Tampa Bay From Our Valrico Showroom
-              </motion.p>
+                <MapPin className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,1)) drop-shadow(0 1px 3px rgba(0,0,0,1))' }} />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-gold"
+                  style={{ textShadow: '0 0 12px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9)' }}
+                >
+                  Serving Tampa Bay From Our Valrico Showroom
+                </span>
+              </motion.div>
 
-              {/* H1 — two-tone */}
+              {/* H1 */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-[1.6rem] sm:text-[2rem] lg:text-[2.5rem] xl:text-[2.9rem] font-extrabold leading-[1.12] mb-3 sm:mb-5"
-                style={{ textShadow: '0 2px 16px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
+                transition={{ duration: 0.65, delay: 0.12 }}
+                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold leading-[1.1] mb-4 ${serif}`}
+                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.95), 0 1px 8px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7)' }}
               >
-                <span className="block text-primary">In-Stock Cabinets Tampa &ndash;</span>
-                <span className="block text-white font-normal mt-1 leading-snug">
-                  Affordable &amp; Ready-to-Install Cabinet Solutions
-                </span>
+                <span className="text-white">In-Stock Cabinets Tampa &ndash;</span>{' '}
+                <span className="text-gold">Affordable &amp; Ready-to-Install Cabinet Solutions</span>
               </motion.h1>
 
-              {/* Accent divider */}
+              {/* Gold accent divider */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.45, delay: 0.2 }}
-                className="flex items-center gap-3 mb-3 sm:mb-6"
+                transition={{ duration: 0.45, delay: 0.22 }}
+                className="flex items-center gap-3 mb-5"
               >
-                <div className="h-[3px] w-10 rounded-full bg-primary" />
-                <div className="h-px w-24 rounded-full bg-white/35" />
+                <div className="h-0.75 w-10 rounded-full bg-gold" />
+                <div className="h-px w-24 rounded-full bg-white/40" />
               </motion.div>
 
-              {/* Subtitle */}
+              {/* Subheadline */}
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.28 }}
-                className="text-white text-xs sm:text-sm lg:text-base leading-relaxed mb-5 sm:mb-8 max-w-xl"
-                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.55)' }}
+                className="text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-lg"
+                style={{ textShadow: '0 1px 12px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.9)' }}
               >
                 Explore quality in-stock kitchen cabinets, affordable cabinet options, and
                 professional installation services from our Valrico showroom.
               </motion.p>
 
-              {/* Single CTA */}
+              {/* CTA buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.38 }}
-                className="mb-5 sm:mb-8"
+                className="flex flex-col sm:flex-row gap-3 mb-7"
               >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white font-bold text-sm sm:text-base tracking-wide px-8 sm:px-10 h-12 sm:h-14 uppercase rounded-lg shadow-lg shadow-black/30 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-primary font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-[8px] [background:rgba(255,255,255,0.85)]"
                 >
                   Request Cabinet Pricing
                 </Link>
               </motion.div>
 
-              {/* Trust chips */}
+              {/* Trust items — inline, pipe-separated, no background */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="flex flex-wrap gap-2 sm:gap-3"
+                className="flex items-center flex-wrap gap-y-2"
               >
-                {TRUST_ITEMS.map(({ line1, line2 }) => (
-                  <span
-                    key={line1}
-                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-white/90 border border-white/25 rounded-full px-3 sm:px-4 py-1.5 sm:py-2"
-                    style={{ background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)' }}
-                  >
-                    <Check className="w-3.5 h-3.5 text-primary shrink-0" strokeWidth={3} />
-                    {line1} {line2}
+                {TRUST_ITEMS.map(({ icon: Icon, line1, line2 }, i) => (
+                  <span key={line1} className="inline-flex items-center">
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white"
+                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85)' }}
+                    >
+                      <Icon className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.9))' }} />
+                      {line1} {line2}
+                    </span>
+                    {i < TRUST_ITEMS.length - 1 && (
+                      <span className="mx-3 text-white/40 font-light select-none">|</span>
+                    )}
                   </span>
                 ))}
               </motion.div>
 
-            </div>
+            </motion.div>
           </div>
         </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════

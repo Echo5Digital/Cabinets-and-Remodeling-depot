@@ -237,6 +237,9 @@ const FAQS = [
   },
 ]
 
+/* ─── Shared serif class ─────────────────────────────────────────────────────── */
+const serif = 'font-[family-name:var(--font-playfair)]'
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
@@ -244,80 +247,135 @@ export function FlooringPageClient() {
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
-          1. HERO
+          1. HERO — full viewport, flooring background
+             Mirrors the bathroom remodeling page hero layout & overlay
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full min-h-[440px] sm:min-h-[500px] md:min-h-[560px] overflow-hidden flex items-center">
+      <section id="flooring-hero" className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
 
-        {/* Background photo */}
-        <Image
-          src="/flooring-in-tampa.jpg"
-          alt="Flooring Tampa Bay – Hardwood, Tile and Laminate"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {/* ── Background image — no dark wash on right, text-contrast scrim on left ── */}
+        <div className="absolute inset-0">
+          <Image
+            src="/flooring-in-tampa.jpg"
+            alt="Flooring Tampa Bay – Hardwood, Tile and Laminate"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
 
-        {/* White gradient: left solid → transparent right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/10 lg:from-white lg:via-white/90 lg:to-transparent" />
-        {/* Extra soft overlay on small screens for readability */}
-        <div className="absolute inset-0 bg-white/55 lg:hidden" />
+          {/* Feather-light left scrim — enough for text contrast, right half stays clear */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 35%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.00) 82%)',
+            }}
+          />
+        </div>
 
-        {/* Content */}
-        <div className="relative z-10 w-full py-14 md:py-20">
-          <div className="container-custom max-w-7xl">
+        {/* ── Main content ─────────────────────────────────────────────── */}
+        <div className="relative z-10 flex-1 flex items-center py-20 sm:py-24 md:py-32">
+          <div className="container-custom w-full">
             <motion.div
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="max-w-xl xl:max-w-2xl"
+              className="max-w-xl lg:max-w-2xl"
             >
-              {/* Pre-headline */}
-              <div className="inline-flex items-center gap-2 mb-5">
-                <MapPin className="w-4 h-4 text-primary shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+              {/* Location badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.08 }}
+                className="inline-flex items-center gap-2 mb-5"
+              >
+                <MapPin className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,1)) drop-shadow(0 1px 3px rgba(0,0,0,1))' }} />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-gold"
+                  style={{ textShadow: '0 0 12px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9)' }}
+                >
                   Serving Tampa Bay from Our Valrico Showroom
                 </span>
-              </div>
+              </motion.div>
 
               {/* H1 */}
-              <h1 className="text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.4rem] font-extrabold text-gray-900 leading-[1.1] mb-5">
-                Flooring Tampa {' '}
-                <span className="text-primary">Hardwood, Tile &amp; Laminate</span>{' '}
-                Flooring Solutions
-              </h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.12 }}
+                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold leading-[1.1] mb-4 ${serif}`}
+                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.95), 0 1px 8px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7)' }}
+              >
+                <span className="text-white">Flooring Tampa </span>
+                <span className="text-gold">Hardwood, Tile &amp; Laminate</span>
+                <span className="text-white"> Flooring Solutions</span>
+              </motion.h1>
+
+              {/* Gold accent divider */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.45, delay: 0.22 }}
+                className="flex items-center gap-3 mb-5"
+              >
+                <div className="h-0.75 w-10 rounded-full bg-gold" />
+                <div className="h-px w-24 rounded-full bg-white/40" />
+              </motion.div>
 
               {/* Subheadline */}
-              <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-7 max-w-lg">
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.28 }}
+                className="text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-lg"
+                style={{ textShadow: '0 1px 12px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.9)' }}
+              >
                 Upgrade your home with hardwood, laminate, tile, and professionally installed
                 flooring solutions designed for beauty, durability, and everyday living.
-              </p>
+              </motion.p>
 
-              {/* Trust indicators */}
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2.5 mb-8">
-                {TRUST_ITEMS.map(({ icon: Icon, label }, i) => (
-                  <span key={label} className="flex items-center gap-1.5 text-gray-700 text-sm font-medium">
-                    <Icon className="w-4 h-4 text-primary shrink-0" />
-                    {label}
-                    {i < TRUST_ITEMS.length - 1 && (
-                      <span className="ml-4 hidden sm:inline w-px h-4 bg-gray-300" />
-                    )}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA button */}
-              <div>
+              {/* CTA buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.38 }}
+                className="flex flex-col sm:flex-row gap-3 mb-7"
+              >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-md shadow-primary/25"
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/80 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-xl shadow-black/40 whitespace-nowrap"
                 >
                   Visit Our Valrico Showroom
                 </Link>
-              </div>
+              </motion.div>
+
+              {/* Trust items — inline, pipe-separated, no background */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex items-center flex-wrap gap-y-2"
+              >
+                {TRUST_ITEMS.map(({ icon: Icon, label }, i) => (
+                  <span key={label} className="inline-flex items-center">
+                    <span
+                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white"
+                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85)' }}
+                    >
+                      <Icon className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.9))' }} />
+                      {label}
+                    </span>
+                    {i < TRUST_ITEMS.length - 1 && (
+                      <span className="mx-3 text-white/40 font-light select-none">|</span>
+                    )}
+                  </span>
+                ))}
+              </motion.div>
+
             </motion.div>
           </div>
         </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
