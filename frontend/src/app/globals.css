@@ -25,6 +25,16 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* ── Bathroom page luxury theme tokens ─────────────────────────────────── */
+  --font-playfair:       var(--font-playfair-display), Georgia, serif;
+  --color-olive:         #2D4A2A;
+  --color-olive-mid:     #3D5C39;
+  --color-olive-light:   #EEF2EC;
+  --color-warm-gray:     #F5F0E8;
+  --color-cream:         #FAF6EF;
+  --color-gold:          #C9A96E;
+  --color-gold-light:    #E8CFA0;
 }
 
 @layer base {
@@ -99,6 +109,10 @@
 
   .brand-gradient {
     background: linear-gradient(135deg, #811121 0%, #a01428 50%, #6b0e1b 100%);
+  }
+
+  .olive-gradient {
+    background: linear-gradient(135deg, #2D4A2A 0%, #3D5C39 50%, #263E23 100%);
   }
 
   .section-padding {
@@ -896,6 +910,16 @@
    The public page uses renderHTML's correct HTML child order instead.       */
 .tiptap-editor .blog-text-image-layout--left .text-image-text-col { order: 2; }
 .tiptap-editor .blog-text-image-layout--left .text-image-img-col  { order: 1; }
+
+/* ─── Prevent browser auto-detected address links from recoloring body text ── */
+/* Chrome / Safari sometimes wrap city/address strings in <a> tags.            */
+/* This class forces those injected links to inherit the paragraph color.       */
+.body-text-protected a {
+  color: inherit !important;
+  text-decoration: none !important;
+  pointer-events: none;
+  cursor: text;
+}
 
 /* ─── Smooth scrolling ──────────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
