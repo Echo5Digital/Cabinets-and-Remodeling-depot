@@ -24,6 +24,8 @@ export function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false)
   const [flooringOpen, setFlooringOpen] = useState(false)
   const [mobileFlooringOpen, setMobileFlooringOpen] = useState(false)
+  const [pastHero, setPastHero] = useState(false)
+
   useEffect(() => {
     setMobileOpen(false)
     setServicesOpen(false)
@@ -31,18 +33,30 @@ export function Navbar() {
     setMobileFlooringOpen(false)
   }, [pathname])
 
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.85)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [pathname])
+
+  const isMaroon = pastHero
+
   const isActive = (href) => pathname === href
 
-  const linkActiveColor = 'text-[#810E29]'
-  const linkInactiveColor = 'text-[#810E29]'
-  const linkHoverColor = 'hover:text-[#810E29]'
-  const hamburgerColor = 'text-[#810E29] hover:bg-[#810E29]/10'
+  const linkActiveColor = isMaroon ? 'text-white' : 'text-[#810E29]'
+  const linkInactiveColor = isMaroon ? 'text-white/90' : 'text-[#810E29]'
+  const linkHoverColor = isMaroon ? 'hover:text-white/80' : 'hover:text-[#810E29]'
+  const hamburgerColor = isMaroon ? 'text-white hover:bg-white/15' : 'text-[#810E29] hover:bg-[#810E29]/10'
 
   return (
     <>
       {/* ── Full-width fixed header ── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 transition-colors duration-300',
+          isMaroon ? 'bg-[#810E29] shadow-md' : 'bg-white shadow-sm'
+        )}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
           <div className="flex items-center justify-between h-20 md:h-24">
@@ -67,7 +81,7 @@ export function Navbar() {
                     <div key={link.href} className="relative">
                       <button
                         className={cn(
-                          'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors',
+                          'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors font-montserrat',
                           linkHoverColor,
                           pathname.startsWith('/kitchen-remodeling-tampa') ||
                           pathname.startsWith('/bathroom-remodeling-tampa') ||
@@ -183,7 +197,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors',
+                      'px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors font-montserrat',
                       linkHoverColor,
                       isActive(link.href) ? linkActiveColor : linkInactiveColor
                     )}
@@ -199,7 +213,10 @@ export function Navbar() {
               <Button
                 asChild
                 size="default"
-                className="hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase border border-[#810E29]"
+                className={cn(
+                  'hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase font-montserrat',
+                  isMaroon ? 'border border-white' : 'border border-[#810E29]'
+                )}
               >
                 <Link href="/contact">Get Free Estimate</Link>
               </Button>

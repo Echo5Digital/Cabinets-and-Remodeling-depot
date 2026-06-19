@@ -26,8 +26,14 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* ── Bathroom page luxury theme tokens ─────────────────────────────────── */
-  --font-playfair:       var(--font-playfair-display), Georgia, serif;
+  /* ── Global font stack ──────────────────────────────────────────────────── */
+  /* Manrope  → body / general text (replaces Inter as font-sans default)     */
+  /* Montserrat → UI chrome: nav, buttons, labels, uppercase tracking text    */
+  /* Playfair Display → editorial headings h1–h6                              */
+  --font-sans:       var(--font-manrope), system-ui, sans-serif;
+  --font-manrope:    var(--font-manrope), system-ui, sans-serif;
+  --font-montserrat: var(--font-montserrat), system-ui, sans-serif;
+  --font-playfair:   var(--font-playfair-display), Georgia, serif;
   --color-olive:         #2D4A2A;
   --color-olive-mid:     #3D5C39;
   --color-olive-light:   #EEF2EC;
@@ -96,8 +102,17 @@
     color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  /* Playfair Display for all headings site-wide */
   h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair-display), Georgia, serif;
     letter-spacing: -0.025em;
+  }
+
+  /* Montserrat for all interactive / UI-chrome elements */
+  button, [role="button"],
+  input[type="submit"], input[type="reset"],
+  label, th {
+    font-family: var(--font-montserrat), system-ui, sans-serif;
   }
 }
 

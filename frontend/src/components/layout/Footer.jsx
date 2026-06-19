@@ -39,7 +39,7 @@ const FOOTER_LINKS = [
 function FooterHeading({ first, second }) {
   return (
     <div className="mb-5">
-      <h3 className="text-base tracking-widest uppercase font-medium text-white">
+      <h3 className="text-base tracking-widest uppercase font-medium text-white font-montserrat">
         {first}{' '}
         <span className="font-bold text-primary">{second}</span>
       </h3>

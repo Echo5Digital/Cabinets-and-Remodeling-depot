@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -21,6 +22,7 @@ import {
   Settings2,
   ChevronRight,
   Phone,
+  X,
 } from 'lucide-react'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -42,10 +44,10 @@ function FadeIn({ children, delay = 0, className = '' }) {
 /* ─── Section label ─────────────────────────────────────────────────────────── */
 function SectionLabel({ children }) {
   return (
-    <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-olive mb-3">
-      <span className="w-6 h-px bg-olive inline-block" />
+    <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary mb-3">
+      <span className="w-6 h-px bg-primary inline-block" />
       {children}
-      <span className="w-6 h-px bg-olive inline-block" />
+      <span className="w-6 h-px bg-primary inline-block" />
     </p>
   )
 }
@@ -96,41 +98,61 @@ const WHY_CHOOSE = [
 
 const SERVICES = [
   {
-    image: '/bathroom-remodel-2.jpg',
+    image: '/bathroom-designing.webp',
     alt: 'Bathroom design and planning Tampa Bay',
     title: 'Bathroom Design & Planning',
     body: 'Every successful bathroom renovation starts with thoughtful planning. We work closely with homeowners to understand their goals, evaluate existing layouts, and develop designs that balance comfort, efficiency, and visual appeal.',
   },
   {
-    image: '/bathroom-remodel-3.jpg',
+    image: '/custom-bathroom-vanity.jpg',
     alt: 'Custom bathroom vanities Tampa',
     title: 'Custom Bathroom Vanities',
     body: "Our showroom features bathroom vanities Tampa homeowners can compare in person. Whether you're looking for a modern floating vanity, a traditional cabinet-style vanity, or additional storage solutions, we help you find options that fit your space and style.",
   },
   {
-    image: '/freepik__quartz-vs-granite-for-bathroom-countertops-which-s__53320.webp',
+    image: '/bathroom-surfaces.webp',
     alt: 'Quartz and granite bathroom countertops Tampa',
     title: 'Bathroom Countertops & Surfaces',
     body: 'We offer bathroom countertops Tampa homeowners can customize using premium materials such as quartz and granite. These surfaces provide durability, easy maintenance, and timeless beauty.',
   },
   {
-    image: '/bathroom-remodel-5.jpg',
+    image: '/faucets-fixtures.jpg',
     alt: 'Bathroom faucets and fixtures Tampa Valrico showroom',
     title: 'Faucets & Fixture Selections',
     body: 'Our showroom includes bathroom faucets Tampa Valrico showroom visitors can compare alongside vanities and countertop materials to create a cohesive design throughout the space.',
   },
   {
-    image: '/bathroom-remodel-6.jpg',
+    image: '/shower-upgrade.jpg',
     alt: 'Shower and bath upgrades Tampa',
     title: 'Shower & Bath Upgrades',
     body: 'From updated shower systems to bathtub replacements, we help homeowners create bathrooms that feel more comfortable, modern, and functional.',
   },
   {
-    image: '/bathroom-remodel-1.jpg',
+    image: '/storage-solution.webp',
     alt: 'Bathroom storage and organization solutions',
     title: 'Storage & Organization Solutions',
     body: 'Smart storage solutions help maximize available space while keeping bathrooms organized and clutter-free.',
   },
+]
+
+/* Flip transform applied to inner wrapper when card is flipped */
+const FLIP_TRANSFORM = [
+  'rotateY(180deg)',   // 0 — flip left
+  'rotateX(-180deg)', // 1 — flip up
+  'rotateY(-180deg)', // 2 — flip right
+  'rotateY(180deg)',  // 3 — flip left
+  'rotateX(180deg)',  // 4 — flip down
+  'rotateY(-180deg)', // 5 — flip right
+]
+
+/* Initial transform of the back face so it starts hidden */
+const BACK_INIT = [
+  'rotateY(180deg)',  // 0 — Y-axis
+  'rotateX(180deg)', // 1 — X-axis
+  'rotateY(180deg)', // 2 — Y-axis
+  'rotateY(180deg)', // 3 — Y-axis
+  'rotateX(180deg)', // 4 — X-axis
+  'rotateY(180deg)', // 5 — Y-axis
 ]
 
 const INSPIRATION_STYLES = [
@@ -237,13 +259,15 @@ const FAQS = [
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
 export function BathroomRemodelingPageClient() {
+  const [flippedCard, setFlippedCard] = useState(null)
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
           1. HERO — full viewport, bathroom-02.webp background
              Mirrors the home page HeroSection layout & overlay approach
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
+      <section id="bathroom-hero" className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
 
         {/* ── Background image — fully visible, no dark wash ────────── */}
         <div className="absolute inset-0">
@@ -262,7 +286,7 @@ export function BathroomRemodelingPageClient() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to right, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.22) 35%, rgba(0,0,0,0.06) 60%, rgba(0,0,0,0.00) 80%)',
+                'linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 35%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.00) 82%)',
             }}
           />
         </div>
@@ -276,17 +300,6 @@ export function BathroomRemodelingPageClient() {
               transition={{ duration: 0.7 }}
               className="max-w-xl lg:max-w-2xl"
             >
-              {/* Gold italic serif script */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className={`text-xl sm:text-2xl italic text-gold-light mb-3 ${serif}`}
-                style={{ textShadow: '0 0 16px rgba(0,0,0,0.95), 0 0 32px rgba(0,0,0,0.85), 0 2px 6px rgba(0,0,0,0.95)' }}
-              >
-                Beautiful. Functional. Built for You.
-              </motion.p>
-
               {/* Location badge */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
@@ -294,10 +307,10 @@ export function BathroomRemodelingPageClient() {
                 transition={{ duration: 0.5, delay: 0.08 }}
                 className="inline-flex items-center gap-2 mb-5"
               >
-                <MapPin className="w-4 h-4 text-white shrink-0" style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.7))' }} />
+                <MapPin className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,1)) drop-shadow(0 1px 3px rgba(0,0,0,1))' }} />
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.18em] text-white"
-                  style={{ textShadow: '0 1px 6px rgba(0,0,0,0.8), 0 0 3px rgba(0,0,0,0.6)' }}
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-gold"
+                  style={{ textShadow: '0 0 12px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9)' }}
                 >
                   Serving Tampa Bay from Our Valrico Showroom
                 </span>
@@ -308,11 +321,11 @@ export function BathroomRemodelingPageClient() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.12 }}
-                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-4 ${serif}`}
-                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.8), 0 1px 6px rgba(0,0,0,0.7)' }}
+                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold leading-[1.1] mb-4 ${serif}`}
+                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.95), 0 1px 8px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7)' }}
               >
-                Bathroom Remodeling Tampa –{' '}
-                <span className="text-gold-light">Custom Vanities &amp; Renovation Solutions</span>
+                <span className="text-white">Bathroom Remodeling Tampa –</span>{' '}
+                <span className="text-gold">Custom Vanities &amp; Renovation Solutions</span>
               </motion.h1>
 
               {/* Gold accent divider */}
@@ -332,7 +345,7 @@ export function BathroomRemodelingPageClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.28 }}
                 className="text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-lg"
-                style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 4px rgba(0,0,0,0.5)' }}
+                style={{ textShadow: '0 1px 12px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.9)' }}
               >
                 Transform your bathroom with custom vanities, premium countertops, modern fixtures,
                 and professional renovation solutions designed around your lifestyle.
@@ -347,14 +360,13 @@ export function BathroomRemodelingPageClient() {
               >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:bg-white/15 font-bold uppercase tracking-widest text-sm h-14 px-7 rounded-lg transition-colors whitespace-nowrap"
-                  style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}
+                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-primary font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-[8px] [background:rgba(255,255,255,0.85)]"
                 >
                   Visit Our Valrico Showroom
                 </Link>
                 <a
                   href="tel:+18136512333"
-                  className="inline-flex items-center justify-center gap-2 bg-olive hover:bg-olive-mid text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-xl shadow-black/40 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/80 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-xl shadow-black/40 whitespace-nowrap"
                 >
                   <Phone className="w-4 h-4 shrink-0" />
                   (813) 651-2333
@@ -372,12 +384,9 @@ export function BathroomRemodelingPageClient() {
                   <span key={label} className="inline-flex items-center">
                     <span
                       className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white"
-                      style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
+                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85)' }}
                     >
-                      <Icon
-                        className="w-4 h-4 text-white shrink-0"
-                        style={{ filter: 'drop-shadow(0 0 3px rgba(201,169,110,0.9))' }}
-                      />
+                      <Icon className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.9))' }} />
                       {label}
                     </span>
                     {i < TRUST_ITEMS.length - 1 && (
@@ -394,69 +403,126 @@ export function BathroomRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. TRUSTED PARTNER — image left | text right
+          2. TRUSTED PARTNER — true half/half split panel
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white overflow-hidden">
-        <div className="container-custom max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="flex flex-col lg:flex-row min-h-[560px] lg:min-h-[640px] overflow-hidden">
 
-            {/* Left — bathroom image */}
-            <FadeIn className="relative">
-              <div className="relative w-full aspect-4/3 lg:aspect-5/4 rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/bathroom-remodeling-2.jpg"
-                  alt="Your trusted bathroom remodeling partner Tampa Bay"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-28 h-28 rounded-2xl bg-olive/8 -z-10 hidden lg:block" />
-            </FadeIn>
+        {/* ── LEFT PANEL — wood background + photo on wall ── */}
+        <div className="relative flex-1 min-h-[400px] lg:min-h-0 flex items-center justify-center px-8 py-16 lg:py-20">
 
-            {/* Right — text */}
-            <FadeIn delay={0.12} className="flex flex-col gap-5">
-              <div>
-                <SectionLabel>Your Trusted</SectionLabel>
-                <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight ${serif}`}>
-                  Bathroom Remodeling Partner{' '}
-                  <span className="text-olive">in Tampa Bay</span>
-                </h2>
-              </div>
-              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
-                <p>
-                  A well-designed bathroom should feel comfortable, functional, and easy to maintain.
-                  For many homeowners, older bathrooms often feel cramped, outdated, or no longer
-                  practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
-                  homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
-                  long-term functionality without making the remodeling process overwhelming.
-                </p>
-                <p>
-                  Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
-                  replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
-                  team provides personalized guidance from our Valrico showroom. Every renovation is
-                  designed around your goals, lifestyle, and budget.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-olive hover:bg-olive-mid text-white font-bold uppercase tracking-widest text-sm h-12 px-7 rounded-lg transition-colors shadow-md shadow-olive/20"
-                >
-                  Visit Our Showroom
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </FadeIn>
-
+          {/* Background fills entire left panel */}
+          <div className="absolute inset-0">
+            <Image
+              src="/bathroom-designing-02.jpg"
+              alt=""
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              aria-hidden="true"
+            />
+            {/* Subtle darkening to give depth and let frame stand out */}
+            <div className="absolute inset-0 bg-black/25" />
           </div>
+
+          {/* Bathroom photo — picture hanging on the wood wall */}
+          <FadeIn className="relative z-10">
+            <div className="relative inline-block">
+
+              {/* Hanging wire */}
+              <div className="absolute -top-7 left-1/2 -translate-x-1/2 flex flex-col items-center">
+                <div className="w-2 h-2 rounded-full bg-gold/80" />
+                <div className="w-px h-6 bg-gold/50" />
+              </div>
+
+              {/* Gold picture frame — outer border */}
+              <div
+                className="p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
+                style={{ background: 'linear-gradient(145deg,#E8CFA0,#C9A96E,#9A6E30,#C9A96E,#E8CFA0)' }}
+              >
+                {/* Photo */}
+                <div className="relative w-[340px] h-[255px] sm:w-[440px] sm:h-[330px] lg:w-[400px] lg:h-[300px] xl:w-[500px] xl:h-[375px] overflow-hidden">
+                  <Image
+                    src="/bathroom-remodeling-2.jpg"
+                    alt="Your trusted bathroom remodeling partner Tampa Bay"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 340px, (max-width: 1024px) 440px, 500px"
+                  />
+                </div>
+              </div>
+
+              {/* Cast shadow below frame */}
+              <div className="absolute -bottom-3 left-4 right-4 h-5 bg-black/35 blur-md rounded-full -z-10" />
+            </div>
+          </FadeIn>
         </div>
+
+        {/* ── RIGHT PANEL — maroon gradient + text ── */}
+        <div
+          className="relative flex-1 flex items-center px-8 sm:px-12 lg:px-14 xl:px-16 py-16 lg:py-20"
+          style={{ background: 'linear-gradient(150deg,#8B1428 0%,#5C0A1D 55%,#3D0512 100%)' }}
+        >
+          {/* Subtle gold corner accent */}
+          <div className="absolute top-0 right-0 w-32 h-32 opacity-10"
+            style={{ background: 'radial-gradient(circle at top right, #C9A96E, transparent 70%)' }} />
+
+          <FadeIn delay={0.12} className="relative z-10 flex flex-col gap-6 max-w-lg w-full">
+
+            {/* Gold label */}
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-px bg-gold shrink-0" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold whitespace-nowrap">
+                Your Trusted
+              </p>
+              <span className="w-8 h-px bg-gold shrink-0" />
+            </div>
+
+            {/* Heading */}
+            <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-white leading-tight ${serif}`}>
+              Bathroom Remodeling Partner{' '}
+              <span className="text-gold">in Tampa Bay</span>
+            </h2>
+
+            {/* Gold rule */}
+            <div className="w-14 h-0.5 bg-gold/60" />
+
+            {/* Body */}
+            <div className="space-y-4 text-white/85 text-base leading-relaxed">
+              <p>
+                A well-designed bathroom should feel comfortable, functional, and easy to maintain.
+                For many homeowners, older bathrooms often feel cramped, outdated, or no longer
+                practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
+                homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
+                long-term functionality without making the remodeling process overwhelming.
+              </p>
+              <p>
+                Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
+                replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
+                team provides personalized guidance from our Valrico showroom. Every renovation is
+                designed around your goals, lifestyle, and budget.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <div className="pt-1">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+              >
+                Visit Our Showroom
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+          </FadeIn>
+        </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
           3. WHY HOMEOWNERS CHOOSE — horizontal feature bar with dividers
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-14 md:py-20 bg-white border-y border-gray-100">
+      <section className="py-14 md:py-20 bg-[#F5F0E8] border-y border-[#E8DFD0]">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-10">
@@ -473,8 +539,8 @@ export function BathroomRemodelingPageClient() {
                   key={title}
                   className="flex-1 flex flex-col items-center text-center px-5 py-8 sm:py-6 group"
                 >
-                  <div className="w-13 h-13 rounded-full border border-olive/25 bg-olive-light/50 flex items-center justify-center mb-4 group-hover:border-olive/50 group-hover:bg-olive-light transition-colors duration-200">
-                    <Icon className="w-5 h-5 text-olive" strokeWidth={1.5} />
+                  <div className="w-13 h-13 rounded-full border border-primary/25 bg-primary/8 flex items-center justify-center mb-4 group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors duration-200">
+                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                   </div>
                   <h3 className={`font-bold text-gray-900 text-sm sm:text-base mb-1.5 leading-snug ${serif}`}>
                     {title}
@@ -491,7 +557,7 @@ export function BathroomRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          4. COMPREHENSIVE SERVICES — image cards (3-col grid)
+          4. COMPREHENSIVE SERVICES — flip cards (3-col grid)
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
@@ -500,32 +566,97 @@ export function BathroomRemodelingPageClient() {
             <SectionLabel>What We Offer</SectionLabel>
             <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight ${serif}`}>
               Comprehensive Bathroom Remodeling{' '}
-              <span className="text-olive">Services</span>
+              <span className="text-primary">Services</span>
             </h2>
           </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {SERVICES.map(({ image, alt, title, body }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300 h-full">
-                  <div className="relative w-full aspect-4/3 overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={alt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-5 flex flex-col gap-3 flex-1">
-                    <h3 className={`font-bold text-gray-900 text-lg leading-snug ${serif}`}>{title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{body}</p>
-                    <Link
-                      href="/contact"
-                      className="inline-flex items-center gap-1.5 text-olive font-semibold text-sm hover:gap-2.5 transition-all duration-200 mt-auto"
+              <FadeIn key={title} delay={0} className="w-full">
+                {/* Perspective container — padding-bottom hack for reliable 4:3 aspect ratio
+                    when all children are absolute (aspectRatio alone fails on some browsers) */}
+                <div
+                  className="relative w-full rounded-2xl"
+                  style={{ perspective: '1200px', paddingBottom: '75%' }}
+                >
+                  {/* Flip inner */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: flippedCard === i ? FLIP_TRANSFORM[i] : 'rotateY(0deg)',
+                      transition: 'transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1)',
+                    }}
+                  >
+                    {/* ── FRONT FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-md"
+                      style={{ backfaceVisibility: 'hidden' }}
                     >
-                      Learn More <ChevronRight className="w-4 h-4" />
-                    </Link>
+                      {/* Background image */}
+                      <Image
+                        src={image}
+                        alt={alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      {/* Gradient overlay — darker at bottom for text contrast */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10" />
+
+                      {/* Title — centered */}
+                      <div className="absolute inset-0 flex items-center justify-center px-5 pb-14">
+                        <h3
+                          className={`text-white text-xl sm:text-2xl font-extrabold text-center leading-snug ${serif}`}
+                          style={{ textShadow: '0 2px 14px rgba(0,0,0,0.85), 0 0 30px rgba(0,0,0,0.6)' }}
+                        >
+                          {title}
+                        </h3>
+                      </div>
+
+                      {/* Learn More — bottom center */}
+                      <div className="absolute bottom-5 left-0 right-0 flex justify-center">
+                        <button
+                          onClick={() => setFlippedCard(i)}
+                          className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/28 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border border-white/35 transition-all duration-200 hover:border-white/60 hover:scale-105"
+                        >
+                          Learn More <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      {/* Top-left index badge */}
+                      <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-primary/80 backdrop-blur-sm flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">{i + 1}</span>
+                      </div>
+                    </div>
+
+                    {/* ── BACK FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-xl bg-primary flex flex-col justify-between p-6 sm:p-7"
+                      style={{ backfaceVisibility: 'hidden', transform: BACK_INIT[i] }}
+                    >
+                      {/* Body */}
+                      <p className="text-white text-sm sm:text-[15px] leading-relaxed font-medium">
+                        {body}
+                      </p>
+
+                      {/* Bottom actions */}
+                      <div className="flex items-center justify-between gap-3">
+                        <Link
+                          href="/contact"
+                          className="inline-flex items-center gap-1.5 bg-white text-primary text-[11px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full hover:bg-white/90 transition-colors whitespace-nowrap shadow-sm"
+                        >
+                          Get a Quote <ChevronRight className="w-3 h-3" />
+                        </Link>
+                        <button
+                          onClick={() => setFlippedCard(null)}
+                          className="inline-flex items-center gap-1 text-white/80 hover:text-white text-[11px] font-semibold uppercase tracking-wide transition-colors shrink-0"
+                        >
+                          <X className="w-3.5 h-3.5" /> Close
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </FadeIn>
@@ -558,9 +689,9 @@ export function BathroomRemodelingPageClient() {
               {INSPIRATION_STYLES.map((style) => (
                 <span
                   key={style}
-                  className="inline-flex items-center gap-2 bg-white border border-olive/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-olive hover:text-olive transition-colors cursor-default"
+                  className="inline-flex items-center gap-2 bg-white border border-primary/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors cursor-default"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-olive shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                   {style}
                 </span>
               ))}
@@ -590,7 +721,7 @@ export function BathroomRemodelingPageClient() {
           <FadeIn delay={0.18} className="text-center mt-8">
             <Link
               href="/gallery"
-              className="inline-flex items-center gap-2 border-2 border-olive text-olive hover:bg-olive hover:text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors"
             >
               View More Inspiration
               <ArrowRight className="w-4 h-4" />
@@ -632,7 +763,7 @@ export function BathroomRemodelingPageClient() {
                   {/* Gradient overlay — always present, deepens on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
                   {/* Olive accent bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.75 bg-olive opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.75 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   {/* Title */}
                   <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                     <p className={`text-white font-bold text-sm sm:text-base leading-tight drop-shadow-md ${serif}`}>
@@ -657,14 +788,14 @@ export function BathroomRemodelingPageClient() {
             <SectionLabel>Our Bathroom Remodeling Process</SectionLabel>
             <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
               How We Bring Your{' '}
-              <span className="text-olive">Bathroom Vision to Life</span>
+              <span className="text-primary">Bathroom Vision to Life</span>
             </h2>
           </FadeIn>
 
           <div className="relative">
 
             {/* Connecting line (desktop only) */}
-            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-olive/25 to-transparent z-0" />
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
               {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
@@ -673,11 +804,11 @@ export function BathroomRemodelingPageClient() {
 
                     {/* Step circle */}
                     <div className="relative">
-                      <div className="w-18 h-18 rounded-full bg-olive shadow-lg shadow-olive/20 flex items-center justify-center">
+                      <div className="w-18 h-18 rounded-full bg-primary shadow-lg shadow-primary/20 flex items-center justify-center">
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                       {/* Step number badge */}
-                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-olive text-olive text-[10px] font-extrabold flex items-center justify-center leading-none">
+                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-primary text-primary text-[10px] font-extrabold flex items-center justify-center leading-none">
                         {i + 1}
                       </span>
                     </div>
@@ -710,7 +841,7 @@ export function BathroomRemodelingPageClient() {
 
               <h2 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
                 Serving Homeowners Throughout{' '}
-                <span className="text-olive">Tampa Bay</span>
+                <span className="text-primary">Tampa Bay</span>
               </h2>
 
               {/* Body paragraphs — .body-text-protected stops browser auto-link recoloring */}
@@ -735,15 +866,15 @@ export function BathroomRemodelingPageClient() {
                     key={area}
                     className="flex items-center gap-2.5 text-gray-700 text-sm font-medium"
                   >
-                    <span className="w-5 h-5 rounded-full bg-olive-light flex items-center justify-center shrink-0">
-                      <MapPin className="w-3 h-3 text-olive" />
+                    <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <MapPin className="w-3 h-3 text-primary" />
                     </span>
                     {area}
                   </span>
                 ))}
 
                 {/* "And all surrounding…" spans full width */}
-                <span className="flex items-center gap-2 text-olive text-sm font-semibold col-span-2 mt-1">
+                <span className="flex items-center gap-2 text-primary text-sm font-semibold col-span-2 mt-1">
                   <MapPin className="w-4 h-4 shrink-0" />
                   And all surrounding communities
                 </span>
@@ -795,7 +926,7 @@ export function BathroomRemodelingPageClient() {
                 </div>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-olive hover:bg-olive-mid text-white font-bold uppercase tracking-widest text-xs h-11 px-5 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/80 text-white font-bold uppercase tracking-widest text-xs h-11 px-5 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Free Estimate
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -809,53 +940,65 @@ export function BathroomRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          9. FAQ — olive accent variant on white background
+          9. FAQ — maroon primary accent on white background
       ════════════════════════════════════════════════════════════════════ */}
-      <FAQSection faqs={FAQS} title="Frequently Asked Questions" variant="olive" />
+      <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
 
       {/* ════════════════════════════════════════════════════════════════════
-          10. FINAL CTA — dark olive gradient
+          10. FINAL CTA — light overlay, dark text, gold accents
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section className="relative py-20 md:py-32 overflow-hidden">
 
-        {/* Background photo + olive gradient overlay */}
+        {/* Background photo — bright bathroom image, light cream overlay */}
         <div className="absolute inset-0">
           <Image
-            src="/bathroom-remodel-5.jpg"
+            src="/start-bathroom-remodel.jpeg"
             alt="Start your bathroom remodeling project Tampa Bay"
             fill
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 olive-gradient opacity-92" />
+          {/* Cream wash — strong enough for full text legibility, light enough to show image */}
+          <div className="absolute inset-0 bg-white/78" />
         </div>
 
-        <div className="relative z-10 container-custom max-w-3xl text-center">
+        <div className="relative z-10 container-custom max-w-3xl text-center px-4">
           <FadeIn>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/70 mb-4">
-              <span className="w-6 h-px bg-white/50 inline-block" />
-              Tampa Bay Bathroom Experts
-              <span className="w-6 h-px bg-white/50 inline-block" />
-            </p>
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 ${serif}`}>
+
+            {/* Gold section label with long flanking lines */}
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="flex-1 max-w-[60px] sm:max-w-[90px] h-px bg-gold" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold whitespace-nowrap">
+                Tampa Bay Bathroom Experts
+              </p>
+              <span className="flex-1 max-w-[60px] sm:max-w-[90px] h-px bg-gold" />
+            </div>
+
+            {/* Heading */}
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
               Start Your Bathroom Remodeling{' '}
-              <span className="text-gold-light">Project Today</span>
+              <span className="text-primary">Project Today</span>
             </h2>
-            <p className="text-white/85 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl mx-auto">
+
+            {/* Body */}
+            <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               Whether you&rsquo;re updating an outdated bathroom, improving storage, or planning a
               complete renovation, Cabinets &amp; Remodeling Depot is here to help. Visit our
               Valrico showroom to explore bathroom vanities, countertops, faucets, and design options
               while working with a team committed to creating beautiful, functional bathrooms tailored
               to your needs and lifestyle.
             </p>
+
+            {/* Gold CTA button */}
             <div className="flex justify-center">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-white text-olive hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-14 px-10 rounded-lg transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-10 rounded-lg transition-colors shadow-lg whitespace-nowrap"
               >
                 Schedule a Free Consultation
               </Link>
             </div>
+
           </FadeIn>
         </div>
 

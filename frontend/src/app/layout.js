@@ -1,15 +1,24 @@
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Playfair_Display, Manrope, Montserrat } from 'next/font/google'
 import { QueryProvider } from '@/providers/QueryProvider'
 import { AuthProvider } from '@/providers/AuthProvider'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
-const inter = Inter({
+/* Body / general text */
+const manrope = Manrope({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-manrope',
   display: 'swap',
 })
 
+/* UI chrome — nav, buttons, labels, uppercase tracking text */
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+  display: 'swap',
+})
+
+/* Display / editorial headings */
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair-display',
@@ -46,7 +55,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${montserrat.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased">
         <QueryProvider>
           <AuthProvider>
