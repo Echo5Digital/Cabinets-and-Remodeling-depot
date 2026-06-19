@@ -23,6 +23,9 @@ import {
   Plus,
   Minus,
   MapPin,
+  Calendar,
+  Star,
+  Phone,
 } from 'lucide-react'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -284,7 +287,7 @@ export function CabinetsPageClient() {
         {/* ── Background image — no dark wash on right, text-contrast scrim on left ── */}
         <div className="absolute inset-0">
           <Image
-            src="/beautiful-shot-modern-house-kitchen.jpg"
+            src="/instock-cabinets-hero.webp"
             alt="In-stock cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions"
             fill
             priority
@@ -309,54 +312,59 @@ export function CabinetsPageClient() {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="max-w-xl lg:max-w-2xl"
+              className="max-w-lg lg:max-w-xl xl:max-w-2xl lg:pl-6 xl:pl-10"
             >
-              {/* Location badge */}
+              {/* Location badge pill */}
               <motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.08 }}
-                className="inline-flex items-center gap-2 mb-5"
+                transition={{ duration: 0.5, delay: 0.06 }}
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-7 border border-white/20"
+                style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(10px)' }}
               >
-                <MapPin className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,1)) drop-shadow(0 1px 3px rgba(0,0,0,1))' }} />
+                <MapPin className="w-3.5 h-3.5 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.7))' }} />
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.18em] text-gold"
-                  style={{ textShadow: '0 0 12px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1), 0 0 24px rgba(0,0,0,0.9)' }}
+                  className="text-white text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em]"
+                  style={{ textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
                 >
-                  Serving Tampa Bay From Our Valrico Showroom
+                  Serving Tampa Bay from Our Valrico Showroom
                 </span>
               </motion.div>
 
-              {/* H1 */}
+              {/* H1 — 2-line luxury headline */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.12 }}
-                className={`text-3xl sm:text-4xl md:text-[3rem] lg:text-[3.5rem] font-extrabold leading-[1.1] mb-4 ${serif}`}
-                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.95), 0 1px 8px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7)' }}
+                className={`font-extrabold leading-[1.08] mb-5 ${serif}`}
+                style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
-                <span className="text-white">In-Stock Cabinets Tampa &ndash;</span>{' '}
-                <span className="text-gold">Affordable &amp; Ready-to-Install Cabinet Solutions</span>
+                <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
+                  In-Stock Cabinets Tampa
+                </span>
+                <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
+                  Affordable &amp; Ready-to-Install Cabinet Solutions
+                </span>
               </motion.h1>
 
               {/* Gold accent divider */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.45, delay: 0.22 }}
-                className="flex items-center gap-3 mb-5"
+                transition={{ duration: 0.45, delay: 0.20 }}
+                className="flex items-center gap-3 mb-6"
               >
-                <div className="h-0.75 w-10 rounded-full bg-gold" />
-                <div className="h-px w-24 rounded-full bg-white/40" />
+                <div className="h-0.75 w-12 rounded-full bg-gold" />
+                <div className="h-px w-20 rounded-full bg-white/30" />
               </motion.div>
 
               {/* Subheadline */}
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.28 }}
-                className="text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-lg"
-                style={{ textShadow: '0 1px 12px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.85), 0 0 6px rgba(0,0,0,0.9)' }}
+                transition={{ duration: 0.65, delay: 0.26 }}
+                className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
+                style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
                 Explore quality in-stock kitchen cabinets, affordable cabinet options, and
                 professional installation services from our Valrico showroom.
@@ -366,35 +374,46 @@ export function CabinetsPageClient() {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.38 }}
-                className="flex flex-col sm:flex-row gap-3 mb-7"
+                transition={{ duration: 0.6, delay: 0.34 }}
+                className="flex flex-col sm:flex-row gap-3 mb-8"
               >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-primary font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-[8px] [background:rgba(255,255,255,0.85)]"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
                   Request Cabinet Pricing
                 </Link>
+                <a
+                  href="tel:+18136512333"
+                  className="inline-flex items-center justify-center gap-2 border border-primary/65 text-white hover:bg-primary/10 font-semibold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap backdrop-blur-sm"
+                >
+                  <Phone className="w-4 h-4 shrink-0 text-primary/80" />
+                  Call (813) 651-2333
+                </a>
               </motion.div>
 
-              {/* Trust items — inline, pipe-separated, no background */}
+              {/* Trust indicators */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="flex items-center flex-wrap gap-y-2"
+                transition={{ duration: 0.5, delay: 0.46 }}
+                className="flex items-center flex-wrap gap-y-2.5"
               >
-                {TRUST_ITEMS.map(({ icon: Icon, line1, line2 }, i) => (
-                  <span key={line1} className="inline-flex items-center">
+                {[
+                  { icon: Calendar, label: 'Free Estimates' },
+                  { icon: MapPin,   label: 'Local Tampa Experts' },
+                  { icon: Star,     label: '5-Star Rated' },
+                ].map(({ icon: Icon, label }, i, arr) => (
+                  <span key={label} className="inline-flex items-center">
                     <span
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white"
-                      style={{ textShadow: '0 1px 10px rgba(0,0,0,0.95), 0 0 20px rgba(0,0,0,0.85)' }}
+                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-white/85"
+                      style={{ textShadow: '0 1px 8px rgba(0,0,0,0.88), 0 0 16px rgba(0,0,0,0.72)' }}
                     >
-                      <Icon className="w-4 h-4 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.9))' }} />
-                      {line1} {line2}
+                      <Icon className="w-3.5 h-3.5 text-gold shrink-0" style={{ filter: 'drop-shadow(0 0 3px rgba(0,0,0,0.8))' }} />
+                      {label}
                     </span>
-                    {i < TRUST_ITEMS.length - 1 && (
-                      <span className="mx-3 text-white/40 font-light select-none">|</span>
+                    {i < arr.length - 1 && (
+                      <span className="mx-3 text-white/30 select-none">·</span>
                     )}
                   </span>
                 ))}

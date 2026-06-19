@@ -419,92 +419,7 @@ export function BathroomRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. TRUSTED PARTNER — light gradient background, 2-col layout
-      ════════════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative overflow-hidden py-20 md:py-28"
-        style={{ background: 'linear-gradient(135deg, #ffffff 0%, #F5F0E8 55%, #ffffff 100%)' }}
-      >
-
-        {/* ── Content ── */}
-        <div className="container-custom relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-            {/* ── LEFT — label + heading ── */}
-            <FadeIn className="flex flex-col gap-5">
-
-              {/* Label */}
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-px bg-primary shrink-0" />
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
-                  Your Trusted
-                </p>
-                <span className="w-8 h-px bg-primary shrink-0" />
-              </div>
-
-              {/* Heading */}
-              <h2
-                className={`text-3xl sm:text-4xl md:text-[2.7rem] font-extrabold text-gray-900 leading-[1.1] ${serif}`}
-              >
-                Bathroom Remodeling Partner{' '}
-                <span className="text-primary">in Tampa Bay</span>
-              </h2>
-
-              {/* Rule */}
-              <div className="w-14 h-0.5 bg-primary/30" />
-
-              {/* CTA — desktop only in left col */}
-              <div className="hidden lg:block pt-2">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
-                >
-                  Visit Our Showroom
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-            </FadeIn>
-
-            {/* ── RIGHT — body text + mobile CTA ── */}
-            <FadeIn delay={0.14} className="flex flex-col gap-6">
-
-              <div className="space-y-4 text-gray-600 text-base leading-[1.82]">
-                <p>
-                  A well-designed bathroom should feel comfortable, functional, and easy to maintain.
-                  For many homeowners, older bathrooms often feel cramped, outdated, or no longer
-                  practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
-                  homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
-                  long-term functionality without making the remodeling process overwhelming.
-                </p>
-                <p>
-                  Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
-                  replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
-                  team provides personalized guidance from our Valrico showroom. Every renovation is
-                  designed around your goals, lifestyle, and budget.
-                </p>
-              </div>
-
-              {/* CTA — mobile only, below text */}
-              <div className="lg:hidden">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
-                >
-                  Visit Our Showroom
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-            </FadeIn>
-
-          </div>
-        </div>
-
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════════════
-          3. WHY HOMEOWNERS CHOOSE — horizontal feature bar with dividers
+          2. WHY HOMEOWNERS CHOOSE — horizontal feature bar with dividers
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-14 md:py-20 bg-[#F5F0E8] border-y border-[#E8DFD0]">
         <div className="container-custom max-w-7xl">
@@ -538,6 +453,104 @@ export function BathroomRemodelingPageClient() {
           </FadeIn>
 
         </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          3. TRUSTED PARTNER — light gradient background, 2-col layout
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 md:py-28">
+
+        {/* ── Background image ── */}
+        <Image
+          src="/bathroom-remodeling-design-2.jpg"
+          alt="Luxury bathroom remodeling design"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+
+        {/* ── Overlay — light enough to show image, directional for text areas ── */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.28) 100%)' }}
+        />
+
+        {/* ── Content ── */}
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            {/* ── LEFT — label + heading ── */}
+            <FadeIn className="flex flex-col gap-5">
+
+              {/* Label */}
+              <div className="flex items-center gap-3" style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,0.80))' }}>
+                <span className="w-8 h-px bg-gold shrink-0" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
+                  Your Trusted
+                </p>
+                <span className="w-8 h-px bg-gold shrink-0" />
+              </div>
+
+              {/* Heading */}
+              <h2
+                className={`text-3xl sm:text-4xl md:text-[2.7rem] font-extrabold text-white leading-[1.1] ${serif}`}
+                style={{ textShadow: '0 0 28px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.90), 0 4px 24px rgba(0,0,0,0.75)' }}
+              >
+                Bathroom Remodeling Partner{' '}
+                <span className="text-gold">in Tampa Bay</span>
+              </h2>
+
+              {/* Rule */}
+              <div className="w-14 h-0.5 bg-white/25" />
+
+              {/* CTA — desktop only in left col */}
+              <div className="hidden lg:block pt-2">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+            </FadeIn>
+
+            {/* ── RIGHT — body text + mobile CTA ── */}
+            <FadeIn delay={0.14} className="flex flex-col gap-6">
+
+              <div className="space-y-4 text-white/90 text-base leading-[1.82]" style={{ textShadow: '0 0 18px rgba(0,0,0,0.92), 0 1px 6px rgba(0,0,0,0.85)' }}>
+                <p>
+                  A well-designed bathroom should feel comfortable, functional, and easy to maintain.
+                  For many homeowners, older bathrooms often feel cramped, outdated, or no longer
+                  practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
+                  homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
+                  long-term functionality without making the remodeling process overwhelming.
+                </p>
+                <p>
+                  Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
+                  replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
+                  team provides personalized guidance from our Valrico showroom. Every renovation is
+                  designed around your goals, lifestyle, and budget.
+                </p>
+              </div>
+
+              {/* CTA — mobile only, below text */}
+              <div className="lg:hidden">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+            </FadeIn>
+
+          </div>
+        </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
