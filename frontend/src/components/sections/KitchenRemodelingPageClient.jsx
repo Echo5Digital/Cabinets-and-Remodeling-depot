@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -15,7 +16,6 @@ import {
   ShieldCheck,
   Palette,
   CheckCircle,
-  Check,
   ArrowRight,
   ClipboardList,
   Hammer,
@@ -25,6 +25,7 @@ import {
   ChevronRight,
   Quote,
   Phone,
+  X,
 } from 'lucide-react'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -133,6 +134,15 @@ const GALLERY = [
   { src: '/kitchen_countertops_marble.webp',     alt: 'Marble countertops kitchen Tampa' },
 ]
 
+const KITCHEN_STYLES = [
+  'Modern Kitchen Designs',
+  'Shaker Cabinet Kitchens',
+  'Open-Concept Layouts',
+  'Quartz Countertop Kitchens',
+  'Contemporary Kitchen Renovations',
+  'Classic Traditional Kitchens',
+]
+
 const PROCESS_STEPS = [
   {
     step: '01',
@@ -178,7 +188,7 @@ const TESTIMONIALS = [
     quote: 'We finally redid our kitchen after 12 years putting it off. Went into the Valrico showroom with no idea what we wanted and they were so patient, spent over an hour going through cabinet styles and countertop samples with us. Ended up with white shaker cabinets and quartz countertops and I obsess over it every single morning. The crew was in and out in a week and left everything spotless.',
   },
   {
-    name: 'James T.',
+    name: 'Carlos B.',
     location: 'Brandon, FL',
     quote: "Got quotes from three places before coming here. Best price, no pressure, and they actually listened. The semi-custom cabinets look completely custom, you'd never know the difference. There was one small issue during install and they fixed it the same day without us having to follow up. Kitchen looks amazing, added real value to the house.",
   },
@@ -223,6 +233,21 @@ function SectionLabel({ children }) {
   )
 }
 
+/* ─── Flip card transforms ───────────────────────────────────────────────────── */
+const FLIP_TRANSFORM = [
+  'rotateY(180deg)',   // 0 — flip left
+  'rotateX(-180deg)', // 1 — flip up
+  'rotateY(-180deg)', // 2 — flip right
+  'rotateX(180deg)',  // 3 — flip down
+]
+
+const BACK_INIT = [
+  'rotateY(180deg)',  // 0
+  'rotateX(180deg)', // 1
+  'rotateY(180deg)', // 2
+  'rotateX(180deg)', // 3
+]
+
 /* ─── Shared serif class ─────────────────────────────────────────────────────── */
 const serif = 'font-[family-name:var(--font-playfair)]'
 
@@ -230,6 +255,8 @@ const serif = 'font-[family-name:var(--font-playfair)]'
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
 export function KitchenRemodelingPageClient() {
+  const [flippedCard, setFlippedCard] = useState(null)
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -380,135 +407,194 @@ export function KitchenRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. TRUSTED PARTNER — image left | text right
+          2. WHY HOMEOWNERS CHOOSE — horizontal feature bar with dividers
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white overflow-hidden">
-        <div className="container-custom max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-
-            {/* Left — kitchen image */}
-            <FadeIn className="relative">
-              <div className="relative w-full aspect-[4/3] lg:aspect-[5/4] rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/Modern-kitchen-renovation-Tampa-completed-project.jpg"
-                  alt="Your trusted kitchen remodeling partner Tampa Bay"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-              {/* Floating accent */}
-              <div className="absolute -bottom-4 -right-4 w-28 h-28 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
-            </FadeIn>
-
-            {/* Right — text */}
-            <FadeIn delay={0.12} className="flex flex-col gap-5">
-              <div>
-                <SectionLabel>Your Trusted</SectionLabel>
-                <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight">
-                  Kitchen Remodeling Partner{' '}
-                  <span className="text-primary">in Tampa Bay</span>
-                </h2>
-              </div>
-              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
-                <p>
-                  A kitchen is more than just a place to cook. It&rsquo;s where families gather,
-                  meals are shared, and memories are made. Whether you&rsquo;re updating an
-                  outdated layout or planning a complete kitchen renovation, our team provides
-                  personalized solutions designed around your lifestyle, needs, and budget.
-                </p>
-                <p>
-                  We proudly serve homeowners across Tampa, Valrico, Brandon, Riverview, Lithia,
-                  Apollo Beach, Wesley Chapel, and surrounding communities with professional
-                  kitchen remodeling services that enhance both beauty and functionality.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-7 rounded-lg transition-colors shadow-md shadow-primary/25"
-                >
-                  Visit Our Showroom
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </FadeIn>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════════════
-          3. WHY HOMEOWNERS CHOOSE — 5 horizontal cards
-      ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-14 md:py-20 bg-[#F5F0E8] border-y border-[#E8DFD0]">
         <div className="container-custom max-w-7xl">
 
-          <FadeIn className="text-center mb-12">
+          <FadeIn className="text-center mb-10">
             <SectionLabel>Why Homeowners Choose</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
               Cabinets &amp; Remodeling Depot
             </h2>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center gap-4 h-full hover:shadow-md hover:border-primary/20 transition-shadow duration-200">
-                  {/* Icon ring */}
-                  <div className="w-14 h-14 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-primary" />
+          <FadeIn delay={0.1}>
+            <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+              {WHY_CHOOSE.map(({ icon: Icon, title, description }) => (
+                <div
+                  key={title}
+                  className="flex-1 flex flex-col items-center text-center px-5 py-8 sm:py-6 group"
+                >
+                  <div className="w-13 h-13 rounded-full border border-primary/25 bg-primary/8 flex items-center justify-center mb-4 group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors duration-200">
+                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 text-base mb-2 leading-snug">{title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
-                  </div>
+                  <h3 className={`font-bold text-gray-900 text-sm sm:text-base mb-1.5 leading-snug ${serif}`}>
+                    {title}
+                  </h3>
+                  <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">
+                    {description}
+                  </p>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
+              ))}
+            </div>
+          </FadeIn>
 
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          4. COMPREHENSIVE SERVICES — image cards
+          3. TRUSTED PARTNER — full-bleed background image | dark-left gradient
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-24 md:py-36 overflow-hidden">
+
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/cabinet-instock.webp"
+            alt="Your trusted kitchen remodeling partner Tampa Bay"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          {/* Dark-left gradient: text lives on the dark side, image reveals on the right */}
+          <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
+        </div>
+
+        <div className="relative z-10 container-custom max-w-7xl">
+          <FadeIn delay={0.12} className="max-w-xl">
+
+            {/* Frosted pill badge */}
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/25 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+              <span className="text-white/85 text-xs font-semibold uppercase tracking-widest">Your Trusted Partner</span>
+            </div>
+
+            {/* Heading */}
+            <h2 className={`text-4xl sm:text-5xl md:text-[3.25rem] font-extrabold text-white leading-tight mb-5 ${serif}`}>
+              Kitchen Remodeling{' '}
+              <span className="text-primary">in Tampa Bay</span>
+            </h2>
+
+            {/* Accent bar */}
+            <div className="w-14 h-1 bg-primary rounded-full mb-7" />
+
+            {/* Body */}
+            <div className="space-y-4 text-white/80 text-base leading-relaxed mb-9">
+              <p>
+                A kitchen is more than just a place to cook. It&rsquo;s where families gather,
+                meals are shared, and memories are made. Whether you&rsquo;re updating an
+                outdated layout or planning a complete kitchen renovation, our team provides
+                personalized solutions designed around your lifestyle, needs, and budget.
+              </p>
+              <p>
+                We proudly serve homeowners across Tampa, Valrico, Brandon, Riverview, Lithia,
+                Apollo Beach, Wesley Chapel, and surrounding communities with professional
+                kitchen remodeling services that enhance both beauty and functionality.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg shadow-primary/30"
+            >
+              Visit Our Showroom
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+          </FadeIn>
+        </div>
+
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          4. COMPREHENSIVE SERVICES — flip cards
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-12">
             <SectionLabel>Comprehensive Kitchen Remodeling Services</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight ${serif}`}>
               Everything You Need for Your{' '}
               <span className="text-primary">Dream Kitchen</span>
             </h2>
           </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map(({ image, alt, title, description, href }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  {/* Image */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={alt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                    />
-                  </div>
-                  {/* Content */}
-                  <div className="p-5 flex flex-col gap-3 flex-1">
-                    <h3 className="font-bold text-gray-900 text-lg leading-snug">{title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{description}</p>
-                    <Link
-                      href={href}
-                      className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200 mt-auto"
+            {SERVICES.map(({ image, alt, title, paragraphs, href }, i) => (
+              <FadeIn key={title} delay={0} className="w-full">
+                <div
+                  className="relative w-full rounded-2xl pb-[100%]"
+                  style={{ perspective: '1200px' }}
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: flippedCard === i ? FLIP_TRANSFORM[i] : 'rotateY(0deg)',
+                      transition: 'transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1)',
+                    }}
+                  >
+                    {/* ── FRONT FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-md"
+                      style={{ backfaceVisibility: 'hidden' }}
                     >
-                      Learn More <ChevronRight className="w-4 h-4" />
-                    </Link>
+                      <Image
+                        src={image}
+                        alt={alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/35 to-black/10" />
+                      <div className="absolute inset-0 flex items-center justify-center px-5 pb-14">
+                        <h3
+                          className={`text-white text-xl sm:text-2xl font-extrabold text-center leading-snug ${serif}`}
+                          style={{ textShadow: '0 2px 14px rgba(0,0,0,0.85), 0 0 30px rgba(0,0,0,0.6)' }}
+                        >
+                          {title}
+                        </h3>
+                      </div>
+                      <div className="absolute bottom-5 left-0 right-0 flex justify-center">
+                        <button
+                          onClick={() => setFlippedCard(i)}
+                          className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/28 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border border-white/35 transition-all duration-200 hover:border-white/60 hover:scale-105"
+                        >
+                          Learn More <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-primary/80 backdrop-blur-sm flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">{i + 1}</span>
+                      </div>
+                    </div>
+
+                    {/* ── BACK FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-xl bg-primary flex flex-col p-5 sm:p-6"
+                      style={{ backfaceVisibility: 'hidden', transform: BACK_INIT[i] }}
+                    >
+                      <p className="text-white text-sm leading-relaxed font-medium">
+                        {paragraphs[0]}
+                      </p>
+                      <div className="mt-auto shrink-0 flex items-center justify-between gap-3">
+                        <Link
+                          href={href}
+                          className="inline-flex items-center gap-1.5 bg-white text-primary text-[11px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full hover:bg-white/90 transition-colors whitespace-nowrap shadow-sm"
+                        >
+                          Learn More <ChevronRight className="w-3 h-3" />
+                        </Link>
+                        <button
+                          onClick={() => setFlippedCard(null)}
+                          className="inline-flex items-center gap-1 text-white/80 hover:text-white text-[11px] font-semibold uppercase tracking-wide transition-colors shrink-0"
+                        >
+                          <X className="w-3.5 h-3.5" /> Close
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </FadeIn>
@@ -519,31 +605,50 @@ export function KitchenRemodelingPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          5. KITCHEN DESIGN INSPIRATION — image gallery
+          5. KITCHEN DESIGN INSPIRATION — styles + gallery
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-20 bg-gray-50">
+      <section className="py-16 md:py-20 bg-warm-gray">
         <div className="container-custom max-w-7xl">
 
-          <FadeIn className="text-center mb-10">
+          <FadeIn className="text-center mb-8">
             <SectionLabel>Kitchen Design Inspiration</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-              See What&apos;s Possible for Your Kitchen
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 ${serif}`}>
+              Find Your Kitchen Style
             </h2>
+            <p className="text-gray-600 text-base leading-relaxed max-w-2xl mx-auto">
+              Whether you prefer a modern open layout or a timeless traditional kitchen, exploring
+              different design styles can help bring your vision to life.
+            </p>
           </FadeIn>
 
-          {/* Gallery row */}
-          <FadeIn delay={0.1}>
+          {/* Popular styles — pill tags */}
+          <FadeIn delay={0.08}>
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
+              {KITCHEN_STYLES.map((style) => (
+                <span
+                  key={style}
+                  className="inline-flex items-center gap-2 bg-white border border-primary/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors cursor-default"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                  {style}
+                </span>
+              ))}
+            </div>
+          </FadeIn>
+
+          {/* Gallery grid */}
+          <FadeIn delay={0.12}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               {GALLERY.map(({ src, alt }, i) => (
                 <div
                   key={i}
-                  className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+                  className="relative aspect-4/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group"
                 >
                   <Image
                     src={src}
                     alt={alt}
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                   />
                 </div>
@@ -567,12 +672,12 @@ export function KitchenRemodelingPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           6. PROCESS — 5 numbered steps with connector line
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-warm-gray">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-14">
             <SectionLabel>Our Kitchen Remodeling Process</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
               How We Bring Your{' '}
               <span className="text-primary">Kitchen Vision to Life</span>
             </h2>
@@ -582,7 +687,7 @@ export function KitchenRemodelingPageClient() {
           <div className="relative">
 
             {/* Connecting line (desktop only) */}
-            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
               {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
@@ -591,7 +696,7 @@ export function KitchenRemodelingPageClient() {
 
                     {/* Step circle */}
                     <div className="relative">
-                      <div className="w-[4.5rem] h-[4.5rem] rounded-full bg-primary shadow-lg shadow-primary/30 flex items-center justify-center">
+                      <div className="w-18 h-18 rounded-full bg-primary shadow-lg shadow-primary/20 flex items-center justify-center">
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                       {/* Step number badge */}
@@ -618,14 +723,14 @@ export function KitchenRemodelingPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           7. SERVICE AREAS + TESTIMONIALS — 2-col
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
 
             {/* Left — service areas + map */}
             <FadeIn>
               <SectionLabel>Our Service Area</SectionLabel>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-5">
+              <h2 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
                 Serving Homeowners Throughout{' '}
                 <span className="text-primary">Tampa Bay</span>
               </h2>
@@ -643,11 +748,11 @@ export function KitchenRemodelingPageClient() {
               </div>
 
               {/* Area checklist — 2 columns */}
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 mb-7">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-7 sm:gap-x-8">
                 {SERVICE_AREAS.map((area) => (
-                  <span key={area} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                  <span key={area} className="flex items-center gap-2.5 text-gray-700 text-sm font-medium">
                     <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-primary" />
+                      <MapPin className="w-3 h-3 text-primary" />
                     </span>
                     {area}
                   </span>
@@ -674,7 +779,7 @@ export function KitchenRemodelingPageClient() {
             {/* Right — testimonials */}
             <FadeIn delay={0.12}>
               <SectionLabel>Client Reviews</SectionLabel>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
+              <h2 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6 ${serif}`}>
                 What Homeowners{' '}
                 <span className="text-primary">Are Saying</span>
               </h2>
@@ -722,11 +827,11 @@ export function KitchenRemodelingPageClient() {
       <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
 
       {/* ════════════════════════════════════════════════════════════════════
-          9. FINAL CTA — dark brand background
+          9. FINAL CTA — light overlay, gold accents
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section className="relative py-20 md:py-32 overflow-hidden">
 
-        {/* Background */}
+        {/* Background photo — light cream overlay */}
         <div className="absolute inset-0">
           <Image
             src="/kitchen_cabinet_remodeling-01.webp"
@@ -735,40 +840,51 @@ export function KitchenRemodelingPageClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 brand-gradient opacity-90" />
+          {/* Cream wash — strong enough for text legibility, light enough to show image */}
+          <div className="absolute inset-0 bg-white/78" />
         </div>
 
-        <div className="relative z-10 container-custom max-w-3xl text-center">
+        <div className="relative z-10 container-custom max-w-3xl text-center px-4">
           <FadeIn>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/70 mb-4">
-              <span className="w-6 h-px bg-white/50 inline-block" />
-              Tampa Bay Kitchen Experts
-              <span className="w-6 h-px bg-white/50 inline-block" />
-            </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+
+            {/* Gold section label with long flanking lines */}
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold whitespace-nowrap">
+                Tampa Bay Kitchen Experts
+              </p>
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
+            </div>
+
+            {/* Heading */}
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
               Start Your Kitchen Remodeling{' '}
-              <span className="text-white/80">Project Today</span>
+              <span className="text-primary">Project Today</span>
             </h2>
-            <p className="text-white/85 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl mx-auto">
+
+            {/* Body */}
+            <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               If you&rsquo;re planning a kitchen remodel in Tampa or considering a complete kitchen
               renovation, Cabinets &amp; Remodeling Depot is here to help. Visit our Valrico
               showroom, explore quality products, and work with a team committed to delivering
               beautiful, functional results tailored to your home and lifestyle.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors shadow-lg whitespace-nowrap"
               >
                 Visit Our Showroom
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors whitespace-nowrap"
               >
                 Request a Free Estimate
               </Link>
             </div>
+
           </FadeIn>
         </div>
 

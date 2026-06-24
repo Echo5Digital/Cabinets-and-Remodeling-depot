@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -28,6 +29,7 @@ import {
   ChevronRight,
   Star,
   Phone,
+  X,
 } from 'lucide-react'
 
 /* ─── Fade-in animation wrapper ─────────────────────────────────────────────── */
@@ -239,6 +241,23 @@ const FAQS = [
   },
 ]
 
+/* ─── Flip card transforms ───────────────────────────────────────────────────── */
+const FLIP_TRANSFORM = [
+  'rotateY(180deg)',   // 0 — flip left
+  'rotateX(-180deg)', // 1 — flip up
+  'rotateY(-180deg)', // 2 — flip right
+  'rotateX(180deg)',  // 3 — flip down
+  'rotateY(180deg)',  // 4 — flip left
+]
+
+const BACK_INIT = [
+  'rotateY(180deg)',  // 0
+  'rotateX(180deg)', // 1
+  'rotateY(180deg)', // 2
+  'rotateX(180deg)', // 3
+  'rotateY(180deg)', // 4
+]
+
 /* ─── Shared serif class ─────────────────────────────────────────────────────── */
 const serif = 'font-[family-name:var(--font-playfair)]'
 
@@ -246,6 +265,8 @@ const serif = 'font-[family-name:var(--font-playfair)]'
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
 export function FlooringPageClient() {
+  const [flippedCard, setFlippedCard] = useState(null)
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -396,7 +417,44 @@ export function FlooringPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. YOUR TRUSTED FLOORING PARTNER IN TAMPA BAY
+          2. WHY HOMEOWNERS CHOOSE — horizontal feature bar with dividers
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-[#F5F0E8] border-y border-[#E8DFD0]">
+        <div className="container-custom max-w-7xl">
+
+          <FadeIn className="text-center mb-10">
+            <SectionLabel>Why Homeowners Choose</SectionLabel>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
+              Cabinets &amp; Remodeling Depot
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+              {WHY_CHOOSE.map(({ icon: Icon, title, description }) => (
+                <div
+                  key={title}
+                  className="flex-1 flex flex-col items-center text-center px-5 py-8 sm:py-6 group"
+                >
+                  <div className="w-13 h-13 rounded-full border border-primary/25 bg-primary/8 flex items-center justify-center mb-4 group-hover:border-primary/50 group-hover:bg-primary/10 transition-colors duration-200">
+                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
+                  </div>
+                  <h3 className={`font-bold text-gray-900 text-sm sm:text-base mb-1.5 leading-snug ${serif}`}>
+                    {title}
+                  </h3>
+                  <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">
+                    {description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          3. YOUR TRUSTED FLOORING PARTNER IN TAMPA BAY
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="container-custom max-w-7xl">
@@ -420,7 +478,7 @@ export function FlooringPageClient() {
             <FadeIn delay={0.12} className="flex flex-col gap-5">
               <div>
                 <SectionLabel>Your Trusted Flooring Partner</SectionLabel>
-                <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight">
+                <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight ${serif}`}>
                   Your Trusted Flooring Partner{' '}
                   <span className="text-primary">in Tampa Bay</span>
                 </h2>
@@ -461,46 +519,14 @@ export function FlooringPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          3. WHY HOMEOWNERS CHOOSE — 5 cards
-      ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="container-custom max-w-7xl">
-
-          <FadeIn className="text-center mb-12">
-            <SectionLabel>Why Homeowners Choose</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-              Cabinets &amp; Remodeling Depot
-            </h2>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center gap-4 h-full hover:shadow-md hover:border-primary/20 transition-shadow duration-200">
-                  <div className="w-14 h-14 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 text-base mb-2 leading-snug">{title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════════════
-          4. FLOORING OPTIONS AVAILABLE — image cards
+          4. FLOORING OPTIONS AVAILABLE — flip cards
       ════════════════════════════════════════════════════════════════════ */}
       <section id="flooring-options" className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-12">
             <SectionLabel>Flooring Options Available</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 max-w-2xl mx-auto leading-tight ${serif}`}>
               Find the Right Flooring{' '}
               <span className="text-primary">for Your Home</span>
             </h2>
@@ -508,26 +534,77 @@ export function FlooringPageClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {FLOORING_OPTIONS.map(({ image, alt, title, description, href }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  <div className="relative w-full aspect-4/3 overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={alt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 20vw"
-                    />
-                  </div>
-                  <div className="p-5 flex flex-col gap-3 flex-1">
-                    <h3 className="font-bold text-gray-900 text-lg leading-snug">{title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed flex-1">{description}</p>
-                    <Link
-                      href={href}
-                      className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200 mt-auto"
+              <FadeIn key={title} delay={0} className="w-full">
+                <div
+                  className="relative w-full rounded-2xl pb-[100%] xl:pb-[150%]"
+                  style={{ perspective: '1200px' }}
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      transform: flippedCard === i ? FLIP_TRANSFORM[i] : 'rotateY(0deg)',
+                      transition: 'transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1)',
+                    }}
+                  >
+                    {/* ── FRONT FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-md"
+                      style={{ backfaceVisibility: 'hidden' }}
                     >
-                      Learn More <ChevronRight className="w-4 h-4" />
-                    </Link>
+                      <Image
+                        src={image}
+                        alt={alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 20vw"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/35 to-black/10" />
+                      <div className="absolute inset-0 flex items-center justify-center px-5 pb-14">
+                        <h3
+                          className={`text-white text-xl sm:text-2xl font-extrabold text-center leading-snug ${serif}`}
+                          style={{ textShadow: '0 2px 14px rgba(0,0,0,0.85), 0 0 30px rgba(0,0,0,0.6)' }}
+                        >
+                          {title}
+                        </h3>
+                      </div>
+                      <div className="absolute bottom-5 left-0 right-0 flex justify-center">
+                        <button
+                          onClick={() => setFlippedCard(i)}
+                          className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/28 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[0.15em] px-5 py-2.5 rounded-full border border-white/35 transition-all duration-200 hover:border-white/60 hover:scale-105"
+                        >
+                          Learn More <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-primary/80 backdrop-blur-sm flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">{i + 1}</span>
+                      </div>
+                    </div>
+
+                    {/* ── BACK FACE ── */}
+                    <div
+                      className="absolute inset-0 rounded-2xl overflow-hidden shadow-xl bg-primary flex flex-col p-5 sm:p-6"
+                      style={{ backfaceVisibility: 'hidden', transform: BACK_INIT[i] }}
+                    >
+                      <p className="text-white text-sm leading-relaxed font-medium">
+                        {description}
+                      </p>
+                      <div className="mt-auto shrink-0 flex items-center justify-between gap-3">
+                        <Link
+                          href={href}
+                          className="inline-flex items-center gap-1.5 bg-white text-primary text-[11px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full hover:bg-white/90 transition-colors whitespace-nowrap shadow-sm"
+                        >
+                          Learn More <ChevronRight className="w-3 h-3" />
+                        </Link>
+                        <button
+                          onClick={() => setFlippedCard(null)}
+                          className="inline-flex items-center gap-1 text-white/80 hover:text-white text-[11px] font-semibold uppercase tracking-wide transition-colors shrink-0"
+                        >
+                          <X className="w-3.5 h-3.5" /> Close
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </FadeIn>
@@ -540,7 +617,7 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           5. EXPLORE FLOORING OPTIONS IN PERSON — split layout
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50 overflow-hidden">
+      <section className="py-16 md:py-24 bg-warm-gray overflow-hidden">
         <div className="container-custom max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
@@ -548,7 +625,7 @@ export function FlooringPageClient() {
             <FadeIn className="flex flex-col gap-5 order-2 lg:order-1">
               <div>
                 <SectionLabel>Visit Our Showroom</SectionLabel>
-                <h2 className="text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight">
+                <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight ${serif}`}>
                   Explore Flooring Options{' '}
                   <span className="text-primary">in Person</span>
                 </h2>
@@ -614,17 +691,17 @@ export function FlooringPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          6. FLOORING DESIGN INSPIRATION — Pinterest-style gallery
+          6. FLOORING DESIGN INSPIRATION — styles + gallery
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-warm-gray">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-8">
             <SectionLabel>Flooring Design Inspiration</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 ${serif}`}>
               Visualize Your Ideal Space
             </h2>
-            <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
+            <p className="text-gray-600 text-base leading-relaxed max-w-2xl mx-auto">
               Whether you prefer warm natural wood tones, sleek contemporary finishes, or durable
               waterproof solutions, exploring different flooring styles can help you visualize your
               ideal space.
@@ -633,37 +710,47 @@ export function FlooringPageClient() {
 
           {/* Popular styles — pill tags */}
           <FadeIn delay={0.08}>
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10">
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
               {INSPIRATION_STYLES.map((style) => (
                 <span
                   key={style}
-                  className="inline-flex items-center gap-1.5 bg-primary/10 text-primary border border-primary/20 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full"
+                  className="inline-flex items-center gap-2 bg-white border border-primary/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors cursor-default"
                 >
-                  <Check className="w-3 h-3 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                   {style}
                 </span>
               ))}
             </div>
           </FadeIn>
 
-          {/* Pinterest-style gallery */}
+          {/* Gallery grid */}
           <FadeIn delay={0.12}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               {GALLERY.map(({ src, alt }, i) => (
                 <div
                   key={i}
-                  className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+                  className="relative aspect-4/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group"
                 >
                   <Image
                     src={src}
                     alt={alt}
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                   />
                 </div>
               ))}
             </div>
+          </FadeIn>
+
+          <FadeIn delay={0.18} className="text-center mt-8">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors"
+            >
+              View More Inspiration
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </FadeIn>
 
         </div>
@@ -672,12 +759,12 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           7. BENEFITS OF NEW FLOORING — icon grid
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-12">
             <SectionLabel>Benefits of New Flooring</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 ${serif}`}>
               Why Upgrade Your{' '}
               <span className="text-primary">Flooring</span>
             </h2>
@@ -707,12 +794,12 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           8. OUR FLOORING INSTALLATION PROCESS — 5 numbered steps
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-warm-gray">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-14">
             <SectionLabel>Our Flooring Installation Process</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
               How We Bring Your{' '}
               <span className="text-primary">Flooring Vision to Life</span>
             </h2>
@@ -720,14 +807,14 @@ export function FlooringPageClient() {
 
           <div className="relative">
             {/* Connector line (desktop only) */}
-            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
               {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
                 <FadeIn key={step} delay={i * 0.09}>
                   <div className="relative z-10 flex flex-col items-center text-center gap-4">
                     <div className="relative">
-                      <div className="w-[4.5rem] h-[4.5rem] rounded-full bg-primary shadow-lg shadow-primary/30 flex items-center justify-center">
+                      <div className="w-18 h-18 rounded-full bg-primary shadow-lg shadow-primary/20 flex items-center justify-center">
                         <Icon className="w-7 h-7 text-white" />
                       </div>
                       <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-primary text-primary text-[10px] font-extrabold flex items-center justify-center leading-none">
@@ -750,14 +837,14 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           9. SERVING HOMEOWNERS THROUGHOUT TAMPA BAY — areas + map
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
             {/* Left — text + area grid */}
             <FadeIn>
               <SectionLabel>Our Service Area</SectionLabel>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-5">
+              <h2 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
                 Serving Homeowners Throughout{' '}
                 <span className="text-primary">Tampa Bay</span>
               </h2>
@@ -774,11 +861,11 @@ export function FlooringPageClient() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-6 sm:gap-x-8">
                 {SERVICE_AREAS.map((area) => (
-                  <span key={area} className="flex items-center gap-2 text-gray-700 text-sm font-medium">
+                  <span key={area} className="flex items-center gap-2.5 text-gray-700 text-sm font-medium">
                     <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Check className="w-3 h-3 text-primary" />
+                      <MapPin className="w-3 h-3 text-primary" />
                     </span>
                     {area}
                   </span>
@@ -816,8 +903,9 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           11. START YOUR FLOORING PROJECT TODAY — final CTA
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section className="relative py-20 md:py-32 overflow-hidden">
 
+        {/* Background photo — light cream overlay */}
         <div className="absolute inset-0">
           <Image
             src="/flooring-2.jpg"
@@ -826,46 +914,57 @@ export function FlooringPageClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 brand-gradient opacity-90" />
+          {/* Cream wash — strong enough for text legibility, light enough to show image */}
+          <div className="absolute inset-0 bg-white/78" />
         </div>
 
-        <div className="relative z-10 container-custom max-w-3xl text-center">
+        <div className="relative z-10 container-custom max-w-3xl text-center px-4">
           <FadeIn>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/70 mb-4">
-              <span className="w-6 h-px bg-white/50 inline-block" />
-              Tampa Bay Flooring Experts
-              <span className="w-6 h-px bg-white/50 inline-block" />
-            </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
+
+            {/* Gold section label with long flanking lines */}
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold whitespace-nowrap">
+                Tampa Bay Flooring Experts
+              </p>
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
+            </div>
+
+            {/* Heading */}
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
               Start Your Flooring Project{' '}
-              <span className="text-white/80">Today</span>
+              <span className="text-primary">Today</span>
             </h2>
-            <p className="text-white/85 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl mx-auto">
+
+            {/* Body */}
+            <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               Whether you&rsquo;re replacing flooring in a single room or updating your entire home,
               Cabinets &amp; Remodeling Depot is here to help. Visit our Valrico showroom to compare
               flooring materials, explore design options, and work with a team committed to creating
               beautiful, durable spaces built around your lifestyle and budget.
             </p>
+
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-white text-primary hover:bg-white/90 font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-lg whitespace-nowrap"
               >
                 Visit Our Valrico Showroom
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white hover:bg-white hover:text-primary font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors whitespace-nowrap"
               >
                 Schedule a Free Flooring Consultation
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/70 text-white hover:bg-white hover:text-primary font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors"
+                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors whitespace-nowrap"
               >
                 Request Flooring Pricing
               </Link>
             </div>
+
           </FadeIn>
         </div>
 

@@ -39,6 +39,7 @@ export function LoginForm() {
       // The cookie lives on the frontend domain and is readable server-side,
       // unlike the httpOnly refreshToken which the backend sets on its own domain.
       const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+      // eslint-disable-next-line react-hooks/immutability
       document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
       toast.success('Welcome back!')
       const redirect = searchParams.get('redirect') || '/admin/dashboard'

@@ -27,9 +27,13 @@ export function Navbar() {
   const [pastHero, setPastHero] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileOpen(false)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setServicesOpen(false)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFlooringOpen(false)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileFlooringOpen(false)
   }, [pathname])
 

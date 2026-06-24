@@ -27,7 +27,9 @@ export function PageContentEditor({ content, onSave, isSaving, slug }) {
 
   useEffect(() => {
     const normalized = normalizeContent(content)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDraft({ ...normalized, sections: mergeWithPageDefaults(slug, normalized.sections) })
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDirty(false)
   }, [content, slug])
 

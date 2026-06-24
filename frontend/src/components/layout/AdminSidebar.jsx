@@ -44,22 +44,8 @@ const NAV_ITEMS = [
   },
 ]
 
-export function AdminSidebar() {
-  const pathname = usePathname()
-  const router = useRouter()
-  const { user, logout } = useAuth()
-  const [collapsed, setCollapsed] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  const handleLogout = async () => {
-    await logout()
-    toast.success('Logged out successfully')
-    router.push('/admin/login')
-  }
-
-  const isActive = (href) => pathname === href || pathname.startsWith(href + '/')
-
-  const SidebarContent = () => (
+function SidebarContent({ collapsed, setMobileOpen, isActive, user, handleLogout }) {
+  return (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className={cn('flex items-center h-16 px-4 border-b', collapsed ? 'justify-center' : 'gap-3')}>
@@ -130,6 +116,22 @@ export function AdminSidebar() {
       </div>
     </div>
   )
+}
+
+export function AdminSidebar() {
+  const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout } = useAuth()
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const handleLogout = async () => {
+    await logout()
+    toast.success('Logged out successfully')
+    router.push('/admin/login')
+  }
+
+  const isActive = (href) => pathname === href || pathname.startsWith(href + '/')
 
   return (
     <>
@@ -161,7 +163,13 @@ export function AdminSidebar() {
               transition={{ type: 'spring', damping: 25 }}
               className="fixed left-0 top-0 bottom-0 w-64 max-w-[85vw] bg-background border-r z-50 md:hidden"
             >
-              <SidebarContent />
+              <SidebarContent
+                collapsed={collapsed}
+                setMobileOpen={setMobileOpen}
+                isActive={isActive}
+                user={user}
+                handleLogout={handleLogout}
+              />
             </motion.aside>
           </>
         )}
@@ -174,7 +182,13 @@ export function AdminSidebar() {
           collapsed ? 'w-16' : 'w-64'
         )}
       >
-        <SidebarContent />
+        <SidebarContent
+          collapsed={collapsed}
+          setMobileOpen={setMobileOpen}
+          isActive={isActive}
+          user={user}
+          handleLogout={handleLogout}
+        />
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}

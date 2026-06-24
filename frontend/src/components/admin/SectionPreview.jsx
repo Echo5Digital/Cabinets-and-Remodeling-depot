@@ -368,7 +368,7 @@ function TestimonialsPreview({ section }) {
                 <StarRating rating={item.rating} />
               </div>
               {item.text && (
-                <p className="text-xs text-foreground/80 italic">"{item.text}"</p>
+                <p className="text-xs text-foreground/80 italic">&ldquo;{item.text}&rdquo;</p>
               )}
               {item.avatar && (
                 <img

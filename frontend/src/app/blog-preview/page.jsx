@@ -9,6 +9,7 @@ export default function BlogPreviewPage() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem('blogPreview')
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (stored) setData(JSON.parse(stored))
     } catch {
       // ignore parse errors
@@ -20,7 +21,7 @@ export default function BlogPreviewPage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-3 text-center px-4">
         <AlertTriangle className="w-8 h-8 text-muted-foreground" />
         <p className="text-muted-foreground">No preview data found.</p>
-        <p className="text-sm text-muted-foreground">Open this page from the blog editor using the "Open Preview" button.</p>
+        <p className="text-sm text-muted-foreground">Open this page from the blog editor using the &ldquo;Open Preview&rdquo; button.</p>
       </div>
     )
   }

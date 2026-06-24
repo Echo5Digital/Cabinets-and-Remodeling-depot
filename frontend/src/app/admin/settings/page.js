@@ -32,6 +32,7 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     if (settings) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm((prev) => ({
         ...prev,
         companyName: settings.companyName || '',
