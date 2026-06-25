@@ -43,7 +43,13 @@ export function AdminLayoutClient({ children }) {
     async function restoreSession() {
       try {
         const newToken = await refreshAccessToken()
-        const { data: meData } = await api.get('/auth/me')
+
+        // Mark this request with _noRetry so the response interceptor does NOT
+        // attempt a second token refresh if /auth/me returns 401.  A second
+        // refresh here would use an already-rotated refresh token and fail,
+        // causing a spurious logout.  Any 401 from /auth/me is handled below.
+        const { data: meData } = await api.get('/auth/me', { _noRetry: true })
+
         if (!cancelled) {
           setUserFromToken(meData.data, newToken)
           // Keep the signal cookie expiry in sync with the rotated refresh token

@@ -78,11 +78,14 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    // Only retry on 401 with TOKEN_EXPIRED, not on login failures or other 401s
+    // Only retry on 401 with TOKEN_EXPIRED, not on login failures or other 401s.
+    // Skip retry for requests explicitly marked _noRetry (e.g. post-refresh /auth/me
+    // inside session restore — retrying there could use an already-rotated token).
     if (
       error.response?.status === 401 &&
       error.response?.data?.code === 'TOKEN_EXPIRED' &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest._noRetry
     ) {
       originalRequest._retry = true
 
@@ -97,6 +100,10 @@ api.interceptors.response.use(
         if (typeof window !== 'undefined') {
           const status = refreshError.response?.status
           if (status === 401 || status === 403) {
+            // Clear the signal cookie BEFORE navigating so the Next.js middleware
+            // does not immediately redirect the login page back to the dashboard,
+            // creating a redirect loop that looks like repeated auto-logout.
+            document.cookie = 'adminLoggedIn=; path=/; max-age=0'
             window.location.href = '/admin/login'
           }
         }
