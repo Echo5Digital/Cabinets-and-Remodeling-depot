@@ -22,7 +22,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-// ─── Response interceptor: silent token refresh on 401 ───────────────────────
+// ─── Shared refresh state — prevents concurrent refresh requests ──────────────
 let isRefreshing = false
 let failedQueue = []
 
@@ -34,57 +34,73 @@ function processQueue(error, token = null) {
   failedQueue = []
 }
 
+/**
+ * Refresh the access token using the httpOnly refresh token cookie.
+ *
+ * All concurrent callers (response interceptor, session restore, proactive
+ * interval) share the same isRefreshing flag so only ONE refresh request is
+ * ever in-flight at a time. Subsequent callers are queued and resolved with
+ * the same new token, eliminating the backend token-reuse race condition.
+ *
+ * Throws on failure — callers decide whether to redirect to login.
+ */
+export async function refreshAccessToken() {
+  // If a refresh is already running, queue this caller and wait for the result
+  if (isRefreshing) {
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject })
+    })
+  }
+
+  isRefreshing = true
+  try {
+    const { data } = await axios.post(
+      `${BASE_URL}/auth/refresh`,
+      {},
+      { withCredentials: true }
+    )
+    const newToken = data.data.accessToken
+    setAccessToken(newToken)
+    processQueue(null, newToken)
+    return newToken
+  } catch (err) {
+    processQueue(err, null)
+    clearAccessToken()
+    throw err
+  } finally {
+    isRefreshing = false
+  }
+}
+
+// ─── Response interceptor: silent token refresh on 401 ───────────────────────
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
 
-    // Only retry on 401 with TOKEN_EXPIRED, not on login failures
+    // Only retry on 401 with TOKEN_EXPIRED, not on login failures or other 401s
     if (
       error.response?.status === 401 &&
       error.response?.data?.code === 'TOKEN_EXPIRED' &&
       !originalRequest._retry
     ) {
-      if (isRefreshing) {
-        // Queue this request while refresh is in progress
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject })
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`
-            return api(originalRequest)
-          })
-          .catch((err) => Promise.reject(err))
-      }
-
       originalRequest._retry = true
-      isRefreshing = true
 
       try {
-        const { data } = await axios.post(
-          `${BASE_URL}/auth/refresh`,
-          {},
-          { withCredentials: true }
-        )
-
-        const newToken = data.data.accessToken
-        setAccessToken(newToken)
-        processQueue(null, newToken)
-
+        const newToken = await refreshAccessToken()
         originalRequest.headers.Authorization = `Bearer ${newToken}`
         return api(originalRequest)
       } catch (refreshError) {
-        processQueue(refreshError, null)
-        clearAccessToken()
-
-        // Redirect to login on refresh failure (client-side only)
+        // Only hard-redirect to login on genuine auth failures (401/403).
+        // Network errors, timeouts, and 5xx responses must NOT destroy a valid
+        // session — they are transient and the user should stay logged in.
         if (typeof window !== 'undefined') {
-          window.location.href = '/admin/login'
+          const status = refreshError.response?.status
+          if (status === 401 || status === 403) {
+            window.location.href = '/admin/login'
+          }
         }
-
         return Promise.reject(refreshError)
-      } finally {
-        isRefreshing = false
       }
     }
 

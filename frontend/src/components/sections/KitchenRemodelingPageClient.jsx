@@ -446,7 +446,7 @@ export function KitchenRemodelingPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           3. TRUSTED PARTNER — full-bleed background image | dark-left gradient
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 md:py-36 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-36 overflow-hidden">
 
         {/* Background image */}
         <div className="absolute inset-0">
@@ -457,21 +457,22 @@ export function KitchenRemodelingPageClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          {/* Dark-left gradient: text lives on the dark side, image reveals on the right */}
-          <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
+          {/* Mobile: subtle overlay; larger screens: dark-left gradient */}
+          <div className="absolute inset-0 bg-black/45 sm:bg-linear-to-r sm:from-black/70 sm:via-black/40 sm:to-transparent" />
         </div>
 
         <div className="relative z-10 container-custom max-w-7xl">
           <FadeIn delay={0.12} className="max-w-xl">
 
-            {/* Frosted pill badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/25 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-              <span className="text-white/85 text-xs font-semibold uppercase tracking-widest">Your Trusted Partner</span>
-            </div>
+            {/* Section label */}
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white mb-3">
+              <span className="w-6 h-px bg-white inline-block" />
+              Your Trusted Partner
+              <span className="w-6 h-px bg-white inline-block" />
+            </p>
 
             {/* Heading */}
-            <h2 className={`text-4xl sm:text-5xl md:text-[3.25rem] font-extrabold text-white leading-tight mb-5 ${serif}`}>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 ${serif}`}>
               Kitchen Remodeling{' '}
               <span className="text-primary">in Tampa Bay</span>
             </h2>
@@ -480,7 +481,7 @@ export function KitchenRemodelingPageClient() {
             <div className="w-14 h-1 bg-primary rounded-full mb-7" />
 
             {/* Body */}
-            <div className="space-y-4 text-white/80 text-base leading-relaxed mb-9">
+            <div className="space-y-4 text-white text-base leading-relaxed mb-9">
               <p>
                 A kitchen is more than just a place to cook. It&rsquo;s where families gather,
                 meals are shared, and memories are made. Whether you&rsquo;re updating an
@@ -870,13 +871,7 @@ export function KitchenRemodelingPageClient() {
               beautiful, functional results tailored to your home and lifestyle.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors shadow-lg whitespace-nowrap"
-              >
-                Visit Our Showroom
-              </Link>
+            <div className="flex justify-center">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors whitespace-nowrap"

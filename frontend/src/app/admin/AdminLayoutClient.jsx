@@ -1,11 +1,24 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
 import { useAuth } from '@/hooks/useAuth'
-import api from '@/lib/api'
-import { setAccessToken } from '@/lib/auth'
+import api, { refreshAccessToken } from '@/lib/api'
+
+// Proactively refresh the access token just before it expires (15 min lifetime).
+// Firing at 14 min keeps the token perpetually alive while the admin is working,
+// which eliminates reactive mid-work refreshes and the logouts they can cause.
+const PROACTIVE_REFRESH_MS = 14 * 60 * 1000
+
+function renewSignalCookie() {
+  const secure = window.location.protocol === 'https:' ? '; Secure' : ''
+  document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
+}
+
+function clearSignalCookie() {
+  document.cookie = 'adminLoggedIn=; path=/; max-age=0'
+}
 
 export function AdminLayoutClient({ children }) {
   const pathname = usePathname()
@@ -14,44 +27,36 @@ export function AdminLayoutClient({ children }) {
   const isLoginPage = pathname === '/admin/login'
 
   /**
-   * Restore the user session from the httpOnly refresh token cookie when
-   * the user state is empty — this happens after a hard page refresh on
-   * any admin route (access token lives only in memory).
+   * Restore the user session from the httpOnly refresh token cookie when the
+   * user state is empty (happens after a hard page refresh because the access
+   * token lives only in memory).
    *
-   * Steps:
-   *   1. POST /auth/refresh → get a fresh access token (rotates the refresh cookie too)
-   *   2. GET  /auth/me      → fetch user info and populate the context
-   *
-   * If either request fails (no cookie / expired), the middleware already
-   * redirected the user to /admin/login, so we just stay silent.
+   * Uses the shared refreshAccessToken() function so this call is properly
+   * coordinated with any concurrent refresh attempts from the API interceptor,
+   * preventing the token-reuse race condition that logs the user out.
    */
   useEffect(() => {
-    // Skip on login page or if user is already known
     if (isLoginPage || user) return
 
     let cancelled = false
 
     async function restoreSession() {
       try {
-        const { data: refreshData } = await api.post('/auth/refresh')
-        setAccessToken(refreshData.data.accessToken)
-
+        const newToken = await refreshAccessToken()
         const { data: meData } = await api.get('/auth/me')
         if (!cancelled) {
-          setUserFromToken(meData.data, refreshData.data.accessToken)
-          // Renew the client-side cookie so its expiry stays in sync with the
-          // rotated refresh token (which gets a fresh 7-day window each time).
-          const secure = window.location.protocol === 'https:' ? '; Secure' : ''
-          document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
+          setUserFromToken(meData.data, newToken)
+          // Keep the signal cookie expiry in sync with the rotated refresh token
+          renewSignalCookie()
         }
       } catch (err) {
         if (!cancelled) {
           // Only destroy the session on actual auth failures (401/403).
           // Network errors (server sleeping, timeout, DNS) must NOT log the
-          // user out — they should reload when the server is back up.
+          // user out — they should stay in the app and retry when the server recovers.
           const isAuthError = err.response?.status === 401 || err.response?.status === 403
           if (isAuthError) {
-            document.cookie = 'adminLoggedIn=; path=/; max-age=0'
+            clearSignalCookie()
             router.replace('/admin/login')
           }
         }
@@ -63,6 +68,38 @@ export function AdminLayoutClient({ children }) {
       cancelled = true
     }
   }, [isLoginPage, user, setUserFromToken, router])
+
+  /**
+   * Proactive token refresh interval.
+   *
+   * Silently refreshes the access token every 14 minutes while the admin is
+   * logged in. This prevents the token from ever expiring mid-work (e.g. while
+   * writing a long blog post), which is the primary cause of unexpected logouts.
+   *
+   * Uses the same shared refreshAccessToken() as the response interceptor, so
+   * concurrent calls are safely queued — never triggering backend token-reuse
+   * detection.
+   */
+  useEffect(() => {
+    if (isLoginPage || !user) return
+
+    const interval = setInterval(async () => {
+      try {
+        await refreshAccessToken()
+        renewSignalCookie()
+      } catch (err) {
+        // Only redirect to login on genuine auth failures (401/403).
+        // Transient network issues should not interrupt the admin's work.
+        const status = err.response?.status
+        if (status === 401 || status === 403) {
+          clearSignalCookie()
+          router.replace('/admin/login')
+        }
+      }
+    }, PROACTIVE_REFRESH_MS)
+
+    return () => clearInterval(interval)
+  }, [isLoginPage, user, router])
 
   // ── Login page: render completely standalone (no sidebar, no chrome) ──
   if (isLoginPage) {

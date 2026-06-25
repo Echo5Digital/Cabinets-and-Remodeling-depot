@@ -20,12 +20,6 @@ import {
   Hammer,
   MessageSquare,
   Settings2,
-  Layers,
-  Home,
-  Droplets,
-  TrendingUp,
-  Sparkles,
-  Eye,
   ChevronRight,
   Star,
   Phone,
@@ -156,14 +150,14 @@ const INSPIRATION_STYLES = [
 ]
 
 const BENEFITS = [
-  { icon: TrendingUp,  label: 'Improved Home Value' },
-  { icon: Sparkles,    label: 'Easier Cleaning & Maintenance' },
-  { icon: ShieldCheck, label: 'Better Durability' },
-  { icon: Palette,     label: 'Modernized Interior Design' },
-  { icon: Droplets,    label: 'Moisture Resistance' },
-  { icon: Home,        label: 'Increased Comfort' },
-  { icon: Eye,         label: 'Enhanced Visual Appeal' },
-  { icon: Layers,      label: 'Better Flow Between Rooms' },
+  { image: '/improved-home-value.jpeg',       label: 'Improved Home Value' },
+  { image: '/easier-maintenance.jpeg',        label: 'Easier Cleaning & Maintenance' },
+  { image: '/better-durability.jpeg',         label: 'Better Durability' },
+  { image: '/modernized-interior-design.jpeg',label: 'Modernized Interior Design' },
+  { image: '/moisture-resistance.jpeg',       label: 'Moisture Resistance' },
+  { image: '/increased-comfort.jpeg',         label: 'Increased Comfort' },
+  { image: '/enhanced-visual-appeal.jpeg',    label: 'Enhanced Visual Appeal' },
+  { image: '/better-flow-btw-rooms.jpeg',     label: 'Better Flow Between Rooms' },
 ]
 
 const PROCESS_STEPS = [
@@ -456,34 +450,83 @@ export function FlooringPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           3. YOUR TRUSTED FLOORING PARTNER IN TAMPA BAY
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white overflow-hidden">
-        <div className="container-custom max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="relative overflow-hidden py-20 md:py-28">
 
-            {/* Left — image */}
-            <FadeIn className="relative">
-              <div className="relative w-full aspect-4/3 lg:aspect-5/4 rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/Flooring-samples.jpg"
-                  alt="Your trusted flooring partner Tampa Bay"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+        {/* Background image */}
+        <Image
+          src="/flooring-tampa-2.jpg"
+          alt="Your trusted flooring partner Tampa Bay"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+
+        {/* Uniform dark overlay — balanced contrast across both columns */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.42) 50%, rgba(0,0,0,0.30) 100%)',
+          }}
+        />
+
+        {/* Content */}
+        <div className="container-custom relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            {/* ── LEFT: label + heading + rule + desktop CTA ── */}
+            <FadeIn className="flex flex-col gap-5">
+
+              {/* Section label — gold flanking lines */}
+              <div
+                className="flex items-center gap-3"
+                style={{ filter: 'drop-shadow(0 0 6px rgba(0,0,0,0.80))' }}
+              >
+                <span className="w-8 h-px bg-gold shrink-0" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
+                  Your Trusted Partner
+                </p>
+                <span className="w-8 h-px bg-gold shrink-0" />
               </div>
-              <div className="absolute -bottom-4 -right-4 w-28 h-28 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
+
+              {/* Heading */}
+              <h2
+                className={`text-3xl sm:text-4xl md:text-[2.7rem] font-extrabold text-white leading-[1.1] ${serif}`}
+                style={{
+                  textShadow:
+                    '0 0 28px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.90), 0 4px 24px rgba(0,0,0,0.75)',
+                }}
+              >
+                Your Trusted Flooring Partner{' '}
+                <span className="text-gold">in Tampa Bay</span>
+              </h2>
+
+              {/* Rule */}
+              <div className="w-14 h-0.5 bg-white/25" />
+
+              {/* CTA — desktop only */}
+              <div className="hidden lg:block pt-2">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
+                >
+                  Visit Our Showroom
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
             </FadeIn>
 
-            {/* Right — text */}
-            <FadeIn delay={0.12} className="flex flex-col gap-5">
-              <div>
-                <SectionLabel>Your Trusted Flooring Partner</SectionLabel>
-                <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight ${serif}`}>
-                  Your Trusted Flooring Partner{' '}
-                  <span className="text-primary">in Tampa Bay</span>
-                </h2>
-              </div>
-              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
+            {/* ── RIGHT: body text + mobile CTA ── */}
+            <FadeIn delay={0.14} className="flex flex-col gap-6">
+
+              <div
+                className="space-y-4 text-white/90 text-base leading-[1.82]"
+                style={{
+                  textShadow:
+                    '0 0 18px rgba(0,0,0,0.92), 0 1px 6px rgba(0,0,0,0.85)',
+                }}
+              >
                 <p>
                   Flooring changes the way a home feels almost immediately. It affects everything
                   from lighting and comfort to maintenance and long-term durability. At Cabinets &amp;
@@ -503,19 +546,23 @@ export function FlooringPageClient() {
                   home&rsquo;s overall design.
                 </p>
               </div>
-              <div className="pt-2">
+
+              {/* CTA — mobile only */}
+              <div className="lg:hidden">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-7 rounded-lg transition-colors shadow-md shadow-primary/25"
+                  className="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg"
                 >
                   Visit Our Showroom
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
+
             </FadeIn>
 
           </div>
         </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -615,22 +662,66 @@ export function FlooringPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          5. EXPLORE FLOORING OPTIONS IN PERSON — split layout
+          5. EXPLORE FLOORING OPTIONS IN PERSON — 2-col, full-bleed bg
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-warm-gray overflow-hidden">
-        <div className="container-custom max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="relative py-20 sm:py-28 md:py-36 overflow-hidden">
 
-            {/* Left — text */}
-            <FadeIn className="flex flex-col gap-5 order-2 lg:order-1">
-              <div>
-                <SectionLabel>Visit Our Showroom</SectionLabel>
-                <h2 className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-gray-900 leading-tight ${serif}`}>
-                  Explore Flooring Options{' '}
-                  <span className="text-primary">in Person</span>
-                </h2>
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/flooring-tampa.jpg"
+            alt="Explore flooring options at our Valrico showroom Tampa Bay"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          {/* Left-heavy gradient: darker behind the text column, fades right so the image breathes */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.52) 40%, rgba(0,0,0,0.28) 72%, rgba(0,0,0,0.18) 100%)',
+            }}
+          />
+          {/* Subtle bottom vignette to ground the section */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.30) 0%, transparent 25%)' }}
+          />
+        </div>
+
+        <div className="relative z-10 container-custom max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            {/* ── LEFT: label + heading + body + CTA ── */}
+            <FadeIn className="flex flex-col gap-6">
+
+              {/* Section label */}
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-px bg-white/60 shrink-0" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white">
+                  Visit Our Showroom
+                </p>
+                <span className="w-8 h-px bg-white/60 shrink-0" />
               </div>
-              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
+
+              {/* Heading */}
+              <h2
+                className={`text-3xl sm:text-4xl md:text-[2.6rem] font-extrabold text-white leading-[1.1] ${serif}`}
+                style={{ textShadow: '0 2px 24px rgba(0,0,0,0.85), 0 1px 6px rgba(0,0,0,0.70)' }}
+              >
+                Explore Flooring Options{' '}
+                <span className="text-primary">in Person</span>
+              </h2>
+
+              {/* Accent bar */}
+              <div className="w-14 h-1 bg-primary rounded-full" />
+
+              {/* Body */}
+              <div
+                className="space-y-4 text-white text-base leading-[1.82]"
+                style={{ textShadow: '0 1px 10px rgba(0,0,0,0.85), 0 0 20px rgba(0,0,0,0.60)' }}
+              >
                 <p>
                   Choosing flooring online can be difficult. Colors look different under various
                   lighting conditions, textures are hard to evaluate through photos, and materials
@@ -647,47 +738,64 @@ export function FlooringPageClient() {
                 </p>
               </div>
 
+              {/* CTA */}
               <div>
-                <p className="font-bold text-gray-900 mb-3 text-base">You can compare:</p>
-                <ul className="space-y-2">
-                  {SHOWROOM_COMPARE.map((item) => (
-                    <li key={item} className="flex items-center gap-2.5 text-gray-700 text-sm font-medium">
-                      <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-primary" />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-2">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-7 rounded-lg transition-colors shadow-md shadow-primary/25"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg shadow-black/40"
                 >
                   Visit Our Valrico Showroom
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
+
             </FadeIn>
 
-            {/* Right — image */}
-            <FadeIn delay={0.12} className="relative order-1 lg:order-2">
-              <div className="relative w-full aspect-4/3 lg:aspect-5/4 rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/engineered-wood-flooring-768x480-1.jpg"
-                  alt="Explore flooring options at our Valrico showroom Tampa Bay"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+            {/* ── RIGHT: solid-tinted checklist card ── */}
+            <FadeIn delay={0.14}>
+              <div className="rounded-2xl p-7 sm:p-8 flex flex-col gap-5 border border-white/20 bg-black/50 backdrop-blur-sm">
+
+                {/* Card header */}
+                <div>
+                  <p className="text-white/55 font-bold uppercase tracking-[0.16em] text-[11px] mb-2.5">
+                    What You Can Compare
+                  </p>
+                  <h3 className={`text-white text-xl sm:text-2xl font-extrabold leading-snug ${serif}`}>
+                    See Every Option{' '}
+                    <span className="text-gold">Before You Decide</span>
+                  </h3>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-white/20" />
+
+                {/* Checklist */}
+                <ul className="space-y-3">
+                  {SHOWROOM_COMPARE.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-white text-sm font-medium">
+                      <span className="w-6 h-6 rounded-full bg-white/15 border border-white/35 flex items-center justify-center shrink-0">
+                        <Check className="w-3.5 h-3.5 text-white" />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Divider */}
+                <div className="h-px bg-white/20" />
+
+                {/* Footer note */}
+                <p className="text-white/60 text-xs leading-relaxed">
+                  Bring your room dimensions and ideas — our team will help you find
+                  the perfect flooring match for your home and lifestyle.
+                </p>
+
               </div>
-              <div className="absolute -bottom-4 -left-4 w-28 h-28 rounded-2xl bg-primary/10 -z-10 hidden lg:block" />
             </FadeIn>
 
           </div>
         </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -757,32 +865,47 @@ export function FlooringPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          7. BENEFITS OF NEW FLOORING — icon grid
+          7. BENEFITS OF NEW FLOORING — image card grid
+             Styled after "Enhance Your Renovation" on the bathroom page
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-7xl">
 
-          <FadeIn className="text-center mb-12">
+          <FadeIn className="text-center mb-10">
             <SectionLabel>Benefits of New Flooring</SectionLabel>
-            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 ${serif}`}>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 ${serif}`}>
               Why Upgrade Your{' '}
               <span className="text-primary">Flooring</span>
             </h2>
-            <p className="text-gray-500 text-base leading-relaxed max-w-2xl mx-auto">
+            <p className="text-gray-600 text-base leading-relaxed max-w-2xl mx-auto">
               Upgrading flooring can improve both the appearance and functionality of your home.
               New flooring often becomes one of the most noticeable improvements homeowners make
               during a renovation project.
             </p>
           </FadeIn>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
-            {BENEFITS.map(({ icon: Icon, label }, i) => (
-              <FadeIn key={label} delay={i * 0.06}>
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-center text-center gap-3 hover:shadow-md hover:border-primary/20 transition-shadow duration-200">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-primary" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            {BENEFITS.map(({ image, label }, i) => (
+              <FadeIn key={label} delay={i * 0.05}>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden group shadow-md cursor-default">
+                  {/* Photo */}
+                  <Image
+                    src={image}
+                    alt={label}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                  {/* Gradient overlay — always present, deepens on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
+                  {/* Primary accent bar */}
+                  <div className="absolute bottom-0 left-0 right-0 h-0.75 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* Title */}
+                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                    <p className={`text-white font-bold text-sm sm:text-base leading-tight drop-shadow-md ${serif}`}>
+                      {label}
+                    </p>
                   </div>
-                  <p className="font-semibold text-gray-800 text-sm leading-snug">{label}</p>
                 </div>
               </FadeIn>
             ))}
@@ -944,19 +1067,7 @@ export function FlooringPageClient() {
               beautiful, durable spaces built around your lifestyle and budget.
             </p>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors shadow-lg whitespace-nowrap"
-              >
-                Visit Our Valrico Showroom
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors whitespace-nowrap"
-              >
-                Schedule a Free Flooring Consultation
-              </Link>
+            <div className="flex justify-center">
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors whitespace-nowrap"
