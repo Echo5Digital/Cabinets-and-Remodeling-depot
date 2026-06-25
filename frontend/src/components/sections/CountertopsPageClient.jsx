@@ -13,6 +13,7 @@ import {
   MessageSquare, Ruler, Scissors,
   Droplets, AlertCircle, Flame, Clock,
   ChevronLeft, ChevronRight, Globe,
+  Home, Gem, Landmark, Sparkles, Mountain, Users, Eye,
 } from 'lucide-react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -149,6 +150,7 @@ export function CountertopsPageClient() {
   const [openFaq, setOpenFaq] = useState(0)
   const [reviewIdx, setReviewIdx] = useState(0)
   const [reviewExpanded, setReviewExpanded] = useState(false)
+  const [activeRow, setActiveRow] = useState('Quartz')
 
   const goToReview = (i) => { setReviewIdx(i); setReviewExpanded(false) }
   const prevReview = () => goToReview(reviewIdx === 0 ? REVIEWS.length - 1 : reviewIdx - 1)
@@ -421,35 +423,40 @@ export function CountertopsPageClient() {
               {
                 name: 'Quartz',
                 src: '/quartz.webp',
+                href: '/contact',
                 desc: 'Low maintenance, non-porous, and available in dozens of colors and finishes.',
               },
               {
                 name: 'Granite',
                 src: '/granite.webp',
+                href: '/contact',
                 desc: 'Natural stone with unique veining patterns and exceptional long-term durability.',
               },
               {
                 name: 'Quartzite',
                 src: '/quartzite.webp',
+                href: '/contact',
                 desc: 'Marble-like beauty with incredible strength and natural heat resistance.',
               },
               {
                 name: 'Marble',
                 src: '/marble.webp',
+                href: '/contact',
                 desc: 'Timeless elegance that adds luxury and sophistication to any kitchen or bath.',
               },
               {
                 name: 'Porcelain',
                 src: '/porcelain.webp',
+                href: '/contact',
                 desc: 'Sleek, ultra-durable, and perfect for modern indoor and outdoor applications.',
               },
-            ].map(({ name, src, desc }, i, arr) => (
+            ].map(({ name, src, desc, href }, i, arr) => (
               <FadeIn
                 key={name}
                 delay={i * 0.08}
                 className={i === arr.length - 1 ? 'col-span-2 sm:col-span-1' : ''}
               >
-                <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 overflow-hidden h-full flex flex-col group cursor-default">
+                <Link href={href} className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 overflow-hidden h-full flex flex-col group">
 
                   {/* Photo */}
                   <div className="aspect-[4/3] relative overflow-hidden flex-shrink-0">
@@ -470,8 +477,13 @@ export function CountertopsPageClient() {
                     <p className="text-muted-foreground text-[0.7rem] sm:text-xs leading-relaxed">
                       {desc}
                     </p>
+                    <div className="mt-2.5 flex justify-center">
+                      <span className="inline-flex items-center gap-1 text-primary text-[0.72rem] font-semibold opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out">
+                        Learn More →
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </FadeIn>
             ))}
           </div>
@@ -538,96 +550,307 @@ export function CountertopsPageClient() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          MATERIAL COMPARISON TABLE — desktop only
+          MATERIAL COMPARISON TABLE — modern, interactive, mobile-responsive
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="hidden md:block section-padding bg-white">
-        <div className="container-custom">
-          <FadeIn className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-gray-900 leading-tight">
-              Which Countertop Material Is Right for You?
-            </h2>
-          </FadeIn>
+      {(() => {
+        const MATERIALS = [
+          {
+            material: 'Quartz',    src: '/quartz.webp',    href: '/contact',
+            badge: { label: 'POPULAR',    icon: Star,        cls: 'bg-blue-50 text-blue-600 border-blue-200'     },
+            bestForIcon: Home,     bestFor: 'Busy kitchens, families, bathrooms',
+            maintenance: 'Very low',        mScore: 1,
+            lookIcon: Sparkles,    look: 'Modern, consistent, marble-look options',
+            heat: 'Moderate',               hScore: 2,
+          },
+          {
+            material: 'Granite',   src: '/granite.webp',   href: '/contact',
+            badge: null,
+            bestForIcon: Tag,      bestFor: 'Natural kitchens, resale value, traditional style',
+            maintenance: 'Low to moderate', mScore: 2,
+            lookIcon: Mountain,    look: 'Unique natural stone',
+            heat: 'High',                   hScore: 3,
+          },
+          {
+            material: 'Quartzite', src: '/quartzite.webp', href: '/contact',
+            badge: { label: 'LUXURY',     icon: Gem,         cls: 'bg-purple-50 text-purple-600 border-purple-200' },
+            bestForIcon: Globe,    bestFor: 'Luxury kitchens, islands, outdoor spaces',
+            maintenance: 'Moderate',        mScore: 3,
+            lookIcon: Gem,         look: 'Marble-like natural stone',
+            heat: 'High',                   hScore: 3,
+          },
+          {
+            material: 'Marble',    src: '/marble.webp',    href: '/contact',
+            badge: { label: 'LUXURY',     icon: Gem,         cls: 'bg-purple-50 text-purple-600 border-purple-200' },
+            bestForIcon: Droplets, bestFor: 'Luxury bathrooms, statement islands, baking areas',
+            maintenance: 'High',            mScore: 4,
+            lookIcon: Landmark,    look: 'Classic, elegant, soft veining',
+            heat: 'Moderate',               hScore: 2,
+          },
+          {
+            material: 'Porcelain', src: '/porcelain.webp', href: '/contact',
+            badge: { label: 'BEST VALUE', icon: ShieldCheck, cls: 'bg-green-50 text-green-600 border-green-200'   },
+            bestForIcon: Flame,    bestFor: 'Outdoor kitchens, modern spaces, low maintenance',
+            maintenance: 'Very low',        mScore: 1,
+            lookIcon: LayoutGrid,  look: 'Sleek, versatile, large-format',
+            heat: 'Very high',              hScore: 4,
+          },
+        ]
 
-          <FadeIn delay={0.1}>
-            <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-              <table className="w-full text-sm">
-                {/* Header */}
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    {['Material', 'Best For', 'Maintenance', 'Look', 'Heat Resistance'].map((col) => (
-                      <th
-                        key={col}
-                        className="px-5 py-4 text-left text-[0.7rem] font-bold uppercase tracking-widest text-gray-500"
+        const mDotColor  = (s) => s <= 1 ? 'bg-green-500' : s === 2 ? 'bg-lime-500' : s === 3 ? 'bg-amber-400' : 'bg-orange-500'
+        const mTextColor = (s) => s <= 1 ? 'text-green-600' : s === 2 ? 'text-lime-600' : s === 3 ? 'text-amber-500' : 'text-orange-500'
+
+        const TABLE_HEADERS = [
+          { label: 'Material',        icon: Layers   },
+          { label: 'Best For',        icon: Users    },
+          { label: 'Maintenance',     icon: Droplets },
+          { label: 'Look',            icon: Eye      },
+          { label: 'Heat Resistance', icon: Flame    },
+          { label: 'Explore',         icon: null     },
+        ]
+
+        return (
+          <section className="section-padding bg-white">
+            <div className="container-custom">
+              <FadeIn className="text-center mb-10">
+                <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-gray-900 leading-tight">
+                  Which Countertop Material Is Right for You?
+                </h2>
+              </FadeIn>
+
+              {/* ── Desktop table (md+) ──────────────────────────────────── */}
+              <FadeIn delay={0.1} className="hidden md:block">
+                <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200">
+                        {TABLE_HEADERS.map(({ label, icon: Icon }) => (
+                          <th key={label} className="px-4 py-4 text-left">
+                            <div className="flex items-center gap-1.5">
+                              {Icon && <Icon className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />}
+                              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 whitespace-nowrap">
+                                {label}
+                              </span>
+                            </div>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {MATERIALS.map((row, i, arr) => {
+                        const isActive = activeRow === row.material
+                        const BadgeIcon = row.badge?.icon
+                        const BestForIcon = row.bestForIcon
+                        const LookIcon = row.lookIcon
+                        return (
+                          <tr
+                            key={row.material}
+                            onClick={() => setActiveRow(isActive ? null : row.material)}
+                            style={isActive ? { boxShadow: 'inset 0 0 0 2px hsl(346 81% 28% / 0.3)' } : {}}
+                            className={[
+                              'cursor-pointer transition-all duration-200',
+                              i !== arr.length - 1 ? 'border-b border-gray-100' : '',
+                              isActive ? 'bg-primary/[0.03]' : 'hover:bg-gray-50',
+                            ].join(' ')}
+                          >
+                            {/* Material — image + badge + name */}
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-3 min-w-[165px]">
+                                <div className="relative flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden ring-2 ring-gray-100">
+                                  <Image
+                                    src={row.src}
+                                    alt={`${row.material} countertop`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="64px"
+                                  />
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                  {row.badge && (
+                                    <span className={`self-start inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.58rem] font-bold uppercase tracking-wide border ${row.badge.cls}`}>
+                                      <BadgeIcon className="w-2.5 h-2.5" />
+                                      {row.badge.label}
+                                    </span>
+                                  )}
+                                  <span className={`font-bold text-sm leading-none transition-colors ${isActive ? 'text-primary' : 'text-gray-800'}`}>
+                                    {row.material}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+
+                            {/* Best For */}
+                            <td className="px-4 py-4">
+                              <div className="flex items-start gap-2 max-w-[185px]">
+                                <BestForIcon className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                                <span className="text-gray-600 text-xs leading-snug">{row.bestFor}</span>
+                              </div>
+                            </td>
+
+                            {/* Maintenance — dot indicators */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col gap-1.5">
+                                <div className="flex items-center gap-1">
+                                  {Array.from({ length: 5 }).map((_, j) => (
+                                    <span
+                                      key={j}
+                                      className={`w-2.5 h-2.5 rounded-full transition-colors ${j < row.mScore ? mDotColor(row.mScore) : 'bg-gray-200'}`}
+                                    />
+                                  ))}
+                                </div>
+                                <span className={`text-xs font-semibold ${mTextColor(row.mScore)}`}>
+                                  {row.maintenance}
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Look */}
+                            <td className="px-4 py-4">
+                              <div className="flex items-start gap-2 max-w-[175px]">
+                                <LookIcon className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                                <span className="text-gray-600 text-xs leading-snug">{row.look}</span>
+                              </div>
+                            </td>
+
+                            {/* Heat Resistance — flame icons */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col gap-1.5">
+                                <div className="flex items-center gap-0.5">
+                                  {Array.from({ length: 4 }).map((_, j) => (
+                                    <Flame
+                                      key={j}
+                                      className={`w-4 h-4 ${j < row.hScore ? 'text-primary' : 'text-gray-200'}`}
+                                      fill={j < row.hScore ? 'currentColor' : 'none'}
+                                    />
+                                  ))}
+                                </div>
+                                <span className="text-xs font-semibold text-primary">{row.heat}</span>
+                              </div>
+                            </td>
+
+                            {/* Explore */}
+                            <td className="px-4 py-4">
+                              <Link
+                                href={row.href}
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-900 text-white hover:bg-primary transition-colors duration-200"
+                                aria-label={`Explore ${row.material} countertops`}
+                              >
+                                <ChevronRight className="w-4 h-4" />
+                              </Link>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+
+                  {/* Footer note */}
+                  <div className="px-5 py-4 bg-gray-50 border-t border-gray-100 text-center">
+                    <p className="text-muted-foreground text-xs sm:text-sm">
+                      Still not sure? Visit our Valrico showroom and compare side by side before making a decision.
+                    </p>
+                  </div>
+                </div>
+              </FadeIn>
+
+              {/* ── Mobile cards (<md) ────────────────────────────────────── */}
+              <div className="md:hidden space-y-4">
+                {MATERIALS.map((row, i) => {
+                  const isActive = activeRow === row.material
+                  const BadgeIcon = row.badge?.icon
+                  const BestForIcon = row.bestForIcon
+                  const LookIcon = row.lookIcon
+                  return (
+                    <FadeIn key={row.material} delay={i * 0.07}>
+                      <div
+                        onClick={() => setActiveRow(isActive ? null : row.material)}
+                        className={[
+                          'rounded-2xl border overflow-hidden shadow-sm cursor-pointer transition-all duration-200',
+                          isActive ? 'border-primary/40 ring-2 ring-primary/20' : 'border-gray-200 hover:border-gray-300 hover:shadow-md',
+                        ].join(' ')}
                       >
-                        {col}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
+                        {/* Image with badge + name + explore button overlay */}
+                        <div className="relative aspect-[16/9] w-full overflow-hidden">
+                          <Image
+                            src={row.src}
+                            alt={`${row.material} countertop`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                          <div className="absolute bottom-3 left-4 right-3 flex items-end justify-between gap-2">
+                            <div className="flex flex-col gap-1.5">
+                              {row.badge && (
+                                <span className={`self-start inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.6rem] font-bold uppercase tracking-wide border ${row.badge.cls}`}>
+                                  <BadgeIcon className="w-2.5 h-2.5" />
+                                  {row.badge.label}
+                                </span>
+                              )}
+                              <span className="text-white font-bold text-lg drop-shadow leading-tight">{row.material}</span>
+                            </div>
+                            <Link
+                              href={row.href}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-900/80 text-white hover:bg-primary transition-colors duration-200 flex-shrink-0"
+                              aria-label={`Explore ${row.material} countertops`}
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </Link>
+                          </div>
+                        </div>
 
-                {/* Rows */}
-                <tbody>
-                  {[
-                    {
-                      material: 'Quartz',
-                      bestFor: 'Busy kitchens, families, bathrooms',
-                      maintenance: 'Very low',
-                      look: 'Modern, consistent, marble-look options',
-                      heat: 'Moderate',
-                    },
-                    {
-                      material: 'Granite',
-                      bestFor: 'Natural kitchens, resale value, traditional style',
-                      maintenance: 'Low to moderate',
-                      look: 'Unique natural stone',
-                      heat: 'High',
-                    },
-                    {
-                      material: 'Quartzite',
-                      bestFor: 'Luxury kitchens, islands, outdoor spaces',
-                      maintenance: 'Moderate',
-                      look: 'Marble-like natural stone',
-                      heat: 'High',
-                    },
-                    {
-                      material: 'Marble',
-                      bestFor: 'Luxury bathrooms, statement islands, baking areas',
-                      maintenance: 'High',
-                      look: 'Classic, elegant, soft veining',
-                      heat: 'Moderate',
-                    },
-                    {
-                      material: 'Porcelain',
-                      bestFor: 'Outdoor kitchens, modern spaces, low maintenance',
-                      maintenance: 'Very low',
-                      look: 'Sleek, versatile, large-format',
-                      heat: 'Very high',
-                    },
-                  ].map((row, i, arr) => (
-                    <tr
-                      key={row.material}
-                      className={`${i !== arr.length - 1 ? 'border-b border-gray-100' : ''} hover:bg-primary/[0.02] transition-colors`}
-                    >
-                      <td className="px-5 py-5 font-bold text-primary text-sm">{row.material}</td>
-                      <td className="px-5 py-5 text-[#4a7fa5] text-sm leading-snug">{row.bestFor}</td>
-                      <td className="px-5 py-5 text-[#4a7fa5] text-sm">{row.maintenance}</td>
-                      <td className="px-5 py-5 text-[#4a7fa5] text-sm leading-snug">{row.look}</td>
-                      <td className="px-5 py-5 text-[#4a7fa5] text-sm">{row.heat}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        {/* Properties */}
+                        <div className="p-4 space-y-3 bg-white">
+                          <div className="flex items-start gap-2">
+                            <BestForIcon className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                              <span className="text-[0.62rem] font-bold uppercase tracking-widest text-gray-400 block mb-0.5">Best For</span>
+                              <span className="text-gray-700 text-sm leading-snug">{row.bestFor}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Droplets className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <span className="text-[0.62rem] font-bold uppercase tracking-widest text-gray-400">Maintenance</span>
+                            <div className="flex items-center gap-1">
+                              {Array.from({ length: 5 }).map((_, j) => (
+                                <span key={j} className={`w-2 h-2 rounded-full ${j < row.mScore ? mDotColor(row.mScore) : 'bg-gray-200'}`} />
+                              ))}
+                            </div>
+                            <span className={`text-xs font-semibold ${mTextColor(row.mScore)}`}>{row.maintenance}</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <LookIcon className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                              <span className="text-[0.62rem] font-bold uppercase tracking-widest text-gray-400 block mb-0.5">Look</span>
+                              <span className="text-gray-700 text-sm leading-snug">{row.look}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Flame className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <span className="text-[0.62rem] font-bold uppercase tracking-widest text-gray-400">Heat Resist.</span>
+                            <div className="flex items-center gap-0.5">
+                              {Array.from({ length: 4 }).map((_, j) => (
+                                <Flame key={j} className={`w-3.5 h-3.5 ${j < row.hScore ? 'text-primary' : 'text-gray-200'}`} fill={j < row.hScore ? 'currentColor' : 'none'} />
+                              ))}
+                            </div>
+                            <span className="text-xs font-semibold text-primary">{row.heat}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </FadeIn>
+                  )
+                })}
 
-              {/* Footer note */}
-              <div className="px-5 py-4 bg-gray-50 border-t border-gray-100 text-center">
-                <p className="text-muted-foreground text-xs sm:text-sm">
+                <p className="text-center text-muted-foreground text-xs sm:text-sm pt-2">
                   Still not sure? Visit our Valrico showroom and compare side by side before making a decision.
                 </p>
               </div>
+
             </div>
-          </FadeIn>
-        </div>
-      </section>
+          </section>
+        )
+      })()}
 
       {/* ═══════════════════════════════════════════════════════════════════
           WHY CHOOSE CABINETS & REMODELING DEPOT

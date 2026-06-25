@@ -26,7 +26,7 @@ const SOLUTIONS = [
     label: 'Kitchen Cabinets',
     desc: 'Quality cabinets in a variety of styles and finishes.',
     images: ['/1_img.jpg', '/kitchen_cabinet_4.jpg', '/kitchen_cabinet_5.jpg'],
-    href: '/in-stock-cabinets',
+    href: '/kitchen-cabinets-tampa',
     Icon: LayoutGrid,
   },
   {
@@ -37,10 +37,10 @@ const SOLUTIONS = [
     Icon: Gem,
   },
   {
-    label: 'In-Stock Cabinets',
+    label: 'Kitchen Cabinets',
     desc: 'Ready-to-install cabinets available for faster delivery.',
     images: ['/05_img.jpg', '/instock-cabinets-1.jpg', '/instock-cabinets-2.jpg'],
-    href: '/in-stock-cabinets',
+    href: '/kitchen-cabinets-tampa',
     Icon: Package,
   },
   {

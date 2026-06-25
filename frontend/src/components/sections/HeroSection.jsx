@@ -206,7 +206,7 @@ export function HeroSection({ data = {}, compact = false }) {
               {[
                 'Free Estimates',
                 'Professional Installation',
-                'In-Stock Cabinets Available',
+                'Kitchen Cabinets Available',
                 '5-Star Rated',
               ].map((label) => (
                 <span

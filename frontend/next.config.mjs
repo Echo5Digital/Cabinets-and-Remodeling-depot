@@ -19,7 +19,8 @@ const nextConfig = {
     return [
       { source: '/gallery', destination: '/showroom-gallery', permanent: true },
       { source: '/countertops', destination: '/countertops-tampa', permanent: true },
-      { source: '/cabinets', destination: '/in-stock-cabinets', permanent: true },
+      { source: '/cabinets',          destination: '/kitchen-cabinets-tampa', permanent: true },
+      { source: '/in-stock-cabinets', destination: '/kitchen-cabinets-tampa', permanent: true },
       { source: '/kitchen-remodeling', destination: '/kitchen-remodeling-tampa', permanent: true },
       { source: '/flooring', destination: '/flooring-in-tampa', permanent: true },
       { source: '/flooring/:path*', destination: '/flooring-in-tampa/:path*', permanent: true },

@@ -99,7 +99,7 @@ function HeroPreview({ section }) {
 
         {/* Trust chips */}
         <div className="flex flex-wrap gap-1.5 mt-3">
-          {['Free Estimates', 'In-Stock Cabinets', '5-Star Rated'].map((label) => (
+          {['Free Estimates', 'Kitchen Cabinets', '5-Star Rated'].map((label) => (
             <span key={label} className="text-[0.6rem] font-semibold text-white/80 border border-white/20 rounded-full px-2.5 py-1" style={{ background: 'rgba(0,0,0,0.28)' }}>
               • {label}
             </span>

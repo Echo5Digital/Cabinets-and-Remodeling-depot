@@ -96,7 +96,7 @@ const SERVICES = [
     image: '/1_img.jpg',
     alt: 'Cabinet solutions Tampa Bay',
     title: 'Cabinet Solutions',
-    href: '/in-stock-cabinets',
+    href: '/kitchen-cabinets-tampa',
     description: 'Stock, semi-custom, and custom cabinetry to fit your style, budget, and storage needs.',
     paragraphs: [
       'Cabinets play a major role in both the appearance and functionality of your kitchen. We offer a variety of options, including stock, semi-custom, and custom cabinetry to fit different budgets and design preferences.',

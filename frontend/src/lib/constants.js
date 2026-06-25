@@ -12,8 +12,8 @@ export const SERVICES = [
     description: 'Premium quartz and granite countertops fabricated and installed by certified professionals.',
   },
   {
-    title: 'In-Stock Cabinets',
-    href: '/in-stock-cabinets',
+    title: 'Kitchen Cabinets',
+    href: '/kitchen-cabinets-tampa',
     icon: 'Layout',
     description: 'Ready-to-install cabinets in stock at our Valrico showroom — no long waits, fast project turnaround.',
   },

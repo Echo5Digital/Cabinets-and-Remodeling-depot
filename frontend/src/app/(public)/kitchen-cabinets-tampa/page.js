@@ -5,11 +5,11 @@ const CabinetsPageClient = dynamic(
 )
 
 export const metadata = {
-  title: 'In-Stock Cabinets in Tampa | Cabinets And Remodeling Depot',
+  title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
   description:
     'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
   openGraph: {
-    title: 'In-Stock Cabinets in Tampa | Cabinets And Remodeling Depot',
+    title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
     description:
       'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
   },
@@ -33,7 +33,7 @@ const jsonLd = {
         "postalCode": "33594",
         "addressCountry": "US"
       },
-      "description": "Cabinets & Remodeling Depot provides in-stock cabinets, kitchen cabinets, cabinet installation, and remodeling solutions for homeowners throughout Tampa Bay.",
+      "description": "Cabinets & Remodeling Depot provides kitchen cabinets, cabinet installation, and remodeling solutions for homeowners throughout Tampa Bay.",
       "areaServed": [
         {"@type":"City","name":"Tampa"},
         {"@type":"City","name":"Valrico"},
@@ -47,8 +47,8 @@ const jsonLd = {
     },
     {
       "@type": "Service",
-      "@id": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/#service",
-      "name": "In-Stock Cabinets Tampa",
+      "@id": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/#service",
+      "name": "Kitchen Cabinets Tampa",
       "serviceType": "Kitchen Cabinet Sales and Installation",
       "provider": {
         "@id": "https://www.cabinetsandremodelingdepot.com/#business"
@@ -63,12 +63,12 @@ const jsonLd = {
         "Plant City",
         "Wesley Chapel"
       ],
-      "description": "Affordable in-stock cabinets, ready-to-install cabinets, semi-custom cabinetry, cabinet replacement services, and professional cabinet installation for homeowners throughout Tampa Bay.",
+      "description": "Affordable kitchen cabinets, ready-to-install cabinets, semi-custom cabinetry, cabinet replacement services, and professional cabinet installation for homeowners throughout Tampa Bay.",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Cabinet Products & Services",
         "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "In-Stock Cabinets" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Kitchen Cabinets" } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ready-to-Install Cabinets" } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stock Kitchen Cabinets" } },
           { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Semi-Custom Cabinets" } },
@@ -81,14 +81,14 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/#faq",
+      "@id": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/#faq",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Do you offer in-stock cabinets Tampa homeowners can purchase quickly?",
+          "name": "Do you offer kitchen cabinets Tampa homeowners can purchase quickly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. We provide a wide selection of in-stock cabinets available for faster remodeling timelines."
+            "text": "Yes. We provide a wide selection of kitchen cabinets available for faster remodeling timelines."
           }
         },
         {
@@ -127,24 +127,24 @@ const jsonLd = {
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/#breadcrumb",
+      "@id": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/#breadcrumb",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.cabinetsandremodelingdepot.com/" },
         { "@type": "ListItem", "position": 2, "name": "Cabinets", "item": "https://www.cabinetsandremodelingdepot.com/cabinets/" },
-        { "@type": "ListItem", "position": 3, "name": "In-Stock Cabinets Tampa", "item": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/" }
+        { "@type": "ListItem", "position": 3, "name": "Kitchen Cabinets Tampa", "item": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/" }
       ]
     },
     {
       "@type": "WebPage",
-      "@id": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/",
-      "url": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/",
-      "name": "In-Stock Cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions",
-      "description": "Explore affordable in-stock cabinets, ready-to-install cabinets, stock kitchen cabinets, cabinet replacement options, and professional installation services throughout Tampa Bay.",
+      "@id": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/",
+      "url": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/",
+      "name": "Kitchen Cabinets Tampa | Affordable & Ready-to-Install Cabinet Solutions",
+      "description": "Explore affordable kitchen cabinets, ready-to-install cabinets, stock kitchen cabinets, cabinet replacement options, and professional installation services throughout Tampa Bay.",
       "isPartOf": {
         "@id": "https://www.cabinetsandremodelingdepot.com/#website"
       },
       "about": {
-        "@id": "https://www.cabinetsandremodelingdepot.com/in-stock-cabinets-tampa/#service"
+        "@id": "https://www.cabinetsandremodelingdepot.com/kitchen-cabinets-tampa/#service"
       }
     },
     {

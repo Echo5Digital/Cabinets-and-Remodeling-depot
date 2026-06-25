@@ -89,7 +89,7 @@ export function Navbar() {
                           linkHoverColor,
                           pathname.startsWith('/kitchen-remodeling-tampa') ||
                           pathname.startsWith('/bathroom-remodeling-tampa') ||
-                          pathname.startsWith('/in-stock-cabinets') ||
+                          pathname.startsWith('/kitchen-cabinets-tampa') ||
                           pathname.startsWith('/countertops-tampa') ||
                           pathname.startsWith('/flooring-in-tampa') ||
                           pathname === '/services'

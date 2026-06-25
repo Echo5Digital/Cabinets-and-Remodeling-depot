@@ -171,9 +171,9 @@ const PROCESS_STEPS = [
 
 const FAQS = [
   {
-    question: 'Do you offer in-stock cabinets Tampa homeowners can purchase quickly?',
+    question: 'Do you offer kitchen cabinets Tampa homeowners can purchase quickly?',
     answer:
-      'Yes. We provide a wide selection of in-stock cabinets available for faster remodeling timelines.',
+      'Yes. We provide a wide selection of kitchen cabinets available for faster remodeling timelines.',
   },
   {
     question: 'Are ready-to-install cabinets durable?',
@@ -298,7 +298,7 @@ export function CabinetsPageClient() {
                 style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
                 <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
-                  In-Stock Cabinets Tampa
+                  Kitchen Cabinets Tampa
                 </span>
                 <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
                   Affordable &amp; Ready-to-Install Cabinet Solutions
@@ -430,7 +430,7 @@ export function CabinetsPageClient() {
         <div className="absolute inset-0">
           <Image
             src="/kitchen-cabinet-ins.jpg"
-            alt="Affordable in-stock cabinets Tampa"
+            alt="Affordable kitchen cabinets Tampa"
             fill
             className="object-cover object-bottom"
             sizes="100vw"
@@ -455,7 +455,7 @@ export function CabinetsPageClient() {
                 Kitchen remodeling projects don&rsquo;t always require lengthy manufacturing
                 timelines or expensive custom orders. Many homeowners simply want quality
                 cabinetry that looks great, functions efficiently, and can be installed quickly.
-                At Cabinets &amp; Remodeling Depot, we offer in-stock cabinets Tampa homeowners
+                At Cabinets &amp; Remodeling Depot, we offer kitchen cabinets Tampa homeowners
                 can rely on for faster renovations, practical budgets, and lasting performance.
               </p>
               <p>
@@ -479,6 +479,86 @@ export function CabinetsPageClient() {
           </FadeIn>
         </div>
 
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
+          KITCHEN CABINET STYLES
+             4-card grid, matching countertop material cards
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-14 md:py-20 bg-white">
+        <div className="container-custom max-w-7xl">
+
+          {/* Header — centered */}
+          <FadeIn className="text-center mb-10">
+            <div className="flex justify-center">
+              <SectionLabel>Cabinet Styles</SectionLabel>
+            </div>
+            <h2 className={`text-3xl sm:text-4xl md:text-[2.5rem] font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
+              Kitchen Cabinet{' '}
+              <span className="text-primary">Styles We Carry</span>
+            </h2>
+            <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+              From clean Shaker profiles to glass-front display cabinets, explore our most popular door styles, all available for fast installation throughout Tampa Bay.
+            </p>
+          </FadeIn>
+
+          {/* Cards grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {[
+              {
+                name: 'Shaker',
+                src: '/cabinet-shaker.jpg',
+                href: '/contact',
+                desc: 'Clean recessed panels and timeless lines, the most versatile style for modern and traditional kitchens.',
+              },
+              {
+                name: 'Slab / Flat Panel',
+                src: '/cabinet-slab.jpg',
+                href: '/contact',
+                desc: 'Smooth, frameless fronts with a minimalist edge, perfect for contemporary and European-inspired spaces.',
+              },
+              {
+                name: 'Raised Panel',
+                src: '/cabinet-raised.webp',
+                href: '/contact',
+                desc: 'A classic raised center panel that adds depth and elegance to any traditional kitchen design.',
+              },
+              {
+                name: 'Glass-Front',
+                src: '/cabinet-glass.jpg',
+                href: '/contact',
+                desc: 'Display dishware and add visual openness with glass-insert doors that brighten any kitchen.',
+              },
+            ].map(({ name, src, desc, href }, i) => (
+              <FadeIn key={name} delay={i * 0.08}>
+                <Link
+                  href={href}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 overflow-hidden h-full flex flex-col group"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden flex-shrink-0">
+                    <Image
+                      src={src}
+                      alt={`${name} kitchen cabinets Tampa`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="p-3 sm:p-4 text-center flex-1 flex flex-col justify-start">
+                    <h3 className="font-bold text-gray-900 text-sm sm:text-[0.95rem] mb-1.5">{name}</h3>
+                    <p className="text-muted-foreground text-[0.7rem] sm:text-xs leading-relaxed">{desc}</p>
+                    <div className="mt-2.5 flex justify-center">
+                      <span className="inline-flex items-center gap-1 text-primary text-[0.72rem] font-semibold opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out">
+                        Learn More →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </FadeIn>
+            ))}
+          </div>
+
+        </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -694,7 +774,7 @@ export function CabinetsPageClient() {
                 </p>
                 <p>
                   Many homeowners assume budget cabinets Tampa projects automatically mean lower
-                  quality, but modern in-stock cabinet solutions often deliver excellent durability,
+                  quality, but modern kitchen cabinet solutions often deliver excellent durability,
                   attractive finishes, and reliable performance.
                 </p>
                 <p className="font-medium text-gray-700">
@@ -967,7 +1047,7 @@ export function CabinetsPageClient() {
             <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               Whether you&rsquo;re replacing outdated cabinets, preparing a home for sale, or
               planning a complete kitchen renovation, Cabinets &amp; Remodeling Depot is here to
-              help. Visit our Valrico showroom to explore in-stock cabinet options and work with
+              help. Visit our Valrico showroom to explore kitchen cabinet options and work with
               a team committed to affordable, quality results.
             </p>
 
