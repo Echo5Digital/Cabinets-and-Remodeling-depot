@@ -622,12 +622,12 @@ export function CountertopsPageClient() {
                 <div className="rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-200">
+                      <tr className="bg-gray-900 border-b border-gray-800">
                         {TABLE_HEADERS.map(({ label, icon: Icon }) => (
                           <th key={label} className="px-4 py-4 text-left">
                             <div className="flex items-center gap-1.5">
-                              {Icon && <Icon className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />}
-                              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 whitespace-nowrap">
+                              {Icon && <Icon className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+                              <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white whitespace-nowrap">
                                 {label}
                               </span>
                             </div>
@@ -638,7 +638,6 @@ export function CountertopsPageClient() {
                     <tbody>
                       {MATERIALS.map((row, i, arr) => {
                         const isActive = activeRow === row.material
-                        const BadgeIcon = row.badge?.icon
                         const BestForIcon = row.bestForIcon
                         const LookIcon = row.lookIcon
                         return (
@@ -665,12 +664,6 @@ export function CountertopsPageClient() {
                                   />
                                 </div>
                                 <div className="flex flex-col gap-1.5">
-                                  {row.badge && (
-                                    <span className={`self-start inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.58rem] font-bold uppercase tracking-wide border ${row.badge.cls}`}>
-                                      <BadgeIcon className="w-2.5 h-2.5" />
-                                      {row.badge.label}
-                                    </span>
-                                  )}
                                   <span className={`font-bold text-sm leading-none transition-colors ${isActive ? 'text-primary' : 'text-gray-800'}`}>
                                     {row.material}
                                   </span>
@@ -693,11 +686,11 @@ export function CountertopsPageClient() {
                                   {Array.from({ length: 5 }).map((_, j) => (
                                     <span
                                       key={j}
-                                      className={`w-2.5 h-2.5 rounded-full transition-colors ${j < row.mScore ? mDotColor(row.mScore) : 'bg-gray-200'}`}
+                                      className={`w-2.5 h-2.5 rounded-full transition-colors ${j < row.mScore ? 'bg-primary' : 'bg-gray-200'}`}
                                     />
                                   ))}
                                 </div>
-                                <span className={`text-xs font-semibold ${mTextColor(row.mScore)}`}>
+                                <span className="text-xs font-semibold text-primary">
                                   {row.maintenance}
                                 </span>
                               </div>
@@ -757,7 +750,6 @@ export function CountertopsPageClient() {
               <div className="md:hidden space-y-4">
                 {MATERIALS.map((row, i) => {
                   const isActive = activeRow === row.material
-                  const BadgeIcon = row.badge?.icon
                   const BestForIcon = row.bestForIcon
                   const LookIcon = row.lookIcon
                   return (
@@ -781,12 +773,6 @@ export function CountertopsPageClient() {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                           <div className="absolute bottom-3 left-4 right-3 flex items-end justify-between gap-2">
                             <div className="flex flex-col gap-1.5">
-                              {row.badge && (
-                                <span className={`self-start inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.6rem] font-bold uppercase tracking-wide border ${row.badge.cls}`}>
-                                  <BadgeIcon className="w-2.5 h-2.5" />
-                                  {row.badge.label}
-                                </span>
-                              )}
                               <span className="text-white font-bold text-lg drop-shadow leading-tight">{row.material}</span>
                             </div>
                             <Link
@@ -814,10 +800,10 @@ export function CountertopsPageClient() {
                             <span className="text-[0.62rem] font-bold uppercase tracking-widest text-gray-400">Maintenance</span>
                             <div className="flex items-center gap-1">
                               {Array.from({ length: 5 }).map((_, j) => (
-                                <span key={j} className={`w-2 h-2 rounded-full ${j < row.mScore ? mDotColor(row.mScore) : 'bg-gray-200'}`} />
+                                <span key={j} className={`w-2 h-2 rounded-full ${j < row.mScore ? 'bg-primary' : 'bg-gray-200'}`} />
                               ))}
                             </div>
-                            <span className={`text-xs font-semibold ${mTextColor(row.mScore)}`}>{row.maintenance}</span>
+                            <span className="text-xs font-semibold text-primary">{row.maintenance}</span>
                           </div>
                           <div className="flex items-start gap-2">
                             <LookIcon className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
