@@ -1,7 +1,14 @@
 import axios from 'axios'
 import { getAccessToken, setAccessToken, clearAccessToken } from './auth.js'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+// On the browser, route through the Next.js rewrite proxy (/api/*) so the
+// request is same-origin and the httpOnly refresh-token cookie is always sent
+// regardless of SameSite restrictions. On the server (SSR/RSC), call the
+// backend directly since there is no browser cookie involved.
+const BASE_URL =
+  typeof window !== 'undefined'
+    ? '/api'
+    : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api')
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -94,19 +101,9 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`
         return api(originalRequest)
       } catch (refreshError) {
-        // Only hard-redirect to login on genuine auth failures (401/403).
-        // Network errors, timeouts, and 5xx responses must NOT destroy a valid
-        // session — they are transient and the user should stay logged in.
-        if (typeof window !== 'undefined') {
-          const status = refreshError.response?.status
-          if (status === 401 || status === 403) {
-            // Clear the signal cookie BEFORE navigating so the Next.js middleware
-            // does not immediately redirect the login page back to the dashboard,
-            // creating a redirect loop that looks like repeated auto-logout.
-            document.cookie = 'adminLoggedIn=; path=/; max-age=0'
-            window.location.href = '/admin/login'
-          }
-        }
+        // Never auto-navigate — only an explicit logout click should send the
+        // admin to the login page. Transient network issues or a temporarily
+        // unavailable backend must not destroy an active session.
         return Promise.reject(refreshError)
       }
     }

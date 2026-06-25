@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { useSettings } from '@/hooks/useSettings'
 import { useUploadBlogImage } from '@/hooks/useBlogs'
+import { slugify } from '@/lib/utils'
 import {
   Bold, Italic, UnderlineIcon, Strikethrough,
   List, ListOrdered, Quote, Undo, Redo, Upload, Image as ImageIcon,
@@ -29,6 +30,7 @@ import {
   MoveVertical,
   Columns2,
   ArrowLeftRight,
+  RotateCcw,
 } from 'lucide-react'
 
 // ─── FontSize extension (piggybacks on the existing TextStyle mark) ──────────
@@ -921,6 +923,8 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
   const defaultBanner = settings?.blogDefaultBannerImage || '/contact-no-1 (1).jpg'
 
   const [title, setTitle] = useState(initialData.title || '')
+  const [slug, setSlug] = useState(initialData.slug || slugify(initialData.title || ''))
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(!!initialData.slug)
   const [isPublished, setIsPublished] = useState(initialData.isPublished || false)
   const [isFeatured, setIsFeatured] = useState(initialData.isFeatured || false)
   const [metaTitle, setMetaTitle] = useState(initialData.metaTitle || '')
@@ -989,6 +993,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
 
     const formData = new FormData()
     formData.append('title', title)
+    formData.append('slug', slug || slugify(title))
     formData.append('excerpt', excerpt)
     formData.append('body', editor.getHTML())
     formData.append('authorName', 'Cabinet and Remodeling Depot')
@@ -1015,10 +1020,46 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
             <Label>Title *</Label>
             <Input
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value
+                setTitle(val)
+                if (!slugManuallyEdited) setSlug(slugify(val))
+              }}
               placeholder="Blog post title"
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Slug</Label>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground shrink-0 font-mono">/blog/</span>
+              <Input
+                value={slug}
+                onChange={(e) => {
+                  const val = e.target.value
+                    .toLowerCase()
+                    .replace(/\s/g, '-')
+                    .replace(/[^a-z0-9-]/g, '')
+                  setSlug(val)
+                  setSlugManuallyEdited(true)
+                }}
+                onBlur={(e) => setSlug(slugify(e.target.value))}
+                placeholder="auto-generated-from-title"
+                className="font-mono text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => { setSlug(slugify(title)); setSlugManuallyEdited(false) }}
+                title="Regenerate from title"
+                className="shrink-0 p-2 rounded text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Auto-generated from the title. Edit to customize, or click <RotateCcw className="w-3 h-3 inline-block mx-0.5 -mt-0.5" /> to reset.
+            </p>
           </div>
 
           <div className="space-y-2">

@@ -1,5 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  /**
+   * Proxy /api/* → backend so browser requests are same-origin.
+   * This makes the httpOnly refresh-token cookie first-party on the frontend
+   * domain, which fixes the SameSite=Lax cross-domain issue in production.
+   */
+  async rewrites() {
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${backendUrl}/:path*`,
+      },
+    ]
+  },
   async redirects() {
     return [
       { source: '/gallery', destination: '/showroom-gallery', permanent: true },

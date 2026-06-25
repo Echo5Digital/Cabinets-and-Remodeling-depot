@@ -93,19 +93,15 @@ export function AdminLayoutClient({ children }) {
       try {
         await refreshAccessToken()
         renewSignalCookie()
-      } catch (err) {
-        // Only redirect to login on genuine auth failures (401/403).
-        // Transient network issues should not interrupt the admin's work.
-        const status = err.response?.status
-        if (status === 401 || status === 403) {
-          clearSignalCookie()
-          router.replace('/admin/login')
-        }
+      } catch {
+        // Silently ignore — only an explicit logout click should navigate to
+        // the login page. A failed background refresh (network blip, server
+        // restart, etc.) must never interrupt the admin's work.
       }
     }, PROACTIVE_REFRESH_MS)
 
     return () => clearInterval(interval)
-  }, [isLoginPage, user, router])
+  }, [isLoginPage, user])
 
   // ── Login page: render completely standalone (no sidebar, no chrome) ──
   if (isLoginPage) {
