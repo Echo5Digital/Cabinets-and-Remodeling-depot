@@ -139,6 +139,13 @@ export async function updateBlog(req, res, next) {
 
     const updateData = {}
     if (data.title) updateData.title = data.title
+    if (data.slug && data.slug !== existing.slug) {
+      const slugConflict = await Blog.findOne({ slug: data.slug, _id: { $ne: id } })
+      if (slugConflict) {
+        return res.status(409).json({ success: false, error: 'This slug is already in use by another post.' })
+      }
+      updateData.slug = data.slug
+    }
     if (data.excerpt) updateData.excerpt = data.excerpt
     if (data.body) {
       updateData.body = data.body
@@ -205,6 +212,7 @@ export async function deleteBlog(req, res, next) {
     }
 
     if (blog.coverPublicId) await deleteImage(blog.coverPublicId)
+    if (blog.thumbnailPublicId) await deleteImage(blog.thumbnailPublicId)
     await Blog.findByIdAndDelete(id)
 
     res.json({ success: true, message: 'Blog post deleted.' })

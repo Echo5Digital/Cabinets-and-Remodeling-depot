@@ -1003,7 +1003,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
     formData.append('metaDescription', metaDescription)
     formData.append('primaryKeyword', primaryKeyword)
     formData.append('secondaryKeywords', secondaryKeywords)
-    if (schema) formData.append('schema', schema)
+    formData.append('schema', schema)
     if (coverFile) formData.append('coverImage', coverFile)
     if (thumbnailFile) formData.append('thumbnailImage', thumbnailFile)
     if (publishedAt) formData.append('publishedAt', publishedAt)

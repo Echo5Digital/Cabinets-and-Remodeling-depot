@@ -56,7 +56,8 @@ export function useUpdateBlog() {
       })
       return data.data
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      queryClient.setQueryData(['blog-by-id', variables.id], data)
       queryClient.invalidateQueries({ queryKey: ['blogs'] })
       queryClient.invalidateQueries({ queryKey: ['blog'] })
     },
