@@ -1,6 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import { COMPANY_NAME } from '@/lib/constants'
+import { COMPANY_NAME, COMPANY_PHONE_DISPLAY, COMPANY_EMAIL, COMPANY_ADDRESS } from '@/lib/constants'
+import { useSettings } from '@/hooks/useSettings'
 
 function FacebookIcon({ className }) {
   return (
@@ -50,6 +53,16 @@ function FooterHeading({ first, second }) {
 }
 
 export function Footer() {
+  const { data: settings } = useSettings()
+
+  const companyName  = settings?.companyName  || COMPANY_NAME
+  const phone        = settings?.phone        || COMPANY_PHONE_DISPLAY
+  const phoneHref    = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
+  const email        = settings?.email        || 'sales@cabinetsandremodelingdepot.com'
+  const address      = settings?.address      || 'Cabinets and Remodeling Depot, 106 S St Cloud Ave, Valrico, FL 33594'
+  const facebookUrl  = settings?.facebook     || 'https://facebook.com'
+  const instagramUrl = settings?.instagram    || 'https://instagram.com'
+
   return (
     <footer
       className="text-white/80"
@@ -85,7 +98,7 @@ export function Footer() {
 
             <div className="flex items-center gap-3">
               <a
-                href="https://facebook.com"
+                href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -94,7 +107,7 @@ export function Footer() {
                 <FacebookIcon className="w-5 h-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -145,24 +158,24 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-white/70 leading-snug">
               <li>
                 <span className="text-white font-semibold">Address: </span>
-                Cabinets and Remodeling Depot, 106 S St Cloud Ave, Valrico, FL 33594
+                {address}
               </li>
               <li>
                 <span className="text-white font-semibold">Phone: </span>
                 <a
-                  href="tel:+18136512333"
+                  href={phoneHref}
                   className="hover:text-primary transition-colors"
                 >
-                  +1 813-651-2333
+                  {phone}
                 </a>
               </li>
               <li>
                 <span className="text-white font-semibold">Mail: </span>
                 <a
-                  href="mailto:sales@cabinetsandremodelingdepot.com"
+                  href={`mailto:${email}`}
                   className="hover:text-primary transition-colors break-all"
                 >
-                  sales@cabinetsandremodelingdepot.com
+                  {email}
                 </a>
               </li>
               <li>
@@ -183,7 +196,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-white/50">
-            &copy; {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.
+            &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
           </p>
           <p className="text-xs text-white/50">
             Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties

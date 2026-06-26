@@ -9,6 +9,7 @@ import { ChevronDown, ChevronRight, Menu, X, Phone, ChefHat, Droplets, Layout, L
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { NAV_LINKS, COMPANY_PHONE, COMPANY_PHONE_DISPLAY } from '@/lib/constants'
+import { useSettings } from '@/hooks/useSettings'
 
 const SERVICE_ICONS = {
   ChefHat,
@@ -20,6 +21,9 @@ const SERVICE_ICONS = {
 
 export function Navbar() {
   const pathname = usePathname()
+  const { data: settings } = useSettings()
+  const phone        = settings?.phone || COMPANY_PHONE_DISPLAY
+  const phoneHref    = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
   const [flooringOpen, setFlooringOpen] = useState(false)
@@ -366,11 +370,11 @@ export function Navbar() {
               {/* Bottom CTA */}
               <div className="p-4 border-t space-y-3">
                 <a
-                  href={`tel:${COMPANY_PHONE}`}
+                  href={phoneHref}
                   className="flex items-center gap-2 text-sm font-medium"
                 >
                   <Phone className="w-4 h-4 text-primary shrink-0" />
-                  {COMPANY_PHONE_DISPLAY}
+                  {phone}
                 </a>
                 <Button className="w-full rounded-full uppercase tracking-wide font-bold" asChild>
                   <Link href="/contact" onClick={() => setMobileOpen(false)}>

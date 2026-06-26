@@ -546,7 +546,7 @@ const PAGE_DEFAULT_SECTIONS = {
       type: 'pre-footer',
       heading: 'Ready to Start Your Project?',
       description: "Get a free quote and expert design inspiration from our team—let's build!",
-      phone: '(813) 651-2333',
+      phone: '+1 813-651-2333',
       trustItems: ['Lowest Price', 'Premium Quality', 'Professional Installation', 'Financing Options Available'],
     },
     {

@@ -136,7 +136,7 @@ export function LaminateFlooringPageClient() {
               .
             </p>
             <p>
-              Or call 813-651-5333 to schedule a free in-home estimate.
+              Or call 813-651-2333 to schedule a free in-home estimate.
             </p>
           </FadeIn>
 

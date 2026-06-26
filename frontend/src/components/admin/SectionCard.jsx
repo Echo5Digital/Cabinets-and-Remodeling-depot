@@ -711,7 +711,7 @@ function WhyChooseEditor({ data, onChange }) {
           <Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)} placeholder="+1 813-651-2333" />
         </Field>
         <Field label="Email">
-          <Input value={data.email || ''} onChange={(e) => set('email', e.target.value)} placeholder="sales@example.com" />
+          <Input value={data.email || ''} onChange={(e) => set('email', e.target.value)} placeholder="sales@cabinetsandremodelingdepot.com" />
         </Field>
         <Field label="Map Link">
           <Input value={data.mapLink || ''} onChange={(e) => set('mapLink', e.target.value)} placeholder="https://maps.google.com/..." />
@@ -758,7 +758,7 @@ function PreFooterEditor({ data, onChange }) {
         <Textarea value={data.description || ''} onChange={(e) => set('description', e.target.value)} rows={2} placeholder="Short supporting text" />
       </Field>
       <Field label="Phone Number (displayed prominently)">
-        <Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)} placeholder="(813) 651-2333" />
+        <Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)} placeholder="+1 813-651-2333" />
       </Field>
       <div>
         <Label className="text-xs font-medium mb-2 block">Trust Badges</Label>

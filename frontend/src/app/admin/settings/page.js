@@ -105,16 +105,16 @@ export default function AdminSettingsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Phone</Label>
-                <Input {...f('phone')} placeholder="(813) 555-0100" />
+                <Input {...f('phone')} placeholder="+1 813-651-2333" />
               </div>
               <div className="space-y-2">
                 <Label>Email</Label>
-                <Input {...f('email')} placeholder="info@company.com" type="email" />
+                <Input {...f('email')} placeholder="sales@cabinetsandremodelingdepot.com" type="email" />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Address</Label>
-              <Input {...f('address')} placeholder="123 Main Street, Valrico, FL 33594" />
+              <Input {...f('address')} placeholder="106 S St Cloud Ave, Valrico, FL 33594" />
             </div>
           </CardContent>
         </Card>

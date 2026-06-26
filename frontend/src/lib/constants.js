@@ -1,6 +1,6 @@
 export const COMPANY_NAME = 'Cabinets & Remodeling Depot'
 export const COMPANY_PHONE = '+18136512333'
-export const COMPANY_PHONE_DISPLAY = '(813) 651-2333'
+export const COMPANY_PHONE_DISPLAY = '+1 813-651-2333'
 export const COMPANY_EMAIL = 'sales@cabinetsandremodelingdepot.com'
 export const COMPANY_ADDRESS = '106 S St Cloud Ave, Valrico, FL 33594'
 

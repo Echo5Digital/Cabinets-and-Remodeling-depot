@@ -18,7 +18,7 @@ import {
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { ConsultationForm } from '@/components/forms/ConsultationForm'
-import { COMPANY_PHONE, COMPANY_ADDRESS } from '@/lib/constants'
+import { COMPANY_PHONE, COMPANY_PHONE_DISPLAY, COMPANY_ADDRESS } from '@/lib/constants'
 import { JsonLd } from '@/components/common/JsonLd'
 
 // ── Fade-in animation wrapper ──────────────────────────────────────────────────
@@ -262,7 +262,7 @@ export function CountertopsPageClient() {
                   className="flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white rounded-md px-7 h-12 text-sm font-bold uppercase tracking-wide hover:bg-white/20 transition-colors"
                 >
                   <Phone className="h-4 w-4" />
-                  Call {COMPANY_PHONE}
+                  Call {COMPANY_PHONE_DISPLAY}
                 </a>
               </motion.div>
 
@@ -1407,7 +1407,7 @@ export function CountertopsPageClient() {
                       href={`tel:${COMPANY_PHONE}`}
                       className="text-primary font-bold text-base sm:text-lg hover:underline"
                     >
-                      {COMPANY_PHONE}
+                      {COMPANY_PHONE_DISPLAY}
                     </a>
                   </div>
                 </div>

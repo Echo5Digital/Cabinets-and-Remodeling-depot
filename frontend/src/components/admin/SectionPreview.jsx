@@ -93,7 +93,7 @@ function HeroPreview({ section }) {
             </span>
           )}
           <span className="px-3 py-1.5 border border-white/40 text-white text-[0.7rem] font-semibold rounded" style={{ background: 'rgba(255,255,255,0.07)' }}>
-            Call (813) 651-2333
+            Call +1 813-651-2333
           </span>
         </div>
 

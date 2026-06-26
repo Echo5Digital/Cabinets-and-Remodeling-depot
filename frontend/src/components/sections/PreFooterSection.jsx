@@ -17,8 +17,8 @@ export function PreFooterSection({ data }) {
 
   const heading = data?.heading || 'Ready to Start Your Project?'
   const description = data?.description || "Get a free quote and expert design inspiration from our team—let's build!"
-  const phone = data?.phone || '(813) 651-2333'
-  const phoneHref = 'tel:+1' + (data?.phone || '8136512333').replace(/\D/g, '')
+  const phone = data?.phone || '+1 813-651-2333'
+  const phoneHref = 'tel:+1' + (data?.phone || '8136512333').replace(/\D/g, '').slice(-10)
   const trustItems = data?.trustItems?.length ? data.trustItems : null
 
   return (

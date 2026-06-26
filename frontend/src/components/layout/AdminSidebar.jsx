@@ -178,7 +178,7 @@ export function AdminSidebar() {
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          'hidden md:flex flex-col h-screen sticky top-0 border-r bg-background transition-all duration-300',
+          'hidden md:flex flex-col h-full border-r bg-background transition-all duration-300 shrink-0',
           collapsed ? 'w-16' : 'w-64'
         )}
       >

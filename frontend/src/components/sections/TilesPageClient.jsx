@@ -147,7 +147,7 @@ export function TilesPageClient() {
               <Link href="/flooring-in-tampa" className="text-primary font-semibold hover:underline underline-offset-2">
                 Best Flooring Stores Tampa
               </Link>. Give us a
-              call at 813-651-5333 and get your free in-home estimate scheduled right there and
+              call at 813-651-2333 and get your free in-home estimate scheduled right there and
               then.
             </p>
           </FadeIn>

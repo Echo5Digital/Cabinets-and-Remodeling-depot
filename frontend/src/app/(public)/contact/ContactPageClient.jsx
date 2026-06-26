@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import { Phone, MapPin, Clock } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { ContactForm } from '@/components/forms/ContactForm'
-import { COMPANY_PHONE, COMPANY_ADDRESS } from '@/lib/constants'
+import { COMPANY_PHONE_DISPLAY, COMPANY_ADDRESS } from '@/lib/constants'
 
 const MAP_URL =
   'https://maps.google.com/maps?cid=18201794426186346316&output=embed&hl=en-US&t=k'
@@ -15,14 +15,15 @@ export function ContactPageClient() {
   const { data: settings } = useSettings()
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  const phone = settings?.phone || COMPANY_PHONE
+  const phone = settings?.phone || COMPANY_PHONE_DISPLAY
+  const phoneHref = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
   const address = settings?.address || COMPANY_ADDRESS
 
   const infoItems = [
     {
       icon: MapPin,
       label: 'Location',
-      lines: ['Cabinets and Remodeling Depot, 106 S St Cloud Ave, Valrico, FL 33594'],
+      lines: [address],
     },
     {
       icon: Clock,
@@ -33,7 +34,7 @@ export function ContactPageClient() {
       icon: Phone,
       label: 'Phone Number',
       lines: [phone],
-      href: `tel:${phone}`,
+      href: phoneHref,
     },
   ]
 
