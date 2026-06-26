@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const CabinetsPageClient = dynamic(
-  () => import('@/components/sections/CabinetsPageClient').then(m => ({ default: m.CabinetsPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { CabinetsPageClient } from '@/components/sections/CabinetsPageClient'
 
 export const metadata = {
   title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
@@ -159,14 +158,29 @@ const jsonLd = {
   ]
 }
 
-export default function CabinetsPage() {
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'kitchen-cabinets-tampa'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/kitchen-cabinets-tampa')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function CabinetsPage() {
+  const dehydratedState = await prefetchPage()
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <CabinetsPageClient />
-    </>
+    </HydrationBoundary>
   )
 }

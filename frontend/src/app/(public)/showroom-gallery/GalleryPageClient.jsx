@@ -6,10 +6,12 @@ import { motion } from 'framer-motion'
 import { useGallery } from '@/hooks/useGallery'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
 import { Skeleton } from '@/components/ui/skeleton'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 // ── Gallery hero banner ───────────────────────────────────────────────────────
 
-function GalleryBanner() {
+function GalleryBanner({ title = 'Our Stunning Showroom Gallery' }) {
   return (
     <section className="relative flex items-center justify-center section-padding overflow-hidden">
 
@@ -34,7 +36,7 @@ function GalleryBanner() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-bold text-white"
         >
-          Our Stunning Showroom Gallery
+          {title}
         </motion.h1>
       </div>
 
@@ -207,12 +209,17 @@ function VisitShowroom() {
 // ── Gallery page ──────────────────────────────────────────────────────────────
 
 export function GalleryPageClient() {
+  const { data: pageData } = usePageContent('showroom-gallery')
+  const sections = mergeWithPageDefaults('showroom-gallery', normalizeContent(pageData?.content).sections)
+  const heroSec = sections.find(s => s.id === 'gal-hero')
+  const heroTitle = heroSec?.title || 'Our Stunning Showroom Gallery'
+
   const { data, isPending, isError, refetch } = useGallery({ limit: 100 })
   const images = data?.data || []
 
   return (
     <>
-      <GalleryBanner />
+      <GalleryBanner title={heroTitle} />
       <GalleryHeading />
 
       <section className="pt-4 pb-10 md:pt-6 md:pb-16">

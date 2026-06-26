@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const BathroomRemodelingPageClient = dynamic(
-  () => import('@/components/sections/BathroomRemodelingPageClient').then(m => ({ default: m.BathroomRemodelingPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { BathroomRemodelingPageClient } from '@/components/sections/BathroomRemodelingPageClient'
 
 export const metadata = {
   title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
@@ -217,14 +216,29 @@ const schema = {
   ],
 }
 
-export default function BathroomRemodelingPage() {
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'bathroom-remodeling-tampa'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/bathroom-remodeling-tampa')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function BathroomRemodelingPage() {
+  const dehydratedState = await prefetchPage()
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <BathroomRemodelingPageClient />
-    </>
+    </HydrationBoundary>
   )
 }

@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const WoodenFlooringPageClient = dynamic(
-  () => import('@/components/sections/WoodenFlooringPageClient').then(m => ({ default: m.WoodenFlooringPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { WoodenFlooringPageClient } from '@/components/sections/WoodenFlooringPageClient'
 
 export const metadata = {
   title: 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot',
@@ -15,6 +14,25 @@ export const metadata = {
   },
 }
 
-export default function WoodenFlooringPage() {
-  return <WoodenFlooringPageClient />
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'wood-flooring'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/wood-flooring')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function WoodenFlooringPage() {
+  const dehydratedState = await prefetchPage()
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <WoodenFlooringPageClient />
+    </HydrationBoundary>
+  )
 }

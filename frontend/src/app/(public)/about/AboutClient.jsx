@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { User, Wrench } from 'lucide-react'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 // ── Static content ─────────────────────────────────────────────────────────────
 
@@ -26,6 +28,14 @@ const SPECIALS = [
 export function AboutClient() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [specialsRef, specialsInView] = useInView({ triggerOnce: true, threshold: 0.05 })
+  const { data: pageData } = usePageContent('about')
+  const sections = mergeWithPageDefaults('about', normalizeContent(pageData?.content).sections)
+  const historySec = sections.find(s => s.id === 'about-history')
+  const valuesSec = sections.find(s => s.id === 'about-values')
+  const specials = [
+    { Icon: SPECIALS[0].Icon, title: historySec?.heading || SPECIALS[0].title, text: historySec?.body || SPECIALS[0].text },
+    { Icon: SPECIALS[1].Icon, title: valuesSec?.heading || SPECIALS[1].title, text: valuesSec?.body || SPECIALS[1].text },
+  ]
 
   return (
     <>
@@ -211,7 +221,7 @@ export function AboutClient() {
 
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {SPECIALS.map(({ Icon, title, text }, i) => (
+            {specials.map(({ Icon, title, text }, i) => (
               <motion.div
                 key={title}
                 initial={{ opacity: 0, y: 30 }}

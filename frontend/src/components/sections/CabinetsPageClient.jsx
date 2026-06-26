@@ -27,6 +27,8 @@ import {
   ChevronRight,
   X,
 } from 'lucide-react'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
 function FadeIn({ children, delay = 0, className = '' }) {
@@ -233,6 +235,52 @@ const serif = 'font-[family-name:var(--font-playfair)]'
 export function CabinetsPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
   const [flippedCard, setFlippedCard] = useState(null)
+  const { data: pageData } = usePageContent('kitchen-cabinets-tampa')
+  const sections = mergeWithPageDefaults('kitchen-cabinets-tampa', normalizeContent(pageData?.content).sections)
+  const whyChooseSec = sections.find(s => s.id === 'cab-why-choose')
+  const optionsSec   = sections.find(s => s.id === 'cab-options')
+  const stylesSec    = sections.find(s => s.id === 'cab-styles')
+  const gallerySec   = sections.find(s => s.id === 'cab-gallery')
+  const processSec   = sections.find(s => s.id === 'cab-process')
+  const faqSec       = sections.find(s => s.id === 'cab-faq')
+
+  const whyChooseItems = whyChooseSec?.items?.length
+    ? whyChooseSec.items.map((item, i) => ({
+        icon: WHY_CHOOSE[i]?.icon || Building2,
+        title: item.title || WHY_CHOOSE[i]?.title,
+        description: item.description || WHY_CHOOSE[i]?.description,
+      }))
+    : WHY_CHOOSE
+
+  const cabinetOptions = optionsSec?.items?.length
+    ? optionsSec.items.map((item, i) => ({
+        image: item.image || CABINET_OPTIONS[i]?.image,
+        alt: item.title || CABINET_OPTIONS[i]?.alt,
+        title: item.title || CABINET_OPTIONS[i]?.title,
+        description: item.description || CABINET_OPTIONS[i]?.description,
+      }))
+    : CABINET_OPTIONS
+
+  const inspirationStyles = stylesSec?.areas?.length ? stylesSec.areas : INSPIRATION_STYLES
+
+  const cabinetImages = gallerySec?.items?.length
+    ? gallerySec.items.map((item, i) => ({
+        src: item.image || CABINET_IMAGES[i]?.src,
+        alt: item.title || CABINET_IMAGES[i]?.alt,
+      }))
+    : CABINET_IMAGES
+
+  const _processItems = processSec?.steps?.length ? processSec.steps : processSec?.items
+  const processSteps = _processItems?.length
+    ? _processItems.map((step, i) => ({
+        step: step.step || PROCESS_STEPS[i]?.step,
+        icon: PROCESS_STEPS[i]?.icon || MessageSquare,
+        title: step.title || PROCESS_STEPS[i]?.title,
+        description: step.description || PROCESS_STEPS[i]?.description,
+      }))
+    : PROCESS_STEPS
+
+  const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
   return (
     <>
@@ -398,7 +446,7 @@ export function CabinetsPageClient() {
 
           <FadeIn delay={0.1}>
             <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
-              {WHY_CHOOSE.map(({ icon: Icon, title, description }) => (
+              {whyChooseItems.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
                   className="flex-1 flex flex-col items-center text-center px-5 py-8 sm:py-6 group"
@@ -654,7 +702,7 @@ export function CabinetsPageClient() {
           </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {CABINET_OPTIONS.map(({ image, alt, title, description }, i) => (
+            {cabinetOptions.map(({ image, alt, title, description }, i) => (
               <FadeIn key={title} delay={0} className="w-full">
                 <div
                   className="relative w-full rounded-2xl pb-[100%]"
@@ -832,7 +880,7 @@ export function CabinetsPageClient() {
           {/* Popular styles — pill tags */}
           <FadeIn delay={0.08}>
             <div className="flex flex-wrap justify-center gap-3 mb-10">
-              {INSPIRATION_STYLES.map((style) => (
+              {inspirationStyles.map((style) => (
                 <span
                   key={style}
                   className="inline-flex items-center gap-2 bg-white border border-primary/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors cursor-default"
@@ -847,7 +895,7 @@ export function CabinetsPageClient() {
           {/* Gallery grid */}
           <FadeIn delay={0.1}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {CABINET_IMAGES.map(({ src, alt }, i) => (
+              {cabinetImages.map(({ src, alt }, i) => (
                 <div
                   key={src}
                   className="relative aspect-4/5 rounded-xl overflow-hidden shadow-sm cursor-pointer group hover:shadow-md transition-shadow duration-200"
@@ -979,7 +1027,7 @@ export function CabinetsPageClient() {
             <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
-              {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
+              {processSteps.map(({ step, icon: Icon, title, description }, i) => (
                 <FadeIn key={step} delay={i * 0.09}>
                   <div className="relative z-10 flex flex-col items-center text-center gap-4">
                     <div className="relative">
@@ -1006,7 +1054,7 @@ export function CabinetsPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           10. FAQ — primary accent on white background
       ════════════════════════════════════════════════════════════════════ */}
-      <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+      <FAQSection faqs={faqs} title="Frequently Asked Questions" />
 
       {/* ════════════════════════════════════════════════════════════════════
           11. FINAL CTA — light overlay, dark text, gold accents
@@ -1068,11 +1116,11 @@ export function CabinetsPageClient() {
 
       {/* Lightbox */}
       <ImageLightbox
-        images={CABINET_IMAGES}
+        images={cabinetImages}
         currentIndex={lightboxIndex}
         onClose={() => setLightboxIndex(null)}
         onPrev={() => setLightboxIndex((i) => Math.max(0, i - 1))}
-        onNext={() => setLightboxIndex((i) => Math.min(CABINET_IMAGES.length - 1, i + 1))}
+        onNext={() => setLightboxIndex((i) => Math.min(cabinetImages.length - 1, i + 1))}
       />
     </>
   )

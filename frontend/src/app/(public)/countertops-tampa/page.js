@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const CountertopsPageClient = dynamic(
-  () => import('@/components/sections/CountertopsPageClient').then(m => ({ default: m.CountertopsPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { CountertopsPageClient } from '@/components/sections/CountertopsPageClient'
 
 export const metadata = {
   title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',
@@ -15,6 +14,25 @@ export const metadata = {
   },
 }
 
-export default function CountertopsPage() {
-  return <CountertopsPageClient />
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'countertops-tampa'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/countertops-tampa')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function CountertopsPage() {
+  const dehydratedState = await prefetchPage()
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <CountertopsPageClient />
+    </HydrationBoundary>
+  )
 }

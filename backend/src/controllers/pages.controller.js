@@ -1,12 +1,77 @@
 import Page from '../models/Page.js'
-import { mergePageContent } from '../services/pages.service.js'
+import { mergePageContent, getDefaultContent } from '../services/pages.service.js'
+
+/**
+ * All pages managed by the CMS.
+ * Adding a slug here + a matching getDefaultContent entry auto-seeds the page in MongoDB.
+ */
+const KNOWN_PAGES = [
+  { slug: 'home',                       title: 'Home' },
+  { slug: 'about',                      title: 'About Us' },
+  { slug: 'contact',                    title: 'Contact Us' },
+  { slug: 'services',                   title: 'Our Services' },
+  { slug: 'kitchen-remodeling-tampa',   title: 'Kitchen Remodeling Tampa' },
+  { slug: 'bathroom-remodeling-tampa',  title: 'Bathroom Remodeling Tampa' },
+  { slug: 'kitchen-cabinets-tampa',     title: 'Kitchen Cabinets Tampa' },
+  { slug: 'countertops-tampa',          title: 'Countertops Tampa' },
+  { slug: 'flooring-in-tampa',          title: 'Flooring in Tampa' },
+  { slug: 'wood-flooring',              title: 'Wood Flooring' },
+  { slug: 'tiles-in-tampa',             title: 'Tiles in Tampa' },
+  { slug: 'laminate-flooring-in-tampa', title: 'Laminate Flooring' },
+  { slug: 'showroom-gallery',           title: 'Showroom Gallery' },
+  { slug: 'privacy-policy',             title: 'Privacy Policy' },
+  { slug: 'terms',                      title: 'Terms of Service' },
+]
+
+/**
+ * Legacy slug → new URL slug mapping.
+ * When an old-slug document is found in MongoDB it is renamed to the new slug
+ * and its content is refreshed to the new section format.
+ */
+const OLD_SLUG_MAP = {
+  'kitchen-remodeling':  'kitchen-remodeling-tampa',
+  'bathroom-remodeling': 'bathroom-remodeling-tampa',
+  'cabinets':            'kitchen-cabinets-tampa',
+  'countertops':         'countertops-tampa',
+  'flooring':            'flooring-in-tampa',
+}
 
 /**
  * GET /api/pages
- * Returns all pages (metadata only, no content).
+ * Returns all active pages (metadata only, no content).
+ * On every call:
+ *   1. Renames legacy-slug documents to correct URL slugs (idempotent).
+ *   2. Auto-seeds any KNOWN_PAGES not yet in the database.
  */
 export async function getAllPages(req, res, next) {
   try {
+    // ── Step 1: migrate old-slug documents ───────────────────────────────────
+    for (const [oldSlug, newSlug] of Object.entries(OLD_SLUG_MAP)) {
+      const oldDoc = await Page.findOne({ slug: oldSlug }).lean()
+      if (oldDoc) {
+        await Page.findOneAndUpdate(
+          { slug: oldSlug },
+          { $set: { slug: newSlug, content: getDefaultContent(newSlug) } }
+        )
+      }
+    }
+
+    // ── Step 2: auto-seed missing pages ──────────────────────────────────────
+    const existing = await Page.find({}).select('slug').lean()
+    const existingSlugs = new Set(existing.map((p) => p.slug))
+
+    for (const { slug, title } of KNOWN_PAGES) {
+      if (!existingSlugs.has(slug)) {
+        await Page.create({
+          slug,
+          title,
+          content: getDefaultContent(slug),
+          isActive: true,
+        })
+      }
+    }
+
+    // ── Step 3: return list ───────────────────────────────────────────────────
     const pages = await Page.find({ isActive: true })
       .select('slug title description updatedAt')
       .sort({ title: 1 })

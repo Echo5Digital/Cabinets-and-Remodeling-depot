@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const FlooringPageClient = dynamic(
-  () => import('@/components/sections/FlooringPageClient').then(m => ({ default: m.FlooringPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { FlooringPageClient } from '@/components/sections/FlooringPageClient'
 
 export const metadata = {
   title: 'Flooring In Tampa | Flooring Stores Tampa',
@@ -189,14 +188,29 @@ const schema = {
   ],
 }
 
-export default function FlooringPage() {
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'flooring-in-tampa'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/flooring-in-tampa')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function FlooringPage() {
+  const dehydratedState = await prefetchPage()
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <FlooringPageClient />
-    </>
+    </HydrationBoundary>
   )
 }

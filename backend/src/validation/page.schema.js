@@ -34,7 +34,12 @@ const ctaSchema = Joi.object({
 const sectionSchema = Joi.object({
   id: Joi.string().required(),
   type: Joi.string()
-    .valid('hero', 'text', 'features', 'faq', 'cta', 'stats', 'services', 'process', 'testimonials')
+    .valid(
+      'hero', 'text', 'features', 'faq', 'cta', 'stats', 'services', 'process', 'testimonials',
+      'feature-strip', 'solutions', 'showroom', 'service-areas', 'affordable',
+      'how-it-works', 'transformation', 'installation', 'why-choose',
+      'start-project', 'pre-footer', 'partners',
+    )
     .required(),
 }).unknown(true)
 

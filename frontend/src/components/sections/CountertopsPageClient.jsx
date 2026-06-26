@@ -136,7 +136,7 @@ const REVIEW_MAX_CHARS = 140
 
 export function CountertopsPageClient() {
   // ── API-driven content with hardcoded fallbacks ─────────────────────────
-  const { data: page } = usePageContent('countertops')
+  const { data: page } = usePageContent('countertops-tampa')
   const apiContent = page?.content ? normalizeContent(page.content) : null
   const heroSection = apiContent?.sections?.find((s) => s.type === 'hero')
   const faqSection  = apiContent?.sections?.find((s) => s.type === 'faq')

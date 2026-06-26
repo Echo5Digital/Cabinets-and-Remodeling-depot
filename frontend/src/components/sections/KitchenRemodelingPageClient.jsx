@@ -27,6 +27,8 @@ import {
   Phone,
   X,
 } from 'lucide-react'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
 function FadeIn({ children, delay = 0, className = '' }) {
@@ -256,6 +258,66 @@ const serif = 'font-[family-name:var(--font-playfair)]'
 ══════════════════════════════════════════════════════════════════════════════ */
 export function KitchenRemodelingPageClient() {
   const [flippedCard, setFlippedCard] = useState(null)
+  const { data: pageData } = usePageContent('kitchen-remodeling-tampa')
+  const sections = mergeWithPageDefaults('kitchen-remodeling-tampa', normalizeContent(pageData?.content).sections)
+  const whyChooseSec    = sections.find(s => s.id === 'kr-why-choose')
+  const servicesSec     = sections.find(s => s.id === 'kr-services')
+  const gallerySec      = sections.find(s => s.id === 'kr-gallery')
+  const stylesSec       = sections.find(s => s.id === 'kr-styles')
+  const processSec      = sections.find(s => s.id === 'kr-process')
+  const areasSec        = sections.find(s => s.id === 'kr-areas')
+  const testimonialsSec = sections.find(s => s.id === 'kr-testimonials')
+  const faqSec          = sections.find(s => s.id === 'kr-faq')
+
+  const whyChooseItems = whyChooseSec?.items?.length
+    ? whyChooseSec.items.map((item, i) => ({
+        icon: WHY_CHOOSE[i]?.icon || Building2,
+        title: item.title || WHY_CHOOSE[i]?.title,
+        description: item.description || WHY_CHOOSE[i]?.description,
+      }))
+    : WHY_CHOOSE
+
+  const serviceItems = servicesSec?.items?.length
+    ? servicesSec.items.map((item, i) => ({
+        image: item.image || SERVICES[i]?.image,
+        alt: item.title || SERVICES[i]?.alt,
+        title: item.title || SERVICES[i]?.title,
+        href: item.link || item.href || SERVICES[i]?.href,
+        description: item.description || SERVICES[i]?.description,
+        paragraphs: item.paragraphs || SERVICES[i]?.paragraphs || [],
+      }))
+    : SERVICES
+
+  const galleryImages = gallerySec?.items?.length
+    ? gallerySec.items.map((item, i) => ({
+        src: item.image || GALLERY[i]?.src,
+        alt: item.title || GALLERY[i]?.alt,
+      }))
+    : GALLERY
+
+  const kitchenStyles = stylesSec?.areas?.length ? stylesSec.areas : KITCHEN_STYLES
+
+  const _processItems = processSec?.steps?.length ? processSec.steps : processSec?.items
+  const processSteps = _processItems?.length
+    ? _processItems.map((step, i) => ({
+        step: step.step || PROCESS_STEPS[i]?.step,
+        icon: PROCESS_STEPS[i]?.icon || MessageSquare,
+        title: step.title || PROCESS_STEPS[i]?.title,
+        description: step.description || PROCESS_STEPS[i]?.description,
+      }))
+    : PROCESS_STEPS
+
+  const serviceAreas = areasSec?.areas?.length ? areasSec.areas : SERVICE_AREAS
+
+  const testimonials = testimonialsSec?.items?.length
+    ? testimonialsSec.items.map((item, i) => ({
+        name: item.name || TESTIMONIALS[i]?.name,
+        location: item.location || TESTIMONIALS[i]?.location,
+        quote: item.text || item.quote || TESTIMONIALS[i]?.quote,
+      }))
+    : TESTIMONIALS
+
+  const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
   return (
     <>
@@ -421,7 +483,7 @@ export function KitchenRemodelingPageClient() {
 
           <FadeIn delay={0.1}>
             <div className="flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
-              {WHY_CHOOSE.map(({ icon: Icon, title, description }) => (
+              {whyChooseItems.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
                   className="flex-1 flex flex-col items-center text-center px-5 py-8 sm:py-6 group"
@@ -524,7 +586,7 @@ export function KitchenRemodelingPageClient() {
           </FadeIn>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {SERVICES.map(({ image, alt, title, paragraphs, href }, i) => (
+            {serviceItems.map(({ image, alt, title, paragraphs, href }, i) => (
               <FadeIn key={title} delay={0} className="w-full">
                 <div
                   className="relative w-full rounded-2xl pb-[100%]"
@@ -625,7 +687,7 @@ export function KitchenRemodelingPageClient() {
           {/* Popular styles — pill tags */}
           <FadeIn delay={0.08}>
             <div className="flex flex-wrap justify-center gap-3 mb-10">
-              {KITCHEN_STYLES.map((style) => (
+              {kitchenStyles.map((style) => (
                 <span
                   key={style}
                   className="inline-flex items-center gap-2 bg-white border border-primary/20 text-gray-700 text-sm font-medium px-4 py-2 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors cursor-default"
@@ -640,7 +702,7 @@ export function KitchenRemodelingPageClient() {
           {/* Gallery grid */}
           <FadeIn delay={0.12}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              {GALLERY.map(({ src, alt }, i) => (
+              {galleryImages.map(({ src, alt }, i) => (
                 <div
                   key={i}
                   className="relative aspect-4/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group"
@@ -691,7 +753,7 @@ export function KitchenRemodelingPageClient() {
             <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
-              {PROCESS_STEPS.map(({ step, icon: Icon, title, description }, i) => (
+              {processSteps.map(({ step, icon: Icon, title, description }, i) => (
                 <FadeIn key={step} delay={i * 0.09}>
                   <div className="relative z-10 flex flex-col items-center text-center gap-4">
 
@@ -750,7 +812,7 @@ export function KitchenRemodelingPageClient() {
 
               {/* Area checklist — 2 columns */}
               <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-7 sm:gap-x-8">
-                {SERVICE_AREAS.map((area) => (
+                {serviceAreas.map((area) => (
                   <span key={area} className="flex items-center gap-2.5 text-gray-700 text-sm font-medium">
                     <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       <MapPin className="w-3 h-3 text-primary" />
@@ -786,7 +848,7 @@ export function KitchenRemodelingPageClient() {
               </h2>
 
               <div className="space-y-4">
-                {TESTIMONIALS.map(({ name, location, quote }, i) => (
+                {testimonials.map(({ name, location, quote }, i) => (
                   <Card key={name} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-5 flex flex-col gap-4">
                       {/* Stars + Quote icon */}
@@ -825,7 +887,7 @@ export function KitchenRemodelingPageClient() {
       {/* ════════════════════════════════════════════════════════════════════
           8. FAQ — shared FAQSection (same design as homepage)
       ════════════════════════════════════════════════════════════════════ */}
-      <FAQSection faqs={FAQS} title="Frequently Asked Questions" />
+      <FAQSection faqs={faqs} title="Frequently Asked Questions" />
 
       {/* ════════════════════════════════════════════════════════════════════
           9. FINAL CTA — light overlay, gold accents

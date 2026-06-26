@@ -7,6 +7,8 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ZoomIn } from 'lucide-react'
 import { ImageLightbox } from '@/components/common/ImageLightbox'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 function FadeIn({ children, delay = 0, className = '' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -52,6 +54,22 @@ const FEATURES = [
 // ── Page ───────────────────────────────────────────────────────────────────────
 export function LaminateFlooringPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  const { data: pageData } = usePageContent('laminate-flooring-in-tampa')
+  const sections = mergeWithPageDefaults('laminate-flooring-in-tampa', normalizeContent(pageData?.content).sections)
+  const gallerySec = sections.find(s => s.id === 'laminate-flooring-gallery')
+  const featuresSec = sections.find(s => s.id === 'laminate-flooring-features')
+  const laminateImages = gallerySec?.items?.length
+    ? gallerySec.items.map((item, i) => ({
+        src: item.image || LAMINATE_IMAGES[i]?.src,
+        alt: item.title || LAMINATE_IMAGES[i]?.alt,
+      }))
+    : LAMINATE_IMAGES
+  const features = featuresSec?.items?.length
+    ? featuresSec.items.map((item, i) => ({
+        title: item.title || FEATURES[i]?.title,
+        desc: item.description || item.desc || FEATURES[i]?.desc,
+      }))
+    : FEATURES
 
   return (
     <>
@@ -147,7 +165,7 @@ export function LaminateFlooringPageClient() {
       <section className="pb-8 bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
-            {LAMINATE_IMAGES.map(({ src, alt }, i) => (
+            {laminateImages.map(({ src, alt }, i) => (
               <FadeIn key={src} delay={i * 0.05}>
                 <div
                   className="relative aspect-3/4 overflow-hidden rounded-lg shadow-sm cursor-pointer group"
@@ -181,7 +199,7 @@ export function LaminateFlooringPageClient() {
           </FadeIn>
 
           <div className="space-y-4 text-gray-700 text-base leading-relaxed text-center">
-            {FEATURES.map(({ title, desc }, i) => (
+            {features.map(({ title, desc }, i) => (
               <FadeIn key={title} delay={i * 0.06}>
                 <p>
                   <strong className="text-gray-900">{title}–</strong>{' '}{desc}
@@ -216,11 +234,11 @@ export function LaminateFlooringPageClient() {
       </section>
 
       <ImageLightbox
-        images={LAMINATE_IMAGES}
+        images={laminateImages}
         currentIndex={lightboxIndex}
         onClose={() => setLightboxIndex(null)}
         onPrev={() => setLightboxIndex((i) => Math.max(0, i - 1))}
-        onNext={() => setLightboxIndex((i) => Math.min(LAMINATE_IMAGES.length - 1, i + 1))}
+        onNext={() => setLightboxIndex((i) => Math.min(laminateImages.length - 1, i + 1))}
       />
     </>
   )

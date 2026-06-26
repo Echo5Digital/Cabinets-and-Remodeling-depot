@@ -8,6 +8,8 @@ import { useInView } from 'react-intersection-observer'
 import { ZoomIn } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ImageLightbox } from '@/components/common/ImageLightbox'
+import { usePageContent } from '@/hooks/usePageContent'
+import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 function FadeIn({ children, delay = 0, className = '' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -37,6 +39,15 @@ const WOOD_IMAGES = [
 // ── Page ───────────────────────────────────────────────────────────────────────
 export function WoodenFlooringPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  const { data: pageData } = usePageContent('wood-flooring')
+  const sections = mergeWithPageDefaults('wood-flooring', normalizeContent(pageData?.content).sections)
+  const gallerySec = sections.find(s => s.id === 'wooden-flooring-gallery')
+  const woodImages = gallerySec?.items?.length
+    ? gallerySec.items.map((item, i) => ({
+        src: item.image || WOOD_IMAGES[i]?.src,
+        alt: item.title || WOOD_IMAGES[i]?.alt,
+      }))
+    : WOOD_IMAGES
 
   return (
     <>
@@ -144,7 +155,7 @@ export function WoodenFlooringPageClient() {
       <section className="pb-8 bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
-            {WOOD_IMAGES.map(({ src, alt }, i) => (
+            {woodImages.map(({ src, alt }, i) => (
               <FadeIn key={src} delay={i * 0.05}>
                 <div
                   className="relative aspect-square overflow-hidden rounded-lg shadow-sm cursor-pointer group"
@@ -193,11 +204,11 @@ export function WoodenFlooringPageClient() {
       </section>
 
       <ImageLightbox
-        images={WOOD_IMAGES}
+        images={woodImages}
         currentIndex={lightboxIndex}
         onClose={() => setLightboxIndex(null)}
         onPrev={() => setLightboxIndex((i) => Math.max(0, i - 1))}
-        onNext={() => setLightboxIndex((i) => Math.min(WOOD_IMAGES.length - 1, i + 1))}
+        onNext={() => setLightboxIndex((i) => Math.min(woodImages.length - 1, i + 1))}
       />
     </>
   )

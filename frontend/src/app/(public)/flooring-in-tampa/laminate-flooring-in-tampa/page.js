@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic'
-const LaminateFlooringPageClient = dynamic(
-  () => import('@/components/sections/LaminateFlooringPageClient').then(m => ({ default: m.LaminateFlooringPageClient })),
-  { loading: () => <div className="min-h-screen" /> }
-)
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from '@/lib/queryClient'
+import { api } from '@/lib/api'
+import { LaminateFlooringPageClient } from '@/components/sections/LaminateFlooringPageClient'
 
 export const metadata = {
   title: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot',
@@ -15,6 +14,25 @@ export const metadata = {
   },
 }
 
-export default function LaminateFlooringPage() {
-  return <LaminateFlooringPageClient />
+async function prefetchPage() {
+  try {
+    const queryClient = getQueryClient()
+    await queryClient.prefetchQuery({
+      queryKey: ['page', 'laminate-flooring-in-tampa'],
+      queryFn: async () => {
+        const { data } = await api.get('/pages/laminate-flooring-in-tampa')
+        return data.data
+      },
+    })
+    return dehydrate(queryClient)
+  } catch { return null }
+}
+
+export default async function LaminateFlooringPage() {
+  const dehydratedState = await prefetchPage()
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <LaminateFlooringPageClient />
+    </HydrationBoundary>
+  )
 }
