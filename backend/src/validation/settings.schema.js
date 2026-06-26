@@ -6,12 +6,12 @@ export const updateSettingsSchema = Joi.object({
       Joi.object({
         key: Joi.string().required(),
         value: Joi.alternatives().try(
-          Joi.string(),
+          Joi.string().allow(''),
           Joi.number(),
           Joi.boolean(),
           Joi.object(),
           Joi.array()
-        ).required(),
+        ).allow(null).optional(),
       })
     )
     .required(),
