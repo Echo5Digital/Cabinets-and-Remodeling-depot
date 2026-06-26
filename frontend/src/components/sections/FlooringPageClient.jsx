@@ -312,6 +312,29 @@ export function FlooringPageClient() {
   const serviceAreas = areasSec?.areas?.length ? areasSec.areas : SERVICE_AREAS
   const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
+  const heroSec    = sections.find(s => s.id === 'fl-hero')
+  const partnerSec = sections.find(s => s.id === 'fl-partner')
+  const ctaSec     = sections.find(s => s.id === 'fl-cta')
+
+  const heroTitle       = heroSec?.title       || 'Flooring Tampa'
+  const heroSubtitle    = heroSec?.subtitle    || 'Hardwood, Tile & Laminate Flooring Solutions'
+  const heroDescription = heroSec?.description || 'Upgrade your home with hardwood, laminate, tile, and professionally installed flooring solutions designed for beauty, durability, and everyday living.'
+  const heroBg          = heroSec?.backgroundImage || '/flooring-hero.webp'
+  const heroCtaText     = heroSec?.ctaText     || 'Visit Our Valrico Showroom'
+  const heroCtaLink     = heroSec?.ctaLink     || '/contact'
+  const partnerHeading    = partnerSec?.heading || 'Your Trusted Flooring Partner in Tampa Bay'
+  const partnerBg         = partnerSec?.bgImage  || '/flooring-tampa-2.jpg'
+  const partnerParagraphs = partnerSec?.paragraphs?.length ? partnerSec.paragraphs : [
+    "Flooring changes the way a home feels almost immediately. It affects everything from lighting and comfort to maintenance and long-term durability. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay choose flooring solutions that not only look beautiful but also fit the way their homes are actually used.",
+    "Whether you're replacing outdated flooring, renovating a single room, or planning a complete home update, our team provides practical flooring guidance, material selection support, and professional installation services from our Valrico showroom.",
+    "Every home has different needs. Some homeowners prioritize durability for pets and children, while others focus on style, comfort, or low-maintenance materials. Our goal is to help you find flooring that performs well while complementing your home's overall design.",
+  ]
+  const ctaHeading  = ctaSec?.heading || 'Start Your Flooring Project Today'
+  const ctaBody     = ctaSec?.body    || "Whether you're replacing flooring in a single room or updating your entire home, Cabinets & Remodeling Depot is here to help. Visit our Valrico showroom to compare flooring materials, explore design options, and work with a team committed to creating beautiful, durable spaces built around your lifestyle and budget."
+  const ctaBg       = ctaSec?.bgImage  || '/flooring-2.jpg'
+  const ctaText     = ctaSec?.ctaText  || 'Request Flooring Pricing'
+  const ctaLink     = ctaSec?.ctaLink  || '/contact'
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -323,7 +346,7 @@ export function FlooringPageClient() {
         {/* ── Background image — no dark wash on right, text-contrast scrim on left ── */}
         <div className="absolute inset-0">
           <Image
-            src="/flooring-hero.webp"
+            src={heroBg}
             alt="Flooring Tampa Bay – Hardwood, Tile and Laminate"
             fill
             priority
@@ -376,10 +399,10 @@ export function FlooringPageClient() {
                 style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
                 <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
-                  Flooring Tampa
+                  {heroTitle}
                 </span>
                 <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
-                  Hardwood, Tile &amp; Laminate Flooring Solutions
+                  {heroSubtitle}
                 </span>
               </motion.h1>
 
@@ -402,8 +425,7 @@ export function FlooringPageClient() {
                 className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
                 style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
-                Upgrade your home with hardwood, laminate, tile, and professionally installed
-                flooring solutions designed for beauty, durability, and everyday living.
+                {heroDescription}
               </motion.p>
 
               {/* CTA buttons */}
@@ -414,10 +436,10 @@ export function FlooringPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mb-8"
               >
                 <Link
-                  href="/contact"
+                  href={heroCtaLink}
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
-                  Visit Our Valrico Showroom
+                  {heroCtaText}
                 </Link>
                 <a
                   href="tel:+18136512333"
@@ -505,7 +527,7 @@ export function FlooringPageClient() {
 
         {/* Background image */}
         <Image
-          src="/flooring-tampa-2.jpg"
+          src={partnerBg}
           alt="Your trusted flooring partner Tampa Bay"
           fill
           className="object-cover object-center"
@@ -548,8 +570,7 @@ export function FlooringPageClient() {
                     '0 0 28px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.90), 0 4px 24px rgba(0,0,0,0.75)',
                 }}
               >
-                Your Trusted Flooring Partner{' '}
-                <span className="text-gold">in Tampa Bay</span>
+                {partnerHeading}
               </h2>
 
               {/* Rule */}
@@ -578,24 +599,7 @@ export function FlooringPageClient() {
                     '0 0 18px rgba(0,0,0,0.92), 0 1px 6px rgba(0,0,0,0.85)',
                 }}
               >
-                <p>
-                  Flooring changes the way a home feels almost immediately. It affects everything
-                  from lighting and comfort to maintenance and long-term durability. At Cabinets &amp;
-                  Remodeling Depot, we help homeowners throughout Tampa Bay choose flooring solutions
-                  that not only look beautiful but also fit the way their homes are actually used.
-                </p>
-                <p>
-                  Whether you&rsquo;re replacing outdated flooring, renovating a single room, or
-                  planning a complete home update, our team provides practical flooring guidance,
-                  material selection support, and professional installation services from our Valrico
-                  showroom.
-                </p>
-                <p>
-                  Every home has different needs. Some homeowners prioritize durability for pets and
-                  children, while others focus on style, comfort, or low-maintenance materials. Our
-                  goal is to help you find flooring that performs well while complementing your
-                  home&rsquo;s overall design.
-                </p>
+                {partnerParagraphs.map((p, i) => <p key={i}>{p}</p>)}
               </div>
 
               {/* CTA — mobile only */}
@@ -1082,7 +1086,7 @@ export function FlooringPageClient() {
         {/* Background photo — light cream overlay */}
         <div className="absolute inset-0">
           <Image
-            src="/flooring-2.jpg"
+            src={ctaBg}
             alt="Start your flooring project Tampa Bay"
             fill
             className="object-cover object-center"
@@ -1106,24 +1110,20 @@ export function FlooringPageClient() {
 
             {/* Heading */}
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
-              Start Your Flooring Project{' '}
-              <span className="text-primary">Today</span>
+              {ctaHeading}
             </h2>
 
             {/* Body */}
             <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
-              Whether you&rsquo;re replacing flooring in a single room or updating your entire home,
-              Cabinets &amp; Remodeling Depot is here to help. Visit our Valrico showroom to compare
-              flooring materials, explore design options, and work with a team committed to creating
-              beautiful, durable spaces built around your lifestyle and budget.
+              {ctaBody}
             </p>
 
             <div className="flex justify-center">
               <Link
-                href="/contact"
+                href={ctaLink}
                 className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-8 rounded-lg transition-colors whitespace-nowrap"
               >
-                Request Flooring Pricing
+                {ctaText}
               </Link>
             </div>
 

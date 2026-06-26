@@ -48,6 +48,7 @@ export function getDefaultContent(slug) {
 
     // ── HOME ─────────────────────────────────────────────────────────────────
     home: {
+      _version: 2,
       sections: [
         {
           id: 'home-hero',

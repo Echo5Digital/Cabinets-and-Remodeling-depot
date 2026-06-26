@@ -282,6 +282,21 @@ export function CabinetsPageClient() {
 
   const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
+  const heroSec = sections.find(s => s.id === 'cab-hero')
+  const ctaSec  = sections.find(s => s.id === 'cab-cta')
+
+  const heroTitle       = heroSec?.title       || 'Kitchen Cabinets Tampa'
+  const heroSubtitle    = heroSec?.subtitle    || 'Affordable & Ready-to-Install Cabinet Solutions'
+  const heroDescription = heroSec?.description || 'Explore quality in-stock kitchen cabinets, affordable cabinet options, and professional installation services from our Valrico showroom.'
+  const heroBg          = heroSec?.backgroundImage || '/instock-cabinets-hero.webp'
+  const heroCtaText     = heroSec?.ctaText     || 'Request Cabinet Pricing'
+  const heroCtaLink     = heroSec?.ctaLink     || '/contact'
+  const ctaHeading  = ctaSec?.heading || 'Start Your Cabinet Project Today'
+  const ctaBody     = ctaSec?.body    || "Whether you're replacing outdated cabinets, preparing a home for sale, or planning a complete kitchen renovation, Cabinets & Remodeling Depot is here to help. Visit our Valrico showroom to explore kitchen cabinet options and work with a team committed to affordable, quality results."
+  const ctaBg       = ctaSec?.bgImage  || '/Modern-kitchen-renovation-Tampa-completed-project.jpg'
+  const ctaText     = ctaSec?.ctaText  || 'Schedule a Free Consultation'
+  const ctaLink     = ctaSec?.ctaLink  || '/contact'
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -293,7 +308,7 @@ export function CabinetsPageClient() {
         {/* ── Background image — no dark wash on right, text-contrast scrim on left ── */}
         <div className="absolute inset-0">
           <Image
-            src="/instock-cabinets-hero.webp"
+            src={heroBg}
             alt="In-stock cabinets Tampa Affordable & Ready-to-Install Cabinet Solutions"
             fill
             priority
@@ -346,10 +361,10 @@ export function CabinetsPageClient() {
                 style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
                 <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
-                  Kitchen Cabinets Tampa
+                  {heroTitle}
                 </span>
                 <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
-                  Affordable &amp; Ready-to-Install Cabinet Solutions
+                  {heroSubtitle}
                 </span>
               </motion.h1>
 
@@ -372,8 +387,7 @@ export function CabinetsPageClient() {
                 className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
                 style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
-                Explore quality in-stock kitchen cabinets, affordable cabinet options, and
-                professional installation services from our Valrico showroom.
+                {heroDescription}
               </motion.p>
 
               {/* CTA buttons */}
@@ -384,10 +398,10 @@ export function CabinetsPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mb-8"
               >
                 <Link
-                  href="/contact"
+                  href={heroCtaLink}
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
-                  Request Cabinet Pricing
+                  {heroCtaText}
                 </Link>
                 <a
                   href="tel:+18136512333"
@@ -1064,7 +1078,7 @@ export function CabinetsPageClient() {
         {/* Background photo — light cream overlay for legibility */}
         <div className="absolute inset-0">
           <Image
-            src="/Modern-kitchen-renovation-Tampa-completed-project.jpg"
+            src={ctaBg}
             alt="Start your cabinet project Tampa Bay"
             fill
             className="object-cover object-center"
@@ -1087,25 +1101,21 @@ export function CabinetsPageClient() {
 
             {/* Heading */}
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
-              Start Your Cabinet Project{' '}
-              <span className="text-primary">Today</span>
+              {ctaHeading}
             </h2>
 
             {/* Body */}
             <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
-              Whether you&rsquo;re replacing outdated cabinets, preparing a home for sale, or
-              planning a complete kitchen renovation, Cabinets &amp; Remodeling Depot is here to
-              help. Visit our Valrico showroom to explore kitchen cabinet options and work with
-              a team committed to affordable, quality results.
+              {ctaBody}
             </p>
 
             {/* CTA button */}
             <div className="flex justify-center">
               <Link
-                href="/contact"
+                href={ctaLink}
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-10 rounded-lg transition-colors shadow-lg whitespace-nowrap"
               >
-                Schedule a Free Consultation
+                {ctaText}
               </Link>
             </div>
 

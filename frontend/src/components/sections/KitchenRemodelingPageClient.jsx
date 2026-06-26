@@ -319,6 +319,28 @@ export function KitchenRemodelingPageClient() {
 
   const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
+  const heroSec    = sections.find(s => s.id === 'kr-hero')
+  const partnerSec = sections.find(s => s.id === 'kr-partner')
+  const ctaSec     = sections.find(s => s.id === 'kr-cta')
+
+  const heroTitle       = heroSec?.title       || 'Kitchen Remodeling Tampa'
+  const heroSubtitle    = heroSec?.subtitle    || 'Custom Cabinetry & Countertop Renovations'
+  const heroDescription = heroSec?.description || 'Transform your kitchen with custom cabinetry, premium countertops, and professional remodeling solutions tailored to your style, needs, and budget.'
+  const heroBg          = heroSec?.backgroundImage || '/kitchen-remodeling-hero.webp'
+  const heroCtaText     = heroSec?.ctaText     || 'Get a Free Estimate'
+  const heroCtaLink     = heroSec?.ctaLink     || '/contact'
+  const partnerHeading    = partnerSec?.heading || 'Kitchen Remodeling in Tampa Bay'
+  const partnerBg         = partnerSec?.bgImage  || '/cabinet-instock.webp'
+  const partnerParagraphs = partnerSec?.paragraphs?.length ? partnerSec.paragraphs : [
+    "A kitchen is more than just a place to cook. It's where families gather, meals are shared, and memories are made. Whether you're updating an outdated layout or planning a complete kitchen renovation, our team provides personalized solutions designed around your lifestyle, needs, and budget.",
+    "We proudly serve homeowners across Tampa, Valrico, Brandon, Riverview, Lithia, Apollo Beach, Wesley Chapel, and surrounding communities with professional kitchen remodeling services that enhance both beauty and functionality.",
+  ]
+  const ctaHeading  = ctaSec?.heading || 'Start Your Kitchen Remodeling Project Today'
+  const ctaBody     = ctaSec?.body    || "If you're planning a kitchen remodel in Tampa or considering a complete kitchen renovation, Cabinets & Remodeling Depot is here to help. Visit our Valrico showroom, explore quality products, and work with a team committed to delivering beautiful, functional results tailored to your home and lifestyle."
+  const ctaBg       = ctaSec?.bgImage  || '/kitchen_cabinet_remodeling-01.webp'
+  const ctaText     = ctaSec?.ctaText  || 'Request a Free Estimate'
+  const ctaLink     = ctaSec?.ctaLink  || '/contact'
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -330,7 +352,7 @@ export function KitchenRemodelingPageClient() {
         {/* ── Background image — fully visible, no dark wash on right ── */}
         <div className="absolute inset-0">
           <Image
-            src="/kitchen-remodeling-hero.webp"
+            src={heroBg}
             alt="Kitchen remodeling Tampa Bay"
             fill
             priority
@@ -383,10 +405,10 @@ export function KitchenRemodelingPageClient() {
                 style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
                 <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
-                  Kitchen Remodeling Tampa
+                  {heroTitle}
                 </span>
                 <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
-                  Custom Cabinetry &amp; Countertop Renovations
+                  {heroSubtitle}
                 </span>
               </motion.h1>
 
@@ -409,8 +431,7 @@ export function KitchenRemodelingPageClient() {
                 className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
                 style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
-                Transform your kitchen with custom cabinetry, premium countertops, and professional
-                remodeling solutions tailored to your style, needs, and budget.
+                {heroDescription}
               </motion.p>
 
               {/* CTA buttons */}
@@ -421,10 +442,10 @@ export function KitchenRemodelingPageClient() {
                 className="flex flex-col sm:flex-row gap-3 mb-8"
               >
                 <Link
-                  href="/contact"
+                  href={heroCtaLink}
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
-                  Get a Free Estimate
+                  {heroCtaText}
                 </Link>
                 <a
                   href="tel:+18136512333"
@@ -513,7 +534,7 @@ export function KitchenRemodelingPageClient() {
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
-            src="/cabinet-instock.webp"
+            src={partnerBg}
             alt="Your trusted kitchen remodeling partner Tampa Bay"
             fill
             className="object-cover object-center"
@@ -535,8 +556,7 @@ export function KitchenRemodelingPageClient() {
 
             {/* Heading */}
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 ${serif}`}>
-              Kitchen Remodeling{' '}
-              <span className="text-primary">in Tampa Bay</span>
+              {partnerHeading}
             </h2>
 
             {/* Accent bar */}
@@ -544,17 +564,7 @@ export function KitchenRemodelingPageClient() {
 
             {/* Body */}
             <div className="space-y-4 text-white text-base leading-relaxed mb-9">
-              <p>
-                A kitchen is more than just a place to cook. It&rsquo;s where families gather,
-                meals are shared, and memories are made. Whether you&rsquo;re updating an
-                outdated layout or planning a complete kitchen renovation, our team provides
-                personalized solutions designed around your lifestyle, needs, and budget.
-              </p>
-              <p>
-                We proudly serve homeowners across Tampa, Valrico, Brandon, Riverview, Lithia,
-                Apollo Beach, Wesley Chapel, and surrounding communities with professional
-                kitchen remodeling services that enhance both beauty and functionality.
-              </p>
+              {partnerParagraphs.map((p, i) => <p key={i}>{p}</p>)}
             </div>
 
             {/* CTA */}
@@ -897,7 +907,7 @@ export function KitchenRemodelingPageClient() {
         {/* Background photo — light cream overlay */}
         <div className="absolute inset-0">
           <Image
-            src="/kitchen_cabinet_remodeling-01.webp"
+            src={ctaBg}
             alt="Start your kitchen remodeling project Tampa Bay"
             fill
             className="object-cover object-center"
@@ -921,24 +931,20 @@ export function KitchenRemodelingPageClient() {
 
             {/* Heading */}
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
-              Start Your Kitchen Remodeling{' '}
-              <span className="text-primary">Project Today</span>
+              {ctaHeading}
             </h2>
 
             {/* Body */}
             <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
-              If you&rsquo;re planning a kitchen remodel in Tampa or considering a complete kitchen
-              renovation, Cabinets &amp; Remodeling Depot is here to help. Visit our Valrico
-              showroom, explore quality products, and work with a team committed to delivering
-              beautiful, functional results tailored to your home and lifestyle.
+              {ctaBody}
             </p>
 
             <div className="flex justify-center">
               <Link
-                href="/contact"
+                href={ctaLink}
                 className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-14 px-9 rounded-lg transition-colors whitespace-nowrap"
               >
-                Request a Free Estimate
+                {ctaText}
               </Link>
             </div>
 

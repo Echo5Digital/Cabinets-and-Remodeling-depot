@@ -319,6 +319,28 @@ export function BathroomRemodelingPageClient() {
   const serviceAreas = areasSec?.areas?.length ? areasSec.areas : SERVICE_AREAS
   const faqs = faqSec?.items?.length ? faqSec.items : FAQS
 
+  const heroSec    = sections.find(s => s.id === 'br-hero')
+  const partnerSec = sections.find(s => s.id === 'br-partner')
+  const ctaSec     = sections.find(s => s.id === 'br-cta')
+
+  const heroTitle       = heroSec?.title       || 'Bathroom Remodeling Tampa'
+  const heroSubtitle    = heroSec?.subtitle    || 'Custom Vanities & Luxury Renovations'
+  const heroDescription = heroSec?.description || 'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions designed around your lifestyle.'
+  const heroBg          = heroSec?.backgroundImage || '/bathroom-02.webp'
+  const heroCtaText     = heroSec?.ctaText     || 'Schedule a Free Consultation'
+  const heroCtaLink     = heroSec?.ctaLink     || '/contact'
+  const partnerHeading    = partnerSec?.heading || 'Bathroom Remodeling Partner in Tampa Bay'
+  const partnerBg         = partnerSec?.bgImage  || '/bathroom-remodeling-design-2.jpg'
+  const partnerParagraphs = partnerSec?.paragraphs?.length ? partnerSec.paragraphs : [
+    "A well-designed bathroom should feel comfortable, functional, and easy to maintain. For many homeowners, older bathrooms often feel cramped, outdated, or no longer practical for everyday routines. At Cabinets & Remodeling Depot, we help homeowners throughout Tampa Bay create bathrooms that balance style, storage, and long-term functionality without making the remodeling process overwhelming.",
+    "Whether you're planning a complete bathroom remodeling Tampa project, replacing outdated vanities, upgrading countertops, or selecting new fixtures, our team provides personalized guidance from our Valrico showroom. Every renovation is designed around your goals, lifestyle, and budget.",
+  ]
+  const ctaHeading  = ctaSec?.heading || 'Start Your Bathroom Remodeling Project Today'
+  const ctaBody     = ctaSec?.body    || "Whether you're updating an outdated bathroom, improving storage, or planning a complete renovation, Cabinets & Remodeling Depot is here to help. Visit our Valrico showroom to explore bathroom vanities, countertops, faucets, and design options while working with a team committed to creating beautiful, functional bathrooms tailored to your needs and lifestyle."
+  const ctaBg       = ctaSec?.bgImage  || '/start-bathroom-remodel.jpeg'
+  const ctaText     = ctaSec?.ctaText  || 'Schedule a Free Consultation'
+  const ctaLink     = ctaSec?.ctaLink  || '/contact'
+
   return (
     <>
       {/* ════════════════════════════════════════════════════════════════════
@@ -330,7 +352,7 @@ export function BathroomRemodelingPageClient() {
         {/* ── Background — object-center shows full bathroom incl. bathtub ── */}
         <div className="absolute inset-0">
           <Image
-            src="/bathroom-02.webp"
+            src={heroBg}
             alt="Luxury bathroom remodeling Tampa Bay"
             fill
             priority
@@ -389,10 +411,10 @@ export function BathroomRemodelingPageClient() {
                 style={{ textShadow: '0 2px 20px rgba(0,0,0,0.72), 0 1px 6px rgba(0,0,0,0.62)' }}
               >
                 <span className="block text-white text-3xl sm:text-4xl md:text-[3.1rem] lg:text-[3.5rem]">
-                  Bathroom Remodeling Tampa
+                  {heroTitle}
                 </span>
                 <span className="block text-gold text-2xl sm:text-[1.7rem] md:text-[2.5rem] lg:text-[2.8rem] mt-1.5 leading-[1.1]">
-                  Custom Vanities &amp; Luxury Renovations
+                  {heroSubtitle}
                 </span>
               </motion.h1>
 
@@ -415,8 +437,7 @@ export function BathroomRemodelingPageClient() {
                 className="text-white/90 text-sm sm:text-base lg:text-[1.05rem] leading-[1.78] mb-9 max-w-[440px]"
                 style={{ textShadow: '0 1px 10px rgba(0,0,0,0.75), 0 0 20px rgba(0,0,0,0.60)' }}
               >
-                Transform your bathroom with custom vanities, premium countertops, modern fixtures,
-                and professional renovation solutions designed around your lifestyle.
+                {heroDescription}
               </motion.p>
 
               {/* ── CTA buttons ─────────────────────────────────────── */}
@@ -428,10 +449,10 @@ export function BathroomRemodelingPageClient() {
               >
                 {/* Primary — solid white, strong contrast */}
                 <Link
-                  href="/contact"
+                  href={heroCtaLink}
                   className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/94 text-gray-900 hover:text-primary font-bold uppercase tracking-widest text-sm h-12 px-9 rounded-lg transition-all duration-300 whitespace-nowrap shadow-xl shadow-black/30"
                 >
-                  Schedule a Free Consultation
+                  {heroCtaText}
                 </Link>
                 {/* Secondary — light maroon-border glass */}
                 <a
@@ -520,7 +541,7 @@ export function BathroomRemodelingPageClient() {
 
         {/* ── Background image ── */}
         <Image
-          src="/bathroom-remodeling-design-2.jpg"
+          src={partnerBg}
           alt="Luxury bathroom remodeling design"
           fill
           className="object-cover object-center"
@@ -554,8 +575,7 @@ export function BathroomRemodelingPageClient() {
                 className={`text-3xl sm:text-4xl md:text-[2.7rem] font-extrabold text-white leading-[1.1] ${serif}`}
                 style={{ textShadow: '0 0 28px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.90), 0 4px 24px rgba(0,0,0,0.75)' }}
               >
-                Bathroom Remodeling Partner{' '}
-                <span className="text-gold">in Tampa Bay</span>
+                {partnerHeading}
               </h2>
 
               {/* Rule */}
@@ -578,19 +598,7 @@ export function BathroomRemodelingPageClient() {
             <FadeIn delay={0.14} className="flex flex-col gap-6">
 
               <div className="space-y-4 text-white/90 text-base leading-[1.82]" style={{ textShadow: '0 0 18px rgba(0,0,0,0.92), 0 1px 6px rgba(0,0,0,0.85)' }}>
-                <p>
-                  A well-designed bathroom should feel comfortable, functional, and easy to maintain.
-                  For many homeowners, older bathrooms often feel cramped, outdated, or no longer
-                  practical for everyday routines. At Cabinets &amp; Remodeling Depot, we help
-                  homeowners throughout Tampa Bay create bathrooms that balance style, storage, and
-                  long-term functionality without making the remodeling process overwhelming.
-                </p>
-                <p>
-                  Whether you&rsquo;re planning a complete bathroom remodeling Tampa project,
-                  replacing outdated vanities, upgrading countertops, or selecting new fixtures, our
-                  team provides personalized guidance from our Valrico showroom. Every renovation is
-                  designed around your goals, lifestyle, and budget.
-                </p>
+                {partnerParagraphs.map((p, i) => <p key={i}>{p}</p>)}
               </div>
 
               {/* CTA — mobile only, below text */}
@@ -1007,7 +1015,7 @@ export function BathroomRemodelingPageClient() {
         {/* Background photo — bright bathroom image, light cream overlay */}
         <div className="absolute inset-0">
           <Image
-            src="/start-bathroom-remodel.jpeg"
+            src={ctaBg}
             alt="Start your bathroom remodeling project Tampa Bay"
             fill
             className="object-cover object-center"
@@ -1031,26 +1039,21 @@ export function BathroomRemodelingPageClient() {
 
             {/* Heading */}
             <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
-              Start Your Bathroom Remodeling{' '}
-              <span className="text-primary">Project Today</span>
+              {ctaHeading}
             </h2>
 
             {/* Body */}
             <p className="text-gray-800 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
-              Whether you&rsquo;re updating an outdated bathroom, improving storage, or planning a
-              complete renovation, Cabinets &amp; Remodeling Depot is here to help. Visit our
-              Valrico showroom to explore bathroom vanities, countertops, faucets, and design options
-              while working with a team committed to creating beautiful, functional bathrooms tailored
-              to your needs and lifestyle.
+              {ctaBody}
             </p>
 
             {/* Gold CTA button */}
             <div className="flex justify-center">
               <Link
-                href="/contact"
+                href={ctaLink}
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/85 text-white font-bold uppercase tracking-widest text-sm h-14 px-10 rounded-lg transition-colors shadow-lg whitespace-nowrap"
               >
-                Schedule a Free Consultation
+                {ctaText}
               </Link>
             </div>
 
