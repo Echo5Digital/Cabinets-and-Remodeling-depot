@@ -60,7 +60,7 @@ export async function getAllPages(req, res, next) {
     // This replaces stale DB content (wrong hrefs, old phone, missing sections)
     // with the latest getDefaultContent('home'). Runs once per deployment;
     // _version is preserved through subsequent admin saves via deepMerge.
-    const HOME_CONTENT_VERSION = 2
+    const HOME_CONTENT_VERSION = 3
     const homeDoc = await Page.findOne({ slug: 'home' }).lean()
     if (homeDoc && (homeDoc.content?._version ?? 0) < HOME_CONTENT_VERSION) {
       await Page.findOneAndUpdate(
