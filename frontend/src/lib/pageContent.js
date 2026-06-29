@@ -486,20 +486,6 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
-      id: 'home-reviews',
-      type: 'testimonials',
-      heading: 'Client Success Stories',
-      items: [
-        { name: 'Lei Cheng', location: '3 years ago', rating: 5, text: 'I used Cabinet and Remodeling Depot replaced my entire kitchen and master bathroom cabinets and countertop. They did a fantastic job! It had been a pleasure working with them. They help us select all the materials and styles and we are very satisfied.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
-        { name: 'R George', location: '3 years ago', rating: 5, text: 'We used cabinets & remodeling when we need to replace old carpet in the house. My experience was amazing as they are friendly and helpful with the whole process. Highly recommend!', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
-        { name: 'Kishon Kuruvilla', location: '3 years ago', rating: 5, text: 'We have been purchasing kitchen cabinets from this shop for few years and their customer service has always been great and we really like coming here.', avatar: '' },
-        { name: 'Ginger Wilkerson', location: '3 years ago', rating: 5, text: 'We had a great experience with our quartz countertop purchase and install. From the start to finish, about 1.5 weeks and they look amazing!!', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
-        { name: 'Oscar Herrera', location: '1 year ago', rating: 5, text: 'It was a great pleasure working with Marcos and his team at Cabinets and Remodeling Depot. They communicated well during the entire process, from the selection of the tiles for a bathroom remodel to the final clean up.', avatar: '' },
-        { name: 'Michelle K', location: '2 years ago', rating: 5, text: 'They did a great job on my floors and bathrooms. Marcos and team were great to work with.', avatar: '' },
-        { name: 'Emile Nicholas', location: '1 year ago', rating: 5, text: 'Excellent experience with our master bath remodel. Our general contractor Marcos was the consummate professional. He was able to meet our needs and expectations for our bath remodel. Would highly recommend him and his team.', avatar: '' },
-      ],
-    },
-    {
       id: 'home-why-choose',
       type: 'why-choose',
       heading: 'Why Homeowners Choose Cabinets & Remodeling Depot',
@@ -520,6 +506,28 @@ const PAGE_DEFAULT_SECTIONS = {
       email: 'sales@cabinetsandremodelingdepot.com',
       hours: 'Mon – Fri: 10:00AM – 6:00PM\nSat: 10:00AM – 4:00PM\nSun: Closed',
       mapLink: 'https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594',
+    },
+    {
+      id: 'home-reviews',
+      type: 'testimonials',
+      heading: 'Client Success Stories',
+      items: [
+        { name: 'Lei Cheng', location: '3 years ago', rating: 5, text: 'I used Cabinet and Remodeling Depot replaced my entire kitchen and master bathroom cabinets and countertop. They did a fantastic job! It had been a pleasure working with them. They help us select all the materials and styles and we are very satisfied.', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+        { name: 'R George', location: '3 years ago', rating: 5, text: 'We used cabinets & remodeling when we need to replace old carpet in the house. My experience was amazing as they are friendly and helpful with the whole process. Highly recommend!', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+        { name: 'Kishon Kuruvilla', location: '3 years ago', rating: 5, text: 'We have been purchasing kitchen cabinets from this shop for few years and their customer service has always been great and we really like coming here.', avatar: '' },
+        { name: 'Ginger Wilkerson', location: '3 years ago', rating: 5, text: 'We had a great experience with our quartz countertop purchase and install. From the start to finish, about 1.5 weeks and they look amazing!!', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
+        { name: 'Oscar Herrera', location: '1 year ago', rating: 5, text: 'It was a great pleasure working with Marcos and his team at Cabinets and Remodeling Depot. They communicated well during the entire process, from the selection of the tiles for a bathroom remodel to the final clean up.', avatar: '' },
+        { name: 'Michelle K', location: '2 years ago', rating: 5, text: 'They did a great job on my floors and bathrooms. Marcos and team were great to work with.', avatar: '' },
+        { name: 'Emile Nicholas', location: '1 year ago', rating: 5, text: 'Excellent experience with our master bath remodel. Our general contractor Marcos was the consummate professional. He was able to meet our needs and expectations for our bath remodel. Would highly recommend him and his team.', avatar: '' },
+      ],
+    },
+    {
+      id: 'home-partners',
+      type: 'partners',
+      label: 'Our Partners',
+      heading: 'Our Trusted Partners',
+      description: 'Brands we proudly work with to bring you quality products and materials.',
+      logos: ['/partner/1.png', '/partner/2.png', '/partner/3.png', '/partner/4.png', '/partner/5.png', '/partner/6.png', '/partner/7.png', '/partner/8.png', '/partner/9.png', '/partner/10.png'],
     },
     {
       id: 'home-faq',
@@ -549,14 +557,6 @@ const PAGE_DEFAULT_SECTIONS = {
       description: "Get a free quote and expert design inspiration from our team—let's build!",
       phone: '+1 813-651-2333',
       trustItems: ['Lowest Price', 'Premium Quality', 'Professional Installation', 'Financing Options Available'],
-    },
-    {
-      id: 'home-partners',
-      type: 'partners',
-      label: 'Our Partners',
-      heading: 'Our Trusted Partners',
-      description: 'Brands we proudly work with to bring you quality products and materials.',
-      logos: ['/partner/1.png', '/partner/2.png', '/partner/3.png', '/partner/4.png', '/partner/5.png', '/partner/6.png', '/partner/7.png', '/partner/8.png', '/partner/9.png', '/partner/10.png'],
     },
   ],
 
@@ -684,6 +684,12 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
+      id: 'kr-styles',
+      type: 'service-areas',
+      heading: 'Kitchen Design Styles',
+      areas: ['Modern Kitchen Designs', 'Shaker Cabinet Kitchens', 'Open-Concept Layouts', 'Quartz Countertop Kitchens', 'Contemporary Kitchen Renovations', 'Classic Traditional Kitchens'],
+    },
+    {
       id: 'kr-gallery',
       type: 'services',
       heading: 'Kitchen Design Inspiration',
@@ -694,12 +700,6 @@ const PAGE_DEFAULT_SECTIONS = {
         { title: 'Kitchen cabinet remodeling Tampa', image: '/kitchen_cabinet_remodeling-01.webp' },
         { title: 'Marble countertops kitchen Tampa', image: '/kitchen_countertops_marble.webp' },
       ],
-    },
-    {
-      id: 'kr-styles',
-      type: 'service-areas',
-      heading: 'Kitchen Design Styles',
-      areas: ['Modern Kitchen Designs', 'Shaker Cabinet Kitchens', 'Open-Concept Layouts', 'Quartz Countertop Kitchens', 'Contemporary Kitchen Renovations', 'Classic Traditional Kitchens'],
     },
     {
       id: 'kr-process',
@@ -801,6 +801,12 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
+      id: 'br-styles',
+      type: 'service-areas',
+      heading: 'Bathroom Design Styles',
+      areas: ['Spa-Inspired Bathrooms', 'Modern Bathroom Designs', 'Walk-In Showers', 'Double Vanity Layouts', 'Contemporary Bathroom Renovations', 'Guest Bathroom Updates'],
+    },
+    {
       id: 'br-gallery',
       type: 'services',
       heading: 'Bathroom Renovation Gallery',
@@ -814,12 +820,6 @@ const PAGE_DEFAULT_SECTIONS = {
         { title: 'Elegant tile work bathroom Tampa', image: '/bathroom-remodel-2.jpg' },
         { title: 'Spa-inspired bathroom remodel Tampa', image: '/bathroom-remodel-6.jpg' },
       ],
-    },
-    {
-      id: 'br-styles',
-      type: 'service-areas',
-      heading: 'Bathroom Design Styles',
-      areas: ['Spa-Inspired Bathrooms', 'Modern Bathroom Designs', 'Walk-In Showers', 'Double Vanity Layouts', 'Contemporary Bathroom Renovations', 'Guest Bathroom Updates'],
     },
     {
       id: 'br-upgrades',
@@ -1152,21 +1152,6 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
-      id: 'fl-benefits',
-      type: 'features',
-      heading: 'Benefits of New Flooring',
-      items: [
-        { title: 'Improved Home Value',            image: '/improved-home-value.jpeg' },
-        { title: 'Easier Cleaning & Maintenance',  image: '/easier-maintenance.jpeg' },
-        { title: 'Better Durability',              image: '/better-durability.jpeg' },
-        { title: 'Modernized Interior Design',     image: '/modernized-interior-design.jpeg' },
-        { title: 'Moisture Resistance',            image: '/moisture-resistance.jpeg' },
-        { title: 'Increased Comfort',              image: '/increased-comfort.jpeg' },
-        { title: 'Enhanced Visual Appeal',         image: '/enhanced-visual-appeal.jpeg' },
-        { title: 'Better Flow Between Rooms',      image: '/better-flow-btw-rooms.jpeg' },
-      ],
-    },
-    {
       id: 'fl-options',
       type: 'services',
       heading: 'Flooring Options',
@@ -1192,6 +1177,12 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
+      id: 'fl-styles',
+      type: 'service-areas',
+      heading: 'Flooring Styles',
+      areas: ['Wide-Plank Hardwood Flooring', 'Modern Wood-Look Flooring', 'Waterproof Luxury Flooring', 'Contemporary Open Concept Interiors', 'Tile Flooring Designs', 'Whole-Home Flooring Renovations'],
+    },
+    {
       id: 'fl-gallery',
       type: 'services',
       heading: 'Flooring Gallery',
@@ -1204,10 +1195,19 @@ const PAGE_DEFAULT_SECTIONS = {
       ],
     },
     {
-      id: 'fl-styles',
-      type: 'service-areas',
-      heading: 'Flooring Styles',
-      areas: ['Wide-Plank Hardwood Flooring', 'Modern Wood-Look Flooring', 'Waterproof Luxury Flooring', 'Contemporary Open Concept Interiors', 'Tile Flooring Designs', 'Whole-Home Flooring Renovations'],
+      id: 'fl-benefits',
+      type: 'features',
+      heading: 'Benefits of New Flooring',
+      items: [
+        { title: 'Improved Home Value',            image: '/improved-home-value.jpeg' },
+        { title: 'Easier Cleaning & Maintenance',  image: '/easier-maintenance.jpeg' },
+        { title: 'Better Durability',              image: '/better-durability.jpeg' },
+        { title: 'Modernized Interior Design',     image: '/modernized-interior-design.jpeg' },
+        { title: 'Moisture Resistance',            image: '/moisture-resistance.jpeg' },
+        { title: 'Increased Comfort',              image: '/increased-comfort.jpeg' },
+        { title: 'Enhanced Visual Appeal',         image: '/enhanced-visual-appeal.jpeg' },
+        { title: 'Better Flow Between Rooms',      image: '/better-flow-btw-rooms.jpeg' },
+      ],
     },
     {
       id: 'fl-process',
@@ -1363,18 +1363,6 @@ const PAGE_DEFAULT_SECTIONS = {
       ctaLink: '/contact',
     },
     {
-      id: 'laminate-flooring-features',
-      type: 'features',
-      heading: 'Why Choose Laminate Flooring?',
-      subheading: 'The smart, budget-friendly flooring solution for modern homes',
-      items: [
-        { title: 'Affordable Style', description: 'Achieve the look of real hardwood or stone without the premium price tag. Laminate offers exceptional value for any budget.', icon: '' },
-        { title: 'Durable & Scratch-Resistant', description: 'High-quality laminate resists scratches, dents, and stains — ideal for high-traffic areas and homes with pets or children.', icon: '' },
-        { title: 'Easy Maintenance', description: 'A simple sweep and occasional damp mop keeps laminate floors looking great. No special cleaners or refinishing required.', icon: '' },
-        { title: 'Wide Style Range', description: 'From light oak to dark walnut, rustic to modern — our laminate collection covers every aesthetic. Visit our showroom to see the full range.', icon: '' },
-      ],
-    },
-    {
       id: 'laminate-flooring-gallery',
       type: 'services',
       heading: 'Laminate Flooring Gallery',
@@ -1385,6 +1373,18 @@ const PAGE_DEFAULT_SECTIONS = {
         { title: 'Laminate Flooring Tampa 4', image: '/L4-.jpeg' },
         { title: 'Laminate Flooring Tampa 5', image: '/L5-.jpeg' },
         { title: 'Laminate Flooring Tampa 6', image: '/L6-.jpeg' },
+      ],
+    },
+    {
+      id: 'laminate-flooring-features',
+      type: 'features',
+      heading: 'Why Choose Laminate Flooring?',
+      subheading: 'The smart, budget-friendly flooring solution for modern homes',
+      items: [
+        { title: 'Affordable Style', description: 'Achieve the look of real hardwood or stone without the premium price tag. Laminate offers exceptional value for any budget.', icon: '' },
+        { title: 'Durable & Scratch-Resistant', description: 'High-quality laminate resists scratches, dents, and stains — ideal for high-traffic areas and homes with pets or children.', icon: '' },
+        { title: 'Easy Maintenance', description: 'A simple sweep and occasional damp mop keeps laminate floors looking great. No special cleaners or refinishing required.', icon: '' },
+        { title: 'Wide Style Range', description: 'From light oak to dark walnut, rustic to modern — our laminate collection covers every aesthetic. Visit our showroom to see the full range.', icon: '' },
       ],
     },
     {

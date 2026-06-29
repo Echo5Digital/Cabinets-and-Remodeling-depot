@@ -46,6 +46,7 @@ const sectionSchema = Joi.object({
 export const updatePageContentSchema = Joi.object({
   title: Joi.string().max(200),
   description: Joi.string().max(500).allow(''),
+  status: Joi.string().valid('draft', 'published'),
   content: Joi.object({
     // New unified sections array
     sections: Joi.array().items(sectionSchema),
@@ -59,5 +60,5 @@ export const updatePageContentSchema = Joi.object({
     cta: ctaSchema,
   })
     .unknown(true)
-    .required(),
+    .allow(null),
 })

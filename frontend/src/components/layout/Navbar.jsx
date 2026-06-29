@@ -24,6 +24,26 @@ export function Navbar() {
   const { data: settings } = useSettings()
   const phone        = settings?.phone || COMPANY_PHONE_DISPLAY
   const phoneHref    = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
+
+  // Build effective nav links: overlay stored labels/hrefs onto the hardcoded structure.
+  // Preserves dropdown structure, icons, and hidden flags while allowing admin edits.
+  const customNavLinks     = Array.isArray(settings?.navLinks) ? settings.navLinks : []
+  const customServiceItems = Array.isArray(settings?.navServiceItems) ? settings.navServiceItems : []
+  const visibleNAV = NAV_LINKS.filter((l) => !l.hidden)
+  const effectiveNavLinks = NAV_LINKS.map((link) => {
+    if (link.hidden) return link
+    const idx    = visibleNAV.indexOf(link)
+    const custom = customNavLinks[idx]
+    if (link.children) {
+      const children = link.children.map((child, ci) => {
+        const cc = customServiceItems[ci]
+        return { ...child, title: cc?.title || child.title, href: cc?.href || child.href }
+      })
+      return { ...link, label: custom?.label || link.label, href: custom?.href || link.href, children }
+    }
+    return { ...link, label: custom?.label || link.label, href: custom?.href || link.href }
+  })
+
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
   const [flooringOpen, setFlooringOpen] = useState(false)
@@ -83,7 +103,7 @@ export function Navbar() {
 
             {/* Desktop Nav — centered between logo and CTA */}
             <nav className="hidden lg:flex items-center gap-2">
-              {NAV_LINKS.filter((link) => !link.hidden).map((link) => {
+              {effectiveNavLinks.filter((link) => !link.hidden).map((link) => {
                 if (link.children) {
                   return (
                     <div key={link.href} className="relative">
@@ -286,7 +306,7 @@ export function Navbar() {
 
               {/* Nav links */}
               <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-                {NAV_LINKS.filter((link) => !link.hidden).map((link) => {
+                {effectiveNavLinks.filter((link) => !link.hidden).map((link) => {
                   if (link.children) {
                     return (
                       <div key={link.href}>

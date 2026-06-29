@@ -11,6 +11,39 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Save } from 'lucide-react'
 import { toast } from 'sonner'
 
+// ── Default navigation data (mirrors constants.js + Footer.jsx hardcoded arrays) ─
+const DEFAULT_NAV_LINKS = [
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Gallery', href: '/showroom-gallery' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+]
+
+const DEFAULT_NAV_SERVICE_ITEMS = [
+  { title: 'Countertops', href: '/countertops-tampa' },
+  { title: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa' },
+  { title: 'Kitchen Remodeling', href: '/kitchen-remodeling-tampa' },
+  { title: 'Flooring', href: '/flooring-in-tampa' },
+  { title: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
+]
+
+const DEFAULT_FOOTER_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Gallery', href: '/showroom-gallery' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact Us', href: '/contact' },
+]
+
+const DEFAULT_FOOTER_SERVICES = [
+  { label: 'Countertops', href: '/countertops-tampa' },
+  { label: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa' },
+  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling-tampa' },
+  { label: 'Flooring', href: '/flooring-in-tampa' },
+  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
+]
+
 export default function AdminSettingsPage() {
   const { data: settings, isLoading } = useSettings()
   const { mutate: updateSettings, isPending } = useUpdateSettings()
@@ -28,6 +61,10 @@ export default function AdminSettingsPage() {
     googleMapsEmbedUrl: '',
     siteMetaTitle: '',
     siteMetaDescription: '',
+    navLinks: DEFAULT_NAV_LINKS,
+    navServiceItems: DEFAULT_NAV_SERVICE_ITEMS,
+    footerLinks: DEFAULT_FOOTER_LINKS,
+    footerServices: DEFAULT_FOOTER_SERVICES,
   })
 
   useEffect(() => {
@@ -47,21 +84,54 @@ export default function AdminSettingsPage() {
         googleMapsEmbedUrl: settings.googleMapsEmbedUrl || '',
         siteMetaTitle: settings.siteMetaTitle || '',
         siteMetaDescription: settings.siteMetaDescription || '',
+        navLinks: Array.isArray(settings.navLinks) && settings.navLinks.length
+          ? settings.navLinks
+          : DEFAULT_NAV_LINKS,
+        navServiceItems: Array.isArray(settings.navServiceItems) && settings.navServiceItems.length
+          ? settings.navServiceItems
+          : DEFAULT_NAV_SERVICE_ITEMS,
+        footerLinks: Array.isArray(settings.footerLinks) && settings.footerLinks.length
+          ? settings.footerLinks
+          : DEFAULT_FOOTER_LINKS,
+        footerServices: Array.isArray(settings.footerServices) && settings.footerServices.length
+          ? settings.footerServices
+          : DEFAULT_FOOTER_SERVICES,
       }))
     }
   }, [settings])
 
   const handleSave = () => {
-    const settingsArray = Object.entries(form).map(([key, value]) => ({
-      key,
-      value,
-    }))
-
+    const settingsArray = Object.entries(form).map(([key, value]) => ({ key, value }))
     updateSettings(settingsArray, {
       onSuccess: () => toast.success('Settings saved successfully'),
       onError: () => toast.error('Failed to save settings'),
     })
   }
+
+  // ── Array field helpers ───────────────────────────────────────────────────
+  const updateNavLink = (idx, field, val) =>
+    setForm((prev) => ({
+      ...prev,
+      navLinks: prev.navLinks.map((item, i) => (i === idx ? { ...item, [field]: val } : item)),
+    }))
+
+  const updateNavServiceItem = (idx, field, val) =>
+    setForm((prev) => ({
+      ...prev,
+      navServiceItems: prev.navServiceItems.map((item, i) => (i === idx ? { ...item, [field]: val } : item)),
+    }))
+
+  const updateFooterLink = (idx, field, val) =>
+    setForm((prev) => ({
+      ...prev,
+      footerLinks: prev.footerLinks.map((item, i) => (i === idx ? { ...item, [field]: val } : item)),
+    }))
+
+  const updateFooterService = (idx, field, val) =>
+    setForm((prev) => ({
+      ...prev,
+      footerServices: prev.footerServices.map((item, i) => (i === idx ? { ...item, [field]: val } : item)),
+    }))
 
   if (isLoading) {
     return (
@@ -172,6 +242,141 @@ export default function AdminSettingsPage() {
               <Label>Google Maps Embed URL</Label>
               <Input {...f('googleMapsEmbedUrl')} placeholder="https://maps.google.com/maps?..." />
             </div>
+          </CardContent>
+        </Card>
+
+        {/* ── Header Navigation ────────────────────────────────────────────── */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Header Navigation</CardTitle>
+            <CardDescription>
+              Edit the display labels and destination URLs for each navigation link. Logos cannot be changed here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+
+            {/* Top-level nav links */}
+            <div>
+              <p className="text-sm font-semibold mb-3">Top Navigation Links</p>
+              <div className="hidden sm:grid sm:grid-cols-2 gap-3 px-1 pb-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Display Label</span>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Destination URL</span>
+              </div>
+              <div className="divide-y">
+                {form.navLinks.map((item, i) => (
+                  <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-3">
+                    <Input
+                      value={item.label}
+                      onChange={(e) => updateNavLink(i, 'label', e.target.value)}
+                      placeholder="Display Label"
+                      aria-label={`Nav link ${i + 1} label`}
+                    />
+                    <Input
+                      value={item.href}
+                      onChange={(e) => updateNavLink(i, 'href', e.target.value)}
+                      placeholder="/page-url"
+                      aria-label={`Nav link ${i + 1} URL`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Services dropdown items */}
+            <div>
+              <p className="text-sm font-semibold mb-1">Services Dropdown Items</p>
+              <p className="text-xs text-muted-foreground mb-3">These appear in the Services dropdown menu.</p>
+              <div className="hidden sm:grid sm:grid-cols-2 gap-3 px-1 pb-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Display Name</span>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Destination URL</span>
+              </div>
+              <div className="divide-y">
+                {form.navServiceItems.map((item, i) => (
+                  <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-3">
+                    <Input
+                      value={item.title}
+                      onChange={(e) => updateNavServiceItem(i, 'title', e.target.value)}
+                      placeholder="Service Name"
+                      aria-label={`Service item ${i + 1} name`}
+                    />
+                    <Input
+                      value={item.href}
+                      onChange={(e) => updateNavServiceItem(i, 'href', e.target.value)}
+                      placeholder="/service-url"
+                      aria-label={`Service item ${i + 1} URL`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </CardContent>
+        </Card>
+
+        {/* ── Footer Links ─────────────────────────────────────────────────── */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Footer Links</CardTitle>
+            <CardDescription>
+              Edit the links shown in the footer&apos;s &quot;Useful Links&quot; and &quot;Our Services&quot; columns. Logos cannot be changed here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+
+            {/* Useful Links column */}
+            <div>
+              <p className="text-sm font-semibold mb-3">&ldquo;Useful Links&rdquo; Column</p>
+              <div className="hidden sm:grid sm:grid-cols-2 gap-3 px-1 pb-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Display Label</span>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Destination URL</span>
+              </div>
+              <div className="divide-y">
+                {form.footerLinks.map((item, i) => (
+                  <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-3">
+                    <Input
+                      value={item.label}
+                      onChange={(e) => updateFooterLink(i, 'label', e.target.value)}
+                      placeholder="Display Label"
+                      aria-label={`Footer link ${i + 1} label`}
+                    />
+                    <Input
+                      value={item.href}
+                      onChange={(e) => updateFooterLink(i, 'href', e.target.value)}
+                      placeholder="/page-url"
+                      aria-label={`Footer link ${i + 1} URL`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Our Services column */}
+            <div>
+              <p className="text-sm font-semibold mb-3">&ldquo;Our Services&rdquo; Column</p>
+              <div className="hidden sm:grid sm:grid-cols-2 gap-3 px-1 pb-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Display Label</span>
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Destination URL</span>
+              </div>
+              <div className="divide-y">
+                {form.footerServices.map((item, i) => (
+                  <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-2 py-3">
+                    <Input
+                      value={item.label}
+                      onChange={(e) => updateFooterService(i, 'label', e.target.value)}
+                      placeholder="Display Label"
+                      aria-label={`Footer service ${i + 1} label`}
+                    />
+                    <Input
+                      value={item.href}
+                      onChange={(e) => updateFooterService(i, 'href', e.target.value)}
+                      placeholder="/service-url"
+                      aria-label={`Footer service ${i + 1} URL`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </CardContent>
         </Card>
 

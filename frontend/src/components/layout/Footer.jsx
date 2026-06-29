@@ -63,6 +63,14 @@ export function Footer() {
   const facebookUrl  = settings?.facebook     || 'https://facebook.com'
   const instagramUrl = settings?.instagram    || 'https://instagram.com'
 
+  // Use admin-edited arrays from settings, fall back to hardcoded defaults
+  const activeFooterLinks    = Array.isArray(settings?.footerLinks) && settings.footerLinks.length
+    ? settings.footerLinks
+    : FOOTER_LINKS
+  const activeFooterServices = Array.isArray(settings?.footerServices) && settings.footerServices.length
+    ? settings.footerServices
+    : FOOTER_SERVICES
+
   return (
     <footer
       className="text-white/80"
@@ -122,7 +130,7 @@ export function Footer() {
           <div>
             <FooterHeading first="USEFUL" second="LINKS" />
             <ul className="space-y-2.5">
-              {FOOTER_LINKS.map((link) => (
+              {activeFooterLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -139,7 +147,7 @@ export function Footer() {
           <div>
             <FooterHeading first="OUR" second="SERVICES" />
             <ul className="space-y-2.5">
-              {FOOTER_SERVICES.map((service) => (
+              {activeFooterServices.map((service) => (
                 <li key={service.href}>
                   <Link
                     href={service.href}

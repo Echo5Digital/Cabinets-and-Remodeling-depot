@@ -4,11 +4,13 @@ import { useState, Fragment } from 'react'
 import { Button } from '@/components/ui/button'
 import { SectionCard } from './SectionCard'
 import { AddSectionDialog } from './AddSectionDialog'
+import { TemplatePickerDialog } from './TemplatePickerDialog'
 import { getSectionDefaults } from '@/lib/pageContent'
-import { Plus, LayoutTemplate } from 'lucide-react'
+import { Plus, LayoutTemplate, Bookmark } from 'lucide-react'
 
 export function PageBuilderPanel({ sections = [], onChange }) {
   const [addOpen, setAddOpen] = useState(false)
+  const [templateOpen, setTemplateOpen] = useState(false)
   const [insertAt, setInsertAt] = useState(null)
 
   const moveUp = (idx) => {
@@ -27,6 +29,13 @@ export function PageBuilderPanel({ sections = [], onChange }) {
 
   const remove = (idx) => onChange(sections.filter((_, i) => i !== idx))
 
+  const duplicate = (idx) => {
+    const clone = { ...JSON.parse(JSON.stringify(sections[idx])), id: crypto.randomUUID() }
+    const next = [...sections]
+    next.splice(idx + 1, 0, clone)
+    onChange(next)
+  }
+
   const update = (idx, updated) =>
     onChange(sections.map((s, i) => (i === idx ? updated : s)))
 
@@ -44,6 +53,16 @@ export function PageBuilderPanel({ sections = [], onChange }) {
     onChange(next)
     setAddOpen(false)
     setInsertAt(null)
+  }
+
+  // Insert one or more sections from a template (each gets a fresh UUID)
+  const insertFromTemplate = (templateSections) => {
+    const newSections = templateSections.map((s) => ({
+      ...JSON.parse(JSON.stringify(s)),
+      id: crypto.randomUUID(),
+    }))
+    const next = [...sections, ...newSections]
+    onChange(next)
   }
 
   return (
@@ -84,20 +103,31 @@ export function PageBuilderPanel({ sections = [], onChange }) {
             onMoveUp={() => moveUp(idx)}
             onMoveDown={() => moveDown(idx)}
             onRemove={() => remove(idx)}
+            onDuplicate={() => duplicate(idx)}
           />
         </Fragment>
       ))}
 
       {/* Add at end */}
-      <div className="pt-2">
+      <div className="pt-2 flex gap-2">
         <Button
           variant="outline"
-          className="w-full border-dashed"
+          className="flex-1 border-dashed"
           onClick={() => openAddDialog(sections.length)}
           type="button"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Section
+        </Button>
+        <Button
+          variant="outline"
+          className="border-dashed"
+          onClick={() => setTemplateOpen(true)}
+          type="button"
+          title="Insert from template"
+        >
+          <Bookmark className="w-4 h-4 sm:mr-2" />
+          <span className="hidden sm:inline">From Template</span>
         </Button>
       </div>
 
@@ -108,6 +138,12 @@ export function PageBuilderPanel({ sections = [], onChange }) {
           if (!open) setInsertAt(null)
         }}
         onAdd={addSection}
+      />
+
+      <TemplatePickerDialog
+        open={templateOpen}
+        onOpenChange={setTemplateOpen}
+        onInsert={insertFromTemplate}
       />
     </div>
   )

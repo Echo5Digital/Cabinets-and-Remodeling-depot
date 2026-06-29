@@ -46,7 +46,42 @@ export function useUpdatePageContent(slug) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['page', slug] })
+      queryClient.invalidateQueries({ queryKey: ['page-preview', slug] })
       queryClient.invalidateQueries({ queryKey: ['pages'] })
     },
+  })
+}
+
+/**
+ * Update page status only (draft / published).
+ */
+export function useUpdatePageStatus(slug) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (status) => {
+      const { data } = await api.put(`/pages/admin/${slug}`, { status })
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['page', slug] })
+      queryClient.invalidateQueries({ queryKey: ['page-preview', slug] })
+      queryClient.invalidateQueries({ queryKey: ['pages'] })
+    },
+  })
+}
+
+/**
+ * Fetch page content for admin preview (includes draft pages).
+ */
+export function usePreviewPageContent(slug) {
+  return useQuery({
+    queryKey: ['page-preview', slug],
+    queryFn: async () => {
+      const { data } = await api.get(`/pages/admin/preview/${slug}`)
+      return data.data
+    },
+    enabled: !!slug,
+    staleTime: 0,
   })
 }

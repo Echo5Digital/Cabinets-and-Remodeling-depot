@@ -6,8 +6,20 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { PageBuilderPanel } from './PageBuilderPanel'
 import { SEOEditor } from './SEOEditor'
 import { SchemaEditor } from './SchemaEditor'
+import { RevisionHistorySheet } from './RevisionHistorySheet'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
-import { Save, Eye, AlertCircle, CheckCircle2, LayoutTemplate, Search, Code2 } from 'lucide-react'
+import {
+  Save,
+  Eye,
+  AlertCircle,
+  CheckCircle2,
+  LayoutTemplate,
+  Search,
+  Code2,
+  History,
+  Globe,
+  FileEdit,
+} from 'lucide-react'
 
 function PanelNumber({ n }) {
   return (
@@ -17,13 +29,14 @@ function PanelNumber({ n }) {
   )
 }
 
-export function PageContentEditor({ content, onSave, isSaving, slug }) {
+export function PageContentEditor({ content, onSave, isSaving, slug, status, onStatusChange }) {
   const [draft, setDraft] = useState(() => {
     const normalized = normalizeContent(content)
     return { ...normalized, sections: mergeWithPageDefaults(slug, normalized.sections) }
   })
   const [isDirty, setIsDirty] = useState(false)
   const [openPanels, setOpenPanels] = useState(['content', 'seo', 'schema'])
+  const [showRevisions, setShowRevisions] = useState(false)
 
   useEffect(() => {
     const normalized = normalizeContent(content)
@@ -53,36 +66,74 @@ export function PageContentEditor({ content, onSave, isSaving, slug }) {
     setIsDirty(false)
   }
 
+  const isDraft = status === 'draft'
+
   return (
     <div className="space-y-0 pb-20 md:pb-4">
       {/* Save bar — fixed bottom on mobile, sticky top on desktop */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 md:relative md:bottom-auto md:left-auto md:right-auto md:sticky md:top-4 bg-background/95 backdrop-blur-sm border-t md:border md:rounded-lg flex items-center justify-between gap-3 px-4 py-3 shadow-md md:shadow-sm mb-4">
+      <div className="fixed bottom-0 left-0 right-0 z-30 md:relative md:bottom-auto md:left-auto md:right-auto md:sticky md:top-4 bg-background/95 backdrop-blur-sm border-t md:border md:rounded-lg flex items-center justify-between gap-2 px-3 py-2.5 shadow-md md:shadow-sm mb-4">
         <div className="flex items-center gap-2 text-sm min-w-0">
           {isDirty ? (
             <span className="flex items-center gap-1.5 text-amber-600">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:inline">Unsaved changes</span>
+              <span className="hidden sm:inline text-xs">Unsaved changes</span>
               <span className="sm:hidden text-xs">Unsaved</span>
             </span>
           ) : (
             <span className="flex items-center gap-1.5 text-green-600">
               <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:inline text-muted-foreground text-sm">All changes saved</span>
+              <span className="hidden sm:inline text-muted-foreground text-xs">All changes saved</span>
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          {/* Status toggle chip */}
+          {onStatusChange && (
+            <button
+              type="button"
+              onClick={() => onStatusChange(isDraft ? 'published' : 'draft')}
+              className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border font-medium transition-colors ${
+                isDraft
+                  ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
+                  : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
+              }`}
+              title={isDraft ? 'Click to publish' : 'Click to set as draft'}
+            >
+              {isDraft ? (
+                <><FileEdit className="w-3 h-3" /><span className="hidden sm:inline ml-0.5">Draft</span></>
+              ) : (
+                <><Globe className="w-3 h-3" /><span className="hidden sm:inline ml-0.5">Live</span></>
+              )}
+            </button>
+          )}
+
+          {/* Revision history */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 px-2"
+            onClick={() => setShowRevisions(true)}
+            type="button"
+            title="Revision history"
+          >
+            <History className="w-4 h-4" />
+            <span className="hidden sm:inline ml-1.5">History</span>
+          </Button>
+
+          {/* Preview */}
           {slug && (
-            <Button variant="outline" size="sm" asChild>
-              <a href={`/${slug === 'home' ? '' : slug}`} target="_blank" rel="noopener noreferrer">
-                <Eye className="w-4 h-4 sm:mr-1.5" />
-                <span className="hidden sm:inline">Preview</span>
+            <Button variant="outline" size="sm" className="h-8 px-2" asChild>
+              <a href={`/${slug === 'home' ? '' : slug}`} target="_blank" rel="noopener noreferrer" title="Preview page">
+                <Eye className="w-4 h-4" />
+                <span className="hidden sm:inline ml-1.5">Preview</span>
               </a>
             </Button>
           )}
-          <Button onClick={handleSave} disabled={isSaving || !isDirty} size="sm" className="min-w-[110px]">
-            <Save className="w-4 h-4 mr-1.5" />
-            {isSaving ? 'Saving…' : 'Save Changes'}
+
+          <Button onClick={handleSave} disabled={isSaving || !isDirty} size="sm" className="h-8 min-w-[90px]">
+            <Save className="w-4 h-4 mr-1" />
+            {isSaving ? 'Saving…' : 'Save'}
           </Button>
         </div>
       </div>
@@ -169,6 +220,13 @@ export function PageContentEditor({ content, onSave, isSaving, slug }) {
         </AccordionItem>
 
       </Accordion>
+
+      {/* Revision History Drawer */}
+      <RevisionHistorySheet
+        slug={slug}
+        open={showRevisions}
+        onOpenChange={setShowRevisions}
+      />
     </div>
   )
 }

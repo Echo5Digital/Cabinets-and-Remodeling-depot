@@ -1,4 +1,5 @@
 import Page from '../models/Page.js'
+import PageRevision from '../models/PageRevision.js'
 import { mergePageContent, getDefaultContent } from '../services/pages.service.js'
 
 /**
@@ -41,7 +42,8 @@ const OLD_SLUG_MAP = {
  * Returns all active pages (metadata only, no content).
  * On every call:
  *   1. Renames legacy-slug documents to correct URL slugs (idempotent).
- *   2. Auto-seeds any KNOWN_PAGES not yet in the database.
+ *   2. Backfills status:'published' on any page missing the field (one-time, idempotent).
+ *   3. Auto-seeds any KNOWN_PAGES not yet in the database.
  */
 export async function getAllPages(req, res, next) {
   try {
@@ -69,6 +71,14 @@ export async function getAllPages(req, res, next) {
       )
     }
 
+    // ── Step 1.6: backfill status on pages that pre-date the status field ───
+    // Mongoose schema defaults only apply to new documents. Existing DB docs
+    // will not have 'status' set. Mark them all as 'published' (idempotent).
+    await Page.updateMany(
+      { status: { $exists: false } },
+      { $set: { status: 'published' } }
+    )
+
     // ── Step 2: auto-seed missing pages ──────────────────────────────────────
     const existing = await Page.find({}).select('slug').lean()
     const existingSlugs = new Set(existing.map((p) => p.slug))
@@ -80,13 +90,14 @@ export async function getAllPages(req, res, next) {
           title,
           content: getDefaultContent(slug),
           isActive: true,
+          status: 'published',
         })
       }
     }
 
     // ── Step 3: return list ───────────────────────────────────────────────────
     const pages = await Page.find({ isActive: true })
-      .select('slug title description updatedAt')
+      .select('slug title description status publishedAt updatedAt')
       .sort({ title: 1 })
 
     res.json({ success: true, data: pages })
@@ -98,8 +109,43 @@ export async function getAllPages(req, res, next) {
 /**
  * GET /api/pages/:slug
  * Returns a page with its embedded content JSON.
+ * Only serves pages that are NOT explicitly set to 'draft'.
+ * Pages missing the status field (existing live pages) are served normally.
  */
 export async function getPageBySlug(req, res, next) {
+  try {
+    const { slug } = req.params
+
+    // Safe filter: { $ne: 'draft' } matches 'published' AND missing-field docs
+    const page = await Page.findOne({ slug, status: { $ne: 'draft' } })
+
+    if (!page || !page.isActive) {
+      return res.status(404).json({ success: false, error: 'Page not found.' })
+    }
+
+    res.json({
+      success: true,
+      data: {
+        id: page.id,
+        slug: page.slug,
+        title: page.title,
+        description: page.description,
+        content: page.content || {},
+        status: page.status,
+        publishedAt: page.publishedAt,
+        updatedAt: page.updatedAt,
+      },
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
+ * GET /api/pages/admin/preview/:slug  [PROTECTED]
+ * Returns a page regardless of status — used for admin draft preview.
+ */
+export async function previewPageBySlug(req, res, next) {
   try {
     const { slug } = req.params
 
@@ -117,6 +163,8 @@ export async function getPageBySlug(req, res, next) {
         title: page.title,
         description: page.description,
         content: page.content || {},
+        status: page.status,
+        publishedAt: page.publishedAt,
         updatedAt: page.updatedAt,
       },
     })
@@ -126,14 +174,15 @@ export async function getPageBySlug(req, res, next) {
 }
 
 /**
- * PUT /api/admin/pages/:slug
+ * PUT /api/pages/admin/:slug
  * Merge updates into the page's embedded content document.
+ * Automatically saves a revision of the current state before updating.
  * No transaction needed — single atomic findOneAndUpdate.
  */
 export async function updatePageContent(req, res, next) {
   try {
     const { slug } = req.params
-    const { content: updates, title, description } = req.body
+    const { content: updates, title, description, status } = req.body
 
     // Find the current page
     const page = await Page.findOne({ slug })
@@ -142,12 +191,48 @@ export async function updatePageContent(req, res, next) {
       return res.status(404).json({ success: false, error: 'Page not found.' })
     }
 
-    // Merge incoming updates with existing content
-    const mergedContent = mergePageContent(page.content || {}, updates || {})
+    // ── Save revision of current state before overwriting ────────────────────
+    try {
+      await PageRevision.create({
+        pageId: page._id,
+        title: page.title,
+        slug: page.slug,
+        content: page.content,
+        createdBy: req.user?.id || null,
+      })
 
-    const updateFields = { content: mergedContent }
+      // Cap at 20 revisions per page — delete oldest if over limit
+      const revCount = await PageRevision.countDocuments({ pageId: page._id })
+      if (revCount > 20) {
+        const toDelete = await PageRevision.find({ pageId: page._id })
+          .sort({ createdAt: 1 })
+          .limit(revCount - 20)
+          .select('_id')
+          .lean()
+        await PageRevision.deleteMany({ _id: { $in: toDelete.map((r) => r._id) } })
+      }
+    } catch (revErr) {
+      // Revision failure must never block the page save
+      console.error('[PageRevision] Failed to save revision:', revErr.message)
+    }
+
+    // ── Build update payload ─────────────────────────────────────────────────
+    const updateFields = {}
+
+    if (updates != null) {
+      updateFields.content = mergePageContent(page.content || {}, updates)
+    }
+
     if (title) updateFields.title = title
     if (description !== undefined) updateFields.description = description
+
+    if (status) {
+      updateFields.status = status
+      // Set publishedAt when transitioning from draft → published
+      if (status === 'published' && page.status !== 'published') {
+        updateFields.publishedAt = new Date()
+      }
+    }
 
     const updated = await Page.findOneAndUpdate(
       { slug },
@@ -158,7 +243,90 @@ export async function updatePageContent(req, res, next) {
     res.json({
       success: true,
       message: 'Page content updated successfully.',
-      data: { slug, content: updated.content },
+      data: {
+        slug,
+        content: updated.content,
+        status: updated.status,
+        publishedAt: updated.publishedAt,
+      },
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
+ * GET /api/pages/admin/:slug/revisions  [PROTECTED]
+ * Returns list of revisions for a page (metadata only, no content body).
+ */
+export async function getPageRevisions(req, res, next) {
+  try {
+    const { slug } = req.params
+
+    const page = await Page.findOne({ slug }).select('_id').lean()
+    if (!page) {
+      return res.status(404).json({ success: false, error: 'Page not found.' })
+    }
+
+    const revisions = await PageRevision.find({ pageId: page._id })
+      .select('title slug createdBy createdAt')
+      .sort({ createdAt: -1 })
+      .limit(20)
+
+    res.json({ success: true, data: revisions })
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
+ * POST /api/pages/admin/:slug/revisions/:revisionId/restore  [PROTECTED]
+ * Restores a page to a previous revision.
+ * Saves the current state as a revision before restoring.
+ */
+export async function restorePageRevision(req, res, next) {
+  try {
+    const { slug, revisionId } = req.params
+
+    const page = await Page.findOne({ slug })
+    if (!page) {
+      return res.status(404).json({ success: false, error: 'Page not found.' })
+    }
+
+    const revision = await PageRevision.findById(revisionId)
+    if (!revision || revision.pageId.toString() !== page._id.toString()) {
+      return res.status(404).json({ success: false, error: 'Revision not found.' })
+    }
+
+    // Save current state as a revision before overwriting
+    try {
+      await PageRevision.create({
+        pageId: page._id,
+        title: page.title,
+        slug: page.slug,
+        content: page.content,
+        createdBy: req.user?.id || null,
+      })
+    } catch (revErr) {
+      console.error('[PageRevision] Failed to save pre-restore revision:', revErr.message)
+    }
+
+    // Restore the chosen revision's content
+    const updated = await Page.findOneAndUpdate(
+      { slug },
+      { $set: { content: revision.content } },
+      { new: true }
+    )
+
+    res.json({
+      success: true,
+      message: 'Revision restored successfully.',
+      data: {
+        slug,
+        content: updated.content,
+        status: updated.status,
+        publishedAt: updated.publishedAt,
+      },
     })
   } catch (err) {
     next(err)

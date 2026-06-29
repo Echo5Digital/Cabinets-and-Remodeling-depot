@@ -73,14 +73,14 @@ function HeroPreview({ section }) {
 
         {/* Subtitle */}
         {section.subtitle && (
-          <p className="text-white/85 text-xs sm:text-sm leading-relaxed mb-2 line-clamp-3">
+          <p className="text-white/85 text-xs sm:text-sm leading-relaxed mb-2">
             {section.subtitle}
           </p>
         )}
 
         {/* Description */}
         {section.description && (
-          <p className="text-white/65 text-xs leading-relaxed mb-3 line-clamp-2">
+          <p className="text-white/65 text-xs leading-relaxed mb-3">
             {section.description}
           </p>
         )}
@@ -115,7 +115,7 @@ function HeroPreview({ section }) {
 function TextPreview({ section }) {
   const hasContent = section.heading || section.body || section.image
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.heading && (
         <h3 className="font-semibold text-base text-foreground">{section.heading}</h3>
       )}
@@ -144,7 +144,7 @@ function TextPreview({ section }) {
 function FeaturesPreview({ section }) {
   const items = section.items || []
   return (
-    <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-900/30">
+    <div className="p-4 space-y-3 bg-slate-50">
       {section.heading && (
         <h3 className="font-semibold text-base">{section.heading}</h3>
       )}
@@ -156,7 +156,7 @@ function FeaturesPreview({ section }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="flex gap-2 items-start p-2.5 bg-white dark:bg-slate-800 rounded border"
+              className="flex gap-2 items-start p-2.5 bg-white rounded border"
             >
               <div className="w-7 h-7 rounded bg-primary/10 flex-shrink-0 flex items-center justify-center text-[10px] text-primary font-bold uppercase">
                 {item.icon ? item.icon.slice(0, 2) : '✦'}
@@ -182,7 +182,7 @@ function FeaturesPreview({ section }) {
 function FAQPreview({ section }) {
   const items = section.items || []
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.heading && (
         <h3 className="font-semibold text-base">{section.heading}</h3>
       )}
@@ -257,7 +257,7 @@ function StatsPreview({ section }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="text-center p-3 bg-white dark:bg-slate-800 rounded border"
+              className="text-center p-3 bg-white rounded border"
             >
               <p className="text-xl font-bold text-primary">{item.value || '—'}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{item.label || ''}</p>
@@ -276,7 +276,7 @@ function StatsPreview({ section }) {
 function ServicesPreview({ section }) {
   const items = section.items || []
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.heading && (
         <h3 className="font-semibold text-base">{section.heading}</h3>
       )}
@@ -315,7 +315,7 @@ function ServicesPreview({ section }) {
 function ProcessPreview({ section }) {
   const steps = section.steps || []
   return (
-    <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-900/30">
+    <div className="p-4 space-y-3 bg-slate-50">
       {section.heading && (
         <h3 className="font-semibold text-base">{section.heading}</h3>
       )}
@@ -347,7 +347,7 @@ function ProcessPreview({ section }) {
 function TestimonialsPreview({ section }) {
   const items = section.items || []
   return (
-    <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-900/30">
+    <div className="p-4 space-y-3 bg-slate-50">
       {section.heading && (
         <h3 className="font-semibold text-base">{section.heading}</h3>
       )}
@@ -356,7 +356,7 @@ function TestimonialsPreview({ section }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-slate-800 border rounded p-3 space-y-2"
+              className="bg-white border rounded p-3 space-y-2"
             >
               <div className="flex items-center justify-between gap-2">
                 <div>
@@ -419,7 +419,7 @@ function FeatureStripPreview({ section }) {
 function SolutionsPreview({ section }) {
   const items = section.items || []
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.label && <p className="text-xs text-primary font-semibold uppercase tracking-wider">{section.label}</p>}
       {section.heading && <h3 className="font-bold text-base">{section.heading}</h3>}
       {section.description && <p className="text-sm text-muted-foreground">{section.description}</p>}
@@ -453,7 +453,7 @@ function ShowroomPreview({ section }) {
       className="relative overflow-hidden"
       style={hasBg ? { backgroundImage: `url(${section.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
-      <div className={`p-5 space-y-2 ${hasBg ? 'bg-black/60' : 'bg-slate-50 dark:bg-slate-900/30'}`}>
+      <div className={`p-5 space-y-2 ${hasBg ? 'bg-black/60' : 'bg-slate-50'}`}>
         {section.label && <p className={`text-xs font-semibold uppercase tracking-wider ${hasBg ? 'text-primary' : 'text-primary'}`}>{section.label}</p>}
         {section.heading && <h3 className={`font-bold text-base ${hasBg ? 'text-white' : 'text-foreground'}`}>{section.heading}</h3>}
         {section.body && (
@@ -472,13 +472,13 @@ function ShowroomPreview({ section }) {
 function ServiceAreasPreview({ section }) {
   const areas = section.areas || []
   return (
-    <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-900/30">
+    <div className="p-4 space-y-3 bg-slate-50">
       {section.label && <p className="text-xs text-primary font-semibold uppercase tracking-wider">{section.label}</p>}
       {section.heading && <h3 className="font-semibold text-base">{section.heading}</h3>}
       {areas.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {areas.map((area, i) => (
-            <span key={i} className="px-2.5 py-1 bg-white dark:bg-slate-800 border rounded text-xs font-medium">{area}</span>
+            <span key={i} className="px-2.5 py-1 bg-white border rounded text-xs font-medium">{area}</span>
           ))}
         </div>
       ) : (
@@ -498,7 +498,7 @@ function AffordablePreview({ section }) {
       className="relative overflow-hidden"
       style={hasBg ? { backgroundImage: `url(${section.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
-      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/65' : 'bg-white dark:bg-card'}`}>
+      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/65' : 'bg-white'}`}>
         {section.label && <p className="text-xs font-semibold uppercase tracking-wider text-primary">{section.label}</p>}
         {section.heading && <h3 className={`font-bold text-base ${hasBg ? 'text-white' : 'text-foreground'}`}>{section.heading}</h3>}
         {section.body && <p className={`text-sm whitespace-pre-wrap ${hasBg ? 'text-white/80' : 'text-muted-foreground'}`}>{section.body}</p>}
@@ -513,7 +513,11 @@ function AffordablePreview({ section }) {
         )}
         <div className="flex gap-2 flex-wrap">
           {section.cta1Text && <span className="px-3 py-1 bg-primary text-white text-xs rounded font-semibold">{section.cta1Text}</span>}
-          {section.cta2Text && <span className="px-3 py-1 border border-white/60 text-white text-xs rounded font-semibold">{section.cta2Text}</span>}
+          {section.cta2Text && (
+            <span className={`px-3 py-1 text-xs rounded font-semibold border ${hasBg ? 'border-white/60 text-white' : 'border-border text-foreground'}`}>
+              {section.cta2Text}
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -525,12 +529,12 @@ function AffordablePreview({ section }) {
 function HowItWorksPreview({ section }) {
   const steps = section.steps || []
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.heading && <h3 className="font-semibold text-base text-center">{section.heading}</h3>}
       {steps.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {steps.map((step, i) => (
-            <div key={i} className="text-center p-3 bg-slate-50 dark:bg-slate-800 rounded border space-y-1">
+            <div key={i} className="text-center p-3 bg-slate-50 rounded border space-y-1">
               <div className="w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold flex items-center justify-center mx-auto">{i + 1}</div>
               <p className="text-xs font-semibold">{step.title || '(no title)'}</p>
               {step.desc && <p className="text-xs text-muted-foreground">{step.desc}</p>}
@@ -548,7 +552,7 @@ function HowItWorksPreview({ section }) {
 
 function TransformationPreview({ section }) {
   return (
-    <div className="p-4 space-y-3 bg-slate-50 dark:bg-slate-900/30">
+    <div className="p-4 space-y-3 bg-slate-50">
       {section.label && <p className="text-xs text-primary font-semibold uppercase tracking-wider">{section.label}</p>}
       {section.heading && <h3 className="font-semibold text-base">{section.heading}</h3>}
       {section.description && <p className="text-sm text-muted-foreground">{section.description}</p>}
@@ -558,7 +562,7 @@ function TransformationPreview({ section }) {
           {section.beforeImage ? (
             <img src={section.beforeImage} alt="Before" className="w-full h-28 object-cover rounded border" />
           ) : (
-            <div className="w-full h-28 bg-slate-200 dark:bg-slate-700 rounded border flex items-center justify-center text-xs text-muted-foreground">No before image</div>
+            <div className="w-full h-28 bg-slate-200 rounded border flex items-center justify-center text-xs text-muted-foreground">No before image</div>
           )}
         </div>
         <div className="space-y-1">
@@ -566,7 +570,7 @@ function TransformationPreview({ section }) {
           {section.afterImage ? (
             <img src={section.afterImage} alt="After" className="w-full h-28 object-cover rounded border" />
           ) : (
-            <div className="w-full h-28 bg-slate-200 dark:bg-slate-700 rounded border flex items-center justify-center text-xs text-muted-foreground">No after image</div>
+            <div className="w-full h-28 bg-slate-200 rounded border flex items-center justify-center text-xs text-muted-foreground">No after image</div>
           )}
         </div>
       </div>
@@ -584,7 +588,7 @@ function InstallationPreview({ section }) {
       className="relative overflow-hidden"
       style={hasBg ? { backgroundImage: `url(${section.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
-      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/60' : 'bg-white dark:bg-card'}`}>
+      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/60' : 'bg-white'}`}>
         {section.label && <p className="text-xs font-semibold uppercase tracking-wider text-primary">{section.label}</p>}
         {section.heading && <h3 className={`font-bold text-base ${hasBg ? 'text-white' : 'text-foreground'}`}>{section.heading}</h3>}
         {paragraphs.map((p, i) => (
@@ -605,7 +609,7 @@ function WhyChoosePreview({ section }) {
       className="relative overflow-hidden"
       style={hasBg ? { backgroundImage: `url(${section.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
     >
-      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/65' : 'bg-slate-50 dark:bg-slate-900/30'}`}>
+      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/65' : 'bg-slate-50'}`}>
         {section.heading && <h3 className={`font-bold text-base ${hasBg ? 'text-white' : 'text-foreground'}`}>{section.heading}</h3>}
         {section.body && <p className={`text-sm ${hasBg ? 'text-white/80' : 'text-muted-foreground'}`}>{section.body}</p>}
         {features.length > 0 && (
@@ -665,7 +669,7 @@ function PreFooterPreview({ section }) {
       {trustItems.length > 0 && (
         <div className="flex flex-wrap gap-2 justify-center">
           {trustItems.map((item, i) => (
-            <span key={i} className="px-2.5 py-1 bg-white dark:bg-slate-800 border rounded-full text-xs font-medium">✓ {item}</span>
+            <span key={i} className="px-2.5 py-1 bg-white border rounded-full text-xs font-medium">✓ {item}</span>
           ))}
         </div>
       )}
@@ -678,7 +682,7 @@ function PreFooterPreview({ section }) {
 function PartnersPreview({ section }) {
   const logos = section.logos || []
   return (
-    <div className="p-4 space-y-3 bg-white dark:bg-card">
+    <div className="p-4 space-y-3 bg-white">
       {section.label && <p className="text-xs text-primary font-semibold uppercase tracking-wider text-center">{section.label}</p>}
       {section.heading && <h3 className="font-semibold text-base text-center">{section.heading}</h3>}
       {section.description && <p className="text-sm text-muted-foreground text-center">{section.description}</p>}

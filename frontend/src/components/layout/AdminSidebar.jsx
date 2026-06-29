@@ -17,6 +17,8 @@ import {
   ChevronRight,
   Home,
   Menu,
+  Bookmark,
+  Globe,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -33,6 +35,13 @@ const NAV_ITEMS = [
       { label: 'Projects', href: '/admin/projects', icon: Briefcase },
       { label: 'Gallery', href: '/admin/gallery', icon: Image },
       { label: 'Blog Posts', href: '/admin/blogs', icon: BookOpen },
+    ],
+  },
+  {
+    group: 'Page Builder',
+    items: [
+      { label: 'Templates', href: '/admin/templates', icon: Bookmark },
+      { label: 'Global Sections', href: '/admin/global-sections', icon: Globe },
     ],
   },
   {

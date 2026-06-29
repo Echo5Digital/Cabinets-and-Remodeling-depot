@@ -15,6 +15,9 @@ import blogsRoutes from './routes/blogs.routes.js'
 import galleryRoutes from './routes/gallery.routes.js'
 import leadsRoutes from './routes/leads.routes.js'
 import settingsRoutes from './routes/settings.routes.js'
+import templatesRoutes from './routes/templates.routes.js'
+import globalSectionsRoutes from './routes/globalSections.routes.js'
+import mediaRoutes from './routes/media.routes.js'
 
 const app = express()
 
@@ -80,6 +83,9 @@ app.use('/api/blogs', blogsRoutes)
 app.use('/api/gallery', galleryRoutes)
 app.use('/api/leads', leadsRoutes)
 app.use('/api/settings', settingsRoutes)
+app.use('/api/templates', templatesRoutes)
+app.use('/api/global-sections', globalSectionsRoutes)
+app.use('/api/media', mediaRoutes)
 
 // ─── Error Handling ───────────────────────────────────────────────────────────
 app.use(notFound)

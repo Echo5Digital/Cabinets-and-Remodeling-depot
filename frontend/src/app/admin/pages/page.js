@@ -38,11 +38,20 @@ export default function AdminPagesPage() {
                       <FileText className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-medium">{page.title}</span>
-                        <Badge variant="outline" className="text-xs font-mono">
+                        <Badge variant="outline" className="text-xs font-mono hidden sm:inline-flex">
                           /{page.slug === 'home' ? '' : page.slug}
                         </Badge>
+                        {page.status === 'draft' ? (
+                          <Badge className="text-xs bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100">
+                            Draft
+                          </Badge>
+                        ) : (
+                          <Badge className="text-xs bg-green-100 text-green-700 border-green-200 hover:bg-green-100">
+                            Published
+                          </Badge>
+                        )}
                       </div>
                       {page.description && (
                         <p className="text-xs text-muted-foreground mt-0.5">{page.description}</p>

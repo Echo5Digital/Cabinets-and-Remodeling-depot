@@ -21,6 +21,13 @@ const pageSchema = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
     // Flexible nested content JSON — replaces the PageContent versioning table
     content: { type: mongoose.Schema.Types.Mixed, default: {} },
+    // Publishing workflow — defaults to 'published' for backward compatibility
+    status: {
+      type: String,
+      enum: ['draft', 'published'],
+      default: 'published',
+    },
+    publishedAt: { type: Date, default: null },
   },
   opts
 )

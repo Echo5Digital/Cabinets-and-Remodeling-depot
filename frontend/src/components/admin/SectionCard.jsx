@@ -14,9 +14,15 @@ import {
   Pencil,
   Check,
   X,
+  Copy,
+  Bookmark,
+  Globe,
 } from 'lucide-react'
 import { SectionPreview } from './SectionPreview'
 import { RichTextEditor } from './RichTextEditor'
+import { SaveTemplateDialog } from './SaveTemplateDialog'
+import { GlobalSectionManagerDialog } from './GlobalSectionPickerDialog'
+import { MediaPickerField } from './MediaPickerField'
 
 // ── Type metadata ─────────────────────────────────────────────────────────────
 
@@ -136,24 +142,34 @@ function Field({ label, children, hint }) {
   )
 }
 
-function ImageField({ label, value, onChange, hint }) {
+// ImageList — renders a MediaPickerField per item in a logo/image URL array
+function ImageList({ items = [], onChange, label }) {
+  const add = () => onChange([...items, ''])
+  const remove = (i) => onChange(items.filter((_, idx) => idx !== i))
+  const update = (i, v) => onChange(items.map((item, idx) => (idx === i ? v : item)))
   return (
-    <Field label={label} hint={hint}>
-      <Input value={value || ''} onChange={(e) => onChange(e.target.value)} placeholder="https://res.cloudinary.com/..." />
-      {value && (
-        <div className="relative mt-1.5">
-          <img src={value} alt="Preview" className="h-28 w-full object-cover rounded border" />
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <div key={i} className="relative">
+          <MediaPickerField
+            label={`${label} ${i + 1}`}
+            value={item}
+            onChange={(v) => update(i, v)}
+          />
           <button
             type="button"
-            onClick={() => onChange('')}
-            className="absolute top-1 right-1 w-5 h-5 bg-black/60 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-            title="Remove image"
+            onClick={() => remove(i)}
+            className="absolute top-0 right-0 p-1 text-destructive hover:bg-destructive/10 rounded transition-colors"
+            title={`Remove ${label}`}
           >
-            <X className="w-3 h-3" />
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
-      )}
-    </Field>
+      ))}
+      <Button variant="outline" size="sm" onClick={add} className="w-full" type="button">
+        <Plus className="w-3.5 h-3.5 mr-1.5" />Add {label}
+      </Button>
+    </div>
   )
 }
 
@@ -172,11 +188,11 @@ function HeroSectionEditor({ data, onChange }) {
       <Field label="Description (second paragraph)">
         <Textarea value={data.description || ''} onChange={(e) => set('description', e.target.value)} placeholder="Additional paragraph shown below the subtitle" rows={3} />
       </Field>
-      <ImageField
+      <MediaPickerField
         label="Background Image URL"
         value={data.backgroundImage}
         onChange={(v) => set('backgroundImage', v)}
-        hint="Recommended: 1920×1080px. Use a Cloudinary URL."
+        hint="Recommended: 1920×1080px."
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Field label="Primary CTA Text">
@@ -200,8 +216,8 @@ function TextSectionEditor({ data, onChange }) {
       <Field label="Body Text">
         <RichTextEditor value={data.body || ''} onChange={(v) => set('body', v)} />
       </Field>
-      <ImageField
-        label="Image URL (optional)"
+      <MediaPickerField
+        label="Image (optional)"
         value={data.image}
         onChange={(v) => set('image', v)}
       />
@@ -297,8 +313,8 @@ function CTASectionEditor({ data, onChange }) {
           <Input value={data.buttonLink || ''} onChange={(e) => set('buttonLink', e.target.value)} placeholder="/contact" />
         </Field>
       </div>
-      <ImageField
-        label="Background Image URL (optional)"
+      <MediaPickerField
+        label="Background Image (optional)"
         value={data.backgroundImage}
         onChange={(v) => set('backgroundImage', v)}
       />
@@ -353,13 +369,12 @@ function ServicesSectionEditor({ data, onChange }) {
                 <Input value={item.icon || ''} onChange={(e) => update({ ...item, icon: e.target.value })} placeholder="Icon name" />
               </div>
               <Textarea value={item.description || ''} onChange={(e) => update({ ...item, description: e.target.value })} placeholder="Description" rows={2} />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <Input value={item.link || ''} onChange={(e) => update({ ...item, link: e.target.value })} placeholder="Link (e.g. /kitchen-remodeling)" />
-                <Input value={item.image || ''} onChange={(e) => update({ ...item, image: e.target.value })} placeholder="Image URL" />
-              </div>
-              {item.image && (
-                <img src={item.image} alt="Preview" className="h-16 w-full object-cover rounded border" />
-              )}
+              <Input value={item.link || ''} onChange={(e) => update({ ...item, link: e.target.value })} placeholder="Link (e.g. /kitchen-remodeling)" />
+              <MediaPickerField
+                label="Item Image (optional)"
+                value={item.image || ''}
+                onChange={(v) => update({ ...item, image: v })}
+              />
             </div>
           )}
         />
@@ -439,7 +454,11 @@ function TestimonialsSectionEditor({ data, onChange }) {
                 </Select>
               </div>
               <Textarea value={item.text || ''} onChange={(e) => update({ ...item, text: e.target.value })} placeholder="Review text" rows={3} />
-              <Input value={item.avatar || ''} onChange={(e) => update({ ...item, avatar: e.target.value })} placeholder="Avatar image URL (optional)" />
+              <MediaPickerField
+                label="Avatar (optional)"
+                value={item.avatar || ''}
+                onChange={(v) => update({ ...item, avatar: v })}
+              />
             </div>
           )}
         />
@@ -529,8 +548,11 @@ function SolutionsEditor({ data, onChange }) {
                 <Input value={item.href || ''} onChange={(e) => update({ ...item, href: e.target.value })} placeholder="Link (e.g. /kitchen)" />
               </div>
               <Input value={item.desc || ''} onChange={(e) => update({ ...item, desc: e.target.value })} placeholder="Card description" />
-              <Input value={item.image || ''} onChange={(e) => update({ ...item, image: e.target.value })} placeholder="Image URL" />
-              {item.image && <img src={item.image} alt="" className="h-16 w-full object-cover rounded border" />}
+              <MediaPickerField
+                label="Item Image (optional)"
+                value={item.image || ''}
+                onChange={(v) => update({ ...item, image: v })}
+              />
             </div>
           )}
         />
@@ -554,7 +576,7 @@ function ShowroomEditor({ data, onChange }) {
       <Field label="Body Text">
         <RichTextEditor value={data.body || ''} onChange={(v) => set('body', v)} />
       </Field>
-      <ImageField label="Background Image URL" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
+      <MediaPickerField label="Background Image" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
     </div>
   )
 }
@@ -594,7 +616,7 @@ function AffordableEditor({ data, onChange }) {
       <Field label="Body Text">
         <Textarea value={data.body || ''} onChange={(e) => set('body', e.target.value)} rows={3} placeholder="Description paragraph" />
       </Field>
-      <ImageField label="Background Image URL" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
+      <MediaPickerField label="Background Image" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
       <div>
         <Label className="text-xs font-medium mb-2 block">Bullet Points</Label>
         <StringList items={data.items || []} onChange={(v) => set('items', v)} label="Item" placeholder="e.g. RTA cabinets starting at $99" />
@@ -658,8 +680,8 @@ function TransformationEditor({ data, onChange }) {
       <Field label="Description">
         <Textarea value={data.description || ''} onChange={(e) => set('description', e.target.value)} rows={2} placeholder="e.g. Drag the slider to see the difference" />
       </Field>
-      <ImageField label="Before Image URL" value={data.beforeImage} onChange={(v) => set('beforeImage', v)} />
-      <ImageField label="After Image URL" value={data.afterImage} onChange={(v) => set('afterImage', v)} />
+      <MediaPickerField label="Before Image" value={data.beforeImage} onChange={(v) => set('beforeImage', v)} />
+      <MediaPickerField label="After Image" value={data.afterImage} onChange={(v) => set('afterImage', v)} />
     </div>
   )
 }
@@ -676,7 +698,7 @@ function InstallationEditor({ data, onChange }) {
           <Input value={data.heading || ''} onChange={(e) => set('heading', e.target.value)} placeholder="Professional Cabinet Installation" />
         </Field>
       </div>
-      <ImageField label="Background Image URL" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
+      <MediaPickerField label="Background Image" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
       <div>
         <Label className="text-xs font-medium mb-2 block">Paragraphs</Label>
         <StringList items={data.paragraphs || []} onChange={(v) => set('paragraphs', v)} label="Paragraph" placeholder="Paragraph text" />
@@ -702,7 +724,7 @@ function WhyChooseEditor({ data, onChange }) {
       <Field label="Closing Text">
         <Textarea value={data.closingText || ''} onChange={(e) => set('closingText', e.target.value)} rows={2} placeholder="Paragraph below the bullets" />
       </Field>
-      <ImageField label="Background Image URL" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
+      <MediaPickerField label="Background Image" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Field label="Address">
           <Input value={data.address || ''} onChange={(e) => set('address', e.target.value)} placeholder="106 S St Cloud Ave, Valrico, FL" />
@@ -734,7 +756,7 @@ function StartProjectEditor({ data, onChange }) {
       <Field label="Body Text">
         <RichTextEditor value={data.body || ''} onChange={(v) => set('body', v)} />
       </Field>
-      <ImageField label="Background Image URL" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
+      <MediaPickerField label="Background Image" value={data.bgImage} onChange={(v) => set('bgImage', v)} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Field label="CTA Button Text">
           <Input value={data.ctaText || ''} onChange={(e) => set('ctaText', e.target.value)} placeholder="Visit Our Showroom" />
@@ -784,8 +806,8 @@ function PartnersEditor({ data, onChange }) {
         <Textarea value={data.description || ''} onChange={(e) => set('description', e.target.value)} rows={2} placeholder="Brands we proudly work with" />
       </Field>
       <div>
-        <Label className="text-xs font-medium mb-2 block">Partner Logo URLs</Label>
-        <StringList items={data.logos || []} onChange={(v) => set('logos', v)} label="Logo" placeholder="e.g. /partner/1.png" />
+        <Label className="text-xs font-medium mb-2 block">Partner Logos</Label>
+        <ImageList items={data.logos || []} onChange={(v) => set('logos', v)} label="Logo" />
       </div>
     </div>
   )
@@ -828,18 +850,44 @@ function SectionEditorRouter({ section, onChange }) {
 
 // ── Main SectionCard component ────────────────────────────────────────────────
 
-export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveDown, onRemove }) {
+export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveDown, onRemove, onDuplicate }) {
   const [isEditing, setIsEditing] = useState(false)
+  const [showSaveTemplate, setShowSaveTemplate] = useState(false)
+  const [showGlobalManager, setShowGlobalManager] = useState(false)
 
   const colorClass = SECTION_COLORS[section.type] || 'bg-gray-100 text-gray-700 border-gray-200'
   const label = SECTION_LABELS[section.type] || section.type
+  const isGlobal = !!section.globalKey
 
   const handleDelete = () => {
     if (window.confirm(`Delete this ${label} section?`)) onRemove()
   }
 
+  const handleGlobalLink = ({ globalKey }) => {
+    onChange({ ...section, globalKey })
+  }
+
+  const handleGlobalUnlink = () => {
+    const next = { ...section }
+    delete next.globalKey
+    onChange(next)
+  }
+
   return (
     <div className="relative group rounded-lg border overflow-hidden bg-card shadow-sm">
+
+      {/* Always-visible section type label — no hover required */}
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/40 border-b">
+        <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${colorClass}`}>
+          {label}
+        </span>
+        {isGlobal && (
+          <span className="flex items-center gap-0.5 text-[10px] text-blue-600 font-medium ml-1">
+            <Globe className="w-2.5 h-2.5" />
+            Global
+          </span>
+        )}
+      </div>
 
       {/* Visual preview */}
       <SectionPreview section={section} />
@@ -874,6 +922,36 @@ export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveD
             title="Move down"
           >
             <ChevronDown className="w-3.5 h-3.5" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-7 w-7 bg-white/90 hover:bg-white text-foreground shadow-sm"
+            onClick={onDuplicate}
+            type="button"
+            title="Duplicate section"
+          >
+            <Copy className="w-3.5 h-3.5" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-7 w-7 bg-white/90 hover:bg-white text-foreground shadow-sm"
+            onClick={() => setShowSaveTemplate(true)}
+            type="button"
+            title="Save as template"
+          >
+            <Bookmark className="w-3.5 h-3.5" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className={`h-7 w-7 shadow-sm ${isGlobal ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-white/90 hover:bg-white text-foreground'}`}
+            onClick={isGlobal ? handleGlobalUnlink : () => setShowGlobalManager(true)}
+            type="button"
+            title={isGlobal ? `Unlink global (${section.globalKey})` : 'Make global section'}
+          >
+            <Globe className="w-3.5 h-3.5" />
           </Button>
           <Button
             variant="secondary"
@@ -913,6 +991,22 @@ export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveD
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onMoveDown} disabled={index === total - 1} type="button">
             <ChevronDown className="w-4 h-4" />
           </Button>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onDuplicate} type="button" title="Duplicate section">
+            <Copy className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowSaveTemplate(true)} type="button" title="Save as template">
+            <Bookmark className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`h-8 w-8 ${isGlobal ? 'text-blue-600' : ''}`}
+            onClick={isGlobal ? handleGlobalUnlink : () => setShowGlobalManager(true)}
+            type="button"
+            title={isGlobal ? `Unlink global (${section.globalKey})` : 'Make global section'}
+          >
+            <Globe className="w-4 h-4" />
+          </Button>
           <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10" onClick={handleDelete} type="button">
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -940,6 +1034,34 @@ export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveD
           </div>
         </div>
       )}
+
+      {/* Global key badge (shown below edit drawer when linked) */}
+      {isGlobal && (
+        <div className="px-3 py-1.5 bg-blue-50 border-t border-blue-200 flex items-center gap-1.5">
+          <Globe className="w-3 h-3 text-blue-600 flex-shrink-0" />
+          <span className="text-xs text-blue-700 font-mono truncate">{section.globalKey}</span>
+          <button
+            type="button"
+            onClick={handleGlobalUnlink}
+            className="text-xs text-blue-500 hover:text-blue-700 ml-auto flex-shrink-0"
+          >
+            Unlink
+          </button>
+        </div>
+      )}
+
+      {/* Dialogs */}
+      <SaveTemplateDialog
+        section={section}
+        open={showSaveTemplate}
+        onOpenChange={setShowSaveTemplate}
+      />
+      <GlobalSectionManagerDialog
+        section={section}
+        open={showGlobalManager}
+        onOpenChange={setShowGlobalManager}
+        onLink={handleGlobalLink}
+      />
     </div>
   )
 }
