@@ -62,8 +62,8 @@ export function PageContentEditor({ content, onSave, isSaving, slug, status, onS
   }
 
   const handleSave = () => {
-    onSave(draft)
     setIsDirty(false)
+    onSave(draft, () => setIsDirty(true))
   }
 
   const isDraft = status === 'draft'
@@ -93,12 +93,13 @@ export function PageContentEditor({ content, onSave, isSaving, slug, status, onS
             <button
               type="button"
               onClick={() => onStatusChange(isDraft ? 'published' : 'draft')}
-              className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border font-medium transition-colors ${
+              disabled={isSaving || isDirty}
+              className={`flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                 isDraft
                   ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
                   : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
               }`}
-              title={isDraft ? 'Click to publish' : 'Click to set as draft'}
+              title={isDirty ? 'Save your changes before toggling status' : isSaving ? 'Saving…' : isDraft ? 'Click to publish' : 'Click to set as draft'}
             >
               {isDraft ? (
                 <><FileEdit className="w-3 h-3" /><span className="hidden sm:inline ml-0.5">Draft</span></>

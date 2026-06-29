@@ -980,10 +980,7 @@ export function SectionCard({ section, index, total, onChange, onMoveUp, onMoveD
       </div>
 
       {/* Mobile: always-visible action bar */}
-      <div className="md:hidden flex items-center justify-between gap-2 px-3 py-2 border-t bg-muted/10">
-        <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${colorClass}`}>
-          {label}
-        </span>
+      <div className="md:hidden flex items-center justify-end gap-1 px-3 py-2 border-t bg-muted/10">
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onMoveUp} disabled={index === 0} type="button">
             <ChevronUp className="w-4 h-4" />

@@ -15,7 +15,7 @@ export default function AdminPageEditorPage() {
   const { mutate: updateContent, isPending } = useUpdatePageContent(slug)
   const { mutate: updateStatus, isPending: isUpdatingStatus } = useUpdatePageStatus(slug)
 
-  const handleSave = (updatedContent) => {
+  const handleSave = (updatedContent, onSaveError) => {
     updateContent(updatedContent, {
       onSuccess: () => {
         const isLive = page?.status !== 'draft'
@@ -24,6 +24,7 @@ export default function AdminPageEditorPage() {
         })
       },
       onError: (err) => {
+        onSaveError?.()
         const message = err.response?.data?.error || 'Failed to save. Please try again.'
         toast.error(message)
       },
