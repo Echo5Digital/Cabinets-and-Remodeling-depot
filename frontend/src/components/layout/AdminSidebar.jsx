@@ -19,6 +19,8 @@ import {
   Menu,
   Bookmark,
   Globe,
+  PanelTop,
+  PanelBottom,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -42,6 +44,8 @@ const NAV_ITEMS = [
     items: [
       { label: 'Templates', href: '/admin/templates', icon: Bookmark },
       { label: 'Global Sections', href: '/admin/global-sections', icon: Globe },
+      { label: 'Header', href: '/admin/header', icon: PanelTop },
+      { label: 'Footer', href: '/admin/footer', icon: PanelBottom },
     ],
   },
   {
@@ -105,7 +109,7 @@ function SidebarContent({ collapsed, setMobileOpen, isActive, user, handleLogout
       </nav>
 
       {/* User / Logout */}
-      <div className={cn('border-t p-3', collapsed ? 'items-center' : '')}>
+      <div className={cn('border-t p-3 flex flex-col', collapsed ? 'items-center' : '')}>
         {!collapsed && user && (
           <div className="px-2 mb-2">
             <p className="text-sm font-medium truncate">{user.name}</p>

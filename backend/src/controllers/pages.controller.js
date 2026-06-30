@@ -144,12 +144,29 @@ export async function getPageBySlug(req, res, next) {
 /**
  * GET /api/pages/admin/preview/:slug  [PROTECTED]
  * Returns a page regardless of status — used for admin draft preview.
+ * Auto-seeds the page with default content if it is a known page that has
+ * not been inserted into the database yet (e.g. first admin access before
+ * the pages-list endpoint has had a chance to run its seeding step).
  */
 export async function previewPageBySlug(req, res, next) {
   try {
     const { slug } = req.params
 
-    const page = await Page.findOne({ slug })
+    let page = await Page.findOne({ slug })
+
+    // Auto-seed if missing but is a known page
+    if (!page) {
+      const known = KNOWN_PAGES.find((p) => p.slug === slug)
+      if (known) {
+        page = await Page.create({
+          slug: known.slug,
+          title: known.title,
+          content: getDefaultContent(known.slug),
+          isActive: true,
+          status: 'published',
+        })
+      }
+    }
 
     if (!page || !page.isActive) {
       return res.status(404).json({ success: false, error: 'Page not found.' })
@@ -184,11 +201,22 @@ export async function updatePageContent(req, res, next) {
     const { slug } = req.params
     const { content: updates, title, description, status } = req.body
 
-    // Find the current page
-    const page = await Page.findOne({ slug })
+    // Find the current page — auto-seed if it's a known page missing from DB
+    let page = await Page.findOne({ slug })
 
     if (!page) {
-      return res.status(404).json({ success: false, error: 'Page not found.' })
+      const known = KNOWN_PAGES.find((p) => p.slug === slug)
+      if (known) {
+        page = await Page.create({
+          slug: known.slug,
+          title: known.title,
+          content: getDefaultContent(known.slug),
+          isActive: true,
+          status: 'published',
+        })
+      } else {
+        return res.status(404).json({ success: false, error: 'Page not found.' })
+      }
     }
 
     // ── Save revision of current state before overwriting ────────────────────

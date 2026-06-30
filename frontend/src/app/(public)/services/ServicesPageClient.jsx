@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { ArrowRight, ChefHat, Droplets, Layout, Layers, Grid3X3, PencilRuler } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent } from '@/lib/pageContent'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { CTABanner } from '@/components/sections/CTABanner'
@@ -14,8 +15,10 @@ import { SERVICES } from '@/lib/constants'
 const ICON_MAP = { ChefHat, Droplets, Layout, Layers, Grid3X3, PencilRuler }
 
 export function ServicesPageClient() {
-  const { data: pageData } = usePageContent('services')
+  const { data: pageData, isError, isLoading } = usePageContent('services')
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
 
   const normalized = normalizeContent(pageData?.content)
   const heroSection = normalized.sections.find((s) => s.type === 'hero')

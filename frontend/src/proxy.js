@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl
   const isAdminPath = pathname.startsWith('/admin')
   const isLoginPath = pathname === '/admin/login'
 
   // adminLoggedIn is a lightweight same-domain cookie set by the client after a
-  // successful login. It lets the middleware gate admin routes without depending on
+  // successful login. It lets the proxy gate admin routes without depending on
   // the httpOnly refreshToken cookie, which lives on the API domain and is therefore
   // invisible to the Next.js server in cross-domain deployments (e.g. Render).
   // The backend still validates real tokens on every API request.

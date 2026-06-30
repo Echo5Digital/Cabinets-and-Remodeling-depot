@@ -13,7 +13,10 @@
  */
 export function ensureSectionIds(sections) {
   return sections.map((s) => {
-    let section = s.id ? s : { ...s, id: crypto.randomUUID() }
+    const newId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2) + Date.now().toString(36)
+    let section = s.id ? s : { ...s, id: newId }
     // Heal process sections that were saved with `items` instead of `steps`
     if (section.type === 'process' && Array.isArray(section.items) && !section.steps) {
       const { items, ...rest } = section
@@ -985,7 +988,7 @@ const PAGE_DEFAULT_SECTIONS = {
     {
       id: 'ct-materials',
       type: 'services',
-      heading: 'Countertop Materials',
+      heading: 'Beautiful Countertops Without the Overpriced Retail Markup',
       items: [
         { title: 'Quartz', description: 'Low maintenance, non-porous, and available in dozens of colors and finishes.', image: '/quartz.webp', link: '/contact' },
         { title: 'Granite', description: 'Natural stone with unique veining patterns and exceptional long-term durability.', image: '/granite.webp', link: '/contact' },
@@ -993,6 +996,25 @@ const PAGE_DEFAULT_SECTIONS = {
         { title: 'Marble', description: 'Timeless elegance that adds luxury and sophistication to any kitchen or bath.', image: '/marble.webp', link: '/contact' },
         { title: 'Porcelain', description: 'Sleek, ultra-durable, and perfect for modern indoor and outdoor applications.', image: '/porcelain.webp', link: '/contact' },
       ],
+    },
+    {
+      id: 'ct-best-for',
+      type: 'affordable',
+      heading: 'Best Countertops for Tampa Bay Homes',
+      bgImage: '/kitchen_countertops_marble.webp',
+      items: [
+        'Tampa Bay homes need countertops that can handle more than just daily cooking. Heat, humidity, sunlight, outdoor kitchens, and busy family lifestyles all matter.',
+        'For indoor kitchens, quartz and granite are both excellent choices. Quartz is easier to maintain, while granite gives you natural character and better heat resistance.',
+        'For outdoor kitchens in Tampa Bay, porcelain, granite, and quartzite are usually better choices than quartz because prolonged UV exposure can affect quartz over time.',
+        'For bathrooms, quartz, marble, and porcelain are all strong choices depending on the look and maintenance level you want.',
+        'For resale value, quartz, granite, and quartzite are all strong options because buyers recognize them as premium surfaces.',
+      ],
+    },
+    {
+      id: 'ct-comparison',
+      type: 'text',
+      heading: 'Which Countertop Material Is Right for You?',
+      body: '<p><strong>Quartz</strong> — Best for busy kitchens &amp; families. Very low maintenance, modern look, no sealing needed. Moderate heat resistance.</p><p><strong>Granite</strong> — Best for natural kitchens &amp; resale value. Low to moderate maintenance, unique natural stone look. High heat resistance.</p><p><strong>Quartzite</strong> — Best for luxury kitchens &amp; outdoor spaces. Moderate maintenance, marble-like natural stone. High heat resistance.</p><p><strong>Marble</strong> — Best for luxury bathrooms &amp; statement islands. Higher maintenance, classic elegant look. Moderate heat resistance.</p><p><strong>Porcelain</strong> — Best for outdoor kitchens &amp; modern spaces. Very low maintenance, sleek versatile look. Very high heat resistance.</p>',
     },
     {
       id: 'ct-why-choose',
@@ -1024,9 +1046,61 @@ const PAGE_DEFAULT_SECTIONS = {
       areas: ['Tampa', 'South Tampa', 'Brandon', 'Riverview', 'Valrico', 'Lithia', 'FishHawk', 'Bloomingdale', 'Carrollwood', 'Westchase', 'Temple Terrace', 'Wesley Chapel', 'Lutz'],
     },
     {
+      id: 'ct-care-tips',
+      type: 'features',
+      heading: 'Countertop Care & Maintenance',
+      items: [
+        { title: 'Daily Cleaning', description: 'Use warm water, mild dish soap, and a soft cloth for everyday cleaning. Dry the surface to avoid water spots, especially on darker stone.' },
+        { title: 'Avoid Harsh Chemicals', description: 'Avoid bleach, ammonia, vinegar, lemon juice, and abrasive scrubbers — especially on natural stone like granite, marble, and quartzite.' },
+        { title: 'Use Cutting Boards', description: 'Even strong countertops can be damaged by repeated knife use. Cutting boards protect both your countertops and your knives.' },
+        { title: 'Use Trivets for Hot Pans', description: 'Quartz can be damaged by direct high heat. Granite, quartzite, and porcelain handle heat better, but trivets are still recommended.' },
+        { title: 'Seal Natural Stone', description: 'Granite, quartzite, and marble should be sealed when recommended. Quartz and porcelain do not need sealing.' },
+        { title: 'Clean Spills Quickly', description: 'Wine, coffee, oil, citrus, and dark liquids should be wiped up quickly — especially on marble and natural stone.' },
+      ],
+    },
+    {
+      id: 'ct-reviews',
+      type: 'testimonials',
+      heading: 'What Tampa Homeowners Are Saying',
+      items: [
+        {
+          name: 'Jennifer M.',
+          location: 'Brandon, FL',
+          initials: 'JM',
+          rating: 5,
+          time: '2 weeks ago',
+          text: "The team did an amazing job on our kitchen countertops. The quartz they helped us select looks absolutely stunning. The install was quick and professional — couldn't be happier!",
+        },
+        {
+          name: 'Robert T.',
+          location: 'Riverview, FL',
+          initials: 'RT',
+          rating: 5,
+          time: '1 month ago',
+          text: 'We replaced old laminate with granite and the transformation is incredible. The showroom has so many options and the staff was very knowledgeable. Highly recommend!',
+        },
+        {
+          name: 'Maria S.',
+          location: 'Tampa, FL',
+          initials: 'MS',
+          rating: 5,
+          time: '3 weeks ago',
+          text: 'Professional from start to finish. The measurement was precise, fabrication was fast, and the installation team was courteous and tidy. My marble bathroom countertop is exactly what I envisioned.',
+        },
+        {
+          name: 'David L.',
+          location: 'Valrico, FL',
+          initials: 'DL',
+          rating: 5,
+          time: '2 months ago',
+          text: 'Outstanding experience. We visited the showroom and were able to compare quartz, granite, and quartzite side by side. They helped us choose the right material for our budget and lifestyle. The installation was flawless.',
+        },
+      ],
+    },
+    {
       id: 'ct-faq',
       type: 'faq',
-      heading: 'Countertop FAQs',
+      heading: 'Frequently Asked Questions',
       items: [
         { question: 'How much do countertops cost in Tampa Bay?', answer: 'Countertop pricing depends on the material, square footage, edge style, sink cutouts, and installation needs. Granite, quartz, porcelain, quartzite, and marble all have different price ranges. The best way to get accurate pricing is to visit the showroom or schedule a free estimate.' },
         { question: 'Is quartz better than granite?', answer: 'Quartz is better if you want low maintenance and no sealing. Granite is better if you want natural stone, unique patterns, and stronger heat resistance. Both are excellent options for Tampa Bay kitchens.' },
@@ -1041,63 +1115,11 @@ const PAGE_DEFAULT_SECTIONS = {
     {
       id: 'ct-cta',
       type: 'start-project',
-      heading: 'Ready for Beautiful New Countertops?',
-      body: 'Visit our Valrico showroom to compare materials, get expert guidance, and receive a free estimate for your countertop project.',
+      heading: 'Get Your Free Countertop Estimate Today',
+      body: 'If you are planning a kitchen upgrade, bathroom renovation, new island, vanity countertop, or full remodel, Cabinets & Remodeling Depot can help you choose the right material and get the project done correctly. Visit our Valrico showroom to compare quartz, granite, quartzite, marble, and porcelain in person — or call us to schedule a free estimate.',
       bgImage: '/countertop_bg.webp',
       ctaText: 'Get Free Estimate',
       ctaLink: '/contact',
-    },
-    {
-      id: 'ct-reviews',
-      type: 'testimonials',
-      heading: 'What Our Customers Say',
-      items: [
-        {
-          name: 'Jennifer M.',
-          location: 'Brandon, FL',
-          initials: 'JM',
-          rating: 5,
-          timeAgo: '2 weeks ago',
-          text: "The team did an amazing job on our kitchen countertops. The quartz they helped us select looks absolutely stunning. The install was quick and professional — couldn't be happier!",
-        },
-        {
-          name: 'Robert T.',
-          location: 'Riverview, FL',
-          initials: 'RT',
-          rating: 5,
-          timeAgo: '1 month ago',
-          text: 'We replaced old laminate with granite and the transformation is incredible. The showroom has so many options and the staff was very knowledgeable. Highly recommend!',
-        },
-        {
-          name: 'Maria S.',
-          location: 'Tampa, FL',
-          initials: 'MS',
-          rating: 5,
-          timeAgo: '3 weeks ago',
-          text: 'Professional from start to finish. The measurement was precise, fabrication was fast, and the installation team was courteous and tidy. My marble bathroom countertop is exactly what I envisioned.',
-        },
-        {
-          name: 'David L.',
-          location: 'Valrico, FL',
-          initials: 'DL',
-          rating: 5,
-          timeAgo: '2 months ago',
-          text: 'Outstanding experience. We visited the showroom and were able to compare quartz, granite, and quartzite side by side. They helped us choose the right material for our budget and lifestyle. The installation was flawless.',
-        },
-      ],
-    },
-    {
-      id: 'ct-care-tips',
-      type: 'features',
-      heading: 'Countertop Care & Maintenance',
-      items: [
-        { title: 'Daily Cleaning', description: 'Use warm water, mild dish soap, and a soft cloth for everyday cleaning. Dry the surface to avoid water spots, especially on darker stone.' },
-        { title: 'Avoid Harsh Chemicals', description: 'Avoid bleach, ammonia, vinegar, lemon juice, and abrasive scrubbers — especially on natural stone like granite, marble, and quartzite.' },
-        { title: 'Use Cutting Boards', description: 'Even strong countertops can be damaged by repeated knife use. Cutting boards protect both your countertops and your knives.' },
-        { title: 'Use Trivets for Hot Pans', description: 'Quartz can be damaged by direct high heat. Granite, quartzite, and porcelain handle heat better, but trivets are still recommended.' },
-        { title: 'Seal Natural Stone', description: 'Granite, quartzite, and marble should be sealed when recommended. Quartz and porcelain do not need sealing.' },
-        { title: 'Clean Spills Quickly', description: 'Wine, coffee, oil, citrus, and dark liquids should be wiped up quickly — especially on marble and natural stone.' },
-      ],
     },
   ],
 
@@ -1418,8 +1440,25 @@ function fillSectionDefaults(dbSection, defaultSection) {
     if (typeof defaultVal === 'string' && (dbVal === undefined || dbVal === null || dbVal === '')) {
       result[key] = defaultVal
     }
-    if (Array.isArray(defaultVal) && (!Array.isArray(dbVal) || dbVal.length === 0)) {
-      result[key] = defaultVal
+    if (Array.isArray(defaultVal)) {
+      if (!Array.isArray(dbVal) || dbVal.length === 0) {
+        // DB has no items — use full defaults
+        result[key] = defaultVal
+      } else if (defaultVal.length > 0 && typeof defaultVal[0] === 'object' && defaultVal[0] !== null) {
+        // Both have object-item arrays — merge each item's empty fields from the corresponding default item
+        result[key] = dbVal.map((dbItem, i) => {
+          const defaultItem = defaultVal[i] || defaultVal[defaultVal.length - 1]
+          if (!defaultItem || typeof defaultItem !== 'object') return dbItem
+          const mergedItem = { ...dbItem }
+          for (const [iKey, iDefaultVal] of Object.entries(defaultItem)) {
+            const iDbVal = mergedItem[iKey]
+            if (typeof iDefaultVal === 'string' && (iDbVal === undefined || iDbVal === null || iDbVal === '')) {
+              mergedItem[iKey] = iDefaultVal
+            }
+          }
+          return mergedItem
+        })
+      }
     }
   }
   return result
@@ -1436,12 +1475,16 @@ const HARDCODED_SECTION_TYPES = {
 
 /**
  * Merge existing sections with the default sections for a given page slug.
- * The default order is preserved. For each default section type:
+ * The default order is preserved. For each default section:
  *  - if the type is in HARDCODED_SECTION_TYPES: always use the page default
- *  - if a matching section exists in the DB: use it, filling any empty/missing
+ *  - match by id first (exact), then fall back to type (first unused match)
+ *  - if a matching DB section is found: use it, filling any empty/missing
  *    fields from the page default so no original content is ever lost
  *  - otherwise: use the page default in full
  * Any extra existing sections not in the default set are appended at the end.
+ *
+ * Matching by id first is critical for pages that have multiple sections of
+ * the same type (e.g. countertops has three 'features' sections).
  */
 export function mergeWithPageDefaults(slug, existingSections) {
   const defaults = PAGE_DEFAULT_SECTIONS[slug]
@@ -1460,14 +1503,33 @@ export function mergeWithPageDefaults(slug, existingSections) {
     // Hardcoded sections always use the page default — ignore DB
     if (hardcoded.has(defaultSection.type)) return defaultSection
 
-    const idx = mergeSource.findIndex(
-      (s, i) => s.type === defaultSection.type && !usedIndices.has(i)
-    )
-    if (idx !== -1) {
-      usedIndices.add(idx)
-      // Fill any empty / missing fields so original content is never lost
-      return fillSectionDefaults(mergeSource[idx], defaultSection)
+    // 1️⃣ Try to match by id first (handles pages with duplicate section types)
+    const idIdx = defaultSection.id
+      ? mergeSource.findIndex((s, i) => s.id === defaultSection.id && !usedIndices.has(i))
+      : -1
+
+    if (idIdx !== -1) {
+      usedIndices.add(idIdx)
+      // Matched by id — this is a real user edit of this specific section
+      return fillSectionDefaults(mergeSource[idIdx], defaultSection)
     }
+
+    // 2️⃣ Fall back to type-only match — but ONLY if the page has no duplicate
+    //    types (i.e. the default set has exactly one section of this type).
+    //    Pages with multiple sections of the same type (e.g. countertops with
+    //    3 'features' sections) must not mix DB data across them when ids don't
+    //    match, so we use the page default as-is for safety.
+    const sameTypeCount = defaults.filter((d) => d.type === defaultSection.type).length
+    if (sameTypeCount === 1) {
+      const typeIdx = mergeSource.findIndex(
+        (s, i) => s.type === defaultSection.type && !usedIndices.has(i)
+      )
+      if (typeIdx !== -1) {
+        usedIndices.add(typeIdx)
+        return fillSectionDefaults(mergeSource[typeIdx], defaultSection)
+      }
+    }
+
     return defaultSection
   })
 

@@ -28,6 +28,7 @@ import {
   X,
 } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -235,7 +236,9 @@ const serif = 'font-[family-name:var(--font-playfair)]'
 export function CabinetsPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
   const [flippedCard, setFlippedCard] = useState(null)
-  const { data: pageData } = usePageContent('kitchen-cabinets-tampa')
+  const { data: pageData, isError, isLoading } = usePageContent('kitchen-cabinets-tampa')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const sections = mergeWithPageDefaults('kitchen-cabinets-tampa', normalizeContent(pageData?.content).sections)
   const whyChooseSec = sections.find(s => s.id === 'cab-why-choose')
   const optionsSec   = sections.find(s => s.id === 'cab-options')

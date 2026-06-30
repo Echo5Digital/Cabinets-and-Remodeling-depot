@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent } from '@/lib/pageContent'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -136,7 +137,13 @@ const REVIEW_MAX_CHARS = 140
 
 export function CountertopsPageClient() {
   // ── API-driven content with hardcoded fallbacks ─────────────────────────
-  const { data: page } = usePageContent('countertops-tampa')
+  const { data: page, isError, isLoading } = usePageContent('countertops-tampa')
+  const [openFaq, setOpenFaq] = useState(0)
+  const [reviewIdx, setReviewIdx] = useState(0)
+  const [reviewExpanded, setReviewExpanded] = useState(false)
+  const [activeRow, setActiveRow] = useState('Quartz')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const apiContent = page?.content ? normalizeContent(page.content) : null
   const heroSection = apiContent?.sections?.find((s) => s.type === 'hero')
   const faqSection  = apiContent?.sections?.find((s) => s.type === 'faq')
@@ -146,11 +153,6 @@ export function CountertopsPageClient() {
   const faqs         = DEFAULT_FAQS
   const schemaJson   = page?.content?.schema || null
   // ────────────────────────────────────────────────────────────────────────
-
-  const [openFaq, setOpenFaq] = useState(0)
-  const [reviewIdx, setReviewIdx] = useState(0)
-  const [reviewExpanded, setReviewExpanded] = useState(false)
-  const [activeRow, setActiveRow] = useState('Quartz')
 
   const goToReview = (i) => { setReviewIdx(i); setReviewExpanded(false) }
   const prevReview = () => goToReview(reviewIdx === 0 ? REVIEWS.length - 1 : reviewIdx - 1)
@@ -512,13 +514,18 @@ export function CountertopsPageClient() {
           sizes="100vw"
         />
 
-        {/* Overlay — heavier on left where text sits, fades right */}
+        {/* Desktop: directional overlay — heavy left where text sits, fades right so image shows */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden md:block"
           style={{
             background:
               'linear-gradient(105deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 45%, rgba(255,255,255,0.70) 70%, rgba(255,255,255,0.30) 100%)',
           }}
+        />
+        {/* Mobile: full white wash so text is readable on single column */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{ background: 'rgba(255,255,255,0.93)' }}
         />
 
         {/* Content */}

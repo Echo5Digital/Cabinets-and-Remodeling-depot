@@ -1,6 +1,7 @@
 'use client'
 
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { useProjects } from '@/hooks/useProjects'
 import { useBlogs } from '@/hooks/useBlogs'
 import { useGallery } from '@/hooks/useGallery'
@@ -142,10 +143,12 @@ const FEATURE_STRIP_ICON_MAP = { BadgePercent, Store, Wrench, Star, Heart }
 // ── Main home page component ──────────────────────────────────────────────────
 
 export function HomeClient() {
-  const { data: pageData } = usePageContent('home')
+  const { data: pageData, isError, isLoading } = usePageContent('home')
   const { data: projectsData } = useProjects({ limit: 6, featured: true })
   const { data: blogsData } = useBlogs({ limit: 3, isPublished: true })
   const { data: galleryData } = useGallery({ limit: 12 })
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
 
   const projects = projectsData?.data || []
   const blogs = blogsData?.data || []

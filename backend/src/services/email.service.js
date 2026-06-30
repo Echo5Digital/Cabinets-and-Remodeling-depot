@@ -3,6 +3,9 @@ import resend from '../config/resend.js'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com'
 const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@cabinetsremodelingdepot.com'
 const COMPANY_NAME = 'Cabinets & Remodeling Depot'
+const COMPANY_PHONE_DISPLAY = process.env.COMPANY_PHONE_DISPLAY || '(813) 651-2333'
+const COMPANY_PHONE_HREF = process.env.COMPANY_PHONE || '+18136512333'
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://cabinetsremodelingdepot.com'
 
 /**
  * Notify admin of a new lead submission.
@@ -95,19 +98,19 @@ export async function sendAutoReply(lead) {
 
             <h3 style="color: #333;">While You Wait...</h3>
             <ul style="color: #555; line-height: 1.8;">
-              <li>Browse our <a href="${process.env.FRONTEND_URL}/projects" style="color: #811121;">completed projects</a> for inspiration</li>
-              <li>View our <a href="${process.env.FRONTEND_URL}/gallery" style="color: #811121;">photo gallery</a></li>
-              <li>Read our <a href="${process.env.FRONTEND_URL}/blog" style="color: #811121;">remodeling tips blog</a></li>
+              <li>Browse our <a href="${FRONTEND_URL}/projects" style="color: #811121;">completed projects</a> for inspiration</li>
+              <li>View our <a href="${FRONTEND_URL}/gallery" style="color: #811121;">photo gallery</a></li>
+              <li>Read our <a href="${FRONTEND_URL}/blog" style="color: #811121;">remodeling tips blog</a></li>
             </ul>
 
             <div style="margin-top: 24px; padding: 16px; background: #f9f9f9; border-radius: 6px; text-align: center;">
               <p style="margin: 0 0 4px; font-weight: bold;">Need to reach us sooner?</p>
-              <p style="margin: 0; color: #555;">Call us at <a href="tel:+18135550100" style="color: #811121;">(813) 555-0100</a></p>
+              <p style="margin: 0; color: #555;">Call us at <a href="tel:${COMPANY_PHONE_HREF}" style="color: #811121;">${COMPANY_PHONE_DISPLAY}</a></p>
             </div>
 
             <p style="margin-top: 24px; color: #999; font-size: 12px; text-align: center;">
               ${COMPANY_NAME} | Valrico, FL 33594<br>
-              <a href="${process.env.FRONTEND_URL}" style="color: #811121;">cabinetsremodelingdepot.com</a>
+              <a href="${FRONTEND_URL}" style="color: #811121;">cabinetsremodelingdepot.com</a>
             </p>
           </div>
         </body>

@@ -9,6 +9,7 @@ import { ZoomIn } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ImageLightbox } from '@/components/common/ImageLightbox'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 function FadeIn({ children, delay = 0, className = '' }) {
@@ -39,7 +40,9 @@ const WOOD_IMAGES = [
 // ── Page ───────────────────────────────────────────────────────────────────────
 export function WoodenFlooringPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
-  const { data: pageData } = usePageContent('wood-flooring')
+  const { data: pageData, isError, isLoading } = usePageContent('wood-flooring')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const sections = mergeWithPageDefaults('wood-flooring', normalizeContent(pageData?.content).sections)
   const gallerySec = sections.find(s => s.id === 'wooden-flooring-gallery')
   const woodImages = gallerySec?.items?.length

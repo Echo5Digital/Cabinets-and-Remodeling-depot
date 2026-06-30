@@ -44,7 +44,8 @@ export async function getAllLeads(req, res, next) {
     if (status) filter.status = status
 
     if (search) {
-      const regex = new RegExp(search, 'i')
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      const regex = new RegExp(escapedSearch, 'i')
       filter.$or = [
         { firstName: regex },
         { lastName: regex },

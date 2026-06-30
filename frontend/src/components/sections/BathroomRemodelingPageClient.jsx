@@ -25,6 +25,7 @@ import {
   X,
 } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 /* ─── Fade-in animation wrapper ────────────────────────────────────────────── */
@@ -262,7 +263,9 @@ const FAQS = [
 ══════════════════════════════════════════════════════════════════════════════ */
 export function BathroomRemodelingPageClient() {
   const [flippedCard, setFlippedCard] = useState(null)
-  const { data: pageData } = usePageContent('bathroom-remodeling-tampa')
+  const { data: pageData, isError, isLoading } = usePageContent('bathroom-remodeling-tampa')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const sections = mergeWithPageDefaults('bathroom-remodeling-tampa', normalizeContent(pageData?.content).sections)
   const whyChooseSec  = sections.find(s => s.id === 'br-why-choose')
   const servicesSec   = sections.find(s => s.id === 'br-services')

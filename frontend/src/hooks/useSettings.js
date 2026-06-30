@@ -34,9 +34,7 @@ export function useUploadSettingImage() {
       formData.append('key', key)
       if (label) formData.append('label', label)
       if (group) formData.append('group', group)
-      const { data } = await api.post('/settings/upload-image', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      const { data } = await api.post('/settings/upload-image', formData)
       return data
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['settings'] }),

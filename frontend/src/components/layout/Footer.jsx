@@ -58,8 +58,8 @@ export function Footer() {
   const companyName  = settings?.companyName  || COMPANY_NAME
   const phone        = settings?.phone        || COMPANY_PHONE_DISPLAY
   const phoneHref    = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
-  const email        = settings?.email        || 'sales@cabinetsandremodelingdepot.com'
-  const address      = settings?.address      || 'Cabinets and Remodeling Depot, 106 S St Cloud Ave, Valrico, FL 33594'
+  const email        = settings?.email        || COMPANY_EMAIL
+  const address      = settings?.address      || COMPANY_ADDRESS
   const facebookUrl  = settings?.facebook     || 'https://facebook.com'
   const instagramUrl = settings?.instagram    || 'https://instagram.com'
 

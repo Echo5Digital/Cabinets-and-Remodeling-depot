@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { CheckCircle2 } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { FAQSection } from '@/components/sections/FAQSection'
 import { CTABanner } from '@/components/sections/CTABanner'
@@ -62,7 +63,9 @@ function FeatureSection({ section, index }) {
 }
 
 export function ServicePageClient({ slug, serviceName }) {
-  const { data: pageData } = usePageContent(slug)
+  const { data: pageData, isError, isLoading } = usePageContent(slug)
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const content = pageData?.content || {}
 
   return (

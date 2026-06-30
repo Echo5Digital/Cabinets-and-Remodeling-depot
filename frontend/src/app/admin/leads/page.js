@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLeads } from '@/hooks/useLeads'
 import { LeadTable } from '@/components/admin/LeadTable'
 import { Button } from '@/components/ui/button'
@@ -11,16 +11,29 @@ import { Badge } from '@/components/ui/badge'
 import { Search } from 'lucide-react'
 import { LEAD_STATUSES } from '@/lib/constants'
 
+const PAGE_SIZE = 20
+
 export default function AdminLeadsPage() {
   const [status, setStatus] = useState('')
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [page, setPage] = useState(1)
+  const debounceRef = useRef(null)
+
+  useEffect(() => {
+    clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(search)
+      setPage(1)
+    }, 400)
+    return () => clearTimeout(debounceRef.current)
+  }, [search])
 
   const { data, isLoading } = useLeads({
     page,
-    limit: 20,
+    limit: PAGE_SIZE,
     ...(status && { status }),
-    ...(search && { search }),
+    ...(debouncedSearch && { search: debouncedSearch }),
   })
 
   return (
@@ -57,7 +70,7 @@ export default function AdminLeadsPage() {
           <Input
             placeholder="Search by name, email, phone..."
             value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+            onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
           />
         </div>
@@ -85,7 +98,7 @@ export default function AdminLeadsPage() {
       {data?.pagination && data.pagination.pages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Showing {((page - 1) * 20) + 1}–{Math.min(page * 20, data.pagination.total)} of {data.pagination.total} leads
+            Showing {((page - 1) * PAGE_SIZE) + 1}–{Math.min(page * PAGE_SIZE, data.pagination.total)} of {data.pagination.total} leads
           </p>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => setPage(p => p - 1)} disabled={page === 1}>

@@ -15,7 +15,7 @@ const PAGE_SIZE = 20
 
 export default function AdminBlogsPage() {
   const [page, setPage] = useState(1)
-  const { data, isLoading } = useBlogs({ published: 'false', limit: PAGE_SIZE, page })
+  const { data, isLoading } = useBlogs({ limit: PAGE_SIZE, page })
   const { mutate: deleteBlog } = useDeleteBlog()
 
   const pagination = data?.pagination

@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
 import { CTABanner } from '@/components/sections/CTABanner'
 import { formatDate } from '@/lib/utils'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 
 const CATEGORY_LABELS = {
   KITCHEN_REMODELING: 'Kitchen Remodeling',
@@ -38,7 +39,7 @@ export function ProjectDetailClient({ slug }) {
     )
   }
 
-  if (!project) return null
+  if (!project) return <UnderConstruction />
 
   const galleryImages = (project.images || []).map((img) => ({
     id: img.id,
@@ -65,7 +66,7 @@ export function ProjectDetailClient({ slug }) {
             </Button>
 
             {/* Cover image */}
-            <div className="relative aspect-[16/7] rounded-2xl overflow-hidden bg-primary/10 mb-8">
+            <div className="relative aspect-video md:aspect-16/7 rounded-2xl overflow-hidden bg-primary/10 mb-8">
               {project.coverImage ? (
                 <Image
                   src={project.coverImage}

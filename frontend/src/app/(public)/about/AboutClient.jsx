@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { User, Wrench } from 'lucide-react'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 // ── Static content ─────────────────────────────────────────────────────────────
@@ -28,7 +29,9 @@ const SPECIALS = [
 export function AboutClient() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [specialsRef, specialsInView] = useInView({ triggerOnce: true, threshold: 0.05 })
-  const { data: pageData } = usePageContent('about')
+  const { data: pageData, isError, isLoading } = usePageContent('about')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const sections = mergeWithPageDefaults('about', normalizeContent(pageData?.content).sections)
   const historySec = sections.find(s => s.id === 'about-history')
   const valuesSec = sections.find(s => s.id === 'about-values')

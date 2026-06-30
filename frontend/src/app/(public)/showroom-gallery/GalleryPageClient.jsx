@@ -7,6 +7,7 @@ import { useGallery } from '@/hooks/useGallery'
 import { GalleryGrid } from '@/components/sections/GalleryGrid'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 // ── Gallery hero banner ───────────────────────────────────────────────────────
@@ -209,12 +210,14 @@ function VisitShowroom() {
 // ── Gallery page ──────────────────────────────────────────────────────────────
 
 export function GalleryPageClient() {
-  const { data: pageData } = usePageContent('showroom-gallery')
-  const sections = mergeWithPageDefaults('showroom-gallery', normalizeContent(pageData?.content).sections)
+  const { data: pageData, isError: pageError, isLoading: pageLoading } = usePageContent('showroom-gallery')
+  const { data, isPending, isError, refetch } = useGallery({ limit: 100 })
+  if (pageLoading) return null
+  if (pageError) return <UnderConstruction />
+  const sections = mergeWithPageDefaults('showroom-gallery', normalizeContent(pageData?.content || {}).sections)
   const heroSec = sections.find(s => s.id === 'gal-hero')
   const heroTitle = heroSec?.title || 'Our Stunning Showroom Gallery'
 
-  const { data, isPending, isError, refetch } = useGallery({ limit: 100 })
   const images = data?.data || []
 
   return (

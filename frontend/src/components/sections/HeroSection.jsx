@@ -48,10 +48,11 @@ export function HeroSection({ data = {}, compact = false }) {
     )
   }
 
-  // Split title at em-dash for two-tone rendering
-  const dashIndex = title.indexOf(' – ')
+  // Split title at em-dash (or en-dash) for two-tone rendering
+  const dashMatch  = title.match(/\s+[–—]\s+/)
+  const dashIndex  = dashMatch ? title.indexOf(dashMatch[0]) : -1
   const titleBold  = dashIndex !== -1 ? title.slice(0, dashIndex) : title
-  const titleLight = dashIndex !== -1 ? title.slice(dashIndex + 3) : ''
+  const titleLight = dashIndex !== -1 ? title.slice(dashIndex + dashMatch[0].length) : ''
 
   // ── Full layout (home page) — full-width video/image background ───────────
   return (

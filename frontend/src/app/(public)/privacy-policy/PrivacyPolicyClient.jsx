@@ -1,6 +1,7 @@
 'use client'
 
 import { usePageContent } from '@/hooks/usePageContent'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent } from '@/lib/pageContent'
 import { PageHeader } from '@/components/common/PageHeader'
 import { JsonLd } from '@/components/common/JsonLd'
@@ -58,7 +59,9 @@ function HardcodedContent() {
 }
 
 export function PrivacyPolicyClient() {
-  const { data: page } = usePageContent('privacy-policy')
+  const { data: page, isError, isLoading } = usePageContent('privacy-policy')
+  if (isLoading) return null
+  if (isError) return <UnderConstruction />
   const apiContent = page?.content ? normalizeContent(page.content) : null
   const textSection = apiContent?.sections?.find((s) => s.type === 'text')
   const body = textSection?.body || null

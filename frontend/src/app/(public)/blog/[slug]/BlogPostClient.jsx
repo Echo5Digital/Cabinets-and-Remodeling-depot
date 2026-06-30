@@ -8,6 +8,7 @@ import { useBlog } from '@/hooks/useBlogs'
 import { useSettings } from '@/hooks/useSettings'
 import { Skeleton } from '@/components/ui/skeleton'
 import { formatDate } from '@/lib/utils'
+import { UnderConstruction } from '@/components/common/UnderConstruction'
 
 export function BlogPostClient({ slug }) {
   const { data: blog, isLoading } = useBlog(slug)
@@ -17,7 +18,7 @@ export function BlogPostClient({ slug }) {
   if (isLoading) {
     return (
       <>
-        <Skeleton className="w-full h-64 md:h-80 rounded-none" />
+        <Skeleton className="w-full h-48 sm:h-64 md:h-80 rounded-none" />
         <div className="section-padding container-custom max-w-4xl space-y-6">
           <Skeleton className="h-10 w-3/4" />
           <Skeleton className="h-4 w-full" />
@@ -28,12 +29,12 @@ export function BlogPostClient({ slug }) {
     )
   }
 
-  if (!blog) return null
+  if (!blog) return <UnderConstruction />
 
   return (
     <>
       {/* Hero Banner */}
-      <div className="relative w-full h-64 md:h-80 overflow-hidden">
+      <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden">
         <Image
           src={blog.coverImage || defaultBanner}
           alt={blog.title}
@@ -51,7 +52,7 @@ export function BlogPostClient({ slug }) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl md:text-4xl font-bold text-white leading-tight uppercase max-w-2xl"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight uppercase max-w-2xl"
           >
             {blog.title}
           </motion.h1>

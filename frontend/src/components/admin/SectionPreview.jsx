@@ -494,19 +494,35 @@ function AffordablePreview({ section }) {
   const items = section.items || []
   const hasBg = !!section.bgImage
   return (
-    <div
-      className="relative overflow-hidden"
-      style={hasBg ? { backgroundImage: `url(${section.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
-    >
-      <div className={`p-5 space-y-3 ${hasBg ? 'bg-black/65' : 'bg-white'}`}>
+    <div className="relative overflow-hidden">
+      {/* Background image */}
+      {hasBg && (
+        <img
+          src={section.bgImage}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      )}
+      {/* Overlay — white wash on left like live page */}
+      {hasBg && (
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(105deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.88) 55%, rgba(255,255,255,0.55) 100%)' }}
+        />
+      )}
+      <div className={`relative z-10 p-5 space-y-3 ${!hasBg ? 'bg-white' : ''}`}>
         {section.label && <p className="text-xs font-semibold uppercase tracking-wider text-primary">{section.label}</p>}
-        {section.heading && <h3 className={`font-bold text-base ${hasBg ? 'text-white' : 'text-foreground'}`}>{section.heading}</h3>}
-        {section.body && <p className={`text-sm whitespace-pre-wrap ${hasBg ? 'text-white/80' : 'text-muted-foreground'}`}>{section.body}</p>}
+        {section.heading && (
+          <h3 className="font-bold text-base text-gray-900">{section.heading}</h3>
+        )}
+        {section.body && <p className="text-sm whitespace-pre-wrap text-gray-700">{section.body}</p>}
         {items.length > 0 && (
-          <ul className="space-y-1">
+          <ul className="space-y-2">
             {items.map((item, i) => (
-              <li key={i} className={`text-xs flex items-center gap-1.5 ${hasBg ? 'text-white/90' : 'text-foreground'}`}>
-                <span className="text-primary">✓</span> {item}
+              <li key={i} className="text-xs flex items-start gap-2 text-gray-700">
+                <span className="text-primary font-bold mt-0.5 flex-shrink-0">{'>>'}</span>
+                <span>{typeof item === 'string' ? item : item.title || item.description || String(item)}</span>
               </li>
             ))}
           </ul>
@@ -514,7 +530,7 @@ function AffordablePreview({ section }) {
         <div className="flex gap-2 flex-wrap">
           {section.cta1Text && <span className="px-3 py-1 bg-primary text-white text-xs rounded font-semibold">{section.cta1Text}</span>}
           {section.cta2Text && (
-            <span className={`px-3 py-1 text-xs rounded font-semibold border ${hasBg ? 'border-white/60 text-white' : 'border-border text-foreground'}`}>
+            <span className="px-3 py-1 text-xs rounded font-semibold border border-gray-300 text-gray-700">
               {section.cta2Text}
             </span>
           )}
