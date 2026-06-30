@@ -187,12 +187,12 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <span className="text-white font-semibold">Timing: </span>
-                Mon – Fri: 10:00AM – 6:00PM
-                <br />
-                <span className="pl-14">Sat: 10:00AM – 4:00PM</span>
-                <br />
-                <span className="pl-14">Sun: Closed</span>
+                <span className="text-white font-semibold">Timing:</span>
+                <div className="mt-1 space-y-0.5 pl-0">
+                  <p>Mon – Fri: 10:00AM – 6:00PM</p>
+                  <p>Sat: 10:00AM – 4:00PM</p>
+                  <p>Sun: Closed</p>
+                </div>
               </li>
             </ul>
           </div>

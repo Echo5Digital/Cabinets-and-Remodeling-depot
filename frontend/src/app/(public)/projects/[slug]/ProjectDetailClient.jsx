@@ -84,7 +84,7 @@ export function ProjectDetailClient({ slug }) {
               {/* Content */}
               <div className="md:col-span-2 space-y-6">
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-bold mb-4">{project.title}</h1>
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{project.title}</h1>
                   <p className="text-muted-foreground leading-relaxed text-lg">
                     {project.description}
                   </p>

@@ -96,7 +96,7 @@ export function TransformationSection({ data }) {
           <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
             {label}
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
             {heading ? heading : <>See Our <span className="text-primary">Transformations</span></>}
           </h2>
           <div className="flex items-center justify-center gap-2 mb-4">

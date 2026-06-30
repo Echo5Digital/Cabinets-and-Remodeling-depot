@@ -39,7 +39,7 @@ export function StartProjectSection({ data }) {
             transition={{ duration: 0.7 }}
             className="max-w-lg"
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-5">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-5">
               {heading}
             </h2>
             {body ? (

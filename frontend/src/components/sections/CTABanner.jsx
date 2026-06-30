@@ -38,7 +38,7 @@ export function CTABanner({
           transition={{ duration: 0.7 }}
           className="max-w-3xl mx-auto space-y-6"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold leading-tight">{heading}</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">{heading}</h2>
           {subheading && (
             <p className="text-lg md:text-xl text-white/85">{subheading}</p>
           )}

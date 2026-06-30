@@ -1189,7 +1189,7 @@ export function CountertopsPageClient() {
 
             {/* ── Right: heading + review carousel ── */}
             <FadeIn x={30} y={0} delay={0.15}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
                 <span className="text-gray-900">What Tampa Homeowners </span>
                 <span className="text-primary">Are Saying</span>
               </h2>
@@ -1299,7 +1299,7 @@ export function CountertopsPageClient() {
       <section className="section-padding bg-gray-50">
         <div className="container-custom max-w-4xl">
           <FadeIn className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Frequently Asked{' '}
               <span className="text-primary">Questions</span>
             </h2>

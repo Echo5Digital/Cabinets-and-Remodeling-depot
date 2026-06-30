@@ -34,7 +34,7 @@ function GalleryBanner({ title = 'Our Stunning Showroom Gallery' }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-white"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white"
         >
           {title}
         </motion.h1>

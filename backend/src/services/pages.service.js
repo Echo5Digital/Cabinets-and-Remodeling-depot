@@ -211,15 +211,6 @@ export function getDefaultContent(slug) {
           ],
         },
         {
-          id: 'home-start-project',
-          type: 'start-project',
-          heading: 'Start Your Kitchen Remodeling Project Today',
-          body: "If you're looking for kitchen cabinets Tampa homeowners trust for quality, value, and professional installation, visit Cabinets & Remodeling Depot today.\n\nExplore cabinet styles, compare countertop materials, and speak with our team about your remodeling goals. From affordable cabinets Tampa clients love to ready to install cabinets Tampa homeowners need quickly, we're ready to help bring your kitchen project to life.",
-          bgImage: '/kitchen-bg.webp',
-          ctaText: 'Visit Our Showroom',
-          ctaLink: '/contact',
-        },
-        {
           id: 'home-pre-footer',
           type: 'pre-footer',
           heading: 'Ready to Start Your Project?',
@@ -648,12 +639,6 @@ export function getDefaultContent(slug) {
           ],
         },
         {
-          id: 'cab-areas',
-          type: 'service-areas',
-          heading: 'Service Areas',
-          areas: ['Tampa', 'Apollo Beach', 'Valrico', 'Plant City', 'Brandon', 'Wesley Chapel', 'Riverview', 'Lithia'],
-        },
-        {
           id: 'cab-faq',
           type: 'faq',
           heading: 'Frequently Asked Questions',
@@ -874,19 +859,6 @@ export function getDefaultContent(slug) {
           ],
         },
         {
-          id: 'fl-showroom-compare',
-          type: 'service-areas',
-          heading: 'Visit Our Showroom to Compare',
-          areas: [
-            'Hardwood flooring options',
-            'Laminate flooring selections',
-            'Tile flooring styles',
-            'Waterproof flooring products',
-            'Flooring textures and finishes',
-            'Cabinet and countertop pairings',
-          ],
-        },
-        {
           id: 'fl-styles',
           type: 'service-areas',
           heading: 'Flooring Styles',
@@ -902,21 +874,6 @@ export function getDefaultContent(slug) {
             { title: 'Tile flooring designs kitchen Tampa', image: '/Flooring-samples.jpg' },
             { title: 'Waterproof luxury flooring Tampa home', image: '/flooring-1.jpg' },
             { title: 'Whole-home flooring renovation Tampa Bay', image: '/flooring-2.jpg' },
-          ],
-        },
-        {
-          id: 'fl-benefits',
-          type: 'features',
-          heading: 'Benefits of New Flooring',
-          items: [
-            { title: 'Improved Home Value',            image: '/improved-home-value.jpeg' },
-            { title: 'Easier Cleaning & Maintenance',  image: '/easier-maintenance.jpeg' },
-            { title: 'Better Durability',              image: '/better-durability.jpeg' },
-            { title: 'Modernized Interior Design',     image: '/modernized-interior-design.jpeg' },
-            { title: 'Moisture Resistance',            image: '/moisture-resistance.jpeg' },
-            { title: 'Increased Comfort',              image: '/increased-comfort.jpeg' },
-            { title: 'Enhanced Visual Appeal',         image: '/enhanced-visual-appeal.jpeg' },
-            { title: 'Better Flow Between Rooms',      image: '/better-flow-btw-rooms.jpeg' },
           ],
         },
         {

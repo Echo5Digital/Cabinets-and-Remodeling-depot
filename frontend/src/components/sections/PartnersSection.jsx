@@ -45,7 +45,7 @@ export function PartnersSection({ data }) {
           <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
             {label}
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 leading-tight mb-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 leading-tight mb-2">
             {heading}
           </h2>
           {/* Decorative underline */}

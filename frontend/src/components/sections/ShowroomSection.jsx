@@ -86,13 +86,18 @@ export function ShowroomSection({ data }) {
         sizes="100vw"
         priority
       />
-      {/* Overlay: light on left for text readability, fades to near-transparent on right so image shows across the full section */}
+      {/* Desktop: diagonal gradient — white on left, fades right so image shows */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 hidden md:block"
         style={{
           background:
             'linear-gradient(105deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.70) 40%, rgba(255,255,255,0.38) 65%, rgba(255,255,255,0.10) 100%)',
         }}
+      />
+      {/* Mobile: full white wash so stacked content remains readable */}
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{ background: 'rgba(255,255,255,0.93)' }}
       />
 
       <div className="relative z-10 container-custom">

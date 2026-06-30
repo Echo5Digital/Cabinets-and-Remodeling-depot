@@ -91,7 +91,7 @@ export function LaminateFlooringPageClient() {
             {' / '}
             Laminate Flooring in Tampa, FL
           </p>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white uppercase tracking-wide drop-shadow-lg">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white uppercase tracking-wide drop-shadow-lg">
             Laminate Flooring In Tampa, FL
           </h1>
         </div>

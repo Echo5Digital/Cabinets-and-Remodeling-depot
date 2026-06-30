@@ -133,7 +133,7 @@ export function ClientSuccessSection({ reviewItems }) {
             <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/60 mb-3">
               Customer Reviews
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
               <span className="text-foreground">Client </span>
               <span className="text-primary">Success Stories</span>
             </h2>

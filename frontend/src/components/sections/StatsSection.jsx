@@ -61,7 +61,7 @@ export function StatsSection({ stats = defaultStats }) {
               transition={{ delay: index * 0.1, duration: 0.6 }}
               className="text-center"
             >
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
                 {inView ? (
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 ) : (

@@ -48,7 +48,7 @@ export function ContactPageClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Contact Us</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white">Contact Us</h1>
             <p className="text-white/50 text-sm tracking-wide">
               Home&nbsp;/&nbsp;Contact Us
             </p>
@@ -156,7 +156,7 @@ export function ContactPageClient() {
                 Quality · Service · Value.
               </p>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground leading-tight mb-4">
                 It is now too easy to get a Free Estimate
               </h2>
 

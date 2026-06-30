@@ -24,13 +24,18 @@ export function ProfessionalInstallationSection({ data }) {
         sizes="100vw"
       />
 
-      {/* Overlay: readable on left for content, fades right so image shows across the full section */}
+      {/* Desktop: left-white gradient so image shows on right half */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 hidden md:block"
         style={{
           background:
             'linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.78) 38%, rgba(255,255,255,0.42) 62%, rgba(255,255,255,0.12) 100%)',
         }}
+      />
+      {/* Mobile: full white wash so text is readable on single column */}
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{ background: 'rgba(255,255,255,0.92)' }}
       />
 
       <div className="relative z-10 container-custom">
@@ -47,7 +52,7 @@ export function ProfessionalInstallationSection({ data }) {
               {label}
             </p>
 
-            <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4">
               {heading ? (
                 <span className="text-foreground">{heading}</span>
               ) : (

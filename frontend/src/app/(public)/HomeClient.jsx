@@ -88,7 +88,7 @@ function SectionWrapper({ children, title, subtitle }) {
         >
           {title && (
             <>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">{title}</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3">{title}</h2>
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="h-0.5 w-10 bg-primary/30 rounded-full" />
                 <div className="h-1 w-8 bg-primary rounded-full" />
@@ -168,7 +168,6 @@ export function HomeClient() {
   const whyChooseSection    = sections.find((s) => s.type === 'why-choose')
   const reviewsSection      = sections.find((s) => s.type === 'testimonials')
   const faqSection          = sections.find((s) => s.type === 'faq')
-  const startProjectSection = sections.find((s) => s.type === 'start-project')
   const preFooterSection    = sections.find((s) => s.type === 'pre-footer')
   const partnersSection     = sections.find((s) => s.type === 'partners')
 
