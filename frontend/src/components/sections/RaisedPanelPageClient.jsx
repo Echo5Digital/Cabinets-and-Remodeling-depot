@@ -24,8 +24,8 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
 
 const IMAGES = [
   { src: '/cabinet-raised.webp',                          alt: 'Raised panel kitchen cabinet close-up' },
-  { src: '/kitchen_cabinet_remodeling-01.webp',           alt: 'Raised panel cabinet kitchen installation' },
-  { src: '/cabinet_remodeling_kitchen-03.webp',           alt: 'Raised panel cabinets in kitchen' },
+  { src: '/kitchencabinet3.jpg',                          alt: 'Raised panel cabinet kitchen installation' },
+  { src: '/kitchencabinet4.jpg',                          alt: 'Raised panel cabinets in kitchen' },
   { src: '/kitchen-cabinet-2.jpg',                        alt: 'Raised panel kitchen cabinet design' },
   { src: '/kitchen-cabinet-3.jpg',                        alt: 'Raised panel cabinet detail' },
   { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Custom raised panel cabinet installation Tampa' },

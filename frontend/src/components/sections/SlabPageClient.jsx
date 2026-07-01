@@ -24,8 +24,8 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
 
 const IMAGES = [
   { src: '/cabinet-slab.jpg',                             alt: 'Slab flat panel kitchen cabinet close-up' },
-  { src: '/kitchen_cabinet_remodeling-01.webp',           alt: 'Flat panel cabinet kitchen installation' },
-  { src: '/cabinet_remodeling_kitchen-03.webp',           alt: 'Slab cabinets in kitchen' },
+  { src: '/kitchencabinet3.jpg',                          alt: 'Flat panel cabinet kitchen installation' },
+  { src: '/kitchencabinet4.jpg',                          alt: 'Slab cabinets in kitchen' },
   { src: '/kitchen-cabinet-2.jpg',                        alt: 'Modern flat panel cabinet design' },
   { src: '/kitchen-cabinet-3.jpg',                        alt: 'Slab style cabinet detail' },
   { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Custom slab cabinet installation Tampa' },

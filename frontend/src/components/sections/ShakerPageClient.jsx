@@ -24,8 +24,8 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
 
 const IMAGES = [
   { src: '/cabinet-shaker.jpg',                           alt: 'Shaker kitchen cabinet close-up' },
-  { src: '/kitchen_cabinet_remodeling-01.webp',           alt: 'Shaker cabinet kitchen installation' },
-  { src: '/cabinet_remodeling_kitchen-03.webp',           alt: 'Shaker cabinets in kitchen' },
+  { src: '/kitchencabinet3.jpg',                          alt: 'Shaker cabinet kitchen installation' },
+  { src: '/kitchencabinet4.jpg',                          alt: 'Shaker cabinets in kitchen' },
   { src: '/kitchen-cabinet-2.jpg',                        alt: 'Shaker kitchen cabinet design' },
   { src: '/kitchen-cabinet-3.jpg',                        alt: 'Shaker style cabinet detail' },
   { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Custom Shaker cabinet installation Tampa' },

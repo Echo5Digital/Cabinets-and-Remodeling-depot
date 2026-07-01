@@ -24,8 +24,8 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
 
 const IMAGES = [
   { src: '/cabinet-glass.jpg',                            alt: 'Glass-front kitchen cabinet close-up' },
-  { src: '/kitchen_cabinet_remodeling-01.webp',           alt: 'Glass-front cabinet kitchen installation' },
-  { src: '/cabinet_remodeling_kitchen-03.webp',           alt: 'Glass-front cabinets in kitchen' },
+  { src: '/kitchencabinet3.jpg',                          alt: 'Glass-front cabinet kitchen installation' },
+  { src: '/kitchencabinet4.jpg',                          alt: 'Glass-front cabinets in kitchen' },
   { src: '/kitchen-cabinet-2.jpg',                        alt: 'Glass-front kitchen cabinet design' },
   { src: '/kitchen-cabinet-3.jpg',                        alt: 'Glass-front cabinet detail' },
   { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Custom glass-front cabinet installation Tampa' },
