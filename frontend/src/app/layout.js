@@ -25,7 +25,14 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata = {
+  metadataBase: new URL('https://cabinetsandremodelingdepot.com'),
   title: {
     default: 'Cabinets & Remodeling Depot | Tampa Kitchen & Bathroom Remodeling',
     template: '%s',

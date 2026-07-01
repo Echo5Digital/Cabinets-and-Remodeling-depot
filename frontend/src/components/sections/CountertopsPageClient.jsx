@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { usePageContent } from '@/hooks/usePageContent'
-import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent } from '@/lib/pageContent'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -143,8 +142,7 @@ export function CountertopsPageClient() {
   const [reviewExpanded, setReviewExpanded] = useState(false)
   const [activeRow, setActiveRow] = useState('Quartz')
   if (isLoading) return null
-  if (isError) return <UnderConstruction />
-  const apiContent = page?.content ? normalizeContent(page.content) : null
+  const apiContent = (!isError && page?.content) ? normalizeContent(page.content) : null
   const heroSection = apiContent?.sections?.find((s) => s.type === 'hero')
   const faqSection  = apiContent?.sections?.find((s) => s.type === 'faq')
 
@@ -356,11 +354,11 @@ export function CountertopsPageClient() {
                     <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
                   </div>
                   {/* Title */}
-                  <h3 className="font-bold text-gray-900 text-[0.95rem] sm:text-base lg:text-[1.05rem] leading-snug mb-2">
+                  <h3 className="font-bold text-gray-900 text-[0.95rem] sm:text-base lg:text-[1.05rem] leading-snug mb-2 font-sans not-italic">
                     {title}
                   </h3>
                   {/* Description */}
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-bold not-italic font-sans">
                     {desc}
                   </p>
                 </div>
@@ -425,31 +423,31 @@ export function CountertopsPageClient() {
               {
                 name: 'Quartz',
                 src: '/quartz.webp',
-                href: '/contact',
+                href: '/quartz-countertops',
                 desc: 'Low maintenance, non-porous, and available in dozens of colors and finishes.',
               },
               {
                 name: 'Granite',
                 src: '/granite.webp',
-                href: '/contact',
+                href: '/granite-countertops',
                 desc: 'Natural stone with unique veining patterns and exceptional long-term durability.',
               },
               {
                 name: 'Quartzite',
                 src: '/quartzite.webp',
-                href: '/contact',
+                href: '/quartzite-countertops',
                 desc: 'Marble-like beauty with incredible strength and natural heat resistance.',
               },
               {
                 name: 'Marble',
                 src: '/marble.webp',
-                href: '/contact',
+                href: '/marble-countertops',
                 desc: 'Timeless elegance that adds luxury and sophistication to any kitchen or bath.',
               },
               {
                 name: 'Porcelain',
                 src: '/porcelain.webp',
-                href: '/contact',
+                href: '/porcelain-countertops',
                 desc: 'Sleek, ultra-durable, and perfect for modern indoor and outdoor applications.',
               },
             ].map(({ name, src, desc, href }, i, arr) => (
@@ -473,10 +471,10 @@ export function CountertopsPageClient() {
 
                   {/* Card text */}
                   <div className="p-3 sm:p-4 text-center flex-1 flex flex-col justify-start">
-                    <h3 className="font-bold text-gray-900 text-sm sm:text-[0.95rem] mb-1.5">
+                    <h3 className="font-bold text-gray-900 text-sm sm:text-[0.95rem] mb-1.5 font-sans not-italic">
                       {name} Countertops
                     </h3>
-                    <p className="text-muted-foreground text-[0.7rem] sm:text-xs leading-relaxed">
+                    <p className="text-muted-foreground text-[0.7rem] sm:text-xs leading-relaxed font-bold not-italic font-sans">
                       {desc}
                     </p>
                     <div className="mt-2.5 flex justify-center">
@@ -562,7 +560,7 @@ export function CountertopsPageClient() {
       {(() => {
         const MATERIALS = [
           {
-            material: 'Quartz',    src: '/quartz.webp',    href: '/contact',
+            material: 'Quartz',    src: '/quartz.webp',    href: '/quartz-countertops',
             badge: { label: 'POPULAR',    icon: Star,        cls: 'bg-blue-50 text-blue-600 border-blue-200'     },
             bestForIcon: Home,     bestFor: 'Busy kitchens, families, bathrooms',
             maintenance: 'Very low',        mScore: 1,
@@ -570,7 +568,7 @@ export function CountertopsPageClient() {
             heat: 'Moderate',               hScore: 2,
           },
           {
-            material: 'Granite',   src: '/granite.webp',   href: '/contact',
+            material: 'Granite',   src: '/granite.webp',   href: '/granite-countertops',
             badge: null,
             bestForIcon: Tag,      bestFor: 'Natural kitchens, resale value, traditional style',
             maintenance: 'Low to moderate', mScore: 2,
@@ -578,7 +576,7 @@ export function CountertopsPageClient() {
             heat: 'High',                   hScore: 3,
           },
           {
-            material: 'Quartzite', src: '/quartzite.webp', href: '/contact',
+            material: 'Quartzite', src: '/quartzite.webp', href: '/quartzite-countertops',
             badge: { label: 'LUXURY',     icon: Gem,         cls: 'bg-purple-50 text-purple-600 border-purple-200' },
             bestForIcon: Globe,    bestFor: 'Luxury kitchens, islands, outdoor spaces',
             maintenance: 'Moderate',        mScore: 3,
@@ -586,7 +584,7 @@ export function CountertopsPageClient() {
             heat: 'High',                   hScore: 3,
           },
           {
-            material: 'Marble',    src: '/marble.webp',    href: '/contact',
+            material: 'Marble',    src: '/marble.webp',    href: '/marble-countertops',
             badge: { label: 'LUXURY',     icon: Gem,         cls: 'bg-purple-50 text-purple-600 border-purple-200' },
             bestForIcon: Droplets, bestFor: 'Luxury bathrooms, statement islands, baking areas',
             maintenance: 'High',            mScore: 4,
@@ -594,7 +592,7 @@ export function CountertopsPageClient() {
             heat: 'Moderate',               hScore: 2,
           },
           {
-            material: 'Porcelain', src: '/porcelain.webp', href: '/contact',
+            material: 'Porcelain', src: '/porcelain.webp', href: '/porcelain-countertops',
             badge: { label: 'BEST VALUE', icon: ShieldCheck, cls: 'bg-green-50 text-green-600 border-green-200'   },
             bestForIcon: Flame,    bestFor: 'Outdoor kitchens, modern spaces, low maintenance',
             maintenance: 'Very low',        mScore: 1,

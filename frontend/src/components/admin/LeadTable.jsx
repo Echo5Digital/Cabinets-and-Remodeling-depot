@@ -67,6 +67,10 @@ function LeadDetailDialog({ lead, open, onClose }) {
               <p className="font-medium">{lead.service || '—'}</p>
             </div>
             <div>
+              <p className="text-muted-foreground">Subject</p>
+              <p className="font-medium">{lead.subject || '—'}</p>
+            </div>
+            <div>
               <p className="text-muted-foreground">Source</p>
               <p className="font-medium">{lead.source || 'website'}</p>
             </div>

@@ -5,9 +5,7 @@ export const createLeadSchema = Joi.object({
     'any.required': 'First name is required.',
     'string.min': 'First name is required.',
   }),
-  lastName: Joi.string().min(1).max(100).required().messages({
-    'any.required': 'Last name is required.',
-  }),
+  lastName: Joi.string().max(100).allow('', null),
   email: Joi.string().email().required().messages({
     'string.email': 'Please provide a valid email address.',
     'any.required': 'Email is required.',
@@ -17,6 +15,7 @@ export const createLeadSchema = Joi.object({
     .allow('', null)
     .messages({ 'string.pattern.base': 'Please provide a valid phone number.' }),
   service: Joi.string().max(200).allow('', null),
+  subject: Joi.string().max(300).allow('', null),
   message: Joi.string().min(10).max(3000).required().messages({
     'string.min': 'Message must be at least 10 characters.',
     'any.required': 'Message is required.',

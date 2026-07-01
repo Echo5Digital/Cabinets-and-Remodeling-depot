@@ -563,7 +563,7 @@ export function CabinetsPageClient() {
               <span className="text-primary">Styles We Carry</span>
             </h2>
             <p className="text-gray-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              From clean Shaker profiles to glass-front display cabinets, explore our most popular door styles, all available for fast installation throughout Tampa Bay.
+              Discover cabinet styles thoughtfully selected to complement every design aesthetic. Whether you prefer timeless craftsmanship or sleek contemporary lines, our collection offers beautifully crafted cabinetry tailored to elevate kitchens throughout Tampa Bay.
             </p>
           </FadeIn>
 
@@ -573,26 +573,26 @@ export function CabinetsPageClient() {
               {
                 name: 'Shaker',
                 src: '/cabinet-shaker.jpg',
-                href: '/contact',
-                desc: 'Clean recessed panels and timeless lines, the most versatile style for modern and traditional kitchens.',
+                href: '/shaker-kitchen-cabinets',
+                desc: 'Defined by clean recessed panels and timeless proportions, Shaker cabinets offer enduring style that complements both classic and contemporary interiors.',
               },
               {
                 name: 'Slab / Flat Panel',
                 src: '/cabinet-slab.jpg',
-                href: '/contact',
-                desc: 'Smooth, frameless fronts with a minimalist edge, perfect for contemporary and European-inspired spaces.',
+                href: '/slab-kitchen-cabinets',
+                desc: 'Sleek, uninterrupted surfaces create a refined, minimalist aesthetic, making flat-panel cabinets a favorite for modern and European-inspired kitchens.',
               },
               {
                 name: 'Raised Panel',
                 src: '/cabinet-raised.webp',
-                href: '/contact',
-                desc: 'A classic raised center panel that adds depth and elegance to any traditional kitchen design.',
+                href: '/raised-panel-kitchen-cabinets',
+                desc: 'Rich detailing and sculpted profiles bring warmth, depth, and timeless elegance to traditional and transitional kitchens.',
               },
               {
                 name: 'Glass-Front',
                 src: '/cabinet-glass.jpg',
-                href: '/contact',
-                desc: 'Display dishware and add visual openness with glass-insert doors that brighten any kitchen.',
+                href: '/glass-front-kitchen-cabinets',
+                desc: 'Showcase decorative pieces while adding lightness and visual depth, creating an inviting focal point within your kitchen.',
               },
             ].map(({ name, src, desc, href }, i) => (
               <FadeIn key={name} delay={i * 0.08}>

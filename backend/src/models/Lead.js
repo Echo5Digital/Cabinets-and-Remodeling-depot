@@ -16,10 +16,11 @@ const opts = {
 const leadSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    lastName: { type: String, default: null },
     email: { type: String, required: true },
     phone: { type: String, default: null },
     service: { type: String, default: null },
+    subject: { type: String, default: null },
     message: { type: String, required: true },
     source: { type: String, default: 'website' },
     status: {

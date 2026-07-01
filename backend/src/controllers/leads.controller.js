@@ -6,14 +6,15 @@ import { sendLeadNotification, sendAutoReply } from '../services/email.service.j
  */
 export async function createLead(req, res, next) {
   try {
-    const { firstName, lastName, email, phone, service, message, source } = req.body
+    const { firstName, lastName, email, phone, service, subject, message, source } = req.body
 
     const lead = await Lead.create({
       firstName,
-      lastName,
+      lastName: lastName || null,
       email,
       phone: phone || null,
       service: service || null,
+      subject: subject || null,
       message,
       source: source || 'website',
     })
