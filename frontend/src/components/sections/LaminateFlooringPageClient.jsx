@@ -8,7 +8,6 @@ import { useInView } from 'react-intersection-observer'
 import { ZoomIn } from 'lucide-react'
 import { ImageLightbox } from '@/components/common/ImageLightbox'
 import { usePageContent } from '@/hooks/usePageContent'
-import { UnderConstruction } from '@/components/common/UnderConstruction'
 import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 
 function FadeIn({ children, delay = 0, className = '' }) {
@@ -55,9 +54,7 @@ const FEATURES = [
 // ── Page ───────────────────────────────────────────────────────────────────────
 export function LaminateFlooringPageClient() {
   const [lightboxIndex, setLightboxIndex] = useState(null)
-  const { data: pageData, isError, isLoading } = usePageContent('laminate-flooring-in-tampa')
-  if (isLoading) return null
-  if (isError) return <UnderConstruction />
+  const { data: pageData } = usePageContent('laminate-flooring-in-tampa')
   const sections = mergeWithPageDefaults('laminate-flooring-in-tampa', normalizeContent(pageData?.content).sections)
   const gallerySec = sections.find(s => s.id === 'laminate-flooring-gallery')
   const featuresSec = sections.find(s => s.id === 'laminate-flooring-features')
