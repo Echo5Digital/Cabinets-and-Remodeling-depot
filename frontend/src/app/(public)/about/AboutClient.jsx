@@ -355,53 +355,38 @@ export function AboutClient() {
       {/* ════════════════════════════════════════════════════════════════════
           3. WHY HOMEOWNERS CHOOSE US
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-white overflow-hidden">
+      <section className="py-16 md:py-24 bg-[#F5F0E8] border-y border-[#E8DFD0]">
+        <div className="container-custom max-w-7xl">
 
-        {/* Header band */}
-        <div className="bg-primary">
-          <div className="container-custom max-w-7xl py-12 md:py-16">
-            <FadeIn className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/60 mb-3">
-                  <span className="w-5 h-px bg-white/40 inline-block" />
-                  Why Homeowners Choose Us
-                </p>
-                <h2 className={`text-3xl sm:text-4xl font-extrabold text-white leading-tight ${serif}`}>
-                  The Cabinets &amp; Remodeling<br className="hidden sm:block" /> Depot Difference
-                </h2>
-              </div>
-              <p className="text-white/70 text-sm sm:text-base leading-relaxed max-w-sm md:text-right">
-                Six reasons Tampa Bay homeowners trust us with their most important remodeling projects.
-              </p>
-            </FadeIn>
-          </div>
-        </div>
+          {/* Centered header */}
+          <FadeIn className="text-center mb-14 md:mb-18">
+            <SectionLabel>Why Homeowners Choose Us</SectionLabel>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight ${serif}`}>
+              Cabinets &amp; Remodeling Depot
+            </h2>
+          </FadeIn>
 
-        {/* Cards grid */}
-        <div className="container-custom max-w-7xl py-14 md:py-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+          {/* Icon columns — 1 on mobile, 2 on sm, 3 on md, 6 on lg */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-[#E8DFD0]">
             {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
               <FadeIn key={title} delay={i * 0.06}>
-                <div className="bg-white p-7 sm:p-8 h-full flex flex-col gap-4 hover:bg-[#faf9f7] transition-colors duration-200 group">
-                  {/* Number + icon row */}
-                  <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
-                      <Icon className="w-5 h-5 text-white" strokeWidth={1.8} />
-                    </div>
-                    <span className={`text-5xl font-extrabold text-gray-100 leading-none select-none ${serif}`}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
+                <div className="flex flex-col items-center text-center px-6 py-8 gap-4 bg-[#F5F0E8] group hover:bg-white transition-colors duration-200 h-full">
+                  {/* Circle icon */}
+                  <div className="w-16 h-16 rounded-full border-2 border-primary/20 bg-white flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors duration-200 shadow-sm">
+                    <Icon className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-200" strokeWidth={1.5} />
                   </div>
-                  <h3 className={`font-bold text-gray-900 text-base sm:text-[1.05rem] leading-snug ${serif}`}>
-                    {title}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed flex-1">{description}</p>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-snug">
+                      {title}
+                    </h3>
+                    <p className="text-gray-500 text-xs sm:text-sm leading-relaxed">{description}</p>
+                  </div>
                 </div>
               </FadeIn>
             ))}
           </div>
-        </div>
 
+        </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
