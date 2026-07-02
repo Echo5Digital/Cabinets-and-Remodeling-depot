@@ -97,7 +97,7 @@ const IMAGES = [
   { src: '/Granitecountertops.jpg', alt: 'Granite countertop kitchen showcase' },
   { src: '/Granitecountertops2.jpg', alt: 'Granite countertop kitchen installation' },
   { src: '/Granitecountertops3.jpg', alt: 'Natural granite surface detail' },
-  { src: '/countertops_3.jpg',       alt: 'Granite countertop in kitchen' },
+  { src: '/Granitecountertops5.jpg',  alt: 'Granite countertop in kitchen' },
   { src: '/Granitecountertops4.jpg', alt: 'Stone countertop kitchen design' },
 ]
 

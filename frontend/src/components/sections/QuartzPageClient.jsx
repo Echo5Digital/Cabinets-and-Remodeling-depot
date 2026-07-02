@@ -99,10 +99,10 @@ function GalleryLightbox({ images, index, onClose, onPrev, onNext }) {
 const IMAGES = [
   { src: '/quartz.webp',                alt: 'Quartz countertop slab close-up' },
   { src: '/quartzcountertops.jpg',       alt: 'Quartz countertop kitchen showcase' },
-  { src: '/quartzcountertops2.jpg',       alt: 'Quartz countertop kitchen installation' },
-  { src: '/countertop_bg.webp',          alt: 'Modern quartz countertop surface' },
+  { src: '/quartzcountertops02.jpg',      alt: 'Quartz countertop kitchen installation' },
+  { src: '/quartzcountertops4.jpg',       alt: 'Quartz countertop design showcase' },
   { src: '/countertops_2.jpg',           alt: 'Quartz countertop in kitchen' },
-  { src: '/countertops_3.jpg',           alt: 'White quartz countertop detail' },
+  { src: '/quartzcountertops6.jpg',      alt: 'Quartz countertop detail' },
 ]
 
 export function QuartzPageClient() {

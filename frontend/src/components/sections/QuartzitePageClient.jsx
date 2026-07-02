@@ -97,8 +97,8 @@ const IMAGES = [
   { src: '/quartzitecountertops.jpg',    alt: 'Quartzite countertop kitchen showcase' },
   { src: '/quartz-countertopz.jpeg',        alt: 'Quartzite countertop kitchen installation' },
   { src: '/quartzitecountertops4.jpg',   alt: 'Natural quartzite surface detail' },
-  { src: '/quartzitecountertops5.jpg',   alt: 'Quartzite countertop in kitchen' },
-  { src: '/quartzitecountertops6.jpg',   alt: 'Quartzite stone texture detail' },
+  { src: '/quartzitecountertops05.jpg',  alt: 'Quartzite countertop in kitchen' },
+  { src: '/quartzitecountertops06.jpg',  alt: 'Quartzite stone texture detail' },
 ]
 
 export function QuartzitePageClient() {

@@ -95,7 +95,7 @@ function GalleryLightbox({ images, index, onClose, onPrev, onNext }) {
 const IMAGES = [
   { src: '/porcelain.webp',              alt: 'Porcelain countertop slab close-up' },
   { src: '/porcelaincountertops.jpg',    alt: 'Porcelain countertop kitchen showcase' },
-  { src: '/porcelaincountertops3.jpg',   alt: 'Porcelain countertop kitchen installation' },
+  { src: '/porcelaincountertops03.jpg',  alt: 'Porcelain countertop kitchen installation' },
   { src: '/porcelaincountertops4.avif',  alt: 'Modern porcelain surface detail' },
   { src: '/porcelaincountertops5.jpg',   alt: 'Porcelain countertop in kitchen' },
   { src: '/porcelaincountertops6.png',   alt: 'Contemporary stone countertop design' },

@@ -96,8 +96,8 @@ const IMAGES = [
   { src: '/marble.webp',                alt: 'Marble countertop slab close-up' },
   { src: '/marblecountertops.jpg',      alt: 'Marble countertop kitchen showcase' },
   { src: '/marblecountertops3.jpg',     alt: 'Marble countertop kitchen installation' },
-  { src: '/countertop_bg.webp',         alt: 'Natural marble surface detail' },
-  { src: '/countertops_2.jpg',          alt: 'Marble countertop in kitchen' },
+  { src: '/marblecountertops4.jpg',     alt: 'Natural marble surface detail' },
+  { src: '/marblecountertops6.jpg',     alt: 'Marble countertop in kitchen' },
   { src: '/marblecountertops5.jpg',     alt: 'White marble countertop veining' },
 ]
 
