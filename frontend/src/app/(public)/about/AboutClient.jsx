@@ -143,7 +143,7 @@ export function AboutClient() {
 
   const heroTitle    = heroSec?.title    || 'Building Beautiful Homes Since 2005'
   const heroSubtitle = heroSec?.subtitle || 'About Cabinets & Remodeling Depot'
-  const heroBg       = heroSec?.backgroundImage || '/kitchen-remodeling-hero.webp'
+  const heroBg       = heroSec?.backgroundImage || '/about-cabinet.webp'
 
   const ctaHeading = ctaSec?.heading || 'Ready to Transform Your Home?'
   const ctaBody    = ctaSec?.body    || 'Your dream home starts with the right team. Whether you\'re planning a kitchen remodel, bathroom renovation, new flooring, or custom cabinetry, Cabinets & Remodeling Depot is here to bring your vision to life with expert craftsmanship and personalized service.'
@@ -166,12 +166,12 @@ export function AboutClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          {/* Feather-light left scrim — enough for text contrast, right half stays clear */}
+          {/* Left scrim for text contrast, right stays clear */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 35%, rgba(0,0,0,0.18) 62%, rgba(0,0,0,0.00) 82%)',
+                'linear-gradient(to right, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.52) 38%, rgba(0,0,0,0.20) 65%, rgba(0,0,0,0.04) 85%)',
             }}
           />
         </div>
@@ -273,99 +273,135 @@ export function AboutClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. OUR STORY — 2-col layout with image
+          2. OUR STORY — full-bleed split: text left, image right
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container-custom max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <section className="overflow-hidden bg-white">
+        <div className="grid lg:grid-cols-2 min-h-[560px] md:min-h-[640px]">
 
-            {/* Left — text */}
-            <FadeIn>
-              <SectionLabel>Our Story</SectionLabel>
-              <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
-                A Passion for Quality.{' '}
-                <span className="text-primary">A Commitment to You.</span>
-              </h2>
-              <div className="w-14 h-1 bg-primary rounded-full mb-7" />
-              <div className="space-y-4 text-gray-600 text-base leading-relaxed">
-                <p>
-                  Founded in 2005, Cabinets &amp; Remodeling Depot began with a simple vision: to
-                  provide homeowners with high-quality cabinetry and remodeling solutions backed by
-                  honest service and expert craftsmanship.
-                </p>
-                <p>
-                  What started as a cabinet-focused business has grown into a trusted, full-service
-                  remodeling company serving homeowners throughout Tampa Bay. Over the years, we&apos;ve
-                  expanded our expertise to include kitchen remodeling, bathroom remodeling, custom
-                  cabinetry, countertops, flooring, and complete renovation solutions—all under one
-                  roof.
-                </p>
-                <p>
-                  We believe remodeling should be an exciting experience, not a stressful one.
-                  That&apos;s why our team works closely with every client, guiding them from the
-                  initial consultation and design phase to material selection and professional
-                  installation. Every detail matters, and every project is completed with the same
-                  level of care and attention we would give our own homes.
-                </p>
-                <p>
-                  Whether you&apos;re updating a single room or transforming your entire home, our
-                  goal remains the same: delivering beautiful spaces built to last.
-                </p>
-              </div>
-            </FadeIn>
+          {/* Left — text panel */}
+          <FadeIn className="flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-16 md:py-24 bg-white">
+            <SectionLabel>Our Story</SectionLabel>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
+              A Passion for Quality.{' '}
+              <span className="text-primary">A Commitment to You.</span>
+            </h2>
+            <div className="w-14 h-1 bg-primary rounded-full mb-7" />
+            <div className="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
+              <p>
+                Founded in 2005, Cabinets &amp; Remodeling Depot began with a simple vision: to
+                provide homeowners with high-quality cabinetry and remodeling solutions backed by
+                honest service and expert craftsmanship.
+              </p>
+              <p>
+                What started as a cabinet-focused business has grown into a trusted, full-service
+                remodeling company serving homeowners throughout Tampa Bay. Over the years, we&apos;ve
+                expanded our expertise to include kitchen remodeling, bathroom remodeling, custom
+                cabinetry, countertops, flooring, and complete renovation solutions—all under one
+                roof.
+              </p>
+              <p>
+                We believe remodeling should be an exciting experience, not a stressful one.
+                That&apos;s why our team works closely with every client, guiding them from the
+                initial consultation and design phase to material selection and professional
+                installation.
+              </p>
+            </div>
 
-            {/* Right — image */}
-            <FadeIn delay={0.15} className="lg:sticky lg:top-28">
-              <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/gti.webp"
-                  alt="Cabinets & Remodeling Depot showroom Tampa Bay"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                {/* Overlay badge */}
-                <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-sm rounded-xl px-5 py-4 shadow-lg">
-                  <p className="text-primary font-extrabold text-2xl leading-none">20+</p>
-                  <p className="text-gray-700 text-xs font-semibold uppercase tracking-wide mt-1">Years of Experience</p>
-                </div>
-              </div>
-            </FadeIn>
+          </FadeIn>
 
-          </div>
+          {/* Right — full-height image */}
+          <FadeIn delay={0.15} className="relative min-h-[360px] lg:min-h-0">
+            <Image
+              src="/about-cabinet-remodeling.webp"
+              alt="Cabinets & Remodeling Depot kitchen remodeling Tampa Bay"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            {/* Subtle left-edge fade into white on desktop */}
+            <div className="hidden lg:block absolute inset-y-0 left-0 w-12 bg-linear-to-r from-white to-transparent" />
+          </FadeIn>
+
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          3. WHY HOMEOWNERS CHOOSE US — 6-card grid
+          2b. STATS BAR — dark full-width
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-[#F5F0E8] border-y border-[#E8DFD0]">
-        <div className="container-custom max-w-7xl">
+      <section className="bg-gray-900 py-8 md:py-10">
+        <FadeIn>
+          <div className="flex flex-wrap md:flex-nowrap items-center justify-center divide-y md:divide-y-0 divide-white/10 w-full">
+            {[
+              { value: '20+',     label: 'Years of\nExperience' },
+              { value: '5,000+',  label: 'Happy\nCustomers' },
+              { value: '3,000+',  label: 'Projects\nCompleted' },
+              { value: '10,000+', label: 'Cabinets\nInstalled' },
+              { value: '100%',    label: 'Customer\nSatisfaction' },
+            ].map(({ value, label }, i, arr) => (
+              <div key={value} className="flex items-center">
+                <div className="flex flex-col items-center text-center px-8 sm:px-10 md:px-12 lg:px-16 py-5 md:py-3 w-[50vw] md:w-auto">
+                  <p className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-none mb-2 ${serif}`}>{value}</p>
+                  <p className="text-white/60 text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] whitespace-pre-line leading-tight">{label}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <div className="hidden md:block w-px h-10 bg-gold/60 shrink-0" />
+                )}
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+      </section>
 
-          <FadeIn className="text-center mb-12">
-            <SectionLabel>Why Homeowners Choose Us</SectionLabel>
-            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 ${serif}`}>
-              The Cabinets &amp; Remodeling Depot Difference
-            </h2>
-          </FadeIn>
+      {/* ════════════════════════════════════════════════════════════════════
+          3. WHY HOMEOWNERS CHOOSE US
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="bg-white overflow-hidden">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Header band */}
+        <div className="bg-primary">
+          <div className="container-custom max-w-7xl py-12 md:py-16">
+            <FadeIn className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/60 mb-3">
+                  <span className="w-5 h-px bg-white/40 inline-block" />
+                  Why Homeowners Choose Us
+                </p>
+                <h2 className={`text-3xl sm:text-4xl font-extrabold text-white leading-tight ${serif}`}>
+                  The Cabinets &amp; Remodeling<br className="hidden sm:block" /> Depot Difference
+                </h2>
+              </div>
+              <p className="text-white/70 text-sm sm:text-base leading-relaxed max-w-sm md:text-right">
+                Six reasons Tampa Bay homeowners trust us with their most important remodeling projects.
+              </p>
+            </FadeIn>
+          </div>
+        </div>
+
+        {/* Cards grid */}
+        <div className="container-custom max-w-7xl py-14 md:py-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
             {WHY_CHOOSE.map(({ icon: Icon, title, description }, i) => (
-              <FadeIn key={title} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-md transition-shadow duration-200 h-full group">
-                  <div className="w-12 h-12 rounded-full bg-primary/8 border border-primary/20 flex items-center justify-center mb-5 group-hover:bg-primary/12 group-hover:border-primary/40 transition-colors duration-200">
-                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
+              <FadeIn key={title} delay={i * 0.06}>
+                <div className="bg-white p-7 sm:p-8 h-full flex flex-col gap-4 hover:bg-[#faf9f7] transition-colors duration-200 group">
+                  {/* Number + icon row */}
+                  <div className="flex items-center justify-between">
+                    <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200">
+                      <Icon className="w-5 h-5 text-white" strokeWidth={1.8} />
+                    </div>
+                    <span className={`text-5xl font-extrabold text-gray-100 leading-none select-none ${serif}`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                  <h3 className={`font-bold text-gray-900 text-base sm:text-lg mb-2 leading-snug ${serif}`}>
+                  <h3 className={`font-bold text-gray-900 text-base sm:text-[1.05rem] leading-snug ${serif}`}>
                     {title}
                   </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+                  <p className="text-gray-500 text-sm leading-relaxed flex-1">{description}</p>
                 </div>
               </FadeIn>
             ))}
           </div>
-
         </div>
+
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -414,7 +450,7 @@ export function AboutClient() {
       {/* ════════════════════════════════════════════════════════════════════
           5. VISIT OUR SHOWROOM — dark full-bleed section
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-16 md:py-24 overflow-hidden">
+      <section className="relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <Image
@@ -424,20 +460,29 @@ export function AboutClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-black/78" />
         </div>
 
-        <div className="relative z-10 container-custom max-w-7xl">
-          <div className="grid lg:grid-cols-5 gap-10 lg:gap-16">
+        {/* Top accent bar */}
+        <div className="relative z-10 w-full h-1 bg-primary" />
 
-            {/* Left — main info (3 cols) */}
-            <div className="lg:col-span-3">
-              <FadeIn>
-                <SectionLabel light>Visit Our Showroom</SectionLabel>
-                <h2 className={`text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4 ${serif}`}>
-                  Experience Quality in Person
-                </h2>
-                <div className="w-14 h-1 bg-primary rounded-full mb-6" />
+        <div className="relative z-10 container-custom max-w-7xl py-16 md:py-24">
+
+          {/* Section header — centered */}
+          <FadeIn className="text-center mb-12 md:mb-16">
+            <SectionLabel light>Visit Our Showroom</SectionLabel>
+            <h2 className={`text-3xl sm:text-4xl font-extrabold text-white leading-tight ${serif}`}>
+              Experience Quality <span className="text-primary">In Person</span>
+            </h2>
+          </FadeIn>
+
+          {/* Two-column body */}
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+
+            {/* Left — description + button */}
+            <FadeIn className="flex flex-col justify-between h-full">
+              <div>
+                <div className="w-14 h-1 bg-primary rounded-full mb-7" />
                 <div className="space-y-4 text-white/80 text-sm sm:text-base leading-relaxed mb-8">
                   <p>
                     Experience the quality of our products in person. Visit our Valrico showroom to
@@ -452,66 +497,81 @@ export function AboutClient() {
                   </p>
                 </div>
 
-                <Link
-                  href="https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg shadow-primary/30"
-                >
-                  Get Directions
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </FadeIn>
-            </div>
+                {/* Feature pills */}
+                <div className="flex flex-wrap gap-2 mb-10">
+                  {['Kitchen Cabinets', 'Bathroom Vanities', 'Countertops', 'Flooring', 'Hardware'].map((item) => (
+                    <span key={item} className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/80 bg-white/10 border border-white/15 rounded-full px-3 py-1.5">
+                      <CheckCircle className="w-3 h-3 text-primary shrink-0" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            {/* Right — contact details (2 cols) */}
-            <div className="lg:col-span-2 flex flex-col gap-5">
+              <Link
+                href="https://maps.google.com/?q=106+S+St+Cloud+Ave+Valrico+FL+33594"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-12 px-8 rounded-lg transition-colors shadow-lg shadow-primary/30 self-start"
+              >
+                Get Directions
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </FadeIn>
 
-              {/* Address */}
+            {/* Right — info cards stacked */}
+            <div className="flex flex-col gap-4">
+
+              {/* Address + Contact card */}
               <FadeIn delay={0.1}>
                 <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 sm:p-6">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
-                      <MapPin className="w-4 h-4 text-white" />
+                  <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-4">
+                    Showroom Information
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
+                        <MapPin className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Address</p>
+                        <p className="text-white font-semibold text-sm leading-relaxed">
+                          106 S St Cloud Ave<br />Valrico, FL 33594
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Showroom Address</p>
-                      <p className="text-white font-semibold text-sm leading-relaxed">
-                        106 S St Cloud Ave<br />Valrico, FL 33594
-                      </p>
+                    <div className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
+                        <Phone className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Phone</p>
+                        <a href="tel:+18136512333" className="text-white font-semibold text-sm hover:text-gold transition-colors">
+                          (813) 651-2333
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
-                      <Phone className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Phone</p>
-                      <a href="tel:+18136512333" className="text-white font-semibold text-sm hover:text-primary transition-colors">
-                        (813) 651-2333
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
-                      <Mail className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Email</p>
-                      <a href="mailto:sales@cabinetsandremodelingdepot.com" className="text-white font-semibold text-sm hover:text-primary transition-colors break-all">
-                        sales@cabinetsandremodelingdepot.com
-                      </a>
+                    <div className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
+                        <Mail className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-white/50 text-xs font-bold uppercase tracking-widest mb-1">Email</p>
+                        <a href="mailto:sales@cabinetsandremodelingdepot.com" className="text-white font-semibold text-sm hover:text-gold transition-colors break-all">
+                          sales@cabinetsandremodelingdepot.com
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </FadeIn>
 
-              {/* Hours */}
+              {/* Hours card */}
               <FadeIn delay={0.18}>
                 <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 sm:p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Clock className="w-4 h-4 text-primary" />
-                    <p className="text-white/50 text-xs font-bold uppercase tracking-widest">Hours of Operation</p>
+                    <Clock className="w-4 h-4 text-white/60" />
+                    <p className="text-white/50 text-xs font-bold uppercase tracking-widest">Business Hours</p>
                   </div>
                   <div className="space-y-3">
                     {HOURS.map(({ day, hours }) => (
@@ -527,53 +587,59 @@ export function AboutClient() {
             </div>
           </div>
         </div>
+
+        {/* Bottom accent bar */}
+        <div className="relative z-10 w-full h-1 bg-primary" />
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          6. FINAL CTA — light overlay
+          6. FINAL CTA — dark overlay
       ════════════════════════════════════════════════════════════════════ */}
       <section className="relative py-20 md:py-32 overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <Image
-            src="/kitchen_cabinet_remodeling-01.webp"
+            src="/about-cta.webp"
             alt="Ready to transform your home"
             fill
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-white/80" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
 
         <div className="relative z-10 container-custom max-w-3xl text-center px-4">
           <FadeIn>
-            {/* Gold label */}
+            {/* Label */}
             <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="flex-1 max-w-[3.75rem] sm:max-w-[5.625rem] h-px bg-primary" />
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary whitespace-nowrap">
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-white/40" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/70 whitespace-nowrap">
                 Tampa Bay Remodeling Experts
               </p>
-              <span className="flex-1 max-w-[3.75rem] sm:max-w-[5.625rem] h-px bg-primary" />
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-white/40" />
             </div>
 
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
+            <h2
+              className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 ${serif}`}
+              style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+            >
               {ctaHeading}
             </h2>
 
-            <p className="text-gray-700 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               {ctaBody}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors shadow-lg shadow-primary/30 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors shadow-lg shadow-black/30 whitespace-nowrap"
               >
                 Schedule a Consultation
               </Link>
               <a
                 href="tel:+18136512333"
-                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:bg-white/10 font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors whitespace-nowrap"
               >
                 <Phone className="w-4 h-4 shrink-0" />
                 Call Us Today

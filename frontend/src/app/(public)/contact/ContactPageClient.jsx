@@ -148,21 +148,23 @@ const FAQS = [
 function FaqItem({ question, answer }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden">
+    <div className={`border-b border-gray-200 last:border-b-0 ${open ? 'bg-white' : ''}`}>
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left bg-white hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left transition-colors"
       >
-        <span className={`font-semibold text-gray-900 text-sm sm:text-base leading-snug ${serif}`}>
+        <span className={`font-semibold text-sm sm:text-base leading-snug transition-colors ${open ? 'text-gray-900 font-bold' : 'text-gray-900'} ${serif}`}>
           {question}
         </span>
-        <ChevronDown
-          className={`w-5 h-5 text-primary shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-        />
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${open ? 'bg-gray-800' : 'bg-gray-100'}`}>
+          <ChevronDown
+            className={`w-4 h-4 transition-all duration-300 ${open ? 'rotate-180 text-white' : 'text-gray-500'}`}
+          />
+        </div>
       </button>
       {open && (
-        <div className="px-6 pb-5 bg-white border-t border-gray-100">
-          <p className="text-gray-600 text-sm leading-relaxed pt-4">{answer}</p>
+        <div className="pb-5">
+          <p className="text-gray-600 text-sm leading-relaxed">{answer}</p>
         </div>
       )}
     </div>
@@ -189,7 +191,7 @@ export function ContactPageClient() {
         {/* Background image with gradient scrim */}
         <div className="absolute inset-0">
           <Image
-            src="/kitchen-remodeling-hero.webp"
+            src="/cabinet-contact.webp"
             alt="Cabinets & Remodeling Depot — Contact Us"
             fill
             priority
@@ -300,83 +302,52 @@ export function ContactPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. FREE ESTIMATE FORM — 2-col layout
+          2. FREE ESTIMATE FORM
       ════════════════════════════════════════════════════════════════════ */}
-      <section id="estimate-form" className="py-16 md:py-24 bg-gray-50">
-        <div className="container-custom max-w-7xl">
+      <section id="estimate-form" className="bg-white overflow-hidden">
 
-          <FadeIn className="text-center mb-10 md:mb-14">
-            <SectionLabel>Get Your Free Estimate</SectionLabel>
-            <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight ${serif}`}>
-              Tell Us About <span className="text-primary">Your Project</span>
+        <div className="grid lg:grid-cols-[5fr_7fr] min-h-[640px]">
+
+          {/* Left panel — maroon */}
+          <FadeIn className="bg-primary flex flex-col justify-center px-8 sm:px-10 md:px-12 lg:px-14 py-14 md:py-20">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/60 mb-5">
+              <span className="w-5 h-px bg-white/40 inline-block" />
+              Free Estimates
+              <span className="w-5 h-px bg-white/40 inline-block" />
+            </p>
+
+            <h2 className={`text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold text-white leading-tight mb-5 ${serif}`}>
+              Tell Us About<br />Your Project
             </h2>
-            <div className="w-14 h-1 bg-primary rounded-full mx-auto mt-4" />
+
+            <div className="w-12 h-0.5 bg-white/30 mb-7" />
+
+            <p className="text-white/75 text-sm sm:text-[0.95rem] leading-[1.8] mb-10">
+              Ready to transform your home? Fill out the form and one of our remodeling
+              specialists will contact you to discuss your project and schedule your
+              free consultation.
+            </p>
+
+            {/* Trust badges */}
+            <div className="flex flex-col gap-3.5">
+              {[
+                { icon: CheckCircle, text: 'Free consultation — no obligation' },
+                { icon: Shield,      text: 'Serving Tampa Bay since 2005' },
+                { icon: ThumbsUp,    text: '100% customer satisfaction' },
+              ].map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-3">
+                  <Icon className="w-4 h-4 text-white/50 shrink-0" strokeWidth={1.8} />
+                  <span className="text-white/80 text-sm">{text}</span>
+                </div>
+              ))}
+            </div>
           </FadeIn>
 
-          <div className="grid lg:grid-cols-2 shadow-xl rounded-2xl overflow-hidden">
+          {/* Right panel — form */}
+          <FadeIn delay={0.12} className="flex flex-col justify-center px-7 sm:px-10 md:px-14 lg:px-16 py-14 md:py-20 bg-white">
+            <ContactForm source="contact-page" />
+          </FadeIn>
 
-            {/* Left: info panel */}
-            <FadeIn className="bg-white px-8 md:px-12 py-12 flex flex-col justify-center">
-              {/* Logo */}
-              <div className="relative w-20 h-20 overflow-hidden mb-6 shrink-0">
-                <Image
-                  src="/logo_fav.png"
-                  alt="Cabinets & Remodeling Depot"
-                  fill
-                  sizes="80px"
-                  className="object-contain"
-                />
-              </div>
-
-              <SectionLabel>Free Estimates</SectionLabel>
-
-              <h3 className={`text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
-                Ready to Transform <span className="text-primary">Your Home?</span>
-              </h3>
-
-              <div className="w-10 h-1 bg-primary rounded-full mb-6" />
-
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
-                Complete the form and one of our remodeling specialists will contact you to discuss
-                your project, answer your questions, and schedule your free consultation.
-              </p>
-
-              {/* Info bullets */}
-              <div className="space-y-4">
-                {[
-                  { icon: MapPin, text: address },
-                  { icon: Phone, text: phone, href: phoneHref },
-                  { icon: Mail, text: 'sales@cabinetsandremodelingdepot.com', href: 'mailto:sales@cabinetsandremodelingdepot.com' },
-                  { icon: Clock, text: 'Mon–Fri 10:00 AM – 6:00 PM  ·  Sat 10:00 AM – 4:00 PM' },
-                ].map(({ icon: Icon, text, href }) => (
-                  <div key={text} className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/8 border border-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                      <Icon className="w-4 h-4 text-primary" strokeWidth={1.5} />
-                    </div>
-                    {href ? (
-                      <a href={href} className="text-gray-600 text-sm leading-relaxed hover:text-primary transition-colors break-all pt-2">
-                        {text}
-                      </a>
-                    ) : (
-                      <p className="text-gray-600 text-sm leading-relaxed pt-2">{text}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </FadeIn>
-
-            {/* Right: dark form panel */}
-            <FadeIn delay={0.15} className="bg-gray-900 px-8 md:px-12 py-12">
-              <h4 className={`text-xl sm:text-2xl font-bold text-white mb-2 ${serif}`}>
-                Request My Free Estimate
-              </h4>
-              <p className="text-white/60 text-sm mb-7 leading-relaxed">
-                Fill out the form below and we&apos;ll get back to you promptly.
-              </p>
-              <ContactForm source="contact-page" dark />
-            </FadeIn>
-
-          </div>
         </div>
       </section>
 
@@ -387,13 +358,13 @@ export function ContactPageClient() {
         {/* Background */}
         <div className="absolute inset-0">
           <Image
-            src="/cabinet-instock.webp"
+            src="/contact-cabinet.webp"
             alt="Visit our Valrico showroom"
             fill
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-black/72" />
+          <div className="absolute inset-0 bg-black/78" />
         </div>
 
         <div className="relative z-10 container-custom max-w-7xl">
@@ -443,7 +414,7 @@ export function ContactPageClient() {
                   </p>
 
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
                       <MapPin className="w-4 h-4 text-white" />
                     </div>
                     <div>
@@ -455,7 +426,7 @@ export function ContactPageClient() {
                   </div>
 
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
                       <Phone className="w-4 h-4 text-white" />
                     </div>
                     <div>
@@ -467,7 +438,7 @@ export function ContactPageClient() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/30 border border-primary/50 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 mt-0.5">
                       <Mail className="w-4 h-4 text-white" />
                     </div>
                     <div>
@@ -484,7 +455,7 @@ export function ContactPageClient() {
               <FadeIn delay={0.18}>
                 <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl p-5 sm:p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Clock className="w-4 h-4 text-primary" />
+                    <Clock className="w-4 h-4 text-white/60" />
                     <p className="text-white/50 text-xs font-bold uppercase tracking-widest">Business Hours</p>
                   </div>
                   <div className="space-y-3">
@@ -504,46 +475,44 @@ export function ContactPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          4. GOOGLE MAP — embedded interactive map
+          4. GOOGLE MAP — full-width, minimal wrapper
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container-custom max-w-7xl">
+      <section className="bg-white">
+        <div className="container-custom max-w-7xl py-14 md:py-20">
 
-          <FadeIn className="text-center mb-10">
+          <FadeIn className="text-center mb-8">
             <SectionLabel>Find Us Easily</SectionLabel>
             <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight ${serif}`}>
-              Conveniently Located in <span className="text-primary">Valrico</span>
+              Conveniently Located in Valrico
             </h2>
-            <div className="w-14 h-1 bg-primary rounded-full mx-auto mt-4 mb-4" />
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            <div className="w-14 h-1 bg-gray-300 rounded-full mx-auto mt-4 mb-4" />
+            <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
               Our showroom proudly serves homeowners throughout Tampa and the surrounding communities.
               Use the interactive map below for directions, then stop by to explore our products and
               meet with our remodeling experts.
             </p>
           </FadeIn>
 
-          <FadeIn delay={0.1}>
-            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-              <iframe
-                src={MAP_URL}
-                width="100%"
-                height="450"
-                style={{ border: 0, display: 'block' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Cabinets & Remodeling Depot — 106 S St Cloud Ave, Valrico, FL 33594"
-              />
-            </div>
-          </FadeIn>
-
         </div>
+
+        <FadeIn>
+          <iframe
+            src={MAP_URL}
+            width="100%"
+            height="460"
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Cabinets & Remodeling Depot — 106 S St Cloud Ave, Valrico, FL 33594"
+          />
+        </FadeIn>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          5. WHY CONTACT US — 6-card grid
+          5. WHY CONTACT US — 6-card grid on white
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-warm-gray border-y border-[#E8DFD0]">
+      <section className="py-16 md:py-24 bg-white border-t border-gray-100">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-12">
@@ -556,9 +525,11 @@ export function ContactPageClient() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {WHY_CONTACT.map(({ icon: Icon, title, description }, i) => (
               <FadeIn key={title} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-md transition-shadow duration-200 h-full group">
-                  <div className="w-12 h-12 rounded-full bg-primary/8 border border-primary/20 flex items-center justify-center mb-5 group-hover:bg-primary/12 group-hover:border-primary/40 transition-colors duration-200">
-                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.5} />
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 sm:p-7 hover:border-gray-300 hover:shadow-md transition-all duration-200 h-full group">
+                  {/* Diamond icon */}
+                  <div className="w-12 h-12 relative flex items-center justify-center mb-5">
+                    <div className="w-10 h-10 bg-gold rotate-45 absolute" />
+                    <Icon className="w-4.5 h-4.5 text-white relative z-10 -rotate-0" strokeWidth={1.8} />
                   </div>
                   <h3 className={`font-bold text-gray-900 text-base sm:text-lg mb-2 leading-snug ${serif}`}>
                     {title}
@@ -573,9 +544,9 @@ export function ContactPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          6. WHAT HAPPENS NEXT — 5-step process
+          6. WHAT HAPPENS NEXT — 5-step process on warm-gray
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-warm-gray border-y border-[#E8DFD0]">
         <div className="container-custom max-w-7xl">
 
           <FadeIn className="text-center mb-14">
@@ -587,17 +558,18 @@ export function ContactPageClient() {
 
           <div className="relative">
             {/* Connecting line — desktop only */}
-            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-primary/25 to-transparent z-0" />
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-px bg-linear-to-r from-transparent via-gray-300 to-transparent z-0" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
               {PROCESS_STEPS.map(({ step, icon: Icon, title }, i) => (
                 <FadeIn key={step} delay={i * 0.09}>
                   <div className="relative z-10 flex flex-col items-center text-center gap-4">
                     <div className="relative">
-                      <div className="w-18 h-18 rounded-full bg-primary shadow-lg shadow-primary/20 flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-white" />
+                      {/* Outlined circle instead of filled */}
+                      <div className="w-18 h-18 rounded-full bg-white border-2 border-primary shadow-md flex items-center justify-center">
+                        <Icon className="w-6 h-6 text-primary" />
                       </div>
-                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-primary text-primary text-[10px] font-extrabold flex items-center justify-center leading-none">
+                      <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-[10px] font-extrabold flex items-center justify-center leading-none shadow">
                         {step}
                       </span>
                     </div>
@@ -616,9 +588,9 @@ export function ContactPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          7. FAQs — accordion
+          7. FAQs — clean accordion on white
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-warm-gray border-t border-[#E8DFD0]">
+      <section className="py-16 md:py-24 bg-white">
         <div className="container-custom max-w-3xl">
 
           <FadeIn className="text-center mb-12">
@@ -629,9 +601,11 @@ export function ContactPageClient() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <div className="space-y-3">
+            <div className="border border-gray-200 rounded-2xl overflow-hidden divide-y divide-gray-200">
               {FAQS.map((faq) => (
-                <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
+                <div key={faq.question} className="px-6 bg-white">
+                  <FaqItem question={faq.question} answer={faq.answer} />
+                </div>
               ))}
             </div>
           </FadeIn>
@@ -640,7 +614,7 @@ export function ContactPageClient() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          8. FINAL CTA — light overlay
+          8. FINAL CTA — dark overlay
       ════════════════════════════════════════════════════════════════════ */}
       <section className="relative py-20 md:py-32 overflow-hidden">
         {/* Background */}
@@ -652,25 +626,27 @@ export function ContactPageClient() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-white/80" />
+          <div className="absolute inset-0 bg-black/70" />
         </div>
 
         <div className="relative z-10 container-custom max-w-3xl text-center px-4">
           <FadeIn>
             {/* Label */}
             <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-primary" />
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary whitespace-nowrap">
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-white/40" />
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/70 whitespace-nowrap">
                 Tampa Bay Remodeling Experts
               </p>
-              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-primary" />
+              <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-white/40" />
             </div>
 
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5 ${serif}`}>
-              Ready to Start Your Remodeling Project?
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5 ${serif}`}
+              style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+            >
+              Ready to <span className="text-primary">Start Your Remodeling</span> Project?
             </h2>
 
-            <p className="text-gray-700 font-medium text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
               Your dream home begins with a conversation. Contact Cabinets &amp; Remodeling Depot
               today to schedule your free consultation, visit our showroom, or request a
               personalized estimate.
@@ -679,13 +655,13 @@ export function ContactPageClient() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="#estimate-form"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors shadow-lg shadow-primary/30 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors shadow-lg shadow-black/30 whitespace-nowrap"
               >
                 Request Free Estimate
               </a>
               <a
                 href={phoneHref}
-                className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:bg-white/10 font-bold uppercase tracking-widest text-sm h-13 px-9 rounded-lg transition-colors whitespace-nowrap"
               >
                 <Phone className="w-4 h-4 shrink-0" />
                 Call (813) 651-2333

@@ -59,24 +59,24 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className={labelCls}>Your Name *</label>
-        <input {...register('name')} placeholder="Your Name" className={inputCls} />
+        <label className={labelCls}>Full Name *</label>
+        <input {...register('name')} placeholder="Full Name" className={inputCls} />
         {errors.name && <p className={errorCls}>{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className={labelCls}>Your Email *</label>
-        <input type="email" {...register('email')} placeholder="Your Email" className={inputCls} />
+        <label className={labelCls}>Email Address *</label>
+        <input type="email" {...register('email')} placeholder="Email Address" className={inputCls} />
         {errors.email && <p className={errorCls}>{errors.email.message}</p>}
       </div>
 
       <div>
-        <label className={labelCls}>Ph Number</label>
-        <input type="tel" {...register('phone')} placeholder="Ph Number" className={inputCls} />
+        <label className={labelCls}>Phone Number</label>
+        <input type="tel" {...register('phone')} placeholder="Phone Number" className={inputCls} />
       </div>
 
       <div>
-        <label className={labelCls}>Select Service</label>
+        <label className={labelCls}>Project Type</label>
         <Select onValueChange={(val) => setValue('service', val)}>
           <SelectTrigger
             className={
@@ -85,7 +85,7 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
                 : 'w-full'
             }
           >
-            <SelectValue placeholder="Select Service" />
+            <SelectValue placeholder="Select Project Type" />
           </SelectTrigger>
           <SelectContent>
             {SERVICES_LIST_FOR_FORM.map((svc) => (
@@ -98,15 +98,15 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
       </div>
 
       <div>
-        <label className={labelCls}>Subject</label>
-        <input {...register('subject')} placeholder="Subject" className={inputCls} />
+        <label className={labelCls}>Project Location</label>
+        <input {...register('subject')} placeholder="City or Zip Code" className={inputCls} />
       </div>
 
       <div>
-        <label className={labelCls}>Your Message *</label>
+        <label className={labelCls}>Message</label>
         <textarea
           {...register('message')}
-          placeholder="Your Message"
+          placeholder="Tell us about your project..."
           rows={4}
           className={`${inputCls} resize-none`}
         />
@@ -126,7 +126,7 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
         ) : (
           <>
             <Send className="h-4 w-4" />
-            Send Message
+            Request My Free Estimate
           </>
         )}
       </button>
