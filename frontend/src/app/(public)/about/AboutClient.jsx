@@ -282,8 +282,8 @@ export function AboutClient() {
           <FadeIn className="flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-16 md:py-24 bg-white">
             <SectionLabel>Our Story</SectionLabel>
             <h2 className={`text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-4 ${serif}`}>
-              A Passion for Quality.{' '}
-              <span className="text-primary">A Commitment to You.</span>
+              A Passion for Quality<br />
+              <span className="text-primary">A Commitment to You</span>
             </h2>
             <div className="w-14 h-1 bg-primary rounded-full mb-7" />
             <div className="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
