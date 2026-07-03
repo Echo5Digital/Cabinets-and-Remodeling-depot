@@ -17,7 +17,7 @@ const SLIDES = [
 const AUTO_ADVANCE_MS = 6000
 const DRAG_RESUME_MS  = 800
 
-export function TransformationSection({ data }) {
+export function TransformationSection({ data, bgColor = '#F8F3ED' }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const [activeIndex, setActiveIndex] = useState(0)
   const [sliderPos,   setSliderPos]   = useState(50)
@@ -83,7 +83,7 @@ export function TransformationSection({ data }) {
   const onTouchEnd   = ()  => { dragging.current = false; scheduleResume() }
 
   return (
-    <section ref={ref} className="relative section-padding overflow-hidden bg-[#F8F3ED]">
+    <section ref={ref} className="relative section-padding overflow-hidden" style={{ backgroundColor: bgColor }}>
       <div className="relative z-10 container-custom">
 
         {/* ── Heading ──────────────────────────────────────────────────────── */}
@@ -243,14 +243,8 @@ export function TransformationSection({ data }) {
             </button>
           </div>
 
-          {/* ── Bottom row: counter + dots ──────────────────────────────────── */}
-          <div className="flex items-center justify-between mt-5 px-1">
-
-            {/* Slide counter */}
-            <span className="text-sm font-medium text-primary/50 tabular-nums select-none">
-              {String(activeIndex + 1).padStart(2, '0')} /{' '}
-              {String(SLIDES.length).padStart(2, '0')}
-            </span>
+          {/* ── Bottom row: dots ─────────────────────────────────────────────── */}
+          <div className="flex items-center justify-center mt-5 px-1">
 
             {/* Dot indicators */}
             <div className="flex items-center gap-2">

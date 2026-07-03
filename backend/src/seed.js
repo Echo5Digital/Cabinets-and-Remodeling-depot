@@ -18,6 +18,7 @@ import Page from './models/Page.js'
 import Blog from './models/Blog.js'
 import BlogCategory from './models/BlogCategory.js'
 import Setting from './models/Setting.js'
+import Gallery from './models/Gallery.js'
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cabinets-depot'
 
@@ -56,6 +57,98 @@ const DEFAULT_SETTINGS = [
   { key: 'googleReviewUrl', value: '', label: 'Google Review URL', group: 'social' },
   { key: 'metaTitle', value: 'Cabinets & Remodeling Depot | Tampa Bay Kitchen & Bathroom Remodeling', label: 'Default Meta Title', group: 'seo' },
   { key: 'metaDescription', value: 'Expert kitchen remodeling, bathroom renovations, custom cabinets, and countertops in Tampa Bay. Get your free estimate today.', label: 'Default Meta Description', group: 'seo' },
+]
+
+// Curated gallery images from the public/ directory.
+// publicId uses a "local/" prefix as a placeholder (not a real Cloudinary asset).
+// url values are served by Next.js from the frontend/public/ folder.
+const GALLERY_IMAGES = [
+  // ── KITCHEN ──────────────────────────────────────────────────────────────
+  { url: '/kitchen-remodel.webp',               publicId: 'local/kitchen-remodel',               alt: 'Kitchen remodel Tampa',          category: 'KITCHEN',     sortOrder: 0 },
+  { url: '/kitchen-remodel-2.webp',             publicId: 'local/kitchen-remodel-2',             alt: 'Modern kitchen remodel',         category: 'KITCHEN',     sortOrder: 1 },
+  { url: '/kitchen_cabinet_remodeling-01.webp', publicId: 'local/kitchen_cabinet_remodeling-01', alt: 'Kitchen cabinet remodeling',     category: 'KITCHEN',     sortOrder: 2 },
+  { url: '/kitchen_cabinet_4.jpg',              publicId: 'local/kitchen_cabinet_4',              alt: 'Custom kitchen cabinets',        category: 'KITCHEN',     sortOrder: 3 },
+  { url: '/kitchen-cabinet-2.jpg',              publicId: 'local/kitchen-cabinet-2',              alt: 'Kitchen cabinet installation',   category: 'KITCHEN',     sortOrder: 4 },
+  { url: '/beautiful-shot-modern-house-kitchen.jpg', publicId: 'local/beautiful-shot-modern-house-kitchen', alt: 'Modern house kitchen', category: 'KITCHEN',   sortOrder: 5 },
+
+  // ── CABINETS ─────────────────────────────────────────────────────────────
+  { url: '/cabinet_img.webp',      publicId: 'local/cabinet_img',      alt: 'Custom cabinets',           category: 'CABINETS',    sortOrder: 0 },
+  { url: '/cabinet-glass.jpg',     publicId: 'local/cabinet-glass',     alt: 'Glass front cabinets',      category: 'CABINETS',    sortOrder: 1 },
+  { url: '/cabinet-shaker.jpg',    publicId: 'local/cabinet-shaker',    alt: 'Shaker style cabinets',     category: 'CABINETS',    sortOrder: 2 },
+  { url: '/cabinet-raised.webp',   publicId: 'local/cabinet-raised',    alt: 'Raised panel cabinets',     category: 'CABINETS',    sortOrder: 3 },
+  { url: '/glass-front-1.webp',    publicId: 'local/glass-front-1',     alt: 'Glass front cabinet doors', category: 'CABINETS',    sortOrder: 4 },
+  { url: '/shaker-cabinets-1.webp', publicId: 'local/shaker-cabinets-1', alt: 'Shaker cabinets Tampa',   category: 'CABINETS',    sortOrder: 5 },
+
+  // ── BATHROOM ─────────────────────────────────────────────────────────────
+  { url: '/bathroom-remodeling-hero.jpg',      publicId: 'local/bathroom-remodeling-hero',      alt: 'Bathroom remodeling Tampa',  category: 'BATHROOM',    sortOrder: 0 },
+  { url: '/bathroom-remodel-1.jpg',            publicId: 'local/bathroom-remodel-1',            alt: 'Bathroom remodel project',   category: 'BATHROOM',    sortOrder: 1 },
+  { url: '/bathroom-remodel-2.jpg',            publicId: 'local/bathroom-remodel-2',            alt: 'Bathroom renovation',        category: 'BATHROOM',    sortOrder: 2 },
+  { url: '/bathroom-remodel-3.jpg',            publicId: 'local/bathroom-remodel-3',            alt: 'Custom bathroom remodel',    category: 'BATHROOM',    sortOrder: 3 },
+  { url: '/bathroom-remodeling-design.webp',   publicId: 'local/bathroom-remodeling-design',    alt: 'Bathroom design',            category: 'BATHROOM',    sortOrder: 4 },
+  { url: '/custom-bathroom-vanity.jpg',        publicId: 'local/custom-bathroom-vanity',        alt: 'Custom bathroom vanity',     category: 'BATHROOM',    sortOrder: 5 },
+
+  // ── COUNTERTOPS ──────────────────────────────────────────────────────────
+  { url: '/quartz.webp',             publicId: 'local/quartz',             alt: 'Quartz countertops',         category: 'COUNTERTOPS', sortOrder: 0 },
+  { url: '/Granitecountertops.jpg',  publicId: 'local/Granitecountertops', alt: 'Granite countertops Tampa',  category: 'COUNTERTOPS', sortOrder: 1 },
+  { url: '/marble.webp',             publicId: 'local/marble',             alt: 'Marble countertops',         category: 'COUNTERTOPS', sortOrder: 2 },
+  { url: '/quartzite.webp',          publicId: 'local/quartzite',          alt: 'Quartzite countertops',      category: 'COUNTERTOPS', sortOrder: 3 },
+  { url: '/porcelain.webp',          publicId: 'local/porcelain',          alt: 'Porcelain countertops',      category: 'COUNTERTOPS', sortOrder: 4 },
+  { url: '/countertops_2.jpg',       publicId: 'local/countertops_2',      alt: 'Kitchen countertops',        category: 'COUNTERTOPS', sortOrder: 5 },
+
+  // ── FLOORING ─────────────────────────────────────────────────────────────
+  { url: '/flooring-hero.webp',               publicId: 'local/flooring-hero',               alt: 'Flooring Tampa',       category: 'FLOORING',    sortOrder: 0 },
+  { url: '/flooring-tampa.jpg',               publicId: 'local/flooring-tampa',               alt: 'Flooring in Tampa',    category: 'FLOORING',    sortOrder: 2 },
+  { url: '/tile-flooring.jpeg',               publicId: 'local/tile-flooring',               alt: 'Tile flooring',        category: 'FLOORING',    sortOrder: 3 },
+  { url: '/Flooring-samples.jpg',             publicId: 'local/Flooring-samples',             alt: 'Flooring samples',     category: 'FLOORING',    sortOrder: 4 },
+
+  // ── GENERAL ──────────────────────────────────────────────────────────────
+  { url: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', publicId: 'local/Custom-Cabinets-and-Countertops-for-Tampa-2', alt: 'Custom cabinets and countertops Tampa', category: 'GENERAL', sortOrder: 0 },
+  { url: '/Modern-kitchen-renovation-Tampa-completed-project.jpg', publicId: 'local/Modern-kitchen-renovation-Tampa-completed-project', alt: 'Modern kitchen renovation Tampa', category: 'GENERAL', sortOrder: 1 },
+  { url: '/instock-cabinets-hero.webp', publicId: 'local/instock-cabinets-hero', alt: 'In-stock cabinets showroom', category: 'GENERAL', sortOrder: 2 },
+  { url: '/Kitchen-Cabinet-Showroom-Tampa.jpg', publicId: 'local/Kitchen-Cabinet-Showroom-Tampa', alt: 'Kitchen cabinet showroom Tampa', category: 'GENERAL', sortOrder: 3 },
+
+  // ── KITCHEN (additional) ──────────────────────────────────────────────────
+  { url: '/kitchen_cabinet_5.jpg',          publicId: 'local/kitchen_cabinet_5',          alt: 'Kitchen cabinets design',              category: 'KITCHEN',     sortOrder: 6 },
+  { url: '/kitchen-cabinet-3.jpg',          publicId: 'local/kitchen-cabinet-3',          alt: 'Kitchen cabinet detail',               category: 'KITCHEN',     sortOrder: 7 },
+  { url: '/kitchen-cabinet-ins.jpg',        publicId: 'local/kitchen-cabinet-ins',        alt: 'Kitchen cabinet installation Tampa',   category: 'KITCHEN',     sortOrder: 8 },
+  { url: '/kitchencabinet3.jpg',            publicId: 'local/kitchencabinet3',            alt: 'Kitchen cabinets remodel',             category: 'KITCHEN',     sortOrder: 9 },
+  { url: '/kitchen-remodeling-hero.webp',   publicId: 'local/kitchen-remodeling-hero',   alt: 'Kitchen remodeling Tampa',             category: 'KITCHEN',     sortOrder: 10 },
+
+  // ── CABINETS (additional) ─────────────────────────────────────────────────
+  { url: '/cabinet-slab.jpg',              publicId: 'local/cabinet-slab',              alt: 'Slab cabinet doors',               category: 'CABINETS',    sortOrder: 6 },
+  { url: '/cabinet-slab1.webp',            publicId: 'local/cabinet-slab1',            alt: 'Slab style cabinets',              category: 'CABINETS',    sortOrder: 7 },
+  { url: '/cabinet-slab2.webp',            publicId: 'local/cabinet-slab2',            alt: 'Modern slab cabinets',             category: 'CABINETS',    sortOrder: 8 },
+  { url: '/glass-front-2.webp',            publicId: 'local/glass-front-2',            alt: 'Glass front cabinets style 2',     category: 'CABINETS',    sortOrder: 9 },
+  { url: '/glass-front-3.webp',            publicId: 'local/glass-front-3',            alt: 'Glass front cabinet doors',        category: 'CABINETS',    sortOrder: 10 },
+  { url: '/shaker-cabinets-2.webp',        publicId: 'local/shaker-cabinets-2',        alt: 'Shaker cabinets style',            category: 'CABINETS',    sortOrder: 11 },
+  { url: '/raised-panel-1.webp',           publicId: 'local/raised-panel-1',           alt: 'Raised panel cabinet doors',       category: 'CABINETS',    sortOrder: 12 },
+  { url: '/raised-panel-2.webp',           publicId: 'local/raised-panel-2',           alt: 'Raised panel cabinets',            category: 'CABINETS',    sortOrder: 13 },
+
+  // ── BATHROOM (additional) ─────────────────────────────────────────────────
+  { url: '/bathroom-remodel-4.jpg',        publicId: 'local/bathroom-remodel-4',        alt: 'Bathroom remodel project 4',   category: 'BATHROOM',    sortOrder: 6 },
+  { url: '/bathroom-remodel-5.jpg',        publicId: 'local/bathroom-remodel-5',        alt: 'Bathroom renovation project',  category: 'BATHROOM',    sortOrder: 7 },
+  { url: '/bathroom-remodel-6.jpg',        publicId: 'local/bathroom-remodel-6',        alt: 'Complete bathroom remodel',    category: 'BATHROOM',    sortOrder: 8 },
+  { url: '/bathroom-02.webp',              publicId: 'local/bathroom-02',              alt: 'Modern bathroom design',       category: 'BATHROOM',    sortOrder: 9 },
+  { url: '/bathroom-designing.webp',       publicId: 'local/bathroom-designing',       alt: 'Bathroom designing Tampa',     category: 'BATHROOM',    sortOrder: 10 },
+  { url: '/custom-bathroom-vanities.jpeg', publicId: 'local/custom-bathroom-vanities', alt: 'Custom bathroom vanities',     category: 'BATHROOM',    sortOrder: 11 },
+  { url: '/shower-upgrade.jpg',            publicId: 'local/shower-upgrade',            alt: 'Shower upgrade Tampa',         category: 'BATHROOM',    sortOrder: 12 },
+
+  // ── COUNTERTOPS (additional) ──────────────────────────────────────────────
+  { url: '/Granitecountertops2.jpg',   publicId: 'local/Granitecountertops2',   alt: 'Granite countertops design',         category: 'COUNTERTOPS', sortOrder: 6 },
+  { url: '/Granitecountertops3.jpg',   publicId: 'local/Granitecountertops3',   alt: 'Granite countertop installation',    category: 'COUNTERTOPS', sortOrder: 7 },
+  { url: '/marblecountertops.jpg',     publicId: 'local/marblecountertops',     alt: 'Marble countertop installation',     category: 'COUNTERTOPS', sortOrder: 8 },
+  { url: '/quartzcountertops.jpg',     publicId: 'local/quartzcountertops',     alt: 'Quartz countertop design',           category: 'COUNTERTOPS', sortOrder: 9 },
+  { url: '/porcelaincountertops.jpg',  publicId: 'local/porcelaincountertops',  alt: 'Porcelain countertop installation',  category: 'COUNTERTOPS', sortOrder: 10 },
+  { url: '/countertops_3.jpg',         publicId: 'local/countertops_3',         alt: 'Countertop remodeling Tampa',        category: 'COUNTERTOPS', sortOrder: 11 },
+
+  // ── FLOORING (additional) ─────────────────────────────────────────────────
+  { url: '/flooring-2.jpg',       publicId: 'local/flooring-2',       alt: 'Home flooring options',       category: 'FLOORING',    sortOrder: 6 },
+  { url: '/flooring-in-tampa.jpg', publicId: 'local/flooring-in-tampa', alt: 'Flooring in Tampa',         category: 'FLOORING',    sortOrder: 7 },
+  { url: '/L1-.jpeg',             publicId: 'local/L1-',             alt: 'Laminate flooring Tampa',     category: 'FLOORING',    sortOrder: 8 },
+
+  // ── GENERAL (additional) ──────────────────────────────────────────────────
+  { url: '/cabinet-contact.webp',  publicId: 'local/cabinet-contact',  alt: 'Cabinet remodeling consultation', category: 'GENERAL', sortOrder: 5 },
+  { url: '/storage-solution.webp', publicId: 'local/storage-solution', alt: 'Custom storage solutions',        category: 'GENERAL', sortOrder: 6 },
 ]
 
 const BLOG_POSTS = [
@@ -179,7 +272,27 @@ export async function runSeed() {
   }
   console.log(`✓ ${DEFAULT_SETTINGS.length} settings seeded`)
 
+  // ─── Gallery ──────────────────────────────────────────────────────────────
+  await seedGallery()
+
   return { adminEmail, adminPassword }
+}
+
+// ─── Gallery-only seed: always runs on startup to insert any new images ───────
+// Safe to run repeatedly — upsert by url means no duplicates ever.
+async function seedGallery() {
+  let galleryInserted = 0
+  for (const item of GALLERY_IMAGES) {
+    const result = await Gallery.findOneAndUpdate(
+      { url: item.url },
+      { $setOnInsert: { ...item, isActive: true } },
+      { upsert: true, new: false }
+    )
+    if (!result) galleryInserted++
+  }
+  if (galleryInserted > 0) {
+    console.log(`✓ ${galleryInserted} new gallery images inserted`)
+  }
 }
 
 // ─── Auto-seed: called by the server on startup ───────────────────────────────
@@ -192,18 +305,21 @@ export async function autoSeed() {
     Blog.countDocuments(),
   ])
 
-  // Everything already exists — nothing to do
-  if (userCount > 0 && categoryCount > 0 && blogCount > 0) return
-
-  console.log('🌱 Missing data detected — running automatic seed...')
-  const { adminEmail, adminPassword } = await runSeed()
-  console.log('✅ Auto-seed completed!')
-  if (userCount === 0) {
-    console.log(`   Admin email:    ${adminEmail}`)
-    console.log(`   Admin password: ${adminPassword}`)
-    console.log('   ⚠️  Change the admin password immediately after first login!')
+  // Run full seed for missing core data
+  if (userCount === 0 || categoryCount === 0 || blogCount === 0) {
+    console.log('🌱 Missing data detected — running automatic seed...')
+    const { adminEmail, adminPassword } = await runSeed()
+    console.log('✅ Auto-seed completed!')
+    if (userCount === 0) {
+      console.log(`   Admin email:    ${adminEmail}`)
+      console.log(`   Admin password: ${adminPassword}`)
+      console.log('   ⚠️  Change the admin password immediately after first login!')
+    }
+    console.log()
+  } else {
+    // Core data exists — still ensure gallery images are up to date
+    await seedGallery()
   }
-  console.log()
 }
 
 // ─── Standalone runner: node src/seed.js ─────────────────────────────────────
