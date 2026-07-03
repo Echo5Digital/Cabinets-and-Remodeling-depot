@@ -23,50 +23,49 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
   )
 }
 
-
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
 const IMAGES = [
-  { src: '/kitchen-cabinet-2.jpg',  alt: 'Industrial style kitchen cabinet close-up' },
-  { src: '/kitchen-cabinet-3.jpg',  alt: 'Industrial cabinet kitchen installation' },
-  { src: '/kitchencabinet3.jpg',    alt: 'Industrial cabinets in kitchen' },
+  { src: '/cabinet-slab.jpg',                                alt: 'Modern style kitchen cabinet with sleek slab doors' },
+  { src: '/kitchen-cabinet-2.jpg',                           alt: 'Modern kitchen cabinet with clean lines Tampa' },
+  { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Modern cabinets installed in Tampa kitchen' },
 ]
 
 const OTHER_STYLES = [
-  { label: 'Traditional Cabinets',    href: '/traditional-style-cabinets' },
-  { label: 'Modern Cabinets',         href: '/modern-style-cabinets' },
-  { label: 'Contemporary Cabinets',   href: '/contemporary-style-cabinets' },
-  { label: 'Transitional Cabinets',   href: '/transitional-style-cabinets' },
-  { label: 'Rustic Cabinets',         href: '/rustic-style-cabinets' },
+  { label: 'Traditional Cabinets',      href: '/traditional-style-cabinets' },
+  { label: 'Contemporary Cabinets',     href: '/contemporary-style-cabinets' },
+  { label: 'Transitional Cabinets',     href: '/transitional-style-cabinets' },
+  { label: 'Rustic Cabinets',           href: '/rustic-style-cabinets' },
+  { label: 'Industrial Style Cabinets', href: '/industrial-style-cabinets' },
 ]
 
 const FAQS = [
   {
-    question: 'What are some popular finishes for industrial style cabinets?',
+    question: 'What are some popular modern kitchen cabinet styles?',
     answer:
-      'Some popular finishes for industrial style cabinets include raw or brushed metal finishes, distressed wood finishes, matte black or dark finishes, and concrete-effect finishes.',
+      'Some popular modern kitchen cabinet styles include flat-panel cabinets, slab cabinets, Shaker-style cabinets, glass-front cabinets, and open-shelving cabinets.',
   },
   {
-    question: 'What hardware is typically used for industrial style cabinets?',
+    question: 'How can I incorporate modern kitchen cabinets into my kitchen design?',
     answer:
-      'Industrial style cabinets typically use hardware made of metal, such as iron, steel, or brass. Common hardware choices include exposed bolts or screws, pipe-style handles or pulls, and minimalist bar pulls or knobs.',
+      'There are many ways to incorporate modern kitchen cabinets into your kitchen design. Consider pairing flat-panel cabinets with sleek stainless steel appliances and minimalist hardware for a contemporary look, or using slab cabinets with bold, colorful countertops for a more dramatic effect. Mixing and matching different styles of modern cabinets can also create a unique, personalized look.',
   },
   {
-    question: 'How can I incorporate industrial style cabinets into my kitchen design?',
+    question: 'What hardware is popular for modern kitchen cabinets?',
     answer:
-      'To incorporate industrial style cabinets into your kitchen design, consider pairing them with other industrial elements, such as exposed brick or concrete walls, metal light fixtures, or a stainless steel countertop. You can also mix and match different materials and finishes to create a unique, personalized look.',
+      'Minimalist hardware, such as simple knobs or pulls in brushed nickel or black, is popular for modern kitchen cabinets. Some modern kitchens may also use no hardware at all, with cabinets featuring touch-latch or push-open mechanisms instead.',
   },
 ]
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
-export function IndustrialStyleCabinetsPageClient() {
+export function ModernStyleCabinetsPageClient() {
   return (
     <>
       {/* ── Page Header (burgundy banner with breadcrumb) ─────────────────── */}
       <PageHeader
-        title="Industrial Style Cabinets"
-        subtitle="Home / Industrial Style Cabinets"
+        title="Modern Style Cabinets"
+        subtitle="Home / Modern Style Cabinets"
       />
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -80,7 +79,7 @@ export function IndustrialStyleCabinetsPageClient() {
                 Cabinets &amp; Remodeling Depot
               </p>
               <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
-                Industrial Cabinets
+                Modern Style Cabinets
               </h2>
               <p className="text-sm font-semibold uppercase tracking-widest text-primary">
                 Quality — Service — Value
@@ -91,50 +90,54 @@ export function IndustrialStyleCabinetsPageClient() {
           <FadeIn delay={0.08}>
             <div className="space-y-5 text-gray-600 text-base sm:text-lg leading-[1.82]">
               <p>
-                Industrial style cabinets are a popular choice for homeowners and designers looking
-                to create a unique, utilitarian, and stylish look in their kitchens. These cabinets
-                are designed to have a raw, unfinished, and utilitarian appearance, featuring metal
-                or reclaimed wood materials, exposed hardware, and industrial-inspired details. In
-                this article, we&apos;ll explore the benefits and characteristics of industrial
-                style cabinets, as well as how to incorporate them into your kitchen design.
+                Modern kitchen cabinets are sleek and functional, with clean lines and minimalist
+                design. They offer a simple, yet stylish aesthetic that is perfect for contemporary
+                homes. These cabinets are available in a wide range of materials, finishes, and
+                colors to suit any taste and budget.
               </p>
 
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                Benefits of Industrial Style Cabinets
+              <h3 className="font-playfair text-xl sm:text-2xl font-bold text-gray-900 pt-2">
+                Materials
               </h3>
               <p>
-                One of the main benefits of industrial style cabinets is their durability. Metal
-                cabinets are particularly resistant to scratches, dents, and other forms of wear
-                and tear, making them a practical choice for busy kitchens. In addition, the
-                utilitarian aesthetic of these cabinets can add character and personality to your
-                space, creating a unique and inviting atmosphere. Finally, industrial style cabinets
-                are a great way to create a bold statement in your kitchen, adding a touch of edgy,
-                urban flair to your home.
+                Modern kitchen cabinets are made from a variety of materials, including wood,
+                metal, and glass. Wood is a popular choice for modern cabinets, as it offers a
+                natural and warm feel that is perfect for creating a cozy atmosphere in the
+                kitchen. Metal cabinets are also gaining popularity, as they offer a sleek and
+                industrial look that is perfect for modern homes. Glass cabinets are another
+                option, and they provide a transparent and minimalist aesthetic that is perfect for
+                displaying your favorite dishes and cookware.
               </p>
 
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                Characteristics of Industrial Style Cabinets
+              <h3 className="font-playfair text-xl sm:text-2xl font-bold text-gray-900 pt-2">
+                Colors and Finishes
               </h3>
               <p>
-                Industrial style cabinets are typically made from metal or reclaimed wood, and
-                feature exposed hardware and industrial-inspired details. The metal can be polished,
-                brushed, or distressed, depending on the desired look, while the reclaimed wood can
-                add warmth and texture to the space. The cabinets may also feature details such as
-                rivets, bolts, and exposed seams, giving them a rough-hewn and utilitarian
-                appearance.
+                Modern kitchen cabinets come in a wide range of colors and finishes, from glossy
+                white to matte black. You can also find cabinets in natural wood finishes, such as
+                oak, maple, and cherry. Some modern cabinets feature bold colors, such as bright
+                red or blue, which can add a pop of color to your kitchen.
               </p>
 
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                How to Incorporate Industrial Style Cabinets into Your Kitchen Design
+              <h3 className="font-playfair text-xl sm:text-2xl font-bold text-gray-900 pt-2">
+                Design
               </h3>
               <p>
-                There are many ways to incorporate industrial style cabinets into your kitchen
-                design. One popular approach is to pair the cabinets with stainless steel appliances
-                and concrete or metal countertops, creating a cohesive and industrial-inspired look.
-                You can also use a monochromatic color palette with shades of gray, black, and white
-                to complement the metal finishes of the cabinets. Finally, you can incorporate other
-                industrial-inspired details, such as exposed ductwork or brick walls, to create a
-                cohesive and stylish look.
+                Modern kitchen cabinets feature clean lines and simple designs that are free from
+                ornamentation. They often have flat or slab doors, which offer a streamlined and
+                minimalist look. Many modern cabinets also feature hidden hinges, which add to the
+                sleek and seamless aesthetic.
+              </p>
+
+              <h3 className="font-playfair text-xl sm:text-2xl font-bold text-gray-900 pt-2">
+                Storage
+              </h3>
+              <p>
+                Modern kitchen cabinets offer ample storage space, with a variety of drawers,
+                shelves, and cabinets. They often feature pull-out drawers and organizers, which
+                make it easy to keep your kitchen organized and clutter-free. Many modern cabinets
+                also have built-in lighting, which can help illuminate your kitchen and create a
+                warm and welcoming atmosphere.
               </p>
             </div>
           </FadeIn>
@@ -148,7 +151,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="container-custom max-w-7xl">
           <FadeIn className="mb-10">
             <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-gray-900">
-              Featured Industrial Designs
+              Featured Modern Designs
             </h2>
           </FadeIn>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -205,7 +208,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="container-custom max-w-4xl">
           <FadeIn>
             <p className="font-playfair text-white text-xl sm:text-2xl font-bold text-center leading-snug">
-              &#96;&#96;Get the Answers You Need: FAQs about Industrial style cabinets&#96;&#96;
+              &#96;&#96;Get the Answers You Need: FAQs about Modern style cabinets&#96;&#96;
             </p>
           </FadeIn>
         </div>
@@ -238,7 +241,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="absolute inset-0">
           <Image
             src="/cabinet_img.webp"
-            alt="Industrial cabinets background"
+            alt="Modern kitchen cabinets background"
             fill
             className="object-cover object-center"
             sizes="100vw"
@@ -255,8 +258,8 @@ export function IndustrialStyleCabinetsPageClient() {
               <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
             </div>
             <p className="font-playfair text-gray-900 text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-6">
-              Every cabinet is thoughtfully crafted and professionally installed to deliver
-              bold, industrial style and lasting functionality for your kitchen.
+              Every modern cabinet is precisely crafted and professionally installed to bring
+              sleek, timeless style and lasting function to your kitchen.
             </p>
             <Link
               href="/contact"

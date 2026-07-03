@@ -32,11 +32,11 @@ const IMAGES = [
 ]
 
 const OTHER_STYLES = [
-  { label: 'Traditional Cabinets',    href: '/kitchen-cabinets-tampa' },
-  { label: 'Industrial Style Cabinets', href: '/kitchen-cabinets-tampa' },
-  { label: 'Modern Cabinets',         href: '/slab-kitchen-cabinets' },
-  { label: 'Transitional Cabinets',   href: '/kitchen-cabinets-tampa' },
-  { label: 'Rustic Cabinets',         href: '/kitchen-cabinets-tampa' },
+  { label: 'Traditional Cabinets',    href: '/traditional-style-cabinets' },
+  { label: 'Industrial Style Cabinets', href: '/industrial-style-cabinets' },
+  { label: 'Modern Cabinets',         href: '/modern-style-cabinets' },
+  { label: 'Transitional Cabinets',   href: '/transitional-style-cabinets' },
+  { label: 'Rustic Cabinets',         href: '/rustic-style-cabinets' },
 ]
 
 const FAQS = [

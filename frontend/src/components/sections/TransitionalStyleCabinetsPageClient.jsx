@@ -32,10 +32,10 @@ const IMAGES = [
 ]
 
 const OTHER_STYLES = [
-  { label: 'Traditional Cabinets',    href: '/kitchen-cabinets-tampa' },
-  { label: 'Modern Cabinets',         href: '/slab-kitchen-cabinets' },
+  { label: 'Traditional Cabinets',    href: '/traditional-style-cabinets' },
+  { label: 'Modern Cabinets',         href: '/modern-style-cabinets' },
   { label: 'Contemporary Cabinets',   href: '/contemporary-style-cabinets' },
-  { label: 'Rustic Cabinets',         href: '/kitchen-cabinets-tampa' },
+  { label: 'Rustic Cabinets',         href: '/rustic-style-cabinets' },
   { label: 'Industrial Style Cabinets', href: '/industrial-style-cabinets' },
 ]
 

@@ -23,50 +23,49 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
   )
 }
 
-
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
 const IMAGES = [
-  { src: '/kitchen-cabinet-2.jpg',  alt: 'Industrial style kitchen cabinet close-up' },
-  { src: '/kitchen-cabinet-3.jpg',  alt: 'Industrial cabinet kitchen installation' },
-  { src: '/kitchencabinet3.jpg',    alt: 'Industrial cabinets in kitchen' },
+  { src: '/cabinet-shaker.jpg',                              alt: 'Rustic style kitchen cabinet with natural wood finish' },
+  { src: '/kitchen-cabinet-2.jpg',                           alt: 'Rustic kitchen cabinet with warm wood tones' },
+  { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Rustic cabinets installed in Tampa kitchen' },
 ]
 
 const OTHER_STYLES = [
-  { label: 'Traditional Cabinets',    href: '/traditional-style-cabinets' },
-  { label: 'Modern Cabinets',         href: '/modern-style-cabinets' },
-  { label: 'Contemporary Cabinets',   href: '/contemporary-style-cabinets' },
-  { label: 'Transitional Cabinets',   href: '/transitional-style-cabinets' },
-  { label: 'Rustic Cabinets',         href: '/rustic-style-cabinets' },
+  { label: 'Traditional Cabinets',       href: '/traditional-style-cabinets' },
+  { label: 'Modern Cabinets',            href: '/modern-style-cabinets' },
+  { label: 'Contemporary Cabinets',      href: '/contemporary-style-cabinets' },
+  { label: 'Transitional Cabinets',      href: '/transitional-style-cabinets' },
+  { label: 'Industrial Style Cabinets',  href: '/industrial-style-cabinets' },
 ]
 
 const FAQS = [
   {
-    question: 'What are some popular finishes for industrial style cabinets?',
+    question: 'What are some popular finishes for rustic style kitchen cabinets?',
     answer:
-      'Some popular finishes for industrial style cabinets include raw or brushed metal finishes, distressed wood finishes, matte black or dark finishes, and concrete-effect finishes.',
+      'Popular finishes for rustic style kitchen cabinets include distressed finishes, weathered finishes, and finishes that highlight the natural grain and texture of the wood. These finishes can give the cabinets a vintage, aged appearance.',
   },
   {
-    question: 'What hardware is typically used for industrial style cabinets?',
+    question: 'What hardware is typically used for rustic style kitchen cabinets?',
     answer:
-      'Industrial style cabinets typically use hardware made of metal, such as iron, steel, or brass. Common hardware choices include exposed bolts or screws, pipe-style handles or pulls, and minimalist bar pulls or knobs.',
+      'Rustic style kitchen cabinets often feature hardware that is made from wrought iron, bronze, or other materials that have a rustic appearance. This can include knobs, handles, and hinges that have an antique or handmade look.',
   },
   {
-    question: 'How can I incorporate industrial style cabinets into my kitchen design?',
+    question: 'How can I incorporate rustic style kitchen cabinets into my kitchen design?',
     answer:
-      'To incorporate industrial style cabinets into your kitchen design, consider pairing them with other industrial elements, such as exposed brick or concrete walls, metal light fixtures, or a stainless steel countertop. You can also mix and match different materials and finishes to create a unique, personalized look.',
+      'There are many ways to incorporate rustic style kitchen cabinets into your kitchen design. You can pair them with natural stone countertops, copper or bronze fixtures, and other elements that have a rustic feel. You can also use a muted color palette with warm, earthy tones to complement the natural wood grain of the cabinets.',
   },
 ]
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    PAGE COMPONENT
 ══════════════════════════════════════════════════════════════════════════════ */
-export function IndustrialStyleCabinetsPageClient() {
+export function RusticStyleCabinetsPageClient() {
   return (
     <>
       {/* ── Page Header (burgundy banner with breadcrumb) ─────────────────── */}
       <PageHeader
-        title="Industrial Style Cabinets"
-        subtitle="Home / Industrial Style Cabinets"
+        title="Rustic Style Cabinets"
+        subtitle="Home / Rustic Style Cabinets"
       />
 
       {/* ════════════════════════════════════════════════════════════════════
@@ -80,7 +79,7 @@ export function IndustrialStyleCabinetsPageClient() {
                 Cabinets &amp; Remodeling Depot
               </p>
               <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
-                Industrial Cabinets
+                Rustic Style Kitchen Cabinets
               </h2>
               <p className="text-sm font-semibold uppercase tracking-widest text-primary">
                 Quality — Service — Value
@@ -91,50 +90,27 @@ export function IndustrialStyleCabinetsPageClient() {
           <FadeIn delay={0.08}>
             <div className="space-y-5 text-gray-600 text-base sm:text-lg leading-[1.82]">
               <p>
-                Industrial style cabinets are a popular choice for homeowners and designers looking
-                to create a unique, utilitarian, and stylish look in their kitchens. These cabinets
-                are designed to have a raw, unfinished, and utilitarian appearance, featuring metal
-                or reclaimed wood materials, exposed hardware, and industrial-inspired details. In
-                this article, we&apos;ll explore the benefits and characteristics of industrial
-                style cabinets, as well as how to incorporate them into your kitchen design.
+                Rustic style kitchen cabinets are a popular design choice for homeowners who want
+                to create a warm and cozy atmosphere in their kitchen. These cabinets are often
+                made from natural materials like wood, and feature a simple, rugged design that is
+                both functional and beautiful.
               </p>
 
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                Benefits of Industrial Style Cabinets
+              <h3 className="font-playfair text-xl sm:text-2xl font-bold text-gray-900 pt-2">
+                What are Rustic Style Kitchen Cabinets?
               </h3>
+
               <p>
-                One of the main benefits of industrial style cabinets is their durability. Metal
-                cabinets are particularly resistant to scratches, dents, and other forms of wear
-                and tear, making them a practical choice for busy kitchens. In addition, the
-                utilitarian aesthetic of these cabinets can add character and personality to your
-                space, creating a unique and inviting atmosphere. Finally, industrial style cabinets
-                are a great way to create a bold statement in your kitchen, adding a touch of edgy,
-                urban flair to your home.
+                Rustic style kitchen cabinets are typically made from natural materials like wood,
+                and feature a simple, unpretentious design that is inspired by the natural world.
+                These cabinets often have a rough-hewn or distressed finish, and may feature
+                decorative details like knots, burls, and grain patterns.
               </p>
 
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                Characteristics of Industrial Style Cabinets
-              </h3>
               <p>
-                Industrial style cabinets are typically made from metal or reclaimed wood, and
-                feature exposed hardware and industrial-inspired details. The metal can be polished,
-                brushed, or distressed, depending on the desired look, while the reclaimed wood can
-                add warmth and texture to the space. The cabinets may also feature details such as
-                rivets, bolts, and exposed seams, giving them a rough-hewn and utilitarian
-                appearance.
-              </p>
-
-              <h3 className="font-bold text-gray-900 text-base sm:text-lg pt-2">
-                How to Incorporate Industrial Style Cabinets into Your Kitchen Design
-              </h3>
-              <p>
-                There are many ways to incorporate industrial style cabinets into your kitchen
-                design. One popular approach is to pair the cabinets with stainless steel appliances
-                and concrete or metal countertops, creating a cohesive and industrial-inspired look.
-                You can also use a monochromatic color palette with shades of gray, black, and white
-                to complement the metal finishes of the cabinets. Finally, you can incorporate other
-                industrial-inspired details, such as exposed ductwork or brick walls, to create a
-                cohesive and stylish look.
+                One of the defining features of rustic style kitchen cabinets is their warm and
+                inviting feel. They have a timeless appeal that is both charming and welcoming,
+                and are often used to create a cozy, country-style kitchen.
               </p>
             </div>
           </FadeIn>
@@ -148,7 +124,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="container-custom max-w-7xl">
           <FadeIn className="mb-10">
             <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-gray-900">
-              Featured Industrial Designs
+              Featured Rustic Designs
             </h2>
           </FadeIn>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -205,7 +181,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="container-custom max-w-4xl">
           <FadeIn>
             <p className="font-playfair text-white text-xl sm:text-2xl font-bold text-center leading-snug">
-              &#96;&#96;Get the Answers You Need: FAQs about Industrial style cabinets&#96;&#96;
+              &#96;&#96;Get the Answers You Need: FAQs about Rustic style cabinets&#96;&#96;
             </p>
           </FadeIn>
         </div>
@@ -238,7 +214,7 @@ export function IndustrialStyleCabinetsPageClient() {
         <div className="absolute inset-0">
           <Image
             src="/cabinet_img.webp"
-            alt="Industrial cabinets background"
+            alt="Rustic kitchen cabinets background"
             fill
             className="object-cover object-center"
             sizes="100vw"
@@ -255,8 +231,8 @@ export function IndustrialStyleCabinetsPageClient() {
               <span className="flex-1 max-w-15 sm:max-w-22.5 h-px bg-gold" />
             </div>
             <p className="font-playfair text-gray-900 text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-6">
-              Every cabinet is thoughtfully crafted and professionally installed to deliver
-              bold, industrial style and lasting functionality for your kitchen.
+              Every rustic cabinet is crafted from natural wood and installed with care to bring
+              warmth, charm, and lasting beauty to your kitchen.
             </p>
             <Link
               href="/contact"
