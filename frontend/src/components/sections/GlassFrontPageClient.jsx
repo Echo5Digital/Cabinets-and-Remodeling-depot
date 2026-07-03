@@ -1,10 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Phone, Calendar } from 'lucide-react'
+import { Phone, Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { COMPANY_PHONE, COMPANY_PHONE_DISPLAY } from '@/lib/constants'
 
 function FadeIn({ children, delay = 0, className = '', y = 24 }) {
@@ -22,20 +23,96 @@ function FadeIn({ children, delay = 0, className = '', y = 24 }) {
   )
 }
 
+function GalleryLightbox({ images, index, onClose, onPrev, onNext }) {
+  return (
+    <AnimatePresence>
+      {index !== null && (
+        <motion.div
+          key="overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.22 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/88 backdrop-blur-sm p-4"
+          onClick={onClose}
+        >
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="relative w-full max-w-4xl max-h-[88vh] aspect-4/3 rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={images[index].src}
+              alt={images[index].alt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              priority
+            />
+          </motion.div>
+
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-60 w-10 h-10 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/28 text-white transition-colors backdrop-blur-sm"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          {images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onPrev() }}
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-60 w-10 h-10 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/28 text-white transition-colors backdrop-blur-sm"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          )}
+
+          {images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onNext() }}
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-60 w-10 h-10 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/28 text-white transition-colors backdrop-blur-sm"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
+
+          <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-xs font-medium tracking-widest">
+            {index + 1} / {images.length}
+          </p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
 const IMAGES = [
-  { src: '/cabinet-glass.jpg',                            alt: 'Glass-front kitchen cabinet close-up' },
-  { src: '/kitchencabinet3.jpg',                          alt: 'Glass-front cabinet kitchen installation' },
-  { src: '/kitchencabinet4.jpg',                          alt: 'Glass-front cabinets in kitchen' },
-  { src: '/kitchen-cabinet-2.jpg',                        alt: 'Glass-front kitchen cabinet design' },
-  { src: '/kitchen-cabinet-3.jpg',                        alt: 'Glass-front cabinet detail' },
-  { src: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', alt: 'Custom glass-front cabinet installation Tampa' },
+  { src: '/cabinet-glass.jpg',    alt: 'Glass-front kitchen cabinet close-up' },
+  { src: '/kitchencabinet3.jpg',  alt: 'Glass-front cabinet kitchen installation' },
+  { src: '/glass-front-1.webp',  alt: 'Glass-front cabinets in kitchen' },
+  { src: '/glass-front-2.webp',  alt: 'Glass-front kitchen cabinet design' },
+  { src: '/glass-front-3.webp',  alt: 'Glass-front cabinet detail' },
+  { src: '/glass-front-4.webp',  alt: 'Custom glass-front cabinet installation Tampa' },
 ]
 
 export function GlassFrontPageClient() {
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+
+  const openLightbox = (i) => setLightboxIndex(i)
+  const closeLightbox = () => setLightboxIndex(null)
+  const prevImage = () => setLightboxIndex((i) => (i - 1 + IMAGES.length) % IMAGES.length)
+  const nextImage = () => setLightboxIndex((i) => (i + 1) % IMAGES.length)
+
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative flex flex-col min-h-[90vh] md:min-h-screen overflow-hidden">
+      <section className="relative flex flex-col min-h-[55vh] md:min-h-[65vh] overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/cabinet-glass.jpg"
@@ -49,7 +126,7 @@ export function GlassFrontPageClient() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.28) 0%, transparent 30%)' }} />
         </div>
 
-        <div className="relative z-10 flex-1 flex items-center py-20 sm:py-24 md:py-32">
+        <div className="relative z-10 flex-1 flex items-center py-14 sm:py-16 md:py-20">
           <div className="container-custom w-full">
             <div className="max-w-lg lg:max-w-xl xl:max-w-2xl lg:pl-6 xl:pl-10">
               <motion.p
@@ -130,7 +207,12 @@ export function GlassFrontPageClient() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {IMAGES.map(({ src, alt }, i) => (
               <FadeIn key={src} delay={i * 0.07}>
-                <div className="relative aspect-4/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group">
+                <button
+                  type="button"
+                  onClick={() => openLightbox(i)}
+                  className="relative w-full aspect-4/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 group cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={`View ${alt}`}
+                >
                   <Image
                     src={src}
                     alt={alt}
@@ -138,7 +220,8 @@ export function GlassFrontPageClient() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 50vw, 33vw"
                   />
-                </div>
+                  <span className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                </button>
               </FadeIn>
             ))}
           </div>
@@ -170,6 +253,15 @@ export function GlassFrontPageClient() {
           </FadeIn>
         </div>
       </section>
+
+      {/* ── Lightbox ── */}
+      <GalleryLightbox
+        images={IMAGES}
+        index={lightboxIndex}
+        onClose={closeLightbox}
+        onPrev={prevImage}
+        onNext={nextImage}
+      />
     </>
   )
 }
