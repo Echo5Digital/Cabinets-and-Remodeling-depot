@@ -69,7 +69,6 @@ const GALLERY_IMAGES = [
   { url: '/kitchen_cabinet_remodeling-01.webp', publicId: 'local/kitchen_cabinet_remodeling-01', alt: 'Kitchen cabinet remodeling',     category: 'KITCHEN',     sortOrder: 2 },
   { url: '/kitchen_cabinet_4.jpg',              publicId: 'local/kitchen_cabinet_4',              alt: 'Custom kitchen cabinets',        category: 'KITCHEN',     sortOrder: 3 },
   { url: '/kitchen-cabinet-2.jpg',              publicId: 'local/kitchen-cabinet-2',              alt: 'Kitchen cabinet installation',   category: 'KITCHEN',     sortOrder: 4 },
-  { url: '/beautiful-shot-modern-house-kitchen.jpg', publicId: 'local/beautiful-shot-modern-house-kitchen', alt: 'Modern house kitchen', category: 'KITCHEN',   sortOrder: 5 },
 
   // ── CABINETS ─────────────────────────────────────────────────────────────
   { url: '/cabinet_img.webp',      publicId: 'local/cabinet_img',      alt: 'Custom cabinets',           category: 'CABINETS',    sortOrder: 0 },
@@ -104,7 +103,6 @@ const GALLERY_IMAGES = [
   // ── GENERAL ──────────────────────────────────────────────────────────────
   { url: '/Custom-Cabinets-and-Countertops-for-Tampa-2.jpg', publicId: 'local/Custom-Cabinets-and-Countertops-for-Tampa-2', alt: 'Custom cabinets and countertops Tampa', category: 'GENERAL', sortOrder: 0 },
   { url: '/Modern-kitchen-renovation-Tampa-completed-project.jpg', publicId: 'local/Modern-kitchen-renovation-Tampa-completed-project', alt: 'Modern kitchen renovation Tampa', category: 'GENERAL', sortOrder: 1 },
-  { url: '/instock-cabinets-hero.webp', publicId: 'local/instock-cabinets-hero', alt: 'In-stock cabinets showroom', category: 'GENERAL', sortOrder: 2 },
   { url: '/Kitchen-Cabinet-Showroom-Tampa.jpg', publicId: 'local/Kitchen-Cabinet-Showroom-Tampa', alt: 'Kitchen cabinet showroom Tampa', category: 'GENERAL', sortOrder: 3 },
 
   // ── KITCHEN (additional) ──────────────────────────────────────────────────

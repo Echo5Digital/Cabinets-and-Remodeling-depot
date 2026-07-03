@@ -77,6 +77,7 @@ export const GALLERY_CATEGORIES = [
   { value: 'CABINETS', label: 'Cabinets' },
   { value: 'COUNTERTOPS', label: 'Countertops' },
   { value: 'FLOORING', label: 'Flooring' },
+  { value: 'GENERAL', label: 'General' },
 ]
 
 export const PROJECT_CATEGORIES = [
