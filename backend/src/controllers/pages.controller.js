@@ -7,21 +7,49 @@ import { mergePageContent, getDefaultContent } from '../services/pages.service.j
  * Adding a slug here + a matching getDefaultContent entry auto-seeds the page in MongoDB.
  */
 const KNOWN_PAGES = [
-  { slug: 'home',                       title: 'Home' },
-  { slug: 'about',                      title: 'About Us' },
-  { slug: 'contact',                    title: 'Contact Us' },
-  { slug: 'services',                   title: 'Our Services' },
-  { slug: 'kitchen-remodeling-tampa',   title: 'Kitchen Remodeling Tampa' },
-  { slug: 'bathroom-remodeling-tampa',  title: 'Bathroom Remodeling Tampa' },
-  { slug: 'kitchen-cabinets-tampa',     title: 'Kitchen Cabinets Tampa' },
-  { slug: 'countertops-tampa',          title: 'Countertops Tampa' },
-  { slug: 'flooring-in-tampa',          title: 'Flooring in Tampa' },
-  { slug: 'wood-flooring',              title: 'Wood Flooring' },
-  { slug: 'tiles-in-tampa',             title: 'Tiles in Tampa' },
-  { slug: 'laminate-flooring-in-tampa', title: 'Laminate Flooring' },
-  { slug: 'showroom-gallery',           title: 'Showroom Gallery' },
-  { slug: 'privacy-policy',             title: 'Privacy Policy' },
-  { slug: 'terms',                      title: 'Terms of Service' },
+  // ── Core pages ───────────────────────────────────────────────────────────
+  { slug: 'home',                           title: 'Home' },
+  { slug: 'about',                          title: 'About Us' },
+  { slug: 'contact',                        title: 'Contact Us' },
+  { slug: 'services',                       title: 'Our Services' },
+  { slug: 'review-us',                      title: 'Share Your Experience With Us' },
+  { slug: 'renovations',                    title: 'Renovations' },
+  // ── Kitchen ──────────────────────────────────────────────────────────────
+  { slug: 'kitchen-remodeling-tampa',       title: 'Kitchen Remodeling Tampa' },
+  { slug: 'kitchen-cabinets-tampa',         title: 'Kitchen Cabinets Tampa' },
+  { slug: 'kitchen-cabinets-types',         title: 'Kitchen Cabinets Types' },
+  // ── Cabinet styles ───────────────────────────────────────────────────────
+  { slug: 'contemporary-style-cabinets',    title: 'Contemporary Style Cabinets' },
+  { slug: 'glass-front-kitchen-cabinets',   title: 'Glass-Front Kitchen Cabinets' },
+  { slug: 'industrial-style-cabinets',      title: 'Industrial Style Cabinets' },
+  { slug: 'modern-style-cabinets',          title: 'Modern Style Cabinets' },
+  { slug: 'raised-panel-kitchen-cabinets',  title: 'Raised Panel Kitchen Cabinets' },
+  { slug: 'rustic-style-cabinets',          title: 'Rustic Style Cabinets' },
+  { slug: 'shaker-kitchen-cabinets',        title: 'Shaker Kitchen Cabinets' },
+  { slug: 'shaker-style-cabinets',          title: 'Shaker Style Cabinets' },
+  { slug: 'slab-kitchen-cabinets',          title: 'Slab Kitchen Cabinets' },
+  { slug: 'traditional-style-cabinets',     title: 'Traditional Style Cabinets' },
+  { slug: 'transitional-style-cabinets',    title: 'Transitional Style Cabinets' },
+  // ── Bathroom ─────────────────────────────────────────────────────────────
+  { slug: 'bathroom-remodeling-tampa',      title: 'Bathroom Remodeling Tampa' },
+  { slug: 'bathroom-vanities-tampa',        title: 'Bathroom Vanities in Tampa' },
+  // ── Countertops ──────────────────────────────────────────────────────────
+  { slug: 'countertops-tampa',              title: 'Countertops Tampa' },
+  { slug: 'granite-countertops',            title: 'Granite Countertops' },
+  { slug: 'marble-countertops',             title: 'Marble Countertops' },
+  { slug: 'porcelain-countertops',          title: 'Porcelain Countertops' },
+  { slug: 'quartz-countertops',             title: 'Quartz Countertops' },
+  { slug: 'quartzite-countertops',          title: 'Quartzite Countertops' },
+  // ── Flooring ─────────────────────────────────────────────────────────────
+  { slug: 'flooring-in-tampa',              title: 'Flooring in Tampa' },
+  { slug: 'wood-flooring',                  title: 'Wood Flooring' },
+  { slug: 'tiles-in-tampa',                 title: 'Tiles in Tampa' },
+  { slug: 'laminate-flooring-in-tampa',     title: 'Laminate Flooring' },
+  // ── Other ────────────────────────────────────────────────────────────────
+  { slug: 'faucets',                        title: 'Faucets in Tampa' },
+  { slug: 'showroom-gallery',               title: 'Showroom Gallery' },
+  { slug: 'privacy-policy',                 title: 'Privacy Policy' },
+  { slug: 'terms',                          title: 'Terms of Service' },
 ]
 
 /**
@@ -51,10 +79,17 @@ export async function getAllPages(req, res, next) {
     for (const [oldSlug, newSlug] of Object.entries(OLD_SLUG_MAP)) {
       const oldDoc = await Page.findOne({ slug: oldSlug }).lean()
       if (oldDoc) {
-        await Page.findOneAndUpdate(
-          { slug: oldSlug },
-          { $set: { slug: newSlug, content: getDefaultContent(newSlug) } }
-        )
+        const newDoc = await Page.findOne({ slug: newSlug }).lean()
+        if (newDoc) {
+          // New-slug document already exists — the old-slug doc is a stale
+          // duplicate. Delete it to avoid a unique-key conflict on rename.
+          await Page.deleteOne({ slug: oldSlug })
+        } else {
+          await Page.findOneAndUpdate(
+            { slug: oldSlug },
+            { $set: { slug: newSlug, content: getDefaultContent(newSlug) } }
+          )
+        }
       }
     }
 
@@ -199,7 +234,7 @@ export async function previewPageBySlug(req, res, next) {
 export async function updatePageContent(req, res, next) {
   try {
     const { slug } = req.params
-    const { content: updates, title, description, status } = req.body
+    const { content: updates, title, description, status, newSlug } = req.body
 
     // Find the current page — auto-seed if it's a known page missing from DB
     let page = await Page.findOne({ slug })
@@ -217,6 +252,49 @@ export async function updatePageContent(req, res, next) {
       } else {
         return res.status(404).json({ success: false, error: 'Page not found.' })
       }
+    }
+
+    // ── Slug rename — handle before the normal update path ───────────────────
+    if (newSlug && newSlug !== slug) {
+      const conflict = await Page.findOne({ slug: newSlug }).lean()
+      if (conflict) {
+        return res.status(409).json({
+          success: false,
+          error: `The slug "${newSlug}" is already in use by another page.`,
+        })
+      }
+
+      // Save revision of current state before renaming
+      try {
+        await PageRevision.create({
+          pageId: page._id,
+          title: page.title,
+          slug: page.slug,
+          content: page.content,
+          createdBy: req.user?.id || null,
+        })
+      } catch (revErr) {
+        console.error('[PageRevision] Failed to save pre-rename revision:', revErr.message)
+      }
+
+      // Rename the slug atomically
+      const renamed = await Page.findOneAndUpdate(
+        { slug },
+        { $set: { slug: newSlug } },
+        { new: true }
+      )
+
+      return res.json({
+        success: true,
+        message: 'Page slug updated successfully.',
+        data: {
+          slug: renamed.slug,
+          content: renamed.content,
+          status: renamed.status,
+          publishedAt: renamed.publishedAt,
+          slugChanged: true,
+        },
+      })
     }
 
     // ── Save revision of current state before overwriting ────────────────────

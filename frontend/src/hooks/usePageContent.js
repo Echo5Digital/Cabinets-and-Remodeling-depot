@@ -73,6 +73,28 @@ export function useUpdatePageStatus(slug) {
 }
 
 /**
+ * Rename the URL slug of a page (admin only).
+ * On success the caller must redirect to /admin/pages/<newSlug>.
+ */
+export function useRenamePageSlug(slug) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (newSlug) => {
+      const { data } = await api.put(`/pages/admin/${slug}`, { newSlug })
+      return data
+    },
+    onSuccess: (data) => {
+      const newSlug = data.data.slug
+      queryClient.removeQueries({ queryKey: ['page', slug] })
+      queryClient.removeQueries({ queryKey: ['page-preview', slug] })
+      queryClient.invalidateQueries({ queryKey: ['pages'] })
+      queryClient.invalidateQueries({ queryKey: ['page-preview', newSlug] })
+    },
+  })
+}
+
+/**
  * Fetch page content for admin preview (includes draft pages).
  */
 export function usePreviewPageContent(slug) {

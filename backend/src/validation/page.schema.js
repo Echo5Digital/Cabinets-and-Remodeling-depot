@@ -47,6 +47,12 @@ export const updatePageContentSchema = Joi.object({
   title: Joi.string().max(200),
   description: Joi.string().max(500).allow(''),
   status: Joi.string().valid('draft', 'published'),
+  newSlug: Joi.string()
+    .max(200)
+    .pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .messages({
+      'string.pattern.base': 'Slug may only contain lowercase letters, numbers, and hyphens (e.g. my-page).',
+    }),
   content: Joi.object({
     // New unified sections array
     sections: Joi.array().items(sectionSchema),
