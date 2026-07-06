@@ -3,9 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { TermsClient } from './TermsClient'
 
-export const metadata = {
-  title: 'Terms of Service | Cabinets & Remodeling Depot',
-  description: 'Terms of Service for Cabinets & Remodeling Depot.',
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/terms')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Terms of Service | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Terms of Service for Cabinets & Remodeling Depot.',
+    }
+  } catch {
+    return { title: 'Terms of Service | Cabinets & Remodeling Depot' }
+  }
 }
 
 async function prefetchPage() {

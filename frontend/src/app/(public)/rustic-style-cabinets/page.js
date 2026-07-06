@@ -1,14 +1,17 @@
 import { RusticStyleCabinetsPageClient } from '@/components/sections/RusticStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Rustic Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore rustic kitchen cabinets crafted from natural wood with warm, distressed finishes and rugged character. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Rustic Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore rustic kitchen cabinets crafted from natural wood with warm, distressed finishes and rugged character. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/rustic-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Rustic Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore rustic kitchen cabinets crafted from natural wood with warm, distressed finishes and rugged character. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Rustic Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

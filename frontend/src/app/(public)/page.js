@@ -3,10 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { HomeClient } from './HomeClient'
 
-export const metadata = {
-  title: 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa',
-  description:
-    'Looking for kitchen cabinets in Tampa? Visit our Valrico showroom for affordable cabinets, in-stock kitchen cabinets, and professional cabinet installation Tampa homeowners trust.',
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/home')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa',
+      description: seo.metaDescription || 'Looking for kitchen cabinets in Tampa? Visit our Valrico showroom for affordable cabinets, in-stock kitchen cabinets, and professional cabinet installation Tampa homeowners trust.',
+    }
+  } catch {
+    return { title: 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa' }
+  }
 }
 
 async function prefetchPage() {

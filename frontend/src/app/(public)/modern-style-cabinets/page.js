@@ -1,14 +1,17 @@
 import { ModernStyleCabinetsPageClient } from '@/components/sections/ModernStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Modern Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore modern kitchen cabinets featuring sleek slab doors, clean lines, and minimalist design. Available in a wide range of materials and finishes. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Modern Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore modern kitchen cabinets featuring sleek slab doors, clean lines, and minimalist design. Available in a wide range of materials and finishes. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/modern-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Modern Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore modern kitchen cabinets featuring sleek slab doors, clean lines, and minimalist design. Available in a wide range of materials and finishes. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Modern Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

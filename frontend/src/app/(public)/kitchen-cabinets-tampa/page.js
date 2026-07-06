@@ -3,15 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { CabinetsPageClient } from '@/components/sections/CabinetsPageClient'
 
-export const metadata = {
-  title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
-  description:
-    'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
-  openGraph: {
-    title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
-    description:
-      'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/kitchen-cabinets-tampa')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
+    }
+  } catch {
+    return { title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot' }
+  }
 }
 
 const jsonLd = {

@@ -1,14 +1,17 @@
 import { ShakerStyleCabinetsPageClient } from '@/components/sections/ShakerStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Shaker Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore shaker style kitchen cabinets featuring clean lines, recessed panel doors, and timeless versatility. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Shaker Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore shaker style kitchen cabinets featuring clean lines, recessed panel doors, and timeless versatility. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/shaker-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Shaker Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore shaker style kitchen cabinets featuring clean lines, recessed panel doors, and timeless versatility. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Shaker Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

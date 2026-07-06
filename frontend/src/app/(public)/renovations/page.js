@@ -1,14 +1,17 @@
 import { RenovationsPageClient } from '@/components/sections/RenovationsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Renovations - Cabinets And Remodeling Depot',
-  description:
-    'Kitchen and bathroom renovation services in Tampa Bay. From cabinet solutions and countertop installation to complete bathroom remodels — all with minimal disruption. Visit our Valrico showroom for a free estimate.',
-  openGraph: {
-    title: 'Renovations - Cabinets And Remodeling Depot',
-    description:
-      'Kitchen and bathroom renovation services in Tampa Bay. From cabinet solutions and countertop installation to complete bathroom remodels — all with minimal disruption. Visit our Valrico showroom for a free estimate.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/renovations')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Renovations - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Kitchen and bathroom renovation services in Tampa Bay. From cabinet solutions and countertop installation to complete bathroom remodels — all with minimal disruption. Visit our Valrico showroom for a free estimate.',
+    }
+  } catch {
+    return { title: 'Renovations - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

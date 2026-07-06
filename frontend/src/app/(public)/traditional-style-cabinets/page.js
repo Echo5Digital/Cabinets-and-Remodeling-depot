@@ -1,14 +1,17 @@
 import { TraditionalStyleCabinetsPageClient } from '@/components/sections/TraditionalStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Traditional Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore traditional kitchen cabinets featuring raised panel doors, decorative moldings, and classic wood finishes. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Traditional Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore traditional kitchen cabinets featuring raised panel doors, decorative moldings, and classic wood finishes. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/traditional-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Traditional Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore traditional kitchen cabinets featuring raised panel doors, decorative moldings, and classic wood finishes. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Traditional Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

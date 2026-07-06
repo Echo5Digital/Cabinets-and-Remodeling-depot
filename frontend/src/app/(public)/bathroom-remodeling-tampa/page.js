@@ -3,15 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { BathroomRemodelingPageClient } from '@/components/sections/BathroomRemodelingPageClient'
 
-export const metadata = {
-  title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
-  description:
-    'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions. Visit our Valrico showroom. Free estimates available.',
-  openGraph: {
-    title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
-    description:
-      'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions. Serving Tampa Bay from our Valrico showroom. Free estimates.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/bathroom-remodeling-tampa')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
+      description: seo.metaDescription || 'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions. Visit our Valrico showroom. Free estimates available.',
+    }
+  } catch {
+    return { title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa' }
+  }
 }
 
 const schema = {

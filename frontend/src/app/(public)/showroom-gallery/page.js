@@ -3,9 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { GalleryPageClient } from './GalleryPageClient'
 
-export const metadata = {
-  title: 'Project Gallery | Cabinets & Remodeling Depot',
-  description: 'Browse our gallery of kitchen and bathroom remodeling projects, custom cabinets, countertops, and flooring installations throughout Tampa Bay.',
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/showroom-gallery')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Project Gallery | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Browse our gallery of kitchen and bathroom remodeling projects, custom cabinets, countertops, and flooring installations throughout Tampa Bay.',
+    }
+  } catch {
+    return { title: 'Project Gallery | Cabinets & Remodeling Depot' }
+  }
 }
 
 async function prefetchPage() {

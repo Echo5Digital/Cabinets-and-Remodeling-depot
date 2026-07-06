@@ -1,14 +1,17 @@
 import { IndustrialStyleCabinetsPageClient } from '@/components/sections/IndustrialStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Industrial Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore industrial style kitchen cabinets featuring raw materials, exposed hardware, and bold designs. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Industrial Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore industrial style kitchen cabinets featuring raw materials, exposed hardware, and bold designs. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/industrial-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Industrial Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore industrial style kitchen cabinets featuring raw materials, exposed hardware, and bold designs. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Industrial Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

@@ -1,14 +1,17 @@
 import { ContemporaryStyleCabinetsPageClient } from '@/components/sections/ContemporaryStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore contemporary style kitchen cabinets featuring clean lines, minimalist designs, and sleek finishes. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore contemporary style kitchen cabinets featuring clean lines, minimalist designs, and sleek finishes. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/contemporary-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Contemporary Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore contemporary style kitchen cabinets featuring clean lines, minimalist designs, and sleek finishes. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

@@ -1,14 +1,17 @@
 import { BathroomVanitiesPageClient } from '@/components/sections/BathroomVanitiesPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa',
-  description:
-    'Upgrade your space with 100% premium-quality Bathroom Vanities In Tampa. From stylish designs to expert Bathroom Renovation Tampa. We deliver durable and elegant solutions for every budget.',
-  openGraph: {
-    title: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa',
-    description:
-      'Upgrade your space with 100% premium-quality Bathroom Vanities In Tampa. From stylish designs to expert Bathroom Renovation Tampa. We deliver durable and elegant solutions for every budget.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/bathroom-vanities-tampa')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa',
+      description: seo.metaDescription || 'Upgrade your space with 100% premium-quality Bathroom Vanities In Tampa. From stylish designs to expert Bathroom Renovation Tampa. We deliver durable and elegant solutions for every budget.',
+    }
+  } catch {
+    return { title: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa' }
+  }
 }
 
 const schema = {

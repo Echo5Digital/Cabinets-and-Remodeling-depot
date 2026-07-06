@@ -220,8 +220,8 @@ export function getDefaultContent(slug) {
         },
       ],
       seo: {
-        metaTitle: 'Cabinets & Remodeling Depot | Tampa Kitchen & Bathroom Remodeling',
-        metaDescription: 'Expert kitchen remodeling, bathroom remodeling, custom cabinets, and countertops in Tampa Bay. Get your free estimate today.',
+        metaTitle: 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa',
+        metaDescription: 'Looking for kitchen cabinets in Tampa? Visit our Valrico showroom for affordable cabinets, in-stock kitchen cabinets, and professional cabinet installation Tampa homeowners trust.',
         ogImage: '',
         keywords: 'kitchen remodeling Tampa, bathroom remodeling Tampa, custom cabinets Tampa',
       },
@@ -303,8 +303,8 @@ export function getDefaultContent(slug) {
         },
       ],
       seo: {
-        metaTitle: 'About Us | Cabinets & Remodeling Depot Tampa Bay',
-        metaDescription: "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling company since 2005. Kitchen remodeling, bathroom renovations, custom cabinets, countertops, and flooring.",
+        metaTitle: 'About Us | Cabinets & Remodeling Depot',
+        metaDescription: "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling contractor for kitchen cabinets, bathroom vanities, countertops, and flooring.",
         ogImage: '',
         keywords: 'about Cabinets & Remodeling Depot, Tampa Bay remodeling company, kitchen remodeling Tampa, bathroom remodeling Tampa',
       },
@@ -466,7 +466,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Kitchen Remodeling Tampa | Cabinets & Remodeling Depot', metaDescription: 'Expert kitchen remodeling in Tampa Bay. Custom cabinets, countertops, full renovations. Free estimates.', ogImage: '' },
+      seo: { metaTitle: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Planning a kitchen remodel Tampa homeowners trust? Visit our Valrico showroom for full renovations, cabinets & countertops. Book free consultation.', ogImage: '' },
       schema: '',
     },
 
@@ -595,7 +595,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Bathroom Remodeling Tampa | Cabinets & Remodeling Depot', metaDescription: 'Professional bathroom remodeling in Tampa Bay. Custom vanities, tile showers, and luxury renovations. Free estimates.', ogImage: '' },
+      seo: { metaTitle: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa', metaDescription: 'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions. Visit our Valrico showroom. Free estimates available.', ogImage: '' },
       schema: '',
     },
 
@@ -690,7 +690,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Kitchen Cabinets Tampa | Cabinets & Remodeling Depot', metaDescription: 'Affordable kitchen cabinets, ready-to-install cabinets, and professional installation in Tampa Bay. Visit our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot', metaDescription: 'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.', ogImage: '' },
       schema: '',
     },
 
@@ -855,7 +855,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot', metaDescription: 'Premium granite and quartz countertops in Tampa Bay. In-house fabrication, expert installation, and a huge showroom selection. Free estimates available.', ogImage: '' },
+      seo: { metaTitle: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot', metaDescription: 'Looking for countertops in Tampa? Visit our Valrico showroom for granite countertops Tampa homeowners trust, custom fabrication, quartz countertops, and professional countertop installation services.', ogImage: '' },
       schema: '',
     },
 
@@ -965,7 +965,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Flooring In Tampa | Flooring Stores Tampa | Cabinets & Remodeling Depot', metaDescription: 'Professional hardwood, laminate, tile, and waterproof flooring installation in Tampa Bay. Visit our Valrico showroom for expert guidance and free estimates.', ogImage: '' },
+      seo: { metaTitle: 'Flooring In Tampa | Flooring Stores Tampa', metaDescription: 'We specialize in transforming living spaces with expert Flooring In Tampa, featuring a wide selection from our Flooring Stores Tampa.', ogImage: '' },
       schema: '',
     },
 
@@ -1026,7 +1026,7 @@ export function getDefaultContent(slug) {
           buttonLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Wooden Flooring Tampa Bay | Hardwood Floor Installation | Cabinets & Remodeling Depot', metaDescription: 'Expert hardwood and engineered wooden flooring installation in Tampa Bay. Solid wood, engineered wood, and exotic hardwoods installed by our certified professionals.', ogImage: '' },
+      seo: { metaTitle: 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot', metaDescription: 'Cabinets & Remodeling Depot offers affordable wood flooring installation in Tampa and Valrico, FL. Visit our showroom or call for a free in-home estimate.', ogImage: '' },
       schema: '',
     },
 
@@ -1074,7 +1074,7 @@ export function getDefaultContent(slug) {
           buttonLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot', metaDescription: 'Premium ceramic and porcelain tile flooring installation in Tampa Bay. Kitchen tiles, bathroom tiles, large-format tiles, and more.', ogImage: '' },
+      seo: { metaTitle: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot', metaDescription: 'Premium ceramic and porcelain tile flooring installation in Tampa Bay. Kitchen tiles, bathroom tiles, large-format tiles, and more. Expert installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1135,7 +1135,7 @@ export function getDefaultContent(slug) {
           buttonLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot', metaDescription: 'High-quality laminate flooring installation in Tampa Bay. Durable, beautiful, and budget-friendly laminate options for every room.', ogImage: '' },
+      seo: { metaTitle: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot', metaDescription: 'High-quality laminate flooring installation in Tampa Bay. Durable, beautiful, and budget-friendly laminate options for every room. Expert installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1199,7 +1199,7 @@ export function getDefaultContent(slug) {
           layout: 'full',
         },
       ],
-      seo: { metaTitle: 'Privacy Policy | Cabinets & Remodeling Depot', metaDescription: 'Privacy policy for Cabinets & Remodeling Depot website.', ogImage: '' },
+      seo: { metaTitle: 'Privacy Policy | Cabinets & Remodeling Depot', metaDescription: 'Privacy Policy for Cabinets & Remodeling Depot.', ogImage: '' },
       schema: '',
     },
 
@@ -1215,7 +1215,7 @@ export function getDefaultContent(slug) {
           layout: 'full',
         },
       ],
-      seo: { metaTitle: 'Terms of Service | Cabinets & Remodeling Depot', metaDescription: 'Terms of service for Cabinets & Remodeling Depot website.', ogImage: '' },
+      seo: { metaTitle: 'Terms of Service | Cabinets & Remodeling Depot', metaDescription: 'Terms of Service for Cabinets & Remodeling Depot.', ogImage: '' },
       schema: '',
     },
 
@@ -1232,7 +1232,7 @@ export function getDefaultContent(slug) {
           ctaLink: 'https://g.page/r/cabinetsandremodelingdepot/review',
         },
       ],
-      seo: { metaTitle: 'Review Us | Cabinets & Remodeling Depot', metaDescription: 'Share your experience with Cabinets & Remodeling Depot. Leave a Google review and help Tampa Bay homeowners make confident remodeling decisions.', ogImage: '' },
+      seo: { metaTitle: 'Share Your Experience With Us - Cabinets And Remodeling Depot', metaDescription: 'Leave a review for Cabinets & Remodeling Depot. Share your experience with our kitchen remodeling, bathroom renovation, and cabinet services in Tampa, Valrico, FL.', ogImage: '' },
       schema: '',
     },
 
@@ -1249,7 +1249,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Renovations | Cabinets & Remodeling Depot Tampa', metaDescription: 'Complete home renovation services in Tampa Bay. Kitchen remodeling, bathroom renovations, flooring, cabinetry, and more.', ogImage: '' },
+      seo: { metaTitle: 'Renovations - Cabinets And Remodeling Depot', metaDescription: 'Kitchen and bathroom renovation services in Tampa Bay. From cabinet solutions and countertop installation to complete bathroom remodels — all with minimal disruption. Visit our Valrico showroom for a free estimate.', ogImage: '' },
       schema: '',
     },
 
@@ -1266,7 +1266,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Kitchen Cabinet Types | Cabinets & Remodeling Depot', metaDescription: 'Explore all kitchen cabinet types — stock, semi-custom, and custom — at Cabinets & Remodeling Depot in Valrico, FL.', ogImage: '' },
+      seo: { metaTitle: 'Kitchen Cabinets Types - Cabinets And Remodeling Depot', metaDescription: 'Explore the different types of kitchen cabinets including glass-front, beadboard, flat-front, plywood, and natural wood cabinets. Find the perfect style for your kitchen at our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1283,7 +1283,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Contemporary Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Contemporary kitchen cabinets in Tampa Bay. Clean lines and modern finishes available at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore contemporary style kitchen cabinets featuring clean lines, minimalist designs, and sleek finishes. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1299,7 +1299,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Glass-Front Kitchen Cabinets Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Glass-front kitchen cabinets available in Tampa Bay. Explore styles at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Glass-Front Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot', metaDescription: 'Explore elegant Glass-Front kitchen cabinets in Tampa Bay. Showcase your dinnerware with beautiful glass-insert doors, professionally installed from our Valrico showroom. Request a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1315,7 +1315,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Industrial Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Industrial style kitchen cabinets in Tampa Bay. Visit our Valrico showroom to explore bold cabinet designs.', ogImage: '' },
+      seo: { metaTitle: 'Industrial Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore industrial style kitchen cabinets featuring raw materials, exposed hardware, and bold designs. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1331,7 +1331,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Modern Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Modern kitchen cabinets in Tampa Bay. Sleek designs and premium finishes at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Modern Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore modern kitchen cabinets featuring sleek slab doors, clean lines, and minimalist design. Available in a wide range of materials and finishes. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1347,7 +1347,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Raised Panel Kitchen Cabinets Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Raised panel kitchen cabinets in Tampa Bay. Classic and elegant designs at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Raised Panel Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot', metaDescription: 'Discover classic Raised Panel kitchen cabinets in Tampa Bay. Sculpted profiles, rich finishes, and professional installation from our Valrico showroom. Request a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1363,7 +1363,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Rustic Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Rustic kitchen cabinets in Tampa Bay. Natural finishes and warm designs available at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Rustic Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore rustic kitchen cabinets crafted from natural wood with warm, distressed finishes and rugged character. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1379,7 +1379,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Shaker Kitchen Cabinets Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Shaker kitchen cabinets in Tampa Bay. The most popular cabinet style — available in many colors and finishes.', ogImage: '' },
+      seo: { metaTitle: 'Shaker Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot', metaDescription: 'Discover timeless Shaker kitchen cabinets in Tampa Bay. Clean recessed panels, versatile finishes, and professional installation from our Valrico showroom. Request a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1395,7 +1395,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Shaker Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Shaker style cabinets in Tampa Bay. Explore our full shaker cabinet collection at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Shaker Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore shaker style kitchen cabinets featuring clean lines, recessed panel doors, and timeless versatility. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1411,7 +1411,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Slab Kitchen Cabinets Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Slab and flat panel kitchen cabinets in Tampa Bay. Minimalist modern designs at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Slab & Flat Panel Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot', metaDescription: 'Explore sleek Slab and Flat Panel kitchen cabinets in Tampa Bay. Minimalist modern design with professional installation from our Valrico showroom. Request a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1427,7 +1427,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Traditional Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Traditional kitchen cabinets in Tampa Bay. Classic styles and quality craftsmanship at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Traditional Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore traditional kitchen cabinets featuring raised panel doors, decorative moldings, and classic wood finishes. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1443,7 +1443,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Transitional Style Cabinets | Cabinets & Remodeling Depot', metaDescription: 'Transitional kitchen cabinets in Tampa Bay. Blending classic and modern styles at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Transitional Style Cabinets - Cabinets And Remodeling Depot', metaDescription: 'Explore transitional style kitchen cabinets that blend traditional warmth with contemporary clean lines. Visit our Valrico showroom for a free estimate today.', ogImage: '' },
       schema: '',
     },
 
@@ -1460,7 +1460,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Bathroom Vanities Tampa | Cabinets & Remodeling Depot', metaDescription: 'Bathroom vanities in Tampa Bay. Single, double, floating, and custom vanity options at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa', metaDescription: 'Upgrade your space with 100% premium-quality Bathroom Vanities In Tampa. From stylish designs to expert Bathroom Renovation Tampa. We deliver durable and elegant solutions for every budget.', ogImage: '' },
       schema: '',
     },
 
@@ -1477,7 +1477,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Granite Countertops Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Premium granite countertops in Tampa Bay. Natural stone, custom fabrication, and professional installation.', ogImage: '' },
+      seo: { metaTitle: 'Granite Countertops Tampa Bay | Natural Stone Fabrication & Installation | Cabinets & Remodeling Depot', metaDescription: 'Explore natural granite countertops in Tampa Bay. Unique veining patterns, exceptional durability, and professional installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1493,7 +1493,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Marble Countertops Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Premium marble countertops in Tampa Bay. Elegant natural stone, custom fabrication, and expert installation.', ogImage: '' },
+      seo: { metaTitle: 'Marble Countertops Tampa Bay | Luxury Stone Fabrication & Installation | Cabinets & Remodeling Depot', metaDescription: 'Explore timeless marble countertops in Tampa Bay. Graceful veining, classic elegance, and professional installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1509,7 +1509,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Porcelain Countertops Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Porcelain countertops in Tampa Bay. Sleek, durable, and low-maintenance surfaces for kitchens and bathrooms.', ogImage: '' },
+      seo: { metaTitle: 'Porcelain Countertops Tampa Bay | Contemporary Fabrication & Installation | Cabinets & Remodeling Depot', metaDescription: 'Discover sleek porcelain countertops in Tampa Bay. Heat, stain, and scratch resistant with versatile designs for kitchens, bathrooms, and outdoor spaces. Custom fabrication from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1525,7 +1525,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Quartz Countertops Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Premium quartz countertops in Tampa Bay. Non-porous, low-maintenance, and available in dozens of colors and finishes.', ogImage: '' },
+      seo: { metaTitle: 'Quartz Countertops Tampa Bay | Custom Fabrication & Installation | Cabinets & Remodeling Depot', metaDescription: 'Discover premium quartz countertops in Tampa Bay. Low maintenance, non-porous, and available in dozens of colors and finishes. Custom fabrication and professional installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1541,7 +1541,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Quartzite Countertops Tampa Bay | Cabinets & Remodeling Depot', metaDescription: 'Quartzite countertops in Tampa Bay. Natural stone with marble-like beauty and exceptional heat resistance.', ogImage: '' },
+      seo: { metaTitle: 'Quartzite Countertops Tampa Bay | Natural Stone Fabrication & Installation | Cabinets & Remodeling Depot', metaDescription: 'Discover quartzite countertops in Tampa Bay. Marble-like beauty with exceptional strength and heat resistance. Custom fabrication and professional installation from our Valrico showroom.', ogImage: '' },
       schema: '',
     },
 
@@ -1558,7 +1558,7 @@ export function getDefaultContent(slug) {
           ctaLink: '/contact',
         },
       ],
-      seo: { metaTitle: 'Faucets Tampa | Kitchen & Bathroom Faucets | Cabinets & Remodeling Depot', metaDescription: 'Kitchen and bathroom faucets in Tampa Bay. Explore our faucet collection at our Valrico showroom.', ogImage: '' },
+      seo: { metaTitle: 'Faucets in Tampa | Kitchen & Bathroom Faucets', metaDescription: 'Explore a wide selection of stylish Kitchen & Bathroom Faucets. Visit Cabinets and Remodeling Depot for top-quality Faucets in Tampa that enhance your home.', ogImage: '' },
       schema: '',
     },
 

@@ -3,9 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { PrivacyPolicyClient } from './PrivacyPolicyClient'
 
-export const metadata = {
-  title: 'Privacy Policy | Cabinets & Remodeling Depot',
-  description: 'Privacy Policy for Cabinets & Remodeling Depot.',
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/privacy-policy')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Privacy Policy | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Privacy Policy for Cabinets & Remodeling Depot.',
+    }
+  } catch {
+    return { title: 'Privacy Policy | Cabinets & Remodeling Depot' }
+  }
 }
 
 async function prefetchPage() {

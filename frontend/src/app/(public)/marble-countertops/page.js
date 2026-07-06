@@ -1,14 +1,17 @@
 import { MarblePageClient } from '@/components/sections/MarblePageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Marble Countertops Tampa Bay | Luxury Stone Fabrication & Installation | Cabinets & Remodeling Depot',
-  description:
-    'Explore timeless marble countertops in Tampa Bay. Graceful veining, classic elegance, and professional installation from our Valrico showroom.',
-  openGraph: {
-    title: 'Marble Countertops Tampa Bay | Cabinets & Remodeling Depot',
-    description:
-      'Luxury marble countertops for Tampa Bay homes. Custom fabricated and professionally installed. Visit our Valrico showroom for free estimates.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/marble-countertops')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Marble Countertops Tampa Bay | Luxury Stone Fabrication & Installation | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Explore timeless marble countertops in Tampa Bay. Graceful veining, classic elegance, and professional installation from our Valrico showroom.',
+    }
+  } catch {
+    return { title: 'Marble Countertops Tampa Bay | Luxury Stone Fabrication & Installation | Cabinets & Remodeling Depot' }
+  }
 }
 
 export default function MarbleCountertopsPage() {

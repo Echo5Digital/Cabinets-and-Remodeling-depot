@@ -1,14 +1,17 @@
 import { TransitionalStyleCabinetsPageClient } from '@/components/sections/TransitionalStyleCabinetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Transitional Style Cabinets - Cabinets And Remodeling Depot',
-  description:
-    'Explore transitional style kitchen cabinets that blend traditional warmth with contemporary clean lines. Visit our Valrico showroom for a free estimate today.',
-  openGraph: {
-    title: 'Transitional Style Cabinets - Cabinets And Remodeling Depot',
-    description:
-      'Explore transitional style kitchen cabinets that blend traditional warmth with contemporary clean lines. Visit our Valrico showroom for a free estimate today.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/transitional-style-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Transitional Style Cabinets - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore transitional style kitchen cabinets that blend traditional warmth with contemporary clean lines. Visit our Valrico showroom for a free estimate today.',
+    }
+  } catch {
+    return { title: 'Transitional Style Cabinets - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {

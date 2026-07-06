@@ -114,6 +114,23 @@ export async function getAllPages(req, res, next) {
       { $set: { status: 'published' } }
     )
 
+    // ── Step 1.7: sync SEO fields to match live page values (version-gated) ──
+    // Bumping SEO_VERSION forces all pages whose stored _seoVersion is lower
+    // to have their metaTitle and metaDescription overwritten from defaults.
+    // After the migration runs, _seoVersion is set so subsequent boots no-op.
+    // Admin edits made AFTER this migration are preserved (they don't lower _seoVersion).
+    const SEO_VERSION = 1
+    const seoCheckDocs = await Page.find({ isActive: true }).select('slug content').lean()
+    for (const doc of seoCheckDocs) {
+      if ((doc.content?._seoVersion ?? 0) < SEO_VERSION) {
+        const defaultSeo = getDefaultContent(doc.slug)?.seo || {}
+        const seoUpdates = { 'content._seoVersion': SEO_VERSION }
+        if (defaultSeo.metaTitle) seoUpdates['content.seo.metaTitle'] = defaultSeo.metaTitle
+        if (defaultSeo.metaDescription) seoUpdates['content.seo.metaDescription'] = defaultSeo.metaDescription
+        await Page.updateOne({ slug: doc.slug }, { $set: seoUpdates })
+      }
+    }
+
     // ── Step 2: auto-seed missing pages ──────────────────────────────────────
     const existing = await Page.find({}).select('slug').lean()
     const existingSlugs = new Set(existing.map((p) => p.slug))

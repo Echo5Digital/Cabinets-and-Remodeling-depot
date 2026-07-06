@@ -3,15 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { KitchenRemodelingPageClient } from '@/components/sections/KitchenRemodelingPageClient'
 
-export const metadata = {
-  title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
-  description:
-    'Planning a kitchen remodel Tampa homeowners trust? Visit our Valrico showroom for full renovations, cabinets & countertops. Book free consultation.',
-  openGraph: {
-    title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
-    description:
-      'Custom kitchen remodeling in Tampa Bay — cabinetry, countertops, flooring, and professional installation. Visit our Valrico showroom for a free estimate.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/kitchen-remodeling-tampa')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Planning a kitchen remodel Tampa homeowners trust? Visit our Valrico showroom for full renovations, cabinets & countertops. Book free consultation.',
+    }
+  } catch {
+    return { title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot' }
+  }
 }
 
 const schema = {

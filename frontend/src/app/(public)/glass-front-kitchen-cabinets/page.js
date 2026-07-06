@@ -1,14 +1,17 @@
 import { GlassFrontPageClient } from '@/components/sections/GlassFrontPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Glass-Front Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot',
-  description:
-    'Explore elegant Glass-Front kitchen cabinets in Tampa Bay. Showcase your dinnerware with beautiful glass-insert doors, professionally installed from our Valrico showroom. Request a free estimate today.',
-  openGraph: {
-    title: 'Glass-Front Kitchen Cabinets Tampa Bay | Cabinets & Remodeling Depot',
-    description:
-      'Elegant Glass-Front cabinets for Tampa Bay kitchens. Custom crafted and professionally installed. Visit our Valrico showroom for free estimates.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/glass-front-kitchen-cabinets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Glass-Front Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || 'Explore elegant Glass-Front kitchen cabinets in Tampa Bay. Showcase your dinnerware with beautiful glass-insert doors, professionally installed from our Valrico showroom. Request a free estimate today.',
+    }
+  } catch {
+    return { title: 'Glass-Front Kitchen Cabinets Tampa Bay | Custom Installation | Cabinets & Remodeling Depot' }
+  }
 }
 
 export default function GlassFrontKitchenCabinetsPage() {

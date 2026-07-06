@@ -3,15 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { AboutClient } from './AboutClient'
 
-export const metadata = {
-  title: 'About Us | Cabinets & Remodeling Depot',
-  description:
-    "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling contractor for kitchen cabinets, bathroom vanities, countertops, and flooring.",
-  openGraph: {
-    title: 'About Us | Cabinets & Remodeling Depot',
-    description:
-      "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling contractor for kitchen cabinets, bathroom vanities, countertops, and flooring.",
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/about')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'About Us | Cabinets & Remodeling Depot',
+      description: seo.metaDescription || "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling contractor for kitchen cabinets, bathroom vanities, countertops, and flooring.",
+    }
+  } catch {
+    return { title: 'About Us | Cabinets & Remodeling Depot' }
+  }
 }
 
 async function prefetchPage() {

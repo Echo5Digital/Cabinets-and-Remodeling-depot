@@ -1,14 +1,17 @@
 import { FaucetsPageClient } from '@/components/sections/FaucetsPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Faucets in Tampa | Kitchen & Bathroom Faucets',
-  description:
-    'Explore a wide selection of stylish Kitchen & Bathroom Faucets. Visit Cabinets and Remodeling Depot for top-quality Faucets in Tampa that enhance your home.',
-  openGraph: {
-    title: 'Faucets in Tampa | Kitchen & Bathroom Faucets',
-    description:
-      'Explore a wide selection of stylish Kitchen & Bathroom Faucets. Visit Cabinets and Remodeling Depot for top-quality Faucets in Tampa that enhance your home.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/faucets')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Faucets in Tampa | Kitchen & Bathroom Faucets',
+      description: seo.metaDescription || 'Explore a wide selection of stylish Kitchen & Bathroom Faucets. Visit Cabinets and Remodeling Depot for top-quality Faucets in Tampa that enhance your home.',
+    }
+  } catch {
+    return { title: 'Faucets in Tampa | Kitchen & Bathroom Faucets' }
+  }
 }
 
 const schema = {

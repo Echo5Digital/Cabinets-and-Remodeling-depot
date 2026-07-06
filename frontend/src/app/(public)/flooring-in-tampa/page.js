@@ -3,15 +3,17 @@ import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { FlooringPageClient } from '@/components/sections/FlooringPageClient'
 
-export const metadata = {
-  title: 'Flooring In Tampa | Flooring Stores Tampa',
-  description:
-    'We specialize in transforming living spaces with expert Flooring In Tampa, featuring a wide selection from our Flooring Stores Tampa.',
-  openGraph: {
-    title: 'Flooring In Tampa | Flooring Stores Tampa',
-    description:
-      'We specialize in transforming living spaces with expert Flooring In Tampa, featuring a wide selection from our Flooring Stores Tampa.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/flooring-in-tampa')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Flooring In Tampa | Flooring Stores Tampa',
+      description: seo.metaDescription || 'We specialize in transforming living spaces with expert Flooring In Tampa, featuring a wide selection from our Flooring Stores Tampa.',
+    }
+  } catch {
+    return { title: 'Flooring In Tampa | Flooring Stores Tampa' }
+  }
 }
 
 const schema = {

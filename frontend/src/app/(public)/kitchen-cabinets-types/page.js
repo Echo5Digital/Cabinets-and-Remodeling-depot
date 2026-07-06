@@ -1,14 +1,17 @@
 import { KitchenCabinetsTypesPageClient } from '@/components/sections/KitchenCabinetsTypesPageClient'
+import { api } from '@/lib/api'
 
-export const metadata = {
-  title: 'Kitchen Cabinets Types - Cabinets And Remodeling Depot',
-  description:
-    'Explore the different types of kitchen cabinets including glass-front, beadboard, flat-front, plywood, and natural wood cabinets. Find the perfect style for your kitchen at our Valrico showroom.',
-  openGraph: {
-    title: 'Kitchen Cabinets Types - Cabinets And Remodeling Depot',
-    description:
-      'Explore the different types of kitchen cabinets including glass-front, beadboard, flat-front, plywood, and natural wood cabinets. Find the perfect style for your kitchen at our Valrico showroom.',
-  },
+export async function generateMetadata() {
+  try {
+    const { data } = await api.get('/pages/kitchen-cabinets-types')
+    const seo = data?.data?.content?.seo || {}
+    return {
+      title: seo.metaTitle || 'Kitchen Cabinets Types - Cabinets And Remodeling Depot',
+      description: seo.metaDescription || 'Explore the different types of kitchen cabinets including glass-front, beadboard, flat-front, plywood, and natural wood cabinets. Find the perfect style for your kitchen at our Valrico showroom.',
+    }
+  } catch {
+    return { title: 'Kitchen Cabinets Types - Cabinets And Remodeling Depot' }
+  }
 }
 
 const schema = {
