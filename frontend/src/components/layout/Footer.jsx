@@ -203,8 +203,17 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/50">
-            &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
+          <p className="text-xs text-white/50 text-center sm:text-left">
+            Copyright &copy; 2026{' '}
+            <a
+              href="https://www.echo5digital.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-white/80 transition-colors"
+            >
+              Echo5 Digital
+            </a>{' '}
+            All Rights Reserved.
           </p>
           <p className="text-xs text-white/50">
             Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties

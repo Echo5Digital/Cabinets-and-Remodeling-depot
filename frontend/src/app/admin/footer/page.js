@@ -130,7 +130,16 @@ function FooterPreview({ footerLinks, footerServices, settings }) {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-6 pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <p className="text-[10px] text-white/40">
-            © {new Date().getFullYear()} {companyName}. All rights reserved.
+            Copyright &copy; 2026{' '}
+            <a
+              href="https://www.echo5digital.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-white/30 transition-colors"
+            >
+              Echo5 Digital
+            </a>{' '}
+            All Rights Reserved.
           </p>
           <p className="text-[10px] text-white/40">
             Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties
