@@ -29,6 +29,7 @@ export function usePages() {
       const { data } = await api.get('/pages')
       return data.data
     },
+    staleTime: 0,
   })
 }
 

@@ -10,7 +10,7 @@ import { FileText, ChevronRight, ExternalLink } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
 export default function AdminPagesPage() {
-  const { data: pages, isLoading } = usePages()
+  const { data: pages, isLoading, isError, error } = usePages()
 
   return (
     <div className="space-y-6">
@@ -27,9 +27,23 @@ export default function AdminPagesPage() {
             <Skeleton key={i} className="h-16 w-full" />
           ))}
         </div>
+      ) : isError ? (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            <p className="font-medium text-destructive">Failed to load pages</p>
+            <p className="text-sm mt-1">{error?.message || 'An unexpected error occurred. Please try again.'}</p>
+          </CardContent>
+        </Card>
+      ) : !pages || pages.length === 0 ? (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            <FileText className="w-8 h-8 mx-auto mb-2 opacity-40" />
+            <p className="text-sm">No pages found.</p>
+          </CardContent>
+        </Card>
       ) : (
         <div className="space-y-2">
-          {pages?.map((page) => (
+          {pages.map((page) => (
             <Card key={page.id} className="hover:shadow-sm transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
