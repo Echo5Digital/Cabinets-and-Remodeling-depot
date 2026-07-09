@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Share Your Experience With Us - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Leave a review for Cabinets & Remodeling Depot. Share your experience with our kitchen remodeling, bathroom renovation, and cabinet services in Tampa, Valrico, FL.',
+      alternates: { canonical: '/review-us' },
     }
   } catch {
-    return { title: 'Share Your Experience With Us - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Share Your Experience With Us - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/review-us' },
+    }
   }
 }
 

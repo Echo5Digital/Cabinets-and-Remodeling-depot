@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Planning a kitchen remodel Tampa homeowners trust? Visit our Valrico showroom for full renovations, cabinets & countertops. Book free consultation.',
+      alternates: { canonical: '/kitchen-remodeling-tampa' },
     }
   } catch {
-    return { title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/kitchen-remodeling-tampa' },
+    }
   }
 }
 

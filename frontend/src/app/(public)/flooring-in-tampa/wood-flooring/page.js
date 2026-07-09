@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Cabinets & Remodeling Depot offers affordable wood flooring installation in Tampa and Valrico, FL. Visit our showroom or call for a free in-home estimate.',
+      alternates: { canonical: '/flooring-in-tampa/wood-flooring' },
     }
   } catch {
-    return { title: 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Wooden Flooring Tampa | Wood Floor Installation | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/flooring-in-tampa/wood-flooring' },
+    }
   }
 }
 

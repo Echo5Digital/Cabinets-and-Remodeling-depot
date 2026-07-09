@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
       description: seo.metaDescription || 'Transform your bathroom with custom vanities, premium countertops, modern fixtures, and professional renovation solutions. Visit our Valrico showroom. Free estimates available.',
+      alternates: { canonical: '/bathroom-remodeling-tampa' },
     }
   } catch {
-    return { title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa' }
+    return {
+      title: 'Bathroom Remodeling In Tampa | Bathroom Remodel Contractors Tampa',
+      alternates: { canonical: '/bathroom-remodeling-tampa' },
+    }
   }
 }
 

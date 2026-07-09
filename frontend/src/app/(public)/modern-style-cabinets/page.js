@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Modern Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore modern kitchen cabinets featuring sleek slab doors, clean lines, and minimalist design. Available in a wide range of materials and finishes. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/modern-style-cabinets' },
     }
   } catch {
-    return { title: 'Modern Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Modern Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/modern-style-cabinets' },
+    }
   }
 }
 

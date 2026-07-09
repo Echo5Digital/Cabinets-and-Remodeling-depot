@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Privacy Policy | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Privacy Policy for Cabinets & Remodeling Depot.',
+      alternates: { canonical: '/privacy-policy' },
     }
   } catch {
-    return { title: 'Privacy Policy | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Privacy Policy | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/privacy-policy' },
+    }
   }
 }
 

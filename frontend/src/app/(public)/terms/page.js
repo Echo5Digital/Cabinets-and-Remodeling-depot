@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Terms of Service | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Terms of Service for Cabinets & Remodeling Depot.',
+      alternates: { canonical: '/terms' },
     }
   } catch {
-    return { title: 'Terms of Service | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Terms of Service | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/terms' },
+    }
   }
 }
 

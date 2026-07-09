@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa',
       description: seo.metaDescription || 'Upgrade your space with 100% premium-quality Bathroom Vanities In Tampa. From stylish designs to expert Bathroom Renovation Tampa. We deliver durable and elegant solutions for every budget.',
+      alternates: { canonical: '/bathroom-vanities-tampa' },
     }
   } catch {
-    return { title: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa' }
+    return {
+      title: 'Bathroom Vanities In Tampa | Bathroom Renovation Tampa',
+      alternates: { canonical: '/bathroom-vanities-tampa' },
+    }
   }
 }
 

@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa',
       description: seo.metaDescription || 'Looking for kitchen cabinets in Tampa? Visit our Valrico showroom for affordable cabinets, in-stock kitchen cabinets, and professional cabinet installation Tampa homeowners trust.',
+      alternates: { canonical: '/' },
     }
   } catch {
-    return { title: 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa' }
+    return {
+      title: 'Kitchen Cabinets Tampa | Cabinet Installation & Showroom Tampa',
+      alternates: { canonical: '/' },
+    }
   }
 }
 

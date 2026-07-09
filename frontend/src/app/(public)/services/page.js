@@ -11,9 +11,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Our Services | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Full-service remodeling company in Tampa Bay. Kitchen remodeling, bathroom renovations, custom cabinets, countertops, and flooring.',
+      alternates: { canonical: '/services' },
     }
   } catch {
-    return { title: 'Our Services | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Our Services | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/services' },
+    }
   }
 }
 

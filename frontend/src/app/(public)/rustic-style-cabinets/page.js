@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Rustic Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore rustic kitchen cabinets crafted from natural wood with warm, distressed finishes and rugged character. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/rustic-style-cabinets' },
     }
   } catch {
-    return { title: 'Rustic Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Rustic Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/rustic-style-cabinets' },
+    }
   }
 }
 

@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Industrial Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore industrial style kitchen cabinets featuring raw materials, exposed hardware, and bold designs. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/industrial-style-cabinets' },
     }
   } catch {
-    return { title: 'Industrial Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Industrial Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/industrial-style-cabinets' },
+    }
   }
 }
 

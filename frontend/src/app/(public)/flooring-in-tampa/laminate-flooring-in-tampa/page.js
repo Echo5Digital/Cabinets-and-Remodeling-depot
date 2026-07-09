@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'High-quality laminate flooring installation in Tampa Bay. Durable, beautiful, and budget-friendly laminate options for every room. Expert installation from our Valrico showroom.',
+      alternates: { canonical: '/flooring-in-tampa/laminate-flooring-in-tampa' },
     }
   } catch {
-    return { title: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Laminate Flooring Tampa Bay | Affordable & Durable | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/flooring-in-tampa/laminate-flooring-in-tampa' },
+    }
   }
 }
 

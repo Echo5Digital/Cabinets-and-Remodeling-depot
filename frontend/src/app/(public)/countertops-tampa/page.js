@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Looking for countertops in Tampa? Visit our Valrico showroom for granite countertops Tampa homeowners trust, custom fabrication, quartz countertops, and professional countertop installation services.',
+      alternates: { canonical: '/countertops-tampa' },
     }
   } catch {
-    return { title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Countertops Tampa | Granite & Quartz Countertops | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/countertops-tampa' },
+    }
   }
 }
 

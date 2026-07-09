@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Traditional Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore traditional kitchen cabinets featuring raised panel doors, decorative moldings, and classic wood finishes. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/traditional-style-cabinets' },
     }
   } catch {
-    return { title: 'Traditional Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Traditional Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/traditional-style-cabinets' },
+    }
   }
 }
 

@@ -11,9 +11,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Contact Us - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'For assistance, call +1 813-651-2333 or visit us at 106 S St Cloud Ave, Valrico, FL 33594. Open Mon–Fri: 10AM–6PM, Sat: 10AM–4PM. Your remodeling needs, our priority!',
+      alternates: { canonical: '/contact' },
     }
   } catch {
-    return { title: 'Contact Us - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Contact Us - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/contact' },
+    }
   }
 }
 

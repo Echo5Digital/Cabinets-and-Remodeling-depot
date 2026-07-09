@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Flooring In Tampa | Flooring Stores Tampa',
       description: seo.metaDescription || 'We specialize in transforming living spaces with expert Flooring In Tampa, featuring a wide selection from our Flooring Stores Tampa.',
+      alternates: { canonical: '/flooring-in-tampa' },
     }
   } catch {
-    return { title: 'Flooring In Tampa | Flooring Stores Tampa' }
+    return {
+      title: 'Flooring In Tampa | Flooring Stores Tampa',
+      alternates: { canonical: '/flooring-in-tampa' },
+    }
   }
 }
 

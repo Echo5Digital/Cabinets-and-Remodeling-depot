@@ -20,9 +20,13 @@ export async function generateMetadata({ params }) {
       ...(blog.metaDescription  && { description: blog.metaDescription }),
       ...(keywordParts          && { keywords: keywordParts }),
       openGraph: blog.coverImage ? { images: [blog.coverImage] } : undefined,
+      alternates: { canonical: `/${slug}` },
     }
   } catch {
-    return { title: 'Blog Post | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Blog Post | Cabinets & Remodeling Depot',
+      alternates: { canonical: `/${slug}` },
+    }
   }
 }
 

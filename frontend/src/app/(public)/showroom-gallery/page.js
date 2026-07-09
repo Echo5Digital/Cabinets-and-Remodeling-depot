@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Project Gallery | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Browse our gallery of kitchen and bathroom remodeling projects, custom cabinets, countertops, and flooring installations throughout Tampa Bay.',
+      alternates: { canonical: '/showroom-gallery' },
     }
   } catch {
-    return { title: 'Project Gallery | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Project Gallery | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/showroom-gallery' },
+    }
   }
 }
 

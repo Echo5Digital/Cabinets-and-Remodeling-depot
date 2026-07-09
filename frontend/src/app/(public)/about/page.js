@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'About Us | Cabinets & Remodeling Depot',
       description: seo.metaDescription || "Learn about Cabinets & Remodeling Depot — Tampa Bay's trusted remodeling contractor for kitchen cabinets, bathroom vanities, countertops, and flooring.",
+      alternates: { canonical: '/about' },
     }
   } catch {
-    return { title: 'About Us | Cabinets & Remodeling Depot' }
+    return {
+      title: 'About Us | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/about' },
+    }
   }
 }
 

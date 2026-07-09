@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Faucets in Tampa | Kitchen & Bathroom Faucets',
       description: seo.metaDescription || 'Explore a wide selection of stylish Kitchen & Bathroom Faucets. Visit Cabinets and Remodeling Depot for top-quality Faucets in Tampa that enhance your home.',
+      alternates: { canonical: '/faucets' },
     }
   } catch {
-    return { title: 'Faucets in Tampa | Kitchen & Bathroom Faucets' }
+    return {
+      title: 'Faucets in Tampa | Kitchen & Bathroom Faucets',
+      alternates: { canonical: '/faucets' },
+    }
   }
 }
 

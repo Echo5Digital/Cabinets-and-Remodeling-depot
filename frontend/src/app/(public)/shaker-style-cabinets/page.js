@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Shaker Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore shaker style kitchen cabinets featuring clean lines, recessed panel doors, and timeless versatility. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/shaker-style-cabinets' },
     }
   } catch {
-    return { title: 'Shaker Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Shaker Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/shaker-style-cabinets' },
+    }
   }
 }
 

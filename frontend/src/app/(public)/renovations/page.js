@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Renovations - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Kitchen and bathroom renovation services in Tampa Bay. From cabinet solutions and countertop installation to complete bathroom remodels — all with minimal disruption. Visit our Valrico showroom for a free estimate.',
+      alternates: { canonical: '/renovations' },
     }
   } catch {
-    return { title: 'Renovations - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Renovations - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/renovations' },
+    }
   }
 }
 

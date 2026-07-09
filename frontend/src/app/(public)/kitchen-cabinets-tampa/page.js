@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Instantly enhance your space with in stock cabinets in Tampa. Cabinets And Remodeling Depot offers ready to install solutions for a swift and stylish upgrade.',
+      alternates: { canonical: '/kitchen-cabinets-tampa' },
     }
   } catch {
-    return { title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot' }
+    return {
+      title: 'Kitchen Cabinets Tampa | Cabinets And Remodeling Depot',
+      alternates: { canonical: '/kitchen-cabinets-tampa' },
+    }
   }
 }
 

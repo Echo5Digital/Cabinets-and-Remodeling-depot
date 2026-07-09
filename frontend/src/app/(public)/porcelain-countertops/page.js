@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Porcelain Countertops Tampa Bay | Contemporary Fabrication & Installation | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Discover sleek porcelain countertops in Tampa Bay. Heat, stain, and scratch resistant with versatile designs for kitchens, bathrooms, and outdoor spaces. Custom fabrication from our Valrico showroom.',
+      alternates: { canonical: '/porcelain-countertops' },
     }
   } catch {
-    return { title: 'Porcelain Countertops Tampa Bay | Contemporary Fabrication & Installation | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Porcelain Countertops Tampa Bay | Contemporary Fabrication & Installation | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/porcelain-countertops' },
+    }
   }
 }
 

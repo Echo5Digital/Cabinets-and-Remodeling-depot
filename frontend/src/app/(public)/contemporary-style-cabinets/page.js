@@ -8,9 +8,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Contemporary Style Cabinets - Cabinets And Remodeling Depot',
       description: seo.metaDescription || 'Explore contemporary style kitchen cabinets featuring clean lines, minimalist designs, and sleek finishes. Visit our Valrico showroom for a free estimate today.',
+      alternates: { canonical: '/contemporary-style-cabinets' },
     }
   } catch {
-    return { title: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot' }
+    return {
+      title: 'Contemporary Style Cabinets - Cabinets And Remodeling Depot',
+      alternates: { canonical: '/contemporary-style-cabinets' },
+    }
   }
 }
 

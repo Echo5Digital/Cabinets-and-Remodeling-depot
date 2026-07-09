@@ -10,9 +10,13 @@ export async function generateMetadata() {
     return {
       title: seo.metaTitle || 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Premium ceramic and porcelain tile flooring installation in Tampa Bay. Kitchen tiles, bathroom tiles, large-format tiles, and more. Expert installation from our Valrico showroom.',
+      alternates: { canonical: '/tiles-in-tampa' },
     }
   } catch {
-    return { title: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Tile Flooring Tampa Bay | Ceramic & Porcelain Tile Installation | Cabinets & Remodeling Depot',
+      alternates: { canonical: '/tiles-in-tampa' },
+    }
   }
 }
 

@@ -13,9 +13,13 @@ export async function generateMetadata({ params }) {
       title: `${project.title} | Cabinets & Remodeling Depot`,
       description: project.description,
       openGraph: project.coverImage ? { images: [project.coverImage] } : undefined,
+      alternates: { canonical: `/projects/${slug}` },
     }
   } catch {
-    return { title: 'Project | Cabinets & Remodeling Depot' }
+    return {
+      title: 'Project | Cabinets & Remodeling Depot',
+      alternates: { canonical: `/projects/${slug}` },
+    }
   }
 }
 
