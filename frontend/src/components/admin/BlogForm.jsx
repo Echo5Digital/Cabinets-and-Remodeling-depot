@@ -1033,7 +1033,7 @@ export function BlogForm({ initialData = {}, onSubmit, isPending }) {
           <div className="space-y-2">
             <Label>Slug</Label>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground shrink-0 font-mono">/blog/</span>
+              <span className="text-xs text-muted-foreground shrink-0 font-mono">/</span>
               <Input
                 value={slug}
                 onChange={(e) => {

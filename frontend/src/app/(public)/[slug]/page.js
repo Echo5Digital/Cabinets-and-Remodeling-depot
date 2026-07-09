@@ -1,7 +1,7 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
-import { BlogPostClient } from './BlogPostClient'
+import { BlogPostClient } from '@/components/sections/BlogPostClient'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params }) {

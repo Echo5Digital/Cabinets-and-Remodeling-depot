@@ -17,7 +17,7 @@ function BlogCard({ blog, index, inView, defaultImage }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.5 }}
     >
-      <Link href={`/blog/${blog.slug}`} className="group block h-full">
+      <Link href={`/${blog.slug}`} className="group block h-full">
         <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
           {/* Cover Image */}
           <div className="relative h-52 bg-primary/10 overflow-hidden">

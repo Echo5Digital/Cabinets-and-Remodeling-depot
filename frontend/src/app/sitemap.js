@@ -74,7 +74,7 @@ export default async function sitemap() {
     }))
 
     blogUrls = (blogsRes.data?.data || []).map((blog) => ({
-      url: `${BASE_URL}/blog/${blog.slug}`,
+      url: `${BASE_URL}/${blog.slug}`,
       lastModified: safeDate(blog.updatedAt),
       changeFrequency: 'monthly',
       priority: 0.7,
