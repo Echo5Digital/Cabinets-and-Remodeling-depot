@@ -1,8 +1,13 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
-// Lazy initialization — only throw at send time, not at import time
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: false, // TLS via STARTTLS on port 587
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+})
 
-export default resend
+export default transporter

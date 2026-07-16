@@ -1,7 +1,7 @@
-import resend from '../config/resend.js'
+import transporter from '../config/resend.js'
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com'
-const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@cabinetsremodelingdepot.com'
+const ADMIN_EMAIL = 'sales@cabinetsandremodelingdepot.com'
+const FROM_EMAIL = process.env.SMTP_USER
 const COMPANY_NAME = 'Cabinets & Remodeling Depot'
 const COMPANY_PHONE_DISPLAY = process.env.COMPANY_PHONE_DISPLAY || '(813) 651-2333'
 const COMPANY_PHONE_HREF = process.env.COMPANY_PHONE || '+18136512333'
@@ -11,52 +11,34 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'https://cabinetsremodelingdepo
  * Notify admin of a new lead submission.
  */
 export async function sendLeadNotification(lead) {
-  if (!resend) return
   try {
-    await resend.emails.send({
+    const fullName = [lead.firstName, lead.lastName].filter(Boolean).join(' ')
+    const siteTitle = COMPANY_NAME
+    const siteUrl = FRONTEND_URL
+
+    await transporter.sendMail({
       from: `${COMPANY_NAME} <${FROM_EMAIL}>`,
       to: ADMIN_EMAIL,
-      subject: `New Lead: ${lead.firstName} ${lead.lastName} — ${lead.service || 'General Inquiry'}`,
+      subject: `New Contact Form Submission: ${fullName} — ${lead.service || 'General Inquiry'}`,
       html: `
         <!DOCTYPE html>
         <html>
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background: #811121; padding: 20px; border-radius: 8px 8px 0 0;">
-            <h1 style="color: white; margin: 0; font-size: 22px;">New Lead Received</h1>
+            <h1 style="color: white; margin: 0; font-size: 22px;">New Contact Form Submission</h1>
           </div>
           <div style="background: #f9f9f9; padding: 24px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
-            <table style="width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; width: 40%; color: #555;">Name:</td>
-                <td style="padding: 8px 0;">${lead.firstName} ${lead.lastName}</td>
-              </tr>
-              <tr style="background: #fff;">
-                <td style="padding: 8px; font-weight: bold; color: #555;">Email:</td>
-                <td style="padding: 8px;"><a href="mailto:${lead.email}" style="color: #811121;">${lead.email}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #555;">Phone:</td>
-                <td style="padding: 8px 0;">${lead.phone || 'Not provided'}</td>
-              </tr>
-              <tr style="background: #fff;">
-                <td style="padding: 8px; font-weight: bold; color: #555;">Service:</td>
-                <td style="padding: 8px;">${lead.service || 'Not specified'}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #555;">Source:</td>
-                <td style="padding: 8px 0;">${lead.source || 'Website'}</td>
-              </tr>
-              <tr style="background: #fff;">
-                <td style="padding: 8px; font-weight: bold; color: #555; vertical-align: top;">Message:</td>
-                <td style="padding: 8px;">${lead.message.replace(/\n/g, '<br>')}</td>
-              </tr>
-            </table>
-            <div style="margin-top: 24px; padding: 16px; background: #fff3cd; border-radius: 6px; border-left: 4px solid #ffc107;">
-              <strong>Action Required:</strong> Respond to this lead within 24 hours for the best conversion rate.
-            </div>
-            <p style="margin-top: 20px; font-size: 12px; color: #999;">
-              This lead was submitted on ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET
-            </p>
+            <p style="font-family: monospace; font-size: 14px; line-height: 1.8; background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; white-space: pre-wrap; word-break: break-word;">Name: ${fullName}
+Email: ${lead.email}
+Phone: ${lead.phone || 'Not provided'}
+Service: ${lead.service || 'Not specified'}
+Subject: ${lead.subject || 'Not provided'}
+
+Message:
+${lead.message}
+
+--
+This is a notification that a contact form was submitted on your website (${siteTitle} ${siteUrl}).</p>
           </div>
         </body>
         </html>
@@ -72,9 +54,8 @@ export async function sendLeadNotification(lead) {
  * Send auto-reply confirmation to the lead.
  */
 export async function sendAutoReply(lead) {
-  if (!resend) return
   try {
-    await resend.emails.send({
+    await transporter.sendMail({
       from: `${COMPANY_NAME} <${FROM_EMAIL}>`,
       to: lead.email,
       subject: `We received your message, ${lead.firstName}! — ${COMPANY_NAME}`,
@@ -98,7 +79,6 @@ export async function sendAutoReply(lead) {
 
             <h3 style="color: #333;">While You Wait...</h3>
             <ul style="color: #555; line-height: 1.8;">
-              <li>Browse our <a href="${FRONTEND_URL}/projects" style="color: #811121;">completed projects</a> for inspiration</li>
               <li>View our <a href="${FRONTEND_URL}/gallery" style="color: #811121;">photo gallery</a></li>
               <li>Read our <a href="${FRONTEND_URL}/blog" style="color: #811121;">remodeling tips blog</a></li>
             </ul>
