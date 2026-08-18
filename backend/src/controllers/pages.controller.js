@@ -170,7 +170,20 @@ export async function getPageBySlug(req, res, next) {
     const { slug } = req.params
 
     // Safe filter: { $ne: 'draft' } matches 'published' AND missing-field docs
-    const page = await Page.findOne({ slug, status: { $ne: 'draft' } })
+    let page = await Page.findOne({ slug, status: { $ne: 'draft' } })
+
+    // Fallback: the document may still be stored under a legacy slug if the
+    // rename migration (run via GET /pages) hasn't executed against this DB yet.
+    if (!page) {
+      const oldSlug = Object.keys(OLD_SLUG_MAP).find((k) => OLD_SLUG_MAP[k] === slug)
+      if (oldSlug) {
+        page = await Page.findOne({ slug: oldSlug, status: { $ne: 'draft' } })
+        if (page) {
+          page.slug = slug
+          await page.save()
+        }
+      }
+    }
 
     if (!page || !page.isActive) {
       return res.status(404).json({ success: false, error: 'Page not found.' })
