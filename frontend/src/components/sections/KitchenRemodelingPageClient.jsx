@@ -259,10 +259,10 @@ const serif = 'font-[family-name:var(--font-playfair)]'
 ══════════════════════════════════════════════════════════════════════════════ */
 export function KitchenRemodelingPageClient() {
   const [flippedCard, setFlippedCard] = useState(null)
-  const { data: pageData, isError, isLoading } = usePageContent('kitchen-remodeling-tampa')
+  const { data: pageData, isError, isLoading } = usePageContent('kitchen-remodel-tampa')
   if (isLoading) return null
   if (isError) return <UnderConstruction />
-  const sections = mergeWithPageDefaults('kitchen-remodeling-tampa', normalizeContent(pageData?.content).sections)
+  const sections = mergeWithPageDefaults('kitchen-remodel-tampa', normalizeContent(pageData?.content).sections)
   const whyChooseSec    = sections.find(s => s.id === 'kr-why-choose')
   const servicesSec     = sections.find(s => s.id === 'kr-services')
   const gallerySec      = sections.find(s => s.id === 'kr-gallery')

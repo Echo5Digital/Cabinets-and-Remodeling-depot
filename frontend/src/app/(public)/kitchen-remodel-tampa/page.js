@@ -5,17 +5,17 @@ import { KitchenRemodelingPageClient } from '@/components/sections/KitchenRemode
 
 export async function generateMetadata() {
   try {
-    const { data } = await api.get('/pages/kitchen-remodeling-tampa')
+    const { data } = await api.get('/pages/kitchen-remodel-tampa')
     const seo = data?.data?.content?.seo || {}
     return {
       title: seo.metaTitle || 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
       description: seo.metaDescription || 'Planning a kitchen remodel Tampa homeowners trust? Visit our Valrico showroom for full renovations, cabinets & countertops. Book free consultation.',
-      alternates: { canonical: '/kitchen-remodeling-tampa' },
+      alternates: { canonical: '/kitchen-remodel-tampa' },
     }
   } catch {
     return {
       title: 'Kitchen Remodeling in Tampa Bay | Cabinets & Remodeling Depot',
-      alternates: { canonical: '/kitchen-remodeling-tampa' },
+      alternates: { canonical: '/kitchen-remodel-tampa' },
     }
   }
 }
@@ -53,7 +53,7 @@ const schema = {
     },
     {
       '@type': 'Service',
-      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/#service',
+      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/#service',
       name: 'Kitchen Remodeling in Tampa Bay',
       serviceType: 'Kitchen Remodeling and Renovation',
       provider: {
@@ -100,7 +100,7 @@ const schema = {
     },
     {
       '@type': 'FAQPage',
-      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/#faq',
+      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/#faq',
       mainEntity: [
         {
           '@type': 'Question',
@@ -146,7 +146,7 @@ const schema = {
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/#breadcrumb',
+      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/#breadcrumb',
       itemListElement: [
         {
           '@type': 'ListItem',
@@ -164,14 +164,14 @@ const schema = {
           '@type': 'ListItem',
           position: 3,
           name: 'Kitchen Remodeling Tampa Bay',
-          item: 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/',
+          item: 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/',
         },
       ],
     },
     {
       '@type': 'WebPage',
-      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/',
-      url: 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/',
+      '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/',
+      url: 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/',
       name: 'Kitchen Remodeling in Tampa Bay',
       description:
         'Professional kitchen remodeling services including custom cabinets, countertops, flooring, design planning, and complete kitchen renovations throughout Tampa Bay.',
@@ -179,7 +179,7 @@ const schema = {
         '@id': 'https://www.cabinetsandremodelingdepot.com/#website',
       },
       about: {
-        '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodeling-tampa/#service',
+        '@id': 'https://www.cabinetsandremodelingdepot.com/kitchen-remodel-tampa/#service',
       },
     },
     {
@@ -198,9 +198,9 @@ async function prefetchPage() {
   try {
     const queryClient = getQueryClient()
     await queryClient.prefetchQuery({
-      queryKey: ['page', 'kitchen-remodeling-tampa'],
+      queryKey: ['page', 'kitchen-remodel-tampa'],
       queryFn: async () => {
-        const { data } = await api.get('/pages/kitchen-remodeling-tampa')
+        const { data } = await api.get('/pages/kitchen-remodel-tampa')
         return data.data
       },
     })

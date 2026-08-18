@@ -12,7 +12,7 @@ const SOLUTIONS = [
     label: 'Kitchen Remodeling',
     desc: 'Full kitchen remodels tailored to your style and budget.',
     images: ['/07_img.jpg', '/kitchen-cabinet-2.jpg', '/kitchen-cabinet-3.jpg'],
-    href: '/kitchen-remodeling-tampa',
+    href: '/kitchen-remodel-tampa',
     Icon: Utensils,
   },
   {

@@ -29,7 +29,7 @@ const SERVICES = [
     image: '/kitchen-remodeling-hero.webp',
     alt: 'Kitchen remodel Tampa Bay',
     title: 'Kitchen Remodel',
-    href: '/kitchen-remodeling-tampa',
+    href: '/kitchen-remodel-tampa',
     description:
       'Gorgeous, maintenance-free countertop installation, stylish backsplashes, cabinet solutions, and even more possibilities are on the menu.',
   },

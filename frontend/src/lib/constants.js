@@ -19,7 +19,7 @@ export const SERVICES = [
   },
   {
     title: 'Kitchen Remodeling',
-    href: '/kitchen-remodeling-tampa',
+    href: '/kitchen-remodel-tampa',
     icon: 'ChefHat',
     description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',
   },

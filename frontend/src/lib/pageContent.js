@@ -415,7 +415,7 @@ const PAGE_DEFAULT_SECTIONS = {
       description: 'Cabinets & Remodeling Depot offers more than cabinetry alone. Our showroom provides access to complete kitchen and remodeling solutions, including:',
       closingText: 'Our goal is to help homeowners create spaces that feel comfortable, functional, and built to last.',
       items: [
-        { label: 'Kitchen Remodeling', desc: 'Full kitchen remodels tailored to your style and budget.', image: '/07_img.jpg', href: '/kitchen-remodeling-tampa' },
+        { label: 'Kitchen Remodeling', desc: 'Full kitchen remodels tailored to your style and budget.', image: '/07_img.jpg', href: '/kitchen-remodel-tampa' },
         { label: 'Bathroom Remodeling', desc: 'Beautiful, functional bathrooms designed for everyday living.', image: '/06_img.webp', href: '/bathroom-remodeling-tampa' },
         { label: 'Kitchen Cabinets', desc: 'Quality cabinets in a variety of styles and finishes.', image: '/1_img.jpg', href: '/kitchen-cabinets-tampa' },
         { label: 'Countertops', desc: 'Quartz, granite, marble, quartzite & porcelain.', image: '/03_img.webp', href: '/countertops-tampa' },
@@ -616,7 +616,7 @@ const PAGE_DEFAULT_SECTIONS = {
       items: [
         { icon: 'Layers',   title: 'Countertops',         description: 'Premium quartz and granite countertops fabricated and installed by certified professionals.',                    link: '/countertops-tampa',         image: '' },
         { icon: 'Layout',   title: 'Kitchen Cabinets',    description: 'Ready-to-install cabinets in stock at our Valrico showroom — no long waits, fast project turnaround.',          link: '/kitchen-cabinets-tampa',    image: '' },
-        { icon: 'ChefHat',  title: 'Kitchen Remodeling',  description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',              link: '/kitchen-remodeling-tampa',  image: '' },
+        { icon: 'ChefHat',  title: 'Kitchen Remodeling',  description: 'Complete kitchen transformations including cabinets, countertops, flooring, and layout redesign.',              link: '/kitchen-remodel-tampa',  image: '' },
         { icon: 'Grid3X3',  title: 'Flooring',            description: 'Hardwood, tile, luxury vinyl plank, and laminate flooring expertly installed throughout your home.',           link: '/flooring-in-tampa',         image: '' },
         { icon: 'Droplets', title: 'Bathroom Remodeling', description: 'Luxury bathroom renovations with custom tile, vanities, walk-in showers, and modern fixtures.',               link: '/bathroom-remodeling-tampa', image: '' },
       ],
@@ -632,7 +632,7 @@ const PAGE_DEFAULT_SECTIONS = {
   ],
 
   // ── KITCHEN REMODELING TAMPA ──────────────────────────────────────────────
-  'kitchen-remodeling-tampa': [
+  'kitchen-remodel-tampa': [
     {
       id: 'kr-hero',
       type: 'hero',

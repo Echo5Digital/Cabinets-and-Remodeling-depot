@@ -26,7 +26,7 @@ function InstagramIcon({ className }) {
 const FOOTER_SERVICES = [
   { label: 'Countertops', href: '/countertops-tampa' },
   { label: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa' },
-  { label: 'Kitchen Remodeling', href: '/kitchen-remodeling-tampa' },
+  { label: 'Kitchen Remodeling', href: '/kitchen-remodel-tampa' },
   { label: 'Flooring', href: '/flooring-in-tampa' },
   { label: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
 ]

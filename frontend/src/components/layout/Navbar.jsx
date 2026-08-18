@@ -111,7 +111,7 @@ export function Navbar() {
                         className={cn(
                           'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors font-montserrat',
                           linkHoverColor,
-                          pathname.startsWith('/kitchen-remodeling-tampa') ||
+                          pathname.startsWith('/kitchen-remodel-tampa') ||
                           pathname.startsWith('/bathroom-remodeling-tampa') ||
                           pathname.startsWith('/kitchen-cabinets-tampa') ||
                           pathname.startsWith('/countertops-tampa') ||

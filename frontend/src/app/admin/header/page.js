@@ -22,7 +22,7 @@ const DEFAULT_NAV_LINKS = [
 const DEFAULT_NAV_SERVICE_ITEMS = [
   { title: 'Countertops', href: '/countertops-tampa' },
   { title: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa' },
-  { title: 'Kitchen Remodeling', href: '/kitchen-remodeling-tampa' },
+  { title: 'Kitchen Remodeling', href: '/kitchen-remodel-tampa' },
   { title: 'Flooring', href: '/flooring-in-tampa' },
   { title: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
 ]

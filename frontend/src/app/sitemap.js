@@ -17,7 +17,7 @@ export default async function sitemap() {
     { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/projects`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     // Kitchen
-    { url: `${BASE_URL}/kitchen-remodeling-tampa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE_URL}/kitchen-remodel-tampa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/kitchen-cabinets-tampa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE_URL}/kitchen-cabinets-types`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/shaker-kitchen-cabinets`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },

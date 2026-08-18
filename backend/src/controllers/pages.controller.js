@@ -15,7 +15,7 @@ const KNOWN_PAGES = [
   { slug: 'review-us',                      title: 'Share Your Experience With Us' },
   { slug: 'renovations',                    title: 'Renovations' },
   // ── Kitchen ──────────────────────────────────────────────────────────────
-  { slug: 'kitchen-remodeling-tampa',       title: 'Kitchen Remodeling Tampa' },
+  { slug: 'kitchen-remodel-tampa',          title: 'Kitchen Remodeling Tampa' },
   { slug: 'kitchen-cabinets-tampa',         title: 'Kitchen Cabinets Tampa' },
   { slug: 'kitchen-cabinets-types',         title: 'Kitchen Cabinets Types' },
   // ── Cabinet styles ───────────────────────────────────────────────────────
@@ -58,11 +58,12 @@ const KNOWN_PAGES = [
  * and its content is refreshed to the new section format.
  */
 const OLD_SLUG_MAP = {
-  'kitchen-remodeling':  'kitchen-remodeling-tampa',
-  'bathroom-remodeling': 'bathroom-remodeling-tampa',
-  'cabinets':            'kitchen-cabinets-tampa',
-  'countertops':         'countertops-tampa',
-  'flooring':            'flooring-in-tampa',
+  'kitchen-remodeling':       'kitchen-remodel-tampa',
+  'kitchen-remodeling-tampa': 'kitchen-remodel-tampa',
+  'bathroom-remodeling':      'bathroom-remodeling-tampa',
+  'cabinets':                 'kitchen-cabinets-tampa',
+  'countertops':              'countertops-tampa',
+  'flooring':                 'flooring-in-tampa',
 }
 
 /**
