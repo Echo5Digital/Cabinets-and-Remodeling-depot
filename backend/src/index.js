@@ -14,7 +14,7 @@ async function main() {
     process.exit(1)
   }
 
-  // Seed database if empty (first run)
+  // Seed database if empty (first run )
   try {
     await autoSeed()
   } catch (error) {
