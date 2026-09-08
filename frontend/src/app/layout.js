@@ -32,7 +32,7 @@ export const viewport = {
 }
 
 export const metadata = {
-  metadataBase: new URL('https://cabinetsandremodelingdepot.com'),
+  metadataBase: new URL('https://www.cabinetsandremodelingdepot.com'),
   title: {
     default: 'Cabinets & Remodeling Depot | Tampa Kitchen & Bathroom Remodeling',
     template: '%s',
