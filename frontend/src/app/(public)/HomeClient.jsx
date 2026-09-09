@@ -15,6 +15,7 @@ const AffordableCabinetsSection  = dynamic(() => import('@/components/sections/A
 const HowItWorksSection          = dynamic(() => import('@/components/sections/HowItWorksSection').then(m => ({ default: m.HowItWorksSection })))
 const TransformationSection      = dynamic(() => import('@/components/sections/TransformationSection').then(m => ({ default: m.TransformationSection })))
 const ProfessionalInstallationSection = dynamic(() => import('@/components/sections/ProfessionalInstallationSection').then(m => ({ default: m.ProfessionalInstallationSection })))
+const DesignYourSpaceSection      = dynamic(() => import('@/components/sections/DesignYourSpaceSection').then(m => ({ default: m.DesignYourSpaceSection })))
 const ProjectsGrid               = dynamic(() => import('@/components/sections/ProjectsGrid').then(m => ({ default: m.ProjectsGrid })))
 const GalleryGrid                = dynamic(() => import('@/components/sections/GalleryGrid').then(m => ({ default: m.GalleryGrid })))
 const WhyChooseSection           = dynamic(() => import('@/components/sections/WhyChooseSection').then(m => ({ default: m.WhyChooseSection })))
@@ -168,6 +169,7 @@ export function HomeClient() {
   const howItWorksSection   = sections.find((s) => s.type === 'how-it-works')
   const transformSection    = sections.find((s) => s.type === 'transformation')
   const installSection      = sections.find((s) => s.type === 'installation')
+  const designYourSpaceSection = sections.find((s) => s.type === 'design-your-space')
   const whyChooseSection    = sections.find((s) => s.type === 'why-choose')
   const reviewsSection      = sections.find((s) => s.type === 'testimonials')
   const faqSection          = sections.find((s) => s.type === 'faq')
@@ -239,6 +241,9 @@ export function HomeClient() {
 
       {/* H2: Professional Cabinet Installation Tampa */}
       <ProfessionalInstallationSection data={installSection} />
+
+      {/* Design Your Dream Kitchen Yourself — kitchen design tool CTA */}
+      <DesignYourSpaceSection data={designYourSpaceSection} />
 
       {/* Featured Projects */}
       {projects.length > 0 && (

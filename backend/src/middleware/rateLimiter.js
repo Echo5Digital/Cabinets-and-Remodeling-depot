@@ -1,8 +1,10 @@
 import rateLimit from 'express-rate-limit'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 export const globalRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  max: isProduction ? 100 : 10000,
   standardHeaders: true,
   legacyHeaders: false,
   message: {

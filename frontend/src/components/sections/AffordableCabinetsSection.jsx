@@ -115,10 +115,10 @@ export function AffordableCabinetsSection({ data }) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="flex-1 font-bold uppercase tracking-wide">
+              <Button asChild size="lg" className="w-full sm:flex-1 font-bold uppercase tracking-wide">
                 <Link href={cta1Link}>{cta1Text}</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="flex-1 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-wide">
+              <Button asChild size="lg" variant="outline" className="w-full sm:flex-1 border-primary text-primary hover:bg-primary hover:text-white font-bold uppercase tracking-wide">
                 <Link href={cta2Link}>{cta2Text}</Link>
               </Button>
             </div>
