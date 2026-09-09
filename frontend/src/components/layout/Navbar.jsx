@@ -86,7 +86,7 @@ export function Navbar() {
           isMaroon ? 'bg-[#810E29] shadow-md' : 'bg-white shadow-sm'
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-5 2xl:px-10">
           <div className="flex items-center justify-between h-20 md:h-24">
 
             {/* Logo */}
@@ -102,14 +102,14 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Nav — centered between logo and CTA */}
-            <nav className="hidden lg:flex items-center gap-2">
+            <nav className="hidden lg:flex items-center gap-0 2xl:gap-2">
               {effectiveNavLinks.filter((link) => !link.hidden).map((link) => {
                 if (link.children) {
                   return (
                     <div key={link.href} className="relative">
                       <button
                         className={cn(
-                          'flex items-center gap-1 px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors font-montserrat',
+                          'flex items-center gap-1 px-1.5 2xl:px-4 py-2 text-sm 2xl:text-base font-semibold uppercase tracking-wide transition-colors font-montserrat whitespace-nowrap',
                           linkHoverColor,
                           pathname.startsWith('/kitchen-remodel-tampa') ||
                           pathname.startsWith('/bathroom-remodeling-tampa') ||
@@ -225,7 +225,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-4 py-2 text-base font-semibold uppercase tracking-wide transition-colors font-montserrat',
+                      'px-1.5 2xl:px-4 py-2 text-sm 2xl:text-base font-semibold uppercase tracking-wide transition-colors font-montserrat whitespace-nowrap',
                       linkHoverColor,
                       isActive(link.href) ? linkActiveColor : linkInactiveColor
                     )}
@@ -237,12 +237,25 @@ export function Navbar() {
             </nav>
 
             {/* Right: CTA + hamburger */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 lg:gap-2 2xl:gap-3">
               <Button
                 asChild
                 size="default"
                 className={cn(
-                  'hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-7 py-2.5 shadow-sm text-base tracking-wide uppercase font-montserrat',
+                  'hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-2.5 lg:px-3 2xl:px-7 py-2.5 shadow-sm text-xs 2xl:text-base tracking-wide uppercase font-montserrat whitespace-nowrap',
+                  isMaroon ? 'border border-white' : 'border border-[#810E29]'
+                )}
+              >
+                <Link href="https://cabinet-catalog-platform.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  Design Your Kitchen
+                </Link>
+              </Button>
+
+              <Button
+                asChild
+                size="default"
+                className={cn(
+                  'hidden md:flex bg-white text-primary hover:bg-white/90 font-bold rounded-full px-2.5 lg:px-3 2xl:px-7 py-2.5 shadow-sm text-xs 2xl:text-base tracking-wide uppercase font-montserrat whitespace-nowrap',
                   isMaroon ? 'border border-white' : 'border border-[#810E29]'
                 )}
               >
@@ -399,6 +412,16 @@ export function Navbar() {
                 <Button className="w-full rounded-full uppercase tracking-wide font-bold" asChild>
                   <Link href="/contact" onClick={() => setMobileOpen(false)}>
                     Get Free Estimate
+                  </Link>
+                </Button>
+                <Button className="w-full rounded-full uppercase tracking-wide font-bold" asChild>
+                  <Link
+                    href="https://cabinet-catalog-platform.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Design Your Kitchen
                   </Link>
                 </Button>
               </div>

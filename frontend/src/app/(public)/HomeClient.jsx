@@ -9,6 +9,7 @@ import { normalizeContent, mergeWithPageDefaults } from '@/lib/pageContent'
 import dynamic from 'next/dynamic'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { CompleteReModelingSolutionsSection } from '@/components/sections/CompleteReModelingSolutionsSection'
+import { DesignKitchenPopup } from '@/components/common/DesignKitchenPopup'
 const ShowroomSection            = dynamic(() => import('@/components/sections/ShowroomSection').then(m => ({ default: m.ShowroomSection })))
 const ServiceAreasSection        = dynamic(() => import('@/components/sections/ServiceAreasSection').then(m => ({ default: m.ServiceAreasSection })))
 const AffordableCabinetsSection  = dynamic(() => import('@/components/sections/AffordableCabinetsSection').then(m => ({ default: m.AffordableCabinetsSection })))
@@ -301,6 +302,9 @@ export function HomeClient() {
 
       {/* Pre-footer: CTA band + trust/payment strip */}
       <PreFooterSection data={preFooterSection} />
+
+      {/* Auto-shown popup promoting the kitchen design tool */}
+      <DesignKitchenPopup />
 
     </>
   )
