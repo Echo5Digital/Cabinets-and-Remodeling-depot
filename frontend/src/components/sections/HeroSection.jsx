@@ -27,7 +27,7 @@ export function HeroSection({ data = {}, compact = false }) {
             alt={title}
             fill
             className="object-cover"
-            priority
+            preload
             sizes="100vw"
           />
         ) : (
@@ -76,7 +76,7 @@ export function HeroSection({ data = {}, compact = false }) {
             src={backgroundImage}
             alt={title}
             fill
-            priority
+            preload
             className="object-cover object-center"
             sizes="100vw"
           />

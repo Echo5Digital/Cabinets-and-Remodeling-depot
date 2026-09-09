@@ -191,7 +191,13 @@ export function CompleteReModelingSolutionsSection({ data }) {
                 >
                   {item.image && (
                     <div className="relative h-56 sm:h-60 shrink-0 overflow-hidden">
-                      <img src={item.image} alt={item.label || 'Service'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <Image
+                        src={item.image}
+                        alt={item.label || 'Service'}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                     </div>
                   )}

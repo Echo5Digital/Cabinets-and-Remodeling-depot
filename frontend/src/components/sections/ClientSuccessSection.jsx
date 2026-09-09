@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -183,9 +184,11 @@ export function ClientSuccessSection({ reviewItems }) {
                   {/* Reviewer info */}
                   <div className="flex items-center gap-3">
                     {review.photo ? (
-                      <img
+                      <Image
                         src={review.photo}
                         alt={review.name}
+                        width={40}
+                        height={40}
                         className="w-10 h-10 rounded-full object-cover shrink-0"
                       />
                     ) : (

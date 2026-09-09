@@ -149,7 +149,12 @@ export function HomeClient() {
   const { data: projectsData } = useProjects({ limit: 6, featured: true })
   const { data: blogsData } = useBlogs({ limit: 3, isPublished: true })
   const { data: galleryData } = useGallery({ limit: 12 })
-  if (isLoading) return null
+
+  // Hero is hardcoded (never driven by pageData), so render it immediately —
+  // it shouldn't wait on the page-content fetch that gates everything below.
+  const heroFallback = <HeroSection data={{ backgroundImage: '/home-hero-bg.jpg' }} />
+
+  if (isLoading) return heroFallback
   if (isError) return <UnderConstruction />
 
   const projects = projectsData?.data || []
@@ -191,7 +196,7 @@ export function HomeClient() {
   return (
     <>
       {/* H1: hero is always the original hardcoded content — not driven by DB */}
-      <HeroSection data={{ backgroundImage: '/home-hero-bg.jpg' }} />
+      {heroFallback}
 
       {/* ── Floating 5-card feature strip ──────────────────────────────────── */}
       <div className="relative z-20 -mt-10 sm:-mt-14 px-4 sm:px-6 lg:px-8 pb-0">
