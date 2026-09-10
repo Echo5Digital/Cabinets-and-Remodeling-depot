@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useCatalogPlannerLead, useUpdateCatalogPlannerLead } from '@/hooks/useCatalogPlatform'
@@ -42,11 +42,11 @@ function CatalogPlannerDrawer({ leadId, open, onClose }) {
   }
 
   return (
-    <Sheet open={open} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>Planner Lead Details</SheetTitle>
-        </SheetHeader>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-xl w-[calc(100vw-2rem)] sm:w-full max-h-[85vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Planner Lead Details</DialogTitle>
+        </DialogHeader>
 
         {isLoading || !lead ? (
           <div className="space-y-3 mt-4">
@@ -196,8 +196,8 @@ function CatalogPlannerDrawer({ leadId, open, onClose }) {
             )}
           </div>
         )}
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }
 
