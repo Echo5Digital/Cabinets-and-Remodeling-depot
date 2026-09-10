@@ -11,6 +11,7 @@ import {
   Image,
   BookOpen,
   Users,
+  UserCog,
   Settings,
   LogOut,
   ChevronLeft,
@@ -59,9 +60,33 @@ const NAV_ITEMS = [
       { label: 'Settings', href: '/admin/settings', icon: Settings },
     ],
   },
+  {
+    group: 'Admin',
+    items: [
+      { label: 'Users', href: '/admin/users', icon: UserCog },
+    ],
+  },
 ]
 
+// Hrefs a restricted ADMIN role may access — everything else is hidden from
+// the sidebar and enforced server-side by requireRole on each API route.
+const LIMITED_ADMIN_HREFS = new Set(['/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner'])
+
+function getVisibleNavGroups(role) {
+  if (role === 'SUPER_ADMIN') {
+    return NAV_ITEMS
+  }
+
+  // Restricted ADMIN role: only the three permitted links, no group labels, no Dashboard.
+  const items = NAV_ITEMS.flatMap((group) => group.items).filter((item) =>
+    LIMITED_ADMIN_HREFS.has(item.href)
+  )
+  return items.length ? [{ group: null, items }] : []
+}
+
 function SidebarContent({ collapsed, setMobileOpen, isActive, user, handleLogout }) {
+  const navGroups = getVisibleNavGroups(user?.role)
+
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
@@ -76,9 +101,9 @@ function SidebarContent({ collapsed, setMobileOpen, isActive, user, handleLogout
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4 px-3">
-        {NAV_ITEMS.map((group) => (
-          <div key={group.group} className="mb-6">
-            {!collapsed && (
+        {navGroups.map((group) => (
+          <div key={group.group || 'ungrouped'} className="mb-6">
+            {!collapsed && group.group && (
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-2 mb-2">
                 {group.group}
               </p>

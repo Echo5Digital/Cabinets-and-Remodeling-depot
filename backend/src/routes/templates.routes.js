@@ -4,12 +4,14 @@ import {
   createTemplate,
   deleteTemplate,
 } from '../controllers/templates.controller.js'
-import { authenticate } from '../middleware/auth.js'
+import { authenticate, requireRole } from '../middleware/auth.js'
 
 const router = Router()
 
-router.get('/', authenticate, getAllTemplates)
-router.post('/', authenticate, createTemplate)
-router.delete('/:id', authenticate, deleteTemplate)
+const requireSuperAdmin = requireRole('SUPER_ADMIN')
+
+router.get('/', authenticate, requireSuperAdmin, getAllTemplates)
+router.post('/', authenticate, requireSuperAdmin, createTemplate)
+router.delete('/:id', authenticate, requireSuperAdmin, deleteTemplate)
 
 export default router

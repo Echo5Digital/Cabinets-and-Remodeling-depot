@@ -11,6 +11,11 @@ import api, { refreshAccessToken } from '@/lib/api'
 // which eliminates reactive mid-work refreshes and the logouts they can cause.
 const PROACTIVE_REFRESH_MS = 14 * 60 * 1000
 
+// Restricted ADMIN role may only access these admin routes (and their sub-paths).
+// Enforced here for UX; the backend's requireRole guards are the real boundary.
+const LIMITED_ADMIN_PREFIXES = ['/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner']
+const LIMITED_ADMIN_DEFAULT_PATH = '/admin/leads'
+
 function renewSignalCookie() {
   const secure = window.location.protocol === 'https:' ? '; Secure' : ''
   document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
@@ -102,6 +107,22 @@ export function AdminLayoutClient({ children }) {
 
     return () => clearInterval(interval)
   }, [isLoginPage, user])
+
+  /**
+   * Restricted ADMIN role: keep them confined to leads / catalog-leads /
+   * catalog-planner (and their sub-paths). Any other admin path — including
+   * /admin and /admin/dashboard — bounces to the default allowed page.
+   */
+  useEffect(() => {
+    if (isLoginPage || !user || user.role !== 'ADMIN') return
+
+    const isAllowed = LIMITED_ADMIN_PREFIXES.some(
+      (prefix) => pathname === prefix || pathname.startsWith(prefix + '/')
+    )
+    if (!isAllowed) {
+      router.replace(LIMITED_ADMIN_DEFAULT_PATH)
+    }
+  }, [isLoginPage, user, pathname, router])
 
   // ── Login page: render completely standalone (no sidebar, no chrome) ──
   if (isLoginPage) {
