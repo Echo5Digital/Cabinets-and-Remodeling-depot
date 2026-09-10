@@ -114,25 +114,43 @@ function CatalogPlannerDrawer({ leadId, open, onClose }) {
               </div>
             )}
 
-            {items.length > 0 && (
+            {(settings.upperCabinetColor || settings.lowerCabinetColor || settings.selectedDoorStyle || settings.selectedHardware || settings.selectedCountertop || settings.selectedFlooring) && (
               <div className="border-t pt-4">
-                <p className="text-muted-foreground text-sm mb-2">Cabinet Summary ({items.length})</p>
-                <div className="space-y-1.5 max-h-40 overflow-y-auto text-sm">
-                  {items.map((item, i) => (
-                    <div key={item.id || i} className="flex justify-between border rounded-md px-2 py-1.5">
-                      <span className="truncate">{item.name || item.product_name || `Item ${i + 1}`}</span>
-                      {item.quantity && <span className="text-muted-foreground shrink-0 ml-2">×{item.quantity}</span>}
+                <p className="text-muted-foreground text-sm mb-2">Materials & Finishes</p>
+                <div className="space-y-1">
+                  {[
+                    { label: 'Upper Cabinets', value: settings.upperCabinetColor?.name },
+                    { label: 'Lower Cabinets', value: settings.lowerCabinetColor?.name },
+                    { label: 'Door Style', value: settings.selectedDoorStyle?.name },
+                    { label: 'Hardware', value: settings.selectedHardware?.name },
+                    { label: 'Countertop', value: settings.selectedCountertop?.name },
+                    { label: 'Flooring', value: settings.selectedFlooring?.name },
+                  ].filter(({ value }) => value).map(({ label, value }) => (
+                    <div key={label} className="flex items-center justify-between text-sm py-1.5 border-b last:border-0">
+                      <span className="text-muted-foreground text-xs">{label}</span>
+                      <span className="font-medium text-xs text-right">{value}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {Object.keys(settings).length > 0 && (
-              <div className="border-t pt-4 text-sm">
-                <p className="text-muted-foreground text-xs mb-1">Materials & Settings</p>
-                <div className="bg-primary/5 border border-primary/10 rounded-md p-2 text-xs whitespace-pre-wrap break-all">
-                  {JSON.stringify(settings, null, 2)}
+            {items.length > 0 && (
+              <div className="border-t pt-4">
+                <p className="text-muted-foreground text-sm mb-2">Cabinet & Fixture Summary ({items.length} items)</p>
+                <div className="space-y-1 text-sm">
+                  {Object.entries(
+                    items.reduce((acc, item) => {
+                      const cat = item.category || 'Cabinet'
+                      acc[cat] = (acc[cat] || 0) + 1
+                      return acc
+                    }, {})
+                  ).map(([cat, count]) => (
+                    <div key={cat} className="flex items-center justify-between text-xs py-1.5 border-b last:border-0">
+                      <span className="text-muted-foreground">{cat}</span>
+                      <span className="font-semibold">{count} unit{count > 1 ? 's' : ''}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
