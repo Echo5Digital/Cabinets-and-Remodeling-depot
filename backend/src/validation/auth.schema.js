@@ -9,4 +9,8 @@ export const loginSchema = Joi.object({
     'string.min': 'Password must be at least 6 characters.',
     'any.required': 'Password is required.',
   }),
+  recaptchaToken: Joi.string().required().messages({
+    'any.required': 'Please complete the reCAPTCHA challenge.',
+    'string.empty': 'Please complete the reCAPTCHA challenge.',
+  }),
 })

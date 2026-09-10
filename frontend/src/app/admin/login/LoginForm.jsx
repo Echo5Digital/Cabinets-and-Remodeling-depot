@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { Home, Eye, EyeOff, Lock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,6 +26,9 @@ export function LoginForm() {
   const searchParams = useSearchParams()
   const { login, isLoading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState(null)
+  const [recaptchaError, setRecaptchaError] = useState('')
+  const [recaptchaKey, setRecaptchaKey] = useState(0)
 
   const {
     register,
@@ -33,8 +37,14 @@ export function LoginForm() {
   } = useForm({ resolver: zodResolver(schema) })
 
   const onSubmit = async (values) => {
+    if (!recaptchaToken) {
+      setRecaptchaError('Please verify that you are not a robot.')
+      return
+    }
+    setRecaptchaError('')
+
     try {
-      await login(values.email, values.password)
+      await login(values.email, values.password, recaptchaToken)
       // Set a same-domain cookie so the Next.js middleware can gate admin routes.
       // The cookie lives on the frontend domain and is readable server-side,
       // unlike the httpOnly refreshToken which the backend sets on its own domain.
@@ -47,6 +57,8 @@ export function LoginForm() {
     } catch (err) {
       const message = err.response?.data?.error || 'Invalid email or password'
       toast.error(message)
+      setRecaptchaToken(null)
+      setRecaptchaKey((k) => k + 1)
     }
   }
 
@@ -103,6 +115,23 @@ export function LoginForm() {
                 </div>
                 {errors.password && (
                   <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-center [&>div]:origin-top [&>div]:scale-[0.85] [&>div]:sm:scale-100 h-15.5 sm:h-19.5">
+                  <ReCAPTCHA
+                    key={recaptchaKey}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    onChange={(token) => {
+                      setRecaptchaToken(token)
+                      if (token) setRecaptchaError('')
+                    }}
+                    onExpired={() => setRecaptchaToken(null)}
+                  />
+                </div>
+                {recaptchaError && (
+                  <p className="text-sm text-destructive text-center">{recaptchaError}</p>
                 )}
               </div>
 

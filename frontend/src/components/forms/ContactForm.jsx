@@ -12,9 +12,9 @@ import { SERVICES_LIST_FOR_FORM } from '@/lib/constants'
 const schema = z.object({
   name: z.string().min(2, 'Name is required'),
   email: z.string().email('Valid email required'),
-  phone: z.string().optional(),
-  service: z.string().optional(),
-  subject: z.string().optional(),
+  phone: z.string().min(1, 'Phone number is required'),
+  service: z.string().min(1, 'Project type is required'),
+  subject: z.string().min(1, 'Project location is required'),
   message: z.string().min(10, 'Please provide some details (min 10 characters)'),
 })
 
@@ -71,13 +71,14 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
       </div>
 
       <div>
-        <label className={labelCls}>Phone Number</label>
+        <label className={labelCls}>Phone Number *</label>
         <input type="tel" {...register('phone')} placeholder="Phone Number" className={inputCls} />
+        {errors.phone && <p className={errorCls}>{errors.phone.message}</p>}
       </div>
 
       <div>
-        <label className={labelCls}>Project Type</label>
-        <Select onValueChange={(val) => setValue('service', val)}>
+        <label className={labelCls}>Project Type *</label>
+        <Select onValueChange={(val) => setValue('service', val, { shouldValidate: true })}>
           <SelectTrigger
             className={
               dark
@@ -95,11 +96,13 @@ export function ContactForm({ source = 'contact-page', dark = false }) {
             ))}
           </SelectContent>
         </Select>
+        {errors.service && <p className={errorCls}>{errors.service.message}</p>}
       </div>
 
       <div>
-        <label className={labelCls}>Project Location</label>
+        <label className={labelCls}>Project Location *</label>
         <input {...register('subject')} placeholder="City or Zip Code" className={inputCls} />
+        {errors.subject && <p className={errorCls}>{errors.subject.message}</p>}
       </div>
 
       <div>

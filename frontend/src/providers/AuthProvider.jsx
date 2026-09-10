@@ -10,10 +10,10 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const login = useCallback(async (email, password) => {
+  const login = useCallback(async (email, password, recaptchaToken) => {
     setIsLoading(true)
     try {
-      const { data } = await api.post('/auth/login', { email, password })
+      const { data } = await api.post('/auth/login', { email, password, recaptchaToken })
       setAccessToken(data.data.accessToken)
       setUser(data.data.user)
       return data.data
