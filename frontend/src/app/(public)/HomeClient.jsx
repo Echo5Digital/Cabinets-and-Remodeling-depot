@@ -248,8 +248,8 @@ export function HomeClient() {
       {/* H2: Professional Cabinet Installation Tampa */}
       <ProfessionalInstallationSection data={installSection} />
 
-      {/* Design Your Dream Kitchen Yourself — kitchen design tool CTA */}
-      <DesignYourSpaceSection data={designYourSpaceSection} />
+      {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
+      <WhyChooseSection data={whyChooseSection} />
 
       {/* Featured Projects */}
       {projects.length > 0 && (
@@ -279,8 +279,8 @@ export function HomeClient() {
         </section>
       )} */}
 
-      {/* H2: Why Homeowners Choose Cabinets & Remodeling Depot */}
-      <WhyChooseSection data={whyChooseSection} />
+      {/* Design Your Dream Kitchen Yourself — kitchen design tool CTA */}
+      <DesignYourSpaceSection data={designYourSpaceSection} />
 
       {/* Client Success Stories — Google review carousel */}
       <ClientSuccessSection reviewItems={reviewsSection?.items} />

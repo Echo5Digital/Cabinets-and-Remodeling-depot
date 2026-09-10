@@ -21,6 +21,8 @@ import {
   Globe,
   PanelTop,
   PanelBottom,
+  ClipboardList,
+  Ruler,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
@@ -52,6 +54,8 @@ const NAV_ITEMS = [
     group: 'Business',
     items: [
       { label: 'Leads', href: '/admin/leads', icon: Users },
+      { label: 'Catalog Leads', href: '/admin/catalog-leads', icon: ClipboardList },
+      { label: 'Catalog Planner', href: '/admin/catalog-planner', icon: Ruler },
       { label: 'Settings', href: '/admin/settings', icon: Settings },
     ],
   },

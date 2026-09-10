@@ -18,6 +18,7 @@ import settingsRoutes from './routes/settings.routes.js'
 import templatesRoutes from './routes/templates.routes.js'
 import globalSectionsRoutes from './routes/globalSections.routes.js'
 import mediaRoutes from './routes/media.routes.js'
+import catalogPlatformRoutes from './routes/catalogPlatform.routes.js'
 
 const app = express()
 
@@ -86,6 +87,7 @@ app.use('/api/settings', settingsRoutes)
 app.use('/api/templates', templatesRoutes)
 app.use('/api/global-sections', globalSectionsRoutes)
 app.use('/api/media', mediaRoutes)
+app.use('/api/catalog-platform', catalogPlatformRoutes)
 
 // ─── Error Handling ───────────────────────────────────────────────────────────
 app.use(notFound)
