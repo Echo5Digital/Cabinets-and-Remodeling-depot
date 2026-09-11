@@ -19,12 +19,12 @@ import { toast } from 'sonner'
 
 const EMPTY_FORM = { name: '', email: '', password: '', role: 'STAFF' }
 
-export function CreateUserDialog({ open, onOpenChange, canAssignSuperAdmin }) {
+// Super Admin accounts are never created through this dialog, for any caller.
+const CREATABLE_ROLES = ROLE_OPTIONS.filter((r) => r.value !== 'SUPER_ADMIN')
+
+export function CreateUserDialog({ open, onOpenChange }) {
   const [form, setForm] = useState(EMPTY_FORM)
   const createUser = useCreateUser()
-  const assignableRoles = canAssignSuperAdmin
-    ? ROLE_OPTIONS
-    : ROLE_OPTIONS.filter((r) => r.value !== 'SUPER_ADMIN')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -96,9 +96,9 @@ export function CreateUserDialog({ open, onOpenChange, canAssignSuperAdmin }) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {assignableRoles.map((r) => (
+                {CREATABLE_ROLES.map((r) => (
                   <SelectItem key={r.value} value={r.value}>
-                    {r.label} — {r.description}
+                    {r.label}
                   </SelectItem>
                 ))}
               </SelectContent>

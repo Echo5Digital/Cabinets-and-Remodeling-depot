@@ -14,6 +14,11 @@ async function request(path, { method = 'GET', body } = {}) {
     headers: {
       'Content-Type': 'application/json',
       'X-Service-Key': SERVICE_KEY,
+      // Lets the Catalog Platform's own outbound webhook (fired after it
+      // processes this call) recognize the change originated here and skip
+      // notifying the Depot back — without this, a Depot-initiated user
+      // create/update/delete would round-trip forever.
+      'X-Sync-Source': 'depot',
     },
     body: body ? JSON.stringify(body) : undefined,
   })
@@ -68,6 +73,19 @@ export function getCatalogPlannerLead(id) {
 
 export function updateCatalogPlannerLead(id, status) {
   return request('/api/admin/planner-leads', { method: 'PATCH', body: { id, status } })
+}
+
+// ── Admin users (cross-platform user sync) ─────────────────────────────────
+export function createCatalogUser({ email, password, name, role }) {
+  return request('/api/admin/users', { method: 'POST', body: { email, password, name, role } })
+}
+
+export function updateCatalogUser(catalogPlatformUserId, updates) {
+  return request(`/api/admin/users/${catalogPlatformUserId}`, { method: 'PATCH', body: updates })
+}
+
+export function deleteCatalogUser(catalogPlatformUserId) {
+  return request(`/api/admin/users/${catalogPlatformUserId}`, { method: 'DELETE' })
 }
 
 export { CatalogPlatformError }

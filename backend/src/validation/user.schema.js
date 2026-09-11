@@ -23,3 +23,19 @@ export const updateUserSchema = Joi.object({
   role: Joi.string().valid('SUPER_ADMIN', 'ADMIN', 'STAFF'),
   isActive: Joi.boolean(),
 }).min(1)
+
+export const retrySyncUserSchema = Joi.object({
+  password: Joi.string().min(6).messages({
+    'string.min': 'Password must be at least 6 characters.',
+  }),
+})
+
+// Inbound payload from the Cabinet Catalog Platform's user-change webhook.
+export const catalogUserWebhookSchema = Joi.object({
+  event: Joi.string().valid('user.created', 'user.updated', 'user.deleted').required(),
+  catalogPlatformUserId: Joi.string().required(),
+  email: Joi.string().email().when('event', { is: 'user.deleted', then: Joi.optional(), otherwise: Joi.required() }),
+  name: Joi.string().trim().min(1).optional(),
+  role: Joi.string().valid('SUPER_ADMIN', 'ADMIN', 'STAFF').optional(),
+  isActive: Joi.boolean().optional(),
+})

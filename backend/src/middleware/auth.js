@@ -49,3 +49,16 @@ export function requireRole(...roles) {
     next()
   }
 }
+
+/**
+ * Authenticates inbound service-to-service requests from the Cabinet Catalog
+ * Platform (e.g. its user-sync webhook) using the same shared secret this
+ * backend already sends as X-Service-Key when calling out to it.
+ */
+export function verifyServiceKey(req, res, next) {
+  const key = req.headers['x-service-key']
+  if (!key || key !== process.env.CATALOG_PLATFORM_SERVICE_KEY) {
+    return res.status(401).json({ success: false, error: 'Invalid or missing service key.' })
+  }
+  next()
+}

@@ -101,7 +101,7 @@ function EditUserForm({ user, onOpenChange, canAssignSuperAdmin, isSelf }) {
             <SelectContent>
               {assignableRoles.map((r) => (
                 <SelectItem key={r.value} value={r.value}>
-                  {r.label} — {r.description}
+                  {r.label}
                 </SelectItem>
               ))}
             </SelectContent>

@@ -45,3 +45,14 @@ export function useDeleteUser() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
   })
 }
+
+export function useRetrySyncUser() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id, password }) => {
+      const { data } = await api.post(`/users/${id}/retry-sync`, password ? { password } : {})
+      return data.data
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
+  })
+}

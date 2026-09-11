@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useUsers, useUpdateUser, useDeleteUser } from '@/hooks/useUsers'
+import { useUsers, useUpdateUser, useDeleteUser, useRetrySyncUser } from '@/hooks/useUsers'
 import { useAuth } from '@/hooks/useAuth'
 import { CreateUserDialog } from '@/components/admin/CreateUserDialog'
 import { EditUserDialog } from '@/components/admin/EditUserDialog'
@@ -23,17 +23,53 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Plus, Trash2, Pencil } from 'lucide-react'
+import { Plus, Trash2, Pencil, RefreshCw, CheckCircle2, XCircle, Loader2 } from 'lucide-react'
 import { ROLE_OPTIONS } from '@/lib/constants'
 import { toast } from 'sonner'
+
+function SyncStatusBadge({ user, onRetry, retrying }) {
+  if (user.catalogSyncStatus === 'SYNCED') {
+    return (
+      <CheckCircle2
+        className="w-4 h-4 text-green-600"
+        title="Synced with Catalog Platform"
+      />
+    )
+  }
+
+  if (user.catalogSyncStatus === 'FAILED') {
+    return (
+      <div className="flex items-center gap-1">
+        <XCircle
+          className="w-4 h-4 text-destructive"
+          title={user.catalogSyncError || 'Catalog Platform sync failed'}
+        />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6"
+          disabled={retrying}
+          onClick={onRetry}
+          title="Retry sync"
+        >
+          {retrying ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
+        </Button>
+      </div>
+    )
+  }
+
+  return <span className="text-xs text-muted-foreground">—</span>
+}
 
 export default function AdminUsersPage() {
   const { user: currentUser } = useAuth()
   const { data, isLoading } = useUsers()
   const updateUser = useUpdateUser()
   const deleteUser = useDeleteUser()
+  const retrySyncUser = useRetrySyncUser()
   const [createOpen, setCreateOpen] = useState(false)
   const [editingUser, setEditingUser] = useState(null)
+  const [retryingId, setRetryingId] = useState(null)
 
   const isSuperAdmin = currentUser?.role === 'SUPER_ADMIN'
   // Defense in depth — the backend already omits Super Admin rows for
@@ -62,10 +98,34 @@ export default function AdminUsersPage() {
   const handleDelete = async (targetUser) => {
     if (!window.confirm(`Delete user "${targetUser.name}"? This cannot be undone.`)) return
     try {
-      await deleteUser.mutateAsync(targetUser.id)
-      toast.success('User deleted')
+      const result = await deleteUser.mutateAsync(targetUser.id)
+      if (result?.catalogSyncFailed) {
+        toast.warning(result.message)
+      } else {
+        toast.success('User deleted')
+      }
     } catch (err) {
       toast.error(err.response?.data?.error || 'Failed to delete user')
+    }
+  }
+
+  const handleRetrySync = async (targetUser) => {
+    let password
+    if (!targetUser.catalogPlatformUserId) {
+      password = window.prompt(
+        `"${targetUser.name}" was never created on the Catalog Platform. Enter a password to create it there now:`
+      )
+      if (!password) return
+    }
+
+    setRetryingId(targetUser.id)
+    try {
+      await retrySyncUser.mutateAsync({ id: targetUser.id, password })
+      toast.success('Catalog Platform sync succeeded')
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Sync retry failed')
+    } finally {
+      setRetryingId(null)
     }
   }
 
@@ -99,6 +159,7 @@ export default function AdminUsersPage() {
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Catalog Platform</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -143,6 +204,9 @@ export default function AdminUsersPage() {
                         {u.isActive ? 'Active' : 'Inactive'}
                       </Badge>
                     </TableCell>
+                    <TableCell>
+                      <SyncStatusBadge user={u} onRetry={() => handleRetrySync(u)} retrying={retryingId === u.id} />
+                    </TableCell>
                     <TableCell className="text-right space-x-1">
                       <Button
                         variant="ghost"
@@ -170,7 +234,7 @@ export default function AdminUsersPage() {
         )}
       </div>
 
-      <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} canAssignSuperAdmin={isSuperAdmin} />
+      <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} />
       <EditUserDialog
         open={!!editingUser}
         onOpenChange={(next) => !next && setEditingUser(null)}
