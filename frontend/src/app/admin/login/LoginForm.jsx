@@ -44,7 +44,7 @@ export function LoginForm() {
     setRecaptchaError('')
 
     try {
-      const { user } = await login(values.email, values.password, recaptchaToken)
+      await login(values.email, values.password, recaptchaToken)
       // Set a same-domain cookie so the Next.js middleware can gate admin routes.
       // The cookie lives on the frontend domain and is readable server-side,
       // unlike the httpOnly refreshToken which the backend sets on its own domain.
@@ -52,10 +52,7 @@ export function LoginForm() {
       // eslint-disable-next-line react-hooks/immutability
       document.cookie = `adminLoggedIn=1; path=/; max-age=604800; SameSite=Lax${secure}`
       toast.success('Welcome back!')
-      // Restricted ADMIN role has no access to the dashboard — send them
-      // straight to Leads regardless of any ?redirect= param.
-      const defaultPath = user?.role === 'ADMIN' ? '/admin/leads' : '/admin/dashboard'
-      const redirect = searchParams.get('redirect') || defaultPath
+      const redirect = searchParams.get('redirect') || '/admin/dashboard'
       router.push(redirect)
     } catch (err) {
       const message = err.response?.data?.error || 'Invalid email or password'

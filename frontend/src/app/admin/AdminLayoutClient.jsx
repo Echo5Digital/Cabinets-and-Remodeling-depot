@@ -5,16 +5,12 @@ import { usePathname, useRouter } from 'next/navigation'
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
 import { useAuth } from '@/hooks/useAuth'
 import api, { refreshAccessToken } from '@/lib/api'
+import { ROLE_ALLOWED_HREFS, ROLE_DEFAULT_PATH } from '@/lib/constants'
 
 // Proactively refresh the access token just before it expires (15 min lifetime).
 // Firing at 14 min keeps the token perpetually alive while the admin is working,
 // which eliminates reactive mid-work refreshes and the logouts they can cause.
 const PROACTIVE_REFRESH_MS = 14 * 60 * 1000
-
-// Restricted ADMIN role may only access these admin routes (and their sub-paths).
-// Enforced here for UX; the backend's requireRole guards are the real boundary.
-const LIMITED_ADMIN_PREFIXES = ['/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner']
-const LIMITED_ADMIN_DEFAULT_PATH = '/admin/leads'
 
 function renewSignalCookie() {
   const secure = window.location.protocol === 'https:' ? '; Secure' : ''
@@ -109,18 +105,21 @@ export function AdminLayoutClient({ children }) {
   }, [isLoginPage, user])
 
   /**
-   * Restricted ADMIN role: keep them confined to leads / catalog-leads /
-   * catalog-planner (and their sub-paths). Any other admin path — including
-   * /admin and /admin/dashboard — bounces to the default allowed page.
+   * Restricted ADMIN/STAFF roles: keep them confined to their allowed routes
+   * (and sub-paths), per ROLE_ALLOWED_HREFS. Any other admin path — e.g.
+   * /admin/projects — bounces to the default allowed page. SUPER_ADMIN has
+   * no entry in ROLE_ALLOWED_HREFS and is never restricted here.
    */
   useEffect(() => {
-    if (isLoginPage || !user || user.role !== 'ADMIN') return
+    if (isLoginPage || !user) return
+    const allowedPrefixes = ROLE_ALLOWED_HREFS[user.role]
+    if (!allowedPrefixes) return
 
-    const isAllowed = LIMITED_ADMIN_PREFIXES.some(
+    const isAllowed = allowedPrefixes.some(
       (prefix) => pathname === prefix || pathname.startsWith(prefix + '/')
     )
     if (!isAllowed) {
-      router.replace(LIMITED_ADMIN_DEFAULT_PATH)
+      router.replace(ROLE_DEFAULT_PATH)
     }
   }, [isLoginPage, user, pathname, router])
 

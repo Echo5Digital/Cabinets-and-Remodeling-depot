@@ -29,7 +29,7 @@ import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { COMPANY_NAME } from '@/lib/constants'
+import { COMPANY_NAME, ROLE_ALLOWED_HREFS } from '@/lib/constants'
 
 const NAV_ITEMS = [
   {
@@ -68,18 +68,15 @@ const NAV_ITEMS = [
   },
 ]
 
-// Hrefs a restricted ADMIN role may access — everything else is hidden from
-// the sidebar and enforced server-side by requireRole on each API route.
-const LIMITED_ADMIN_HREFS = new Set(['/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner'])
-
 function getVisibleNavGroups(role) {
   if (role === 'SUPER_ADMIN') {
     return NAV_ITEMS
   }
 
-  // Restricted ADMIN role: only the three permitted links, no group labels, no Dashboard.
+  // Restricted ADMIN/STAFF roles: only the permitted links, no group labels.
+  const allowedHrefs = new Set(ROLE_ALLOWED_HREFS[role] || [])
   const items = NAV_ITEMS.flatMap((group) => group.items).filter((item) =>
-    LIMITED_ADMIN_HREFS.has(item.href)
+    allowedHrefs.has(item.href)
   )
   return items.length ? [{ group: null, items }] : []
 }

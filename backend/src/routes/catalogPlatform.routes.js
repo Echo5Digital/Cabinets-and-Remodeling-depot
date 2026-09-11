@@ -13,7 +13,7 @@ import { authenticate, requireRole } from '../middleware/auth.js'
 
 const router = Router()
 
-const requireAdmin = requireRole('SUPER_ADMIN', 'ADMIN')
+const requireAdmin = requireRole('SUPER_ADMIN', 'ADMIN', 'STAFF')
 
 // All routes are admin-only — proxy to the Cabinet Catalog Platform's leads/planner APIs.
 router.get('/leads/stats', authenticate, requireAdmin, getCatalogLeadsStats)

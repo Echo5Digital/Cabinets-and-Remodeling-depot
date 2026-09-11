@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useUsers, useUpdateUser, useDeleteUser } from '@/hooks/useUsers'
 import { useAuth } from '@/hooks/useAuth'
 import { CreateUserDialog } from '@/components/admin/CreateUserDialog'
+import { EditUserDialog } from '@/components/admin/EditUserDialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -22,7 +23,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Pencil } from 'lucide-react'
+import { ROLE_OPTIONS } from '@/lib/constants'
 import { toast } from 'sonner'
 
 export default function AdminUsersPage() {
@@ -31,8 +33,13 @@ export default function AdminUsersPage() {
   const updateUser = useUpdateUser()
   const deleteUser = useDeleteUser()
   const [createOpen, setCreateOpen] = useState(false)
+  const [editingUser, setEditingUser] = useState(null)
 
-  const users = data?.data || []
+  const isSuperAdmin = currentUser?.role === 'SUPER_ADMIN'
+  // Defense in depth — the backend already omits Super Admin rows for
+  // restricted Admin callers; this just guards against a stale cache.
+  const users = (data?.data || []).filter((u) => isSuperAdmin || u.role !== 'SUPER_ADMIN')
+  const assignableRoles = isSuperAdmin ? ROLE_OPTIONS : ROLE_OPTIONS.filter((r) => r.value !== 'SUPER_ADMIN')
 
   const handleRoleChange = async (targetUser, role) => {
     try {
@@ -115,12 +122,15 @@ export default function AdminUsersPage() {
                         disabled={isSelf}
                         onValueChange={(role) => handleRoleChange(u, role)}
                       >
-                        <SelectTrigger className="w-44">
+                        <SelectTrigger className="w-40">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="ADMIN">Admin (limited)</SelectItem>
-                          <SelectItem value="SUPER_ADMIN">Super Admin (full)</SelectItem>
+                          {assignableRoles.map((r) => (
+                            <SelectItem key={r.value} value={r.value}>
+                              {r.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </TableCell>
@@ -133,7 +143,15 @@ export default function AdminUsersPage() {
                         {u.isActive ? 'Active' : 'Inactive'}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right space-x-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setEditingUser(u)}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -152,7 +170,14 @@ export default function AdminUsersPage() {
         )}
       </div>
 
-      <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} />
+      <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} canAssignSuperAdmin={isSuperAdmin} />
+      <EditUserDialog
+        open={!!editingUser}
+        onOpenChange={(next) => !next && setEditingUser(null)}
+        user={editingUser}
+        canAssignSuperAdmin={isSuperAdmin}
+        isSelf={editingUser?.id === currentUser?.id}
+      />
     </div>
   )
 }

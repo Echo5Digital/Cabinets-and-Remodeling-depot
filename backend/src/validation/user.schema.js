@@ -12,7 +12,7 @@ export const createUserSchema = Joi.object({
   name: Joi.string().trim().min(1).required().messages({
     'any.required': 'Name is required.',
   }),
-  role: Joi.string().valid('SUPER_ADMIN', 'ADMIN').default('ADMIN'),
+  role: Joi.string().valid('SUPER_ADMIN', 'ADMIN', 'STAFF').default('STAFF'),
 })
 
 export const updateUserSchema = Joi.object({
@@ -20,6 +20,6 @@ export const updateUserSchema = Joi.object({
   password: Joi.string().min(6).messages({
     'string.min': 'Password must be at least 6 characters.',
   }),
-  role: Joi.string().valid('SUPER_ADMIN', 'ADMIN'),
+  role: Joi.string().valid('SUPER_ADMIN', 'ADMIN', 'STAFF'),
   isActive: Joi.boolean(),
 }).min(1)

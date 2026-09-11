@@ -14,13 +14,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useCreateUser } from '@/hooks/useUsers'
+import { ROLE_OPTIONS } from '@/lib/constants'
 import { toast } from 'sonner'
 
-const EMPTY_FORM = { name: '', email: '', password: '', role: 'ADMIN' }
+const EMPTY_FORM = { name: '', email: '', password: '', role: 'STAFF' }
 
-export function CreateUserDialog({ open, onOpenChange }) {
+export function CreateUserDialog({ open, onOpenChange, canAssignSuperAdmin }) {
   const [form, setForm] = useState(EMPTY_FORM)
   const createUser = useCreateUser()
+  const assignableRoles = canAssignSuperAdmin
+    ? ROLE_OPTIONS
+    : ROLE_OPTIONS.filter((r) => r.value !== 'SUPER_ADMIN')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -46,8 +50,7 @@ export function CreateUserDialog({ open, onOpenChange }) {
         <DialogHeader>
           <DialogTitle>Add User</DialogTitle>
           <DialogDescription>
-            Create a new admin login. Restricted &ldquo;Admin&rdquo; role users can only access Leads,
-            Catalog Leads, and Catalog Planner.
+            Create a new admin login and choose their access level.
           </DialogDescription>
         </DialogHeader>
 
@@ -93,8 +96,11 @@ export function CreateUserDialog({ open, onOpenChange }) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ADMIN">Admin (Leads, Catalog Leads, Catalog Planner only)</SelectItem>
-                <SelectItem value="SUPER_ADMIN">Super Admin (full access)</SelectItem>
+                {assignableRoles.map((r) => (
+                  <SelectItem key={r.value} value={r.value}>
+                    {r.label} — {r.description}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

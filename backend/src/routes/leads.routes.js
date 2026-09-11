@@ -13,7 +13,7 @@ import { createLeadSchema, updateLeadSchema } from '../validation/lead.schema.js
 
 const router = Router()
 
-const requireAdmin = requireRole('SUPER_ADMIN', 'ADMIN')
+const requireAdmin = requireRole('SUPER_ADMIN', 'ADMIN', 'STAFF')
 
 // Public
 router.post('/', leadRateLimiter, validate(createLeadSchema), createLead)

@@ -92,6 +92,25 @@ export const PROJECT_CATEGORIES = [
   { value: 'OTHER', label: 'Other' },
 ]
 
+// Admin role tiers.
+// SUPER_ADMIN: full access to everything.
+// ADMIN: Dashboard, Leads, Catalog Leads, Catalog Planner, and Users — but
+//        cannot see or manage Super Admin accounts.
+// STAFF: Dashboard, Leads, Catalog Leads, Catalog Planner only — no Users.
+export const ROLE_OPTIONS = [
+  { value: 'STAFF', label: 'Staff', description: 'Dashboard and Leads, Catalog Leads, Catalog Planner only' },
+  { value: 'ADMIN', label: 'Admin', description: 'Everything Staff has, plus managing Staff/Admin users' },
+  { value: 'SUPER_ADMIN', label: 'Super Admin', description: 'Full access to the entire admin panel' },
+]
+
+// Hrefs each restricted role may access — everything else is hidden from the
+// sidebar and enforced server-side by requireRole on each API route.
+export const ROLE_ALLOWED_HREFS = {
+  ADMIN: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner', '/admin/users'],
+  STAFF: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner'],
+}
+export const ROLE_DEFAULT_PATH = '/admin/dashboard'
+
 export const LEAD_STATUSES = [
   { value: 'NEW', label: 'New', color: 'blue' },
   { value: 'CONTACTED', label: 'Contacted', color: 'yellow' },

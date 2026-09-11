@@ -2,11 +2,14 @@ import User from '../models/User.js'
 import { hashPassword, revokeAllUserTokens } from '../services/auth.service.js'
 
 /**
- * GET /api/users (super admin)
+ * GET /api/users (super admin, admin)
+ *
+ * Restricted ADMIN callers cannot see SUPER_ADMIN accounts at all.
  */
 export async function getAllUsers(req, res, next) {
   try {
-    const users = await User.find().sort({ createdAt: -1 })
+    const filter = req.user.role === 'ADMIN' ? { role: { $ne: 'SUPER_ADMIN' } } : {}
+    const users = await User.find(filter).sort({ createdAt: -1 })
     res.json({ success: true, data: users })
   } catch (err) {
     next(err)
@@ -14,11 +17,17 @@ export async function getAllUsers(req, res, next) {
 }
 
 /**
- * POST /api/users (super admin)
+ * POST /api/users (super admin, admin)
+ *
+ * Restricted ADMIN callers cannot create SUPER_ADMIN accounts.
  */
 export async function createUser(req, res, next) {
   try {
     const { email, password, name, role } = req.body
+
+    if (req.user.role === 'ADMIN' && role === 'SUPER_ADMIN') {
+      return res.status(403).json({ success: false, error: 'You cannot create a Super Admin account.' })
+    }
 
     const existing = await User.findOne({ email: email.toLowerCase() })
     if (existing) {
@@ -30,7 +39,7 @@ export async function createUser(req, res, next) {
       email: email.toLowerCase(),
       password: hashedPassword,
       name,
-      role: role || 'ADMIN',
+      role: role || 'STAFF',
     })
 
     res.status(201).json({ success: true, data: user })
@@ -40,7 +49,10 @@ export async function createUser(req, res, next) {
 }
 
 /**
- * PATCH /api/users/:id (super admin)
+ * PATCH /api/users/:id (super admin, admin)
+ *
+ * Restricted ADMIN callers cannot view, modify, or promote anyone to/from
+ * SUPER_ADMIN — that account tier is invisible and untouchable to them.
  */
 export async function updateUser(req, res, next) {
   try {
@@ -52,8 +64,12 @@ export async function updateUser(req, res, next) {
       return res.status(404).json({ success: false, error: 'User not found.' })
     }
 
+    if (req.user.role === 'ADMIN' && (user.role === 'SUPER_ADMIN' || role === 'SUPER_ADMIN')) {
+      return res.status(403).json({ success: false, error: 'You cannot modify a Super Admin account.' })
+    }
+
     const isSelf = req.user.id === user.id
-    if (isSelf && (role === 'ADMIN' || isActive === false)) {
+    if (isSelf && ((role !== undefined && role !== 'SUPER_ADMIN') || isActive === false)) {
       return res.status(400).json({
         success: false,
         error: 'You cannot remove your own super admin access or deactivate your own account.',
@@ -79,7 +95,9 @@ export async function updateUser(req, res, next) {
 }
 
 /**
- * DELETE /api/users/:id (super admin)
+ * DELETE /api/users/:id (super admin, admin)
+ *
+ * Restricted ADMIN callers cannot delete SUPER_ADMIN accounts.
  */
 export async function deleteUser(req, res, next) {
   try {
@@ -89,11 +107,16 @@ export async function deleteUser(req, res, next) {
       return res.status(400).json({ success: false, error: 'You cannot delete your own account.' })
     }
 
-    const user = await User.findByIdAndDelete(id)
+    const user = await User.findById(id)
     if (!user) {
       return res.status(404).json({ success: false, error: 'User not found.' })
     }
 
+    if (req.user.role === 'ADMIN' && user.role === 'SUPER_ADMIN') {
+      return res.status(403).json({ success: false, error: 'You cannot delete a Super Admin account.' })
+    }
+
+    await user.deleteOne()
     await revokeAllUserTokens(id)
 
     res.json({ success: true, message: 'User deleted.' })
