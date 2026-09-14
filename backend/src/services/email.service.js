@@ -1,6 +1,6 @@
 import transporter from '../config/resend.js'
 
-const ADMIN_EMAIL = 'sales@cabinetsandremodelingdepot.com'
+const ADMIN_EMAILS = ['sales@cabinetsandremodelingdepot.com', 'sony@echo5digital.com']
 const FROM_EMAIL = process.env.SMTP_USER
 const COMPANY_NAME = 'Cabinets & Remodeling Depot'
 const COMPANY_PHONE_DISPLAY = process.env.COMPANY_PHONE_DISPLAY || '(813) 651-2333'
@@ -18,7 +18,7 @@ export async function sendLeadNotification(lead) {
 
     await transporter.sendMail({
       from: `${COMPANY_NAME} <${FROM_EMAIL}>`,
-      to: ADMIN_EMAIL,
+      to: ADMIN_EMAILS,
       subject: `New Contact Form Submission: ${fullName} — ${lead.service || 'General Inquiry'}`,
       html: `
         <!DOCTYPE html>
