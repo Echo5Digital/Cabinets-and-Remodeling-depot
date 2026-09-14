@@ -9,6 +9,8 @@ import { toast } from 'sonner'
 import { Upload, Trash2, X, Loader2 } from 'lucide-react'
 import { GALLERY_CATEGORIES } from '@/lib/constants'
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
+
 export function GalleryUploader({ images = [], onRefresh }) {
   const fileInputRef = useRef(null)
   const [dragOver, setDragOver] = useState(false)
@@ -22,8 +24,17 @@ export function GalleryUploader({ images = [], onRefresh }) {
   const handleFiles = (files) => {
     if (!files.length) return
 
+    const fileList = Array.from(files)
+    const oversized = fileList.filter((file) => file.size > MAX_FILE_SIZE)
+    if (oversized.length) {
+      toast.error(
+        `${oversized.length} file(s) exceed the 2MB limit: ${oversized.map((f) => f.name).join(', ')}`
+      )
+      return
+    }
+
     const formData = new FormData()
-    Array.from(files).forEach((file) => formData.append('images', file))
+    fileList.forEach((file) => formData.append('images', file))
     formData.append('category', category)
 
     uploadImages(formData, {
@@ -103,7 +114,7 @@ export function GalleryUploader({ images = [], onRefresh }) {
               <Upload className="w-8 h-8 text-muted-foreground" />
               <p className="text-sm font-medium">Drag & drop images here</p>
               <p className="text-xs text-muted-foreground">or click &quot;Select Images&quot; above</p>
-              <p className="text-xs text-muted-foreground">JPG, PNG, WebP — max 10MB each</p>
+              <p className="text-xs text-muted-foreground">JPG, PNG, WebP — max 2MB each</p>
             </div>
           )}
         </div>
