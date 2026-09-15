@@ -11,8 +11,8 @@ const heroSchema = Joi.object({
 }).unknown(true)
 
 const faqItemSchema = Joi.object({
-  question: Joi.string().max(500).required(),
-  answer: Joi.string().max(3000).required(),
+  question: Joi.string().max(500).allow(''),
+  answer: Joi.string().max(3000).allow(''),
 })
 
 const seoSchema = Joi.object({
