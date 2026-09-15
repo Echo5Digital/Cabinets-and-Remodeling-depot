@@ -30,7 +30,10 @@ const STATUS_COLORS = {
 
 // Parses the structured project_description text produced by the AI kitchen
 // design tool (source: 'design_ai') into labeled fields, mirroring the parser
-// on the Cabinet Catalog Platform's own leads admin page.
+// on the Cabinet Catalog Platform's own leads admin page. Also understands the
+// AI bathroom design tool's format (source: 'design_ai_bathroom'), which uses
+// different field labels (Bathroom Type / Vanity Finish / Vanity Faucet / etc.)
+// on the same "Label: value | Label: value" line structure.
 function parseDesignDescription(text) {
   if (!text) return null
   const lines = text.split('\n')
@@ -38,36 +41,66 @@ function parseDesignDescription(text) {
   let inItems = false
   const itemLines = []
 
+  // Generic "Label: value | Label: value" splitter used by both kitchen and
+  // bathroom description lines — returns { Label: value, ... } for the line.
+  function splitLabeledPairs(line) {
+    const pairs = {}
+    line.split(' | ').forEach((part) => {
+      const idx = part.indexOf(': ')
+      if (idx === -1) return
+      pairs[part.slice(0, idx).trim()] = part.slice(idx + 2).trim()
+    })
+    return pairs
+  }
+
   for (const line of lines) {
     if (line.startsWith('AI Kitchen Design — ')) {
       f.conceptName = line.replace('AI Kitchen Design — ', '').trim()
       inItems = false
-    } else if (line.startsWith('Style: ')) {
+    } else if (line.startsWith('AI Bathroom Design — ')) {
+      f.conceptName = line.replace('AI Bathroom Design — ', '').trim()
       inItems = false
-      line.split(' | ').forEach((part) => {
-        const idx = part.indexOf(': ')
-        if (idx === -1) return
-        const key = part.slice(0, idx).trim()
-        const val = part.slice(idx + 2).trim()
-        if (key === 'Style') f.style = val
-        else if (key === 'Layout') f.layout = val
-        else if (key === 'Budget Style') f.budgetStyle = val
-      })
+    } else if (line.startsWith('Style: ')) {
+      // Kitchen: "Style: {cabinet_style} | Layout: {layout} | Budget Style: {budget_style}"
+      inItems = false
+      const p = splitLabeledPairs(line)
+      if (p['Style']) f.style = p['Style']
+      if (p['Layout']) f.layout = p['Layout']
+      if (p['Budget Style']) f.budgetStyle = p['Budget Style']
+    } else if (line.startsWith('Bathroom Type: ')) {
+      // Bathroom: "Bathroom Type: {type} | Style: {layout/style} | Budget Style: {budget_style}"
+      inItems = false
+      const p = splitLabeledPairs(line)
+      if (p['Bathroom Type']) f.bathroomType = p['Bathroom Type']
+      if (p['Style']) f.style = p['Style']
+      if (p['Budget Style']) f.budgetStyle = p['Budget Style']
     } else if (line.startsWith('Upper: ')) {
       inItems = false
-      line.split(' | ').forEach((part) => {
-        const idx = part.indexOf(': ')
-        if (idx === -1) return
-        const key = part.slice(0, idx).trim()
-        const val = part.slice(idx + 2).trim()
-        if (key === 'Upper') f.upperColor = val
-        else if (key === 'Lower') f.lowerColor = val
-        else if (key === 'Countertop') f.countertop = val
-        else if (key === 'Flooring') f.flooring = val
-      })
+      const p = splitLabeledPairs(line)
+      if (p['Upper']) f.upperColor = p['Upper']
+      if (p['Lower']) f.lowerColor = p['Lower']
+      if (p['Countertop']) f.countertop = p['Countertop']
+      if (p['Flooring']) f.flooring = p['Flooring']
+    } else if (line.startsWith('Vanity Finish: ')) {
+      // Bathroom: "Vanity Finish: {finish} | Countertop: {countertop} | Flooring: {flooring}"
+      inItems = false
+      const p = splitLabeledPairs(line)
+      if (p['Vanity Finish']) f.vanityFinish = p['Vanity Finish']
+      if (p['Countertop']) f.countertop = p['Countertop']
+      if (p['Flooring']) f.flooring = p['Flooring']
+    } else if (line.startsWith('Vanity Faucet: ')) {
+      // Bathroom: "Vanity Faucet: {style} | Shower Faucet: {style} | Faucet Color: {color}"
+      inItems = false
+      const p = splitLabeledPairs(line)
+      if (p['Vanity Faucet']) f.vanityFaucet = p['Vanity Faucet']
+      if (p['Shower Faucet']) f.showerFaucet = p['Shower Faucet']
+      if (p['Faucet Color']) f.faucetColor = p['Faucet Color']
     } else if (line.startsWith('Project Type: ')) {
       inItems = false
       f.projectType = line.replace('Project Type: ', '').trim()
+    } else if (line.startsWith('Enhancements: ')) {
+      inItems = false
+      f.enhancements = line.replace('Enhancements: ', '').trim()
     } else if (line.startsWith('Address: ')) {
       inItems = false
       f.address = line.replace('Address: ', '').trim()
@@ -93,18 +126,36 @@ function DesignDetails({ description, beforeImageUrl }) {
   const d = parseDesignDescription(description)
   if (!d) return null
 
-  const detailRows = [
-    { label: 'Concept', value: d.conceptName },
-    { label: 'Project Type', value: d.projectType },
-    { label: 'Layout', value: d.layout },
-    { label: 'Cabinet Style', value: d.style },
-    { label: 'Budget Style', value: d.budgetStyle },
-    { label: 'Upper Cabinets', value: d.upperColor },
-    { label: 'Lower Cabinets', value: d.lowerColor },
-    { label: 'Countertop', value: d.countertop },
-    { label: 'Flooring', value: d.flooring },
-    { label: 'Address', value: d.address },
-  ].filter((r) => r.value)
+  const isBathroom = !!d.bathroomType
+
+  const detailRows = (isBathroom
+    ? [
+        { label: 'Concept', value: d.conceptName },
+        { label: 'Bathroom Type', value: d.bathroomType },
+        { label: 'Style / Layout', value: d.style },
+        { label: 'Budget Style', value: d.budgetStyle },
+        { label: 'Vanity Finish', value: d.vanityFinish },
+        { label: 'Countertop', value: d.countertop },
+        { label: 'Flooring', value: d.flooring },
+        { label: 'Vanity Faucet', value: d.vanityFaucet },
+        { label: 'Shower Faucet', value: d.showerFaucet },
+        { label: 'Faucet Color', value: d.faucetColor },
+        { label: 'Enhancements', value: d.enhancements },
+        { label: 'Address', value: d.address },
+      ]
+    : [
+        { label: 'Concept', value: d.conceptName },
+        { label: 'Project Type', value: d.projectType },
+        { label: 'Layout', value: d.layout },
+        { label: 'Cabinet Style', value: d.style },
+        { label: 'Budget Style', value: d.budgetStyle },
+        { label: 'Upper Cabinets', value: d.upperColor },
+        { label: 'Lower Cabinets', value: d.lowerColor },
+        { label: 'Countertop', value: d.countertop },
+        { label: 'Flooring', value: d.flooring },
+        { label: 'Address', value: d.address },
+      ]
+  ).filter((r) => r.value)
 
   const imageUrl = d.renderUrl || beforeImageUrl
 
@@ -220,7 +271,7 @@ function CatalogLeadDetailForm({ lead, onClose }) {
         </div>
       </div>
 
-      {lead.source === 'design_ai' && lead.project_description ? (
+      {(lead.source === 'design_ai' || lead.source === 'design_ai_bathroom') && lead.project_description ? (
         <DesignDetails description={lead.project_description} beforeImageUrl={lead.before_image_url} />
       ) : lead.project_description ? (
         <div>
