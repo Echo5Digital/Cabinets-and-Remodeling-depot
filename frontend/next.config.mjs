@@ -17,6 +17,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      { source: '/home', destination: '/', permanent: true },
+      { source: '/Home', destination: '/', permanent: true },
       { source: '/gallery', destination: '/showroom-gallery', permanent: true },
       { source: '/countertops', destination: '/countertops-tampa', permanent: true },
       { source: '/cabinets',          destination: '/kitchen-cabinets-tampa', permanent: true },
