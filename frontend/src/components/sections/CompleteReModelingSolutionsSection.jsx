@@ -37,7 +37,7 @@ const SOLUTIONS = [
     Icon: Gem,
   },
   {
-    label: 'Kitchen Cabinets',
+    label: 'In-Stock Cabinets',
     desc: 'Ready-to-install cabinets available for faster delivery.',
     images: ['/05_img.jpg', '/instock-cabinets-1.jpg', '/instock-cabinets-2.jpg'],
     href: '/kitchen-cabinets-tampa',

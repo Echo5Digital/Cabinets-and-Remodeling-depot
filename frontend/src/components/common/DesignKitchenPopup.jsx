@@ -46,7 +46,7 @@ export function DesignKitchenPopup() {
           {/* ── Image header with brand-tinted wash instead of a flat black scrim ── */}
           <div className="relative h-40 sm:h-48 w-full">
             <Image
-              src="/cabinet-remodeling-catalog.webp"
+              src="/popup-bnr.webp"
               alt="Design your dream kitchen tool"
               fill
               className="object-cover"

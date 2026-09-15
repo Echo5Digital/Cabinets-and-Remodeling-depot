@@ -419,7 +419,7 @@ const PAGE_DEFAULT_SECTIONS = {
         { label: 'Bathroom Remodeling', desc: 'Beautiful, functional bathrooms designed for everyday living.', image: '/06_img.webp', href: '/bathroom-remodeling-tampa' },
         { label: 'Kitchen Cabinets', desc: 'Quality cabinets in a variety of styles and finishes.', image: '/1_img.jpg', href: '/kitchen-cabinets-tampa' },
         { label: 'Countertops', desc: 'Quartz, granite, marble, quartzite & porcelain.', image: '/03_img.webp', href: '/countertops-tampa' },
-        { label: 'Kitchen Cabinets', desc: 'Ready-to-install cabinets available for faster delivery.', image: '/05_img.jpg', href: '/kitchen-cabinets-tampa' },
+        { label: 'In-Stock Cabinets', desc: 'Ready-to-install cabinets available for faster delivery.', image: '/05_img.jpg', href: '/kitchen-cabinets-tampa' },
         { label: 'Flooring', desc: 'Durable, beautiful flooring for every room.', image: '/2_img.webp', href: '/flooring-in-tampa' },
       ],
     },
