@@ -1,3 +1,8 @@
+// Catalog Planner is temporarily disabled across the admin panel without
+// removing the feature — flip to true to bring it back (nav, dashboard
+// quick links/stats, and role hrefs).
+export const SHOW_CATALOG_PLANNER = false
+
 export const COMPANY_NAME = 'Cabinets & Remodeling Depot'
 export const COMPANY_PHONE = '+18136512333'
 export const COMPANY_PHONE_DISPLAY = '+1 813-651-2333'
@@ -106,8 +111,8 @@ export const ROLE_OPTIONS = [
 // Hrefs each restricted role may access — everything else is hidden from the
 // sidebar and enforced server-side by requireRole on each API route.
 export const ROLE_ALLOWED_HREFS = {
-  ADMIN: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner', '/admin/users'],
-  STAFF: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', '/admin/catalog-planner'],
+  ADMIN: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', ...(SHOW_CATALOG_PLANNER ? ['/admin/catalog-planner'] : []), '/admin/users'],
+  STAFF: ['/admin/dashboard', '/admin/leads', '/admin/catalog-leads', ...(SHOW_CATALOG_PLANNER ? ['/admin/catalog-planner'] : [])],
 }
 export const ROLE_DEFAULT_PATH = '/admin/dashboard'
 

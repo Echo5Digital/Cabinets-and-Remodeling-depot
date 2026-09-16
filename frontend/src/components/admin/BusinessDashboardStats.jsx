@@ -7,6 +7,7 @@ import { useCatalogLeadStats, useCatalogPlannerLeads } from '@/hooks/useCatalogP
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Users, ClipboardList, Ruler, ArrowRight } from 'lucide-react'
+import { SHOW_CATALOG_PLANNER } from '@/lib/constants'
 
 function StatCard({ title, value, description, icon: Icon, color, href, breakdown }) {
   return (
@@ -71,14 +72,14 @@ export function BusinessDashboardStats() {
 
   const { data: catalogStats, isLoading: catalogLoading } = useCatalogLeadStats()
 
-  const { data: plannerData, isLoading: plannerLoading } = useCatalogPlannerLeads({ limit: 1 })
+  const { data: plannerData, isLoading: plannerLoading } = useCatalogPlannerLeads({ limit: 1, enabled: SHOW_CATALOG_PLANNER })
 
-  const isLoading = leadsLoading || catalogLoading || plannerLoading
+  const isLoading = leadsLoading || catalogLoading || (SHOW_CATALOG_PLANNER && plannerLoading)
 
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, i) => (
+        {Array.from({ length: SHOW_CATALOG_PLANNER ? 3 : 2 }).map((_, i) => (
           <StatCardSkeleton key={i} />
         ))}
       </div>
@@ -113,14 +114,16 @@ export function BusinessDashboardStats() {
         href="/admin/catalog-leads"
         breakdown={[{ label: 'New', value: newCatalogLeads }]}
       />
-      <StatCard
-        title="Catalog Planner"
-        value={totalPlannerLeads}
-        description="Saved kitchen designs"
-        icon={Ruler}
-        color="bg-purple-600"
-        href="/admin/catalog-planner"
-      />
+      {SHOW_CATALOG_PLANNER && (
+        <StatCard
+          title="Catalog Planner"
+          value={totalPlannerLeads}
+          description="Saved kitchen designs"
+          icon={Ruler}
+          color="bg-purple-600"
+          href="/admin/catalog-planner"
+        />
+      )}
     </div>
   )
 }

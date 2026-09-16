@@ -66,13 +66,14 @@ export function useDeleteCatalogLead() {
 
 // ── Catalog Planner Leads ───────────────────────────────────────────────────
 
-export function useCatalogPlannerLeads(params = {}) {
+export function useCatalogPlannerLeads({ enabled = true, ...params } = {}) {
   return useQuery({
     queryKey: ['catalog-planner-leads', params],
     queryFn: async () => {
       const { data } = await api.get('/catalog-platform/planner', { params })
       return data
     },
+    enabled,
   })
 }
 

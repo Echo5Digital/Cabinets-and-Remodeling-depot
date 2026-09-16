@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link'
 import { FileText, Briefcase, Image, BookOpen, Users, Settings, ArrowRight, ClipboardList, Ruler, UserCog } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import { SHOW_CATALOG_PLANNER } from '@/lib/constants'
 
 const QUICK_LINKS = [
   { title: 'Edit Pages', description: 'Update hero, content, FAQs, and SEO for any page', href: '/admin/pages', icon: FileText, color: 'text-primary bg-primary/10' },
@@ -19,7 +20,7 @@ const QUICK_LINKS = [
 const BUSINESS_QUICK_LINKS = [
   { title: 'View Leads', description: 'Review and respond to customer inquiries', href: '/admin/leads', icon: Users, color: 'text-primary bg-primary/10' },
   { title: 'Catalog Leads', description: 'Quote requests from the cabinet catalog platform', href: '/admin/catalog-leads', icon: ClipboardList, color: 'text-primary bg-primary/10' },
-  { title: 'Catalog Planner', description: 'Kitchen designs saved by customers', href: '/admin/catalog-planner', icon: Ruler, color: 'text-primary bg-primary/10' },
+  ...(SHOW_CATALOG_PLANNER ? [{ title: 'Catalog Planner', description: 'Kitchen designs saved by customers', href: '/admin/catalog-planner', icon: Ruler, color: 'text-primary bg-primary/10' }] : []),
 ]
 
 const ADMIN_USERS_QUICK_LINK = {

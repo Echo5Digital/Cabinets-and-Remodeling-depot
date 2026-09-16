@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
 import { useAuth } from '@/hooks/useAuth'
 import api, { refreshAccessToken } from '@/lib/api'
-import { ROLE_ALLOWED_HREFS, ROLE_DEFAULT_PATH } from '@/lib/constants'
+import { ROLE_ALLOWED_HREFS, ROLE_DEFAULT_PATH, SHOW_CATALOG_PLANNER } from '@/lib/constants'
 
 // Proactively refresh the access token just before it expires (15 min lifetime).
 // Firing at 14 min keeps the token perpetually alive while the admin is working,
@@ -122,6 +122,19 @@ export function AdminLayoutClient({ children }) {
       router.replace(ROLE_DEFAULT_PATH)
     }
   }, [isLoginPage, user, pathname, router])
+
+  /**
+   * Catalog Planner is hidden feature-wide (not just from restricted roles'
+   * nav) while SHOW_CATALOG_PLANNER is false. SUPER_ADMIN has no entry in
+   * ROLE_ALLOWED_HREFS and would otherwise still be able to reach the page
+   * by typing the URL directly, so it's blocked here regardless of role.
+   */
+  useEffect(() => {
+    if (isLoginPage || SHOW_CATALOG_PLANNER) return
+    if (pathname === '/admin/catalog-planner' || pathname.startsWith('/admin/catalog-planner/')) {
+      router.replace(ROLE_DEFAULT_PATH)
+    }
+  }, [isLoginPage, pathname, router])
 
   // ── Login page: render completely standalone (no sidebar, no chrome) ──
   if (isLoginPage) {

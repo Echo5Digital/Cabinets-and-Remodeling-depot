@@ -29,7 +29,7 @@ import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { COMPANY_NAME, ROLE_ALLOWED_HREFS } from '@/lib/constants'
+import { COMPANY_NAME, ROLE_ALLOWED_HREFS, SHOW_CATALOG_PLANNER } from '@/lib/constants'
 
 const NAV_ITEMS = [
   {
@@ -56,7 +56,7 @@ const NAV_ITEMS = [
     items: [
       { label: 'Leads', href: '/admin/leads', icon: Users },
       { label: 'Catalog Leads', href: '/admin/catalog-leads', icon: ClipboardList },
-      { label: 'Catalog Planner', href: '/admin/catalog-planner', icon: Ruler },
+      ...(SHOW_CATALOG_PLANNER ? [{ label: 'Catalog Planner', href: '/admin/catalog-planner', icon: Ruler }] : []),
       { label: 'Settings', href: '/admin/settings', icon: Settings },
     ],
   },
