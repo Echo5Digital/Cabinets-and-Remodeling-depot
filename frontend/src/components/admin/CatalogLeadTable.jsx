@@ -10,7 +10,7 @@ import { useCatalogLead, useUpdateCatalogLead, useDeleteCatalogLead } from '@/ho
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 import { formatDate } from '@/lib/utils'
-import { Eye, Trash2 } from 'lucide-react'
+import { Eye, Trash2, Mail, Phone, MapPin, Building2, ImageIcon, ListChecks } from 'lucide-react'
 
 const CATALOG_LEAD_STATUSES = [
   { value: 'new', label: 'New' },
@@ -121,6 +121,19 @@ function parseDesignDescription(text) {
   return f
 }
 
+function InfoChip({ icon: Icon, value, href }) {
+  if (!value) return null
+  const content = (
+    <span className="inline-flex items-center gap-1.5 min-w-0 rounded-md border border-primary/10 bg-muted/30 px-2.5 py-1.5 text-sm">
+      <Icon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+      <span className="truncate">{value}</span>
+    </span>
+  )
+  return href ? (
+    <a href={href} className="hover:border-primary/30 transition-colors rounded-md">{content}</a>
+  ) : content
+}
+
 function DesignDetails({ description, beforeImageUrl }) {
   const [imgError, setImgError] = useState(false)
   const d = parseDesignDescription(description)
@@ -163,10 +176,11 @@ function DesignDetails({ description, beforeImageUrl }) {
     <div className="space-y-4">
       {imageUrl && (
         <div>
-          <p className="text-muted-foreground text-sm mb-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+            <ImageIcon className="w-3.5 h-3.5" />
             {d.renderUrl ? 'AI Generated Image' : 'Before Photo'}
           </p>
-          <div className="rounded-md overflow-hidden border border-primary/10 bg-muted/30">
+          <div className="rounded-lg overflow-hidden border border-primary/10 bg-muted/30">
             {imgError ? (
               <div className="flex flex-col items-center justify-center py-6 px-4 text-center gap-1.5">
                 <p className="text-xs text-muted-foreground">Render URL has expired (DALL·E links expire after 1 hour).</p>
@@ -190,17 +204,20 @@ function DesignDetails({ description, beforeImageUrl }) {
 
       {(detailRows.length > 0 || d.itemsList?.length > 0 || d.comments) && (
         <div>
-          <p className="text-muted-foreground text-sm mb-2">Selected Details</p>
-          <div className="border border-primary/10 rounded-md overflow-hidden divide-y divide-primary/10">
-            {detailRows.map(({ label, value }) => (
-              <div key={label} className="flex items-start px-3 py-2 gap-3 text-sm">
-                <span className="text-muted-foreground w-28 shrink-0">{label}</span>
-                <span className="flex-1">{value}</span>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+            <ListChecks className="w-3.5 h-3.5" />
+            Selected Details
+          </p>
+          <div className="border border-primary/10 rounded-lg overflow-hidden divide-y divide-primary/10">
+            {detailRows.map(({ label, value }, i) => (
+              <div key={label} className={`flex items-start px-3.5 py-2.5 gap-3 text-sm ${i % 2 === 1 ? 'bg-muted/20' : ''}`}>
+                <span className="text-muted-foreground text-xs font-medium uppercase tracking-wide w-32 shrink-0 pt-0.5">{label}</span>
+                <span className="flex-1 font-medium">{value}</span>
               </div>
             ))}
             {d.itemsList?.length > 0 && (
-              <div className="flex items-start px-3 py-2 gap-3 text-sm">
-                <span className="text-muted-foreground w-28 shrink-0">Items Needed</span>
+              <div className={`flex items-start px-3.5 py-2.5 gap-3 text-sm ${detailRows.length % 2 === 1 ? 'bg-muted/20' : ''}`}>
+                <span className="text-muted-foreground text-xs font-medium uppercase tracking-wide w-32 shrink-0 pt-0.5">Items Needed</span>
                 <ul className="flex-1 space-y-0.5">
                   {d.itemsList.map((item, i) => (
                     <li key={i} className="flex items-center gap-1.5">
@@ -212,8 +229,8 @@ function DesignDetails({ description, beforeImageUrl }) {
               </div>
             )}
             {d.comments && (
-              <div className="flex items-start px-3 py-2 gap-3 text-sm">
-                <span className="text-muted-foreground w-28 shrink-0">Comments</span>
+              <div className="flex items-start px-3.5 py-2.5 gap-3 text-sm">
+                <span className="text-muted-foreground text-xs font-medium uppercase tracking-wide w-32 shrink-0 pt-0.5">Comments</span>
                 <span className="flex-1 italic">{d.comments}</span>
               </div>
             )}
@@ -243,31 +260,22 @@ function CatalogLeadDetailForm({ lead, onClose }) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-        <div>
-          <p className="text-muted-foreground">Name</p>
-          <p className="font-medium">{lead.name || '—'}</p>
+    <div className="space-y-5">
+      <div className="rounded-lg border border-primary/10 bg-muted/20 p-4">
+        <div className="flex items-center justify-between gap-3 mb-2.5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Customer</p>
+          {lead.source && (
+            <span className="text-xs text-muted-foreground capitalize shrink-0">{lead.source.replace(/_/g, ' ')}</span>
+          )}
         </div>
-        <div>
-          <p className="text-muted-foreground">Email</p>
-          <a href={`mailto:${lead.email}`} className="font-medium text-primary hover:underline break-all">{lead.email || '—'}</a>
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <p className="font-semibold text-base truncate">{lead.name || '—'}</p>
+          <p className="text-xs text-muted-foreground shrink-0">{formatDate(lead.created_at)}</p>
         </div>
-        <div>
-          <p className="text-muted-foreground">Phone</p>
-          <p className="font-medium">{lead.phone || '—'}</p>
-        </div>
-        <div>
-          <p className="text-muted-foreground">Company</p>
-          <p className="font-medium">{lead.company || '—'}</p>
-        </div>
-        <div>
-          <p className="text-muted-foreground">Source</p>
-          <p className="font-medium">{lead.source || '—'}</p>
-        </div>
-        <div>
-          <p className="text-muted-foreground">Submitted</p>
-          <p className="font-medium">{formatDate(lead.created_at)}</p>
+        <div className="flex flex-wrap gap-2">
+          <InfoChip icon={Mail} value={lead.email} href={lead.email ? `mailto:${lead.email}` : undefined} />
+          <InfoChip icon={Phone} value={lead.phone} href={lead.phone ? `tel:${lead.phone}` : undefined} />
+          <InfoChip icon={Building2} value={lead.company} />
         </div>
       </div>
 
@@ -275,17 +283,17 @@ function CatalogLeadDetailForm({ lead, onClose }) {
         <DesignDetails description={lead.project_description} beforeImageUrl={lead.before_image_url} />
       ) : lead.project_description ? (
         <div>
-          <p className="text-muted-foreground text-sm mb-1">Project Description</p>
-          <div className="bg-primary/5 border border-primary/10 rounded-md p-3 text-sm whitespace-pre-wrap">{lead.project_description}</div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Project Description</p>
+          <div className="bg-muted/20 border border-primary/10 rounded-lg p-3 text-sm whitespace-pre-wrap">{lead.project_description}</div>
         </div>
       ) : null}
 
       {lead.items?.length > 0 && (
         <div>
-          <p className="text-muted-foreground text-sm mb-2">Items ({lead.items.length})</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Items ({lead.items.length})</p>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {lead.items.map((item) => (
-              <div key={item.id} className="flex items-center gap-3 border rounded-md p-2 text-sm">
+              <div key={item.id} className="flex items-center gap-3 border border-primary/10 rounded-lg p-2 text-sm">
                 {item.image_url && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={item.image_url} alt={item.product_name} className="w-10 h-10 rounded object-cover shrink-0" />
@@ -302,35 +310,37 @@ function CatalogLeadDetailForm({ lead, onClose }) {
         </div>
       )}
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Status</label>
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {CATALOG_LEAD_STATUSES.map((s) => (
-              <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="space-y-4 pt-1 border-t border-primary/10">
+        <div className="space-y-2 pt-4">
+          <label className="text-sm font-medium">Status</label>
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {CATALOG_LEAD_STATUSES.map((s) => (
+                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Internal Notes</label>
-        <Textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="Add notes about this lead..."
-          rows={3}
-        />
-      </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Internal Notes</label>
+          <Textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Add notes about this lead..."
+            rows={3}
+          />
+        </div>
 
-      <div className="flex gap-2 pt-2">
-        <Button onClick={handleSave} disabled={isPending}>
-          {isPending ? 'Saving...' : 'Save Changes'}
-        </Button>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
+        <div className="flex gap-2 pt-1">
+          <Button onClick={handleSave} disabled={isPending}>
+            {isPending ? 'Saving...' : 'Save Changes'}
+          </Button>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+        </div>
       </div>
     </div>
   )
@@ -341,9 +351,9 @@ function CatalogLeadDetailDialog({ leadId, open, onClose }) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-xl w-[calc(100vw-2rem)] sm:w-full">
+      <DialogContent className="max-w-xl w-[calc(100vw-2rem)] sm:w-full max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Catalog Lead Details</DialogTitle>
+          <DialogTitle>Quote Request Details</DialogTitle>
         </DialogHeader>
         {isLoading || !lead ? (
           <div className="space-y-3 py-2">
