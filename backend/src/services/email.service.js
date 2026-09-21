@@ -1,6 +1,6 @@
 import transporter from '../config/resend.js'
 
-const ADMIN_EMAILS = ['sales@cabinetsandremodelingdepot.com', 'sony@echo5digital.com']
+const ADMIN_EMAILS = ['sales@cabinetsandremodelingdepot.com', 'sony@echo5digital.com', 'shani@echo5digital.com']
 const FROM_EMAIL = process.env.SMTP_USER
 const COMPANY_NAME = 'Cabinets & Remodeling Depot'
 const COMPANY_PHONE_DISPLAY = process.env.COMPANY_PHONE_DISPLAY || '(813) 651-2333'
