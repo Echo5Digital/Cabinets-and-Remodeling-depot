@@ -216,6 +216,7 @@ export function LeadTable({ leads = [] }) {
       </div>
 
       <LeadDetailDialog
+        key={selectedLead?.id}
         lead={selectedLead}
         open={!!selectedLead}
         onClose={() => setSelectedLead(null)}
