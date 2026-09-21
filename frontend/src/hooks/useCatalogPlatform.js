@@ -43,9 +43,10 @@ export function useUpdateCatalogLead() {
       const { data } = await api.patch(`/catalog-platform/leads/${id}`, updateData)
       return data.data
     },
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['catalog-leads'] })
       queryClient.invalidateQueries({ queryKey: ['catalog-leads-stats'] })
+      queryClient.invalidateQueries({ queryKey: ['catalog-lead', variables.id] })
     },
   })
 }
@@ -95,6 +96,9 @@ export function useUpdateCatalogPlannerLead() {
       const { data } = await api.patch(`/catalog-platform/planner/${id}`, { status })
       return data
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['catalog-planner-leads'] }),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['catalog-planner-leads'] })
+      queryClient.invalidateQueries({ queryKey: ['catalog-planner-lead', variables.id] })
+    },
   })
 }
