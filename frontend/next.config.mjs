@@ -48,6 +48,15 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'randomuser.me',
       },
+      {
+        // Source of featured/inline images picked by the automated blog
+        // publisher — without this, next/image silently renders nothing
+        // for those images anywhere it's used (e.g. the blog listing grid),
+        // even though the raw URL itself is valid and loads fine outside
+        // next/image (e.g. inside a CSS background on the post page itself).
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
     ],
   },
 }
