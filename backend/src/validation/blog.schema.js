@@ -19,6 +19,24 @@ export const updateBlogSchema = createBlogSchema.fork(
   (schema) => schema.optional()
 )
 
+export const publishBlogSchema = Joi.object({
+  title: Joi.string().min(5).max(300).required(),
+  excerpt: Joi.string().min(10).max(500).required(),
+  body: Joi.string().min(50).required(),
+  categoryId: Joi.string().allow('', null),
+  authorName: Joi.string().max(100),
+  coverImage: Joi.string().uri().allow('', null),
+  thumbnailImage: Joi.string().uri().allow('', null),
+  isPublished: Joi.boolean(),
+  isFeatured: Joi.boolean(),
+  publishedAt: Joi.date().iso(),
+  metaTitle: Joi.string().max(500).allow('', null),
+  metaDescription: Joi.string().max(1000).allow('', null),
+  primaryKeyword: Joi.string().max(100).allow('', null),
+  secondaryKeywords: Joi.string().max(500).allow('', null),
+  schema: Joi.string().allow('', null),
+})
+
 export const createCategorySchema = Joi.object({
   name: Joi.string().min(2).max(100).required(),
 })

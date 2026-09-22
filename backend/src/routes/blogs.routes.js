@@ -4,6 +4,7 @@ import {
   getBlogById,
   getBlogBySlug,
   createBlog,
+  publishBlog,
   updateBlog,
   deleteBlog,
   uploadBlogImage,
@@ -11,8 +12,10 @@ import {
   createCategory,
   deleteCategory,
 } from '../controllers/blogs.controller.js'
-import { authenticate, requireRole } from '../middleware/auth.js'
+import { authenticate, requireRole, verifyPublisherKey } from '../middleware/auth.js'
 import { uploadBlog } from '../middleware/upload.js'
+import { validate } from '../middleware/validate.js'
+import { publishBlogSchema } from '../validation/blog.schema.js'
 
 const router = Router()
 
@@ -35,6 +38,9 @@ const blogUploadFields = uploadBlog.fields([
 ])
 
 router.post('/', authenticate, requireSuperAdmin, blogUploadFields, createBlog)
+
+// Automated publisher — API-key auth (x-api-key), separate from admin login/reCAPTCHA
+router.post('/publish', verifyPublisherKey, validate(publishBlogSchema), publishBlog)
 router.put('/:id', authenticate, requireSuperAdmin, blogUploadFields, updateBlog)
 router.delete('/:id', authenticate, requireSuperAdmin, deleteBlog)
 

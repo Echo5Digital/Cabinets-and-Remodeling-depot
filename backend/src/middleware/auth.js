@@ -62,3 +62,16 @@ export function verifyServiceKey(req, res, next) {
   }
   next()
 }
+
+/**
+ * Authenticates inbound requests from the automated blog publishing system
+ * using a shared secret, so it can create blog posts without going through
+ * the human admin login (which requires reCAPTCHA).
+ */
+export function verifyPublisherKey(req, res, next) {
+  const key = req.headers['x-api-key']
+  if (!key || key !== process.env.PUBLISHER_API_KEY) {
+    return res.status(401).json({ success: false, error: 'Invalid or missing API key.' })
+  }
+  next()
+}

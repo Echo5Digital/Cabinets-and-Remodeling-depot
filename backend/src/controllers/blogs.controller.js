@@ -125,6 +125,48 @@ export async function createBlog(req, res, next) {
 }
 
 /**
+ * POST /api/blogs/publish (automated publisher — API key auth, JSON body, no file upload)
+ */
+export async function publishBlog(req, res, next) {
+  try {
+    const data = req.body
+
+    let slug = slugify(data.title, { lower: true, strict: true })
+    const existing = await Blog.findOne({ slug })
+    if (existing) slug = `${slug}-${Date.now()}`
+
+    const willPublish = data.isPublished !== false
+    const readTime = calculateReadTime(data.body)
+
+    const blog = await Blog.create({
+      slug,
+      title: data.title,
+      excerpt: data.excerpt,
+      body: data.body,
+      coverImage: data.coverImage || null,
+      thumbnailImage: data.thumbnailImage || null,
+      category: data.categoryId || null,
+      authorName: data.authorName || 'Admin',
+      isPublished: willPublish,
+      isFeatured: data.isFeatured === true,
+      publishedAt: willPublish ? (data.publishedAt ? new Date(data.publishedAt) : new Date()) : null,
+      readTime,
+      metaTitle: data.metaTitle || null,
+      metaDescription: data.metaDescription || null,
+      primaryKeyword: data.primaryKeyword || null,
+      secondaryKeywords: data.secondaryKeywords || null,
+      schema: data.schema || null,
+    })
+
+    const populated = await blog.populate('category', 'id name slug')
+
+    res.status(201).json({ success: true, data: populated })
+  } catch (err) {
+    next(err)
+  }
+}
+
+/**
  * PUT /api/blogs/:id (admin)
  */
 export async function updateBlog(req, res, next) {
