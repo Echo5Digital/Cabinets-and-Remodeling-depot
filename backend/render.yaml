@@ -25,11 +25,13 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-      - key: RESEND_API_KEY
+      - key: SMTP_HOST
         sync: false
-      - key: ADMIN_EMAIL
+      - key: SMTP_PORT
         sync: false
-      - key: FROM_EMAIL
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
         sync: false
       - key: FRONTEND_URL
         sync: false
