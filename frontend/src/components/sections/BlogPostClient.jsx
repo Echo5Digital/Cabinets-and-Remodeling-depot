@@ -31,81 +31,95 @@ export function BlogPostClient({ slug }) {
 
   if (!blog) return <UnderConstruction />
 
+  // Posts published by the Echo5 AI blog design system render their own
+  // fully-designed hero banner and use a fixed 1140px content width baked
+  // into every component's inline styles — both wrapped under this root id.
+  // For those posts, skip this template's own gray hero banner (which would
+  // duplicate the title/breadcrumbs above the post's real hero) and the
+  // max-w-4xl container (which would squeeze the 1140px-wide components
+  // into a narrower box instead of letting them render at full width).
+  const isComponentRendered = blog.body?.includes('id="echo5-ai-blog"')
+
   return (
     <>
       {/* Hero Banner */}
-      <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden">
-        <Image
-          src={blog.coverImage || defaultBanner}
-          alt={blog.title}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/60" />
+      {!isComponentRendered && (
+        <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden">
+          <Image
+            src={blog.coverImage || defaultBanner}
+            alt={blog.title}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/60" />
 
-        {/* Banner content */}
-        <div className="relative z-10 container-custom h-full flex flex-col justify-center gap-4 md:flex-row md:items-center md:justify-between">
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight uppercase max-w-2xl"
-          >
-            {blog.title}
-          </motion.h1>
+          {/* Banner content */}
+          <div className="relative z-10 container-custom h-full flex flex-col justify-center gap-4 md:flex-row md:items-center md:justify-between">
+            <motion.h1
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight uppercase max-w-2xl"
+            >
+              {blog.title}
+            </motion.h1>
 
-          {/* Breadcrumb */}
-          <motion.nav
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-sm text-white/80 shrink-0"
-          >
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight className="h-3.5 w-3.5 text-white/50" />
-            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-            <ChevronRight className="h-3.5 w-3.5 text-white/50" />
-            <span className="text-white/60 line-clamp-1 max-w-48 hidden md:inline">{blog.title}</span>
-            <span className="text-white/60 md:hidden">Post</span>
-          </motion.nav>
+            {/* Breadcrumb */}
+            <motion.nav
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              aria-label="Breadcrumb"
+              className="flex items-center gap-1.5 text-sm text-white/80 shrink-0"
+            >
+              <Link href="/" className="hover:text-white transition-colors">Home</Link>
+              <ChevronRight className="h-3.5 w-3.5 text-white/50" />
+              <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+              <ChevronRight className="h-3.5 w-3.5 text-white/50" />
+              <span className="text-white/60 line-clamp-1 max-w-48 hidden md:inline">{blog.title}</span>
+              <span className="text-white/60 md:hidden">Post</span>
+            </motion.nav>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Article body */}
-      <article className="section-padding">
-        <div className="container-custom max-w-4xl">
+      <article className={isComponentRendered ? '' : 'section-padding'}>
+        <div className={isComponentRendered ? '' : 'container-custom max-w-4xl'}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Meta */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8 pb-8 border-b">
-              <span className="flex items-center gap-1.5">
-                <User className="h-4 w-4" />
-                {blog.authorName || 'Admin'}
-              </span>
-              {blog.publishedAt && (
+            {/* Meta — only shown for the classic template; the AI-designed
+                hero already carries its own title/eyebrow treatment. */}
+            {!isComponentRendered && (
+              <div className="container-custom max-w-4xl flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8 pb-8 border-b">
                 <span className="flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  {formatDate(blog.publishedAt)}
+                  <User className="h-4 w-4" />
+                  {blog.authorName || 'Admin'}
                 </span>
-              )}
-              {blog.readTime && (
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" />
-                  {blog.readTime} min read
-                </span>
-              )}
-            </div>
+                {blog.publishedAt && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="h-4 w-4" />
+                    {formatDate(blog.publishedAt)}
+                  </span>
+                )}
+                {blog.readTime && (
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-4 w-4" />
+                    {blog.readTime} min read
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Body */}
             <div
-              className="blog-content"
+              className={isComponentRendered ? '' : 'blog-content'}
               dangerouslySetInnerHTML={{ __html: blog.body }}
             />
           </motion.div>
