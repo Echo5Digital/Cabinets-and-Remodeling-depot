@@ -95,7 +95,13 @@
     border-color: hsl(var(--border));
   }
   html, body {
-    overflow-x: hidden;
+    /* clip (not hidden) — same horizontal-overflow prevention, but hidden
+       makes html/body a scroll-containing block for any position:sticky
+       element nested inside (e.g. the blog sidebar's sticky CTA/TOC/
+       related-posts column), which silently breaks it. Confirmed live: a
+       sticky sidebar with correct CSS never actually locked while
+       scrolling until this was changed. */
+    overflow-x: clip;
   }
   body {
     background-color: hsl(var(--background));
