@@ -2,6 +2,7 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { getQueryClient } from '@/lib/queryClient'
 import { api } from '@/lib/api'
 import { BlogPostClient } from '@/components/sections/BlogPostClient'
+import { JsonLd } from '@/components/common/JsonLd'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params }) {
@@ -50,12 +51,7 @@ export default async function BlogPostPage({ params }) {
 
   return (
     <>
-      {blog?.schema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: blog.schema }}
-        />
-      )}
+      <JsonLd schema={blog?.schema} />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <BlogPostClient slug={slug} />
       </HydrationBoundary>
