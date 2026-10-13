@@ -28,6 +28,8 @@ const nextConfig = {
       { source: '/flooring', destination: '/flooring-in-tampa', permanent: true },
       { source: '/flooring/:path*', destination: '/flooring-in-tampa/:path*', permanent: true },
       { source: '/bathroom-remodeling', destination: '/bathroom-remodeling-tampa', permanent: true },
+      { source: '/blog/page/5', destination: '/blog', permanent: true },
+      { source: '/blog/page/3', destination: '/blog', permanent: true },
     ]
   },
   experimental: {
