@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { COMPANY_NAME, COMPANY_PHONE_DISPLAY, COMPANY_EMAIL, COMPANY_ADDRESS } from '@/lib/constants'
 import { useSettings } from '@/hooks/useSettings'
-import { FinanceBannerVertical } from '@/components/sections/FinanceBanner'
 import {
   ChevronRight,
   MapPin,
@@ -229,7 +228,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/15">
           <div className="w-full px-4 md:px-6 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/60 text-center lg:text-left order-1 shrink-0">
+            <p className="text-xs text-white/60 text-center lg:text-left">
               Copyright &copy; 2026{' '}
               <a
                 href="https://www.echo5digital.com/"
@@ -242,9 +241,7 @@ export function Footer() {
               All Rights Reserved.
             </p>
 
-            <FinanceBannerVertical className="justify-center order-3 lg:order-2 shrink-0 max-w-full [&_img]:max-h-[220px] [&_img]:w-auto [&_img]:max-w-full [&_img]:rounded-lg" />
-
-            <p className="flex items-center gap-1.5 text-xs text-white/60 order-2 lg:order-3 shrink-0">
+            <p className="flex items-center gap-1.5 text-xs text-white/60">
               <MapPin className="w-3.5 h-3.5 shrink-0" />
               Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties
             </p>
