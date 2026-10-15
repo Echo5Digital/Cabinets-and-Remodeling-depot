@@ -228,8 +228,8 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/15">
-          <div className="container mx-auto px-4 md:px-6 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/60 text-center lg:text-left order-1">
+          <div className="w-full px-4 md:px-6 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/60 text-center lg:text-left order-1 shrink-0">
               Copyright &copy; 2026{' '}
               <a
                 href="https://www.echo5digital.com/"
@@ -242,9 +242,9 @@ export function Footer() {
               All Rights Reserved.
             </p>
 
-            <FinanceBannerVertical className="justify-center order-3 lg:order-2 shrink-0 [&_img]:h-[220px] [&_img]:w-auto [&_img]:max-h-none [&_img]:rounded-lg" />
+            <FinanceBannerVertical className="justify-center order-3 lg:order-2 shrink-0 max-w-full [&_img]:max-h-[220px] [&_img]:w-auto [&_img]:max-w-full [&_img]:rounded-lg" />
 
-            <p className="flex items-center gap-1.5 text-xs text-white/60 order-2 lg:order-3">
+            <p className="flex items-center gap-1.5 text-xs text-white/60 order-2 lg:order-3 shrink-0">
               <MapPin className="w-3.5 h-3.5 shrink-0" />
               Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties
             </p>

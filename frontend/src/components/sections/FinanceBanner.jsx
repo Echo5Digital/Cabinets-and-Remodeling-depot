@@ -8,7 +8,7 @@ export function FinanceBannerHorizontal({ className = '' }) {
     <div className={`flex justify-center ${className}`}>
       <a href={ACORN_URL} target="_blank" rel="noopener noreferrer">
         <img
-          style={{ margin: 10, padding: 1, border: '1px solid black', borderRadius: 5 }}
+          style={{ margin: 10, padding: 1, border: '1px solid #e5e5e5', borderRadius: 5, maxWidth: '100%', height: 'auto' }}
           src="https://fs.acornfinance.com/banners/acorn-finance-banner-easy-payment-options-horizontal-medium.png"
           alt={ACORN_ALT}
         />
@@ -22,7 +22,7 @@ export function FinanceBannerVertical({ className = '' }) {
     <div className={`flex justify-center ${className}`}>
       <a href={ACORN_URL} target="_blank" rel="noopener noreferrer">
         <img
-          style={{ margin: 10, padding: 1, border: '1px solid black', borderRadius: 5 }}
+          style={{ margin: 10, padding: 1, border: '1px solid #e5e5e5', borderRadius: 5, maxWidth: '100%', height: 'auto' }}
           src="https://fs.acornfinance.com/banners/acorn-finance-banner-easy-payment-options-vertical-medium.png"
           alt={ACORN_ALT}
         />
