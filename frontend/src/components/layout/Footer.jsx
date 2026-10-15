@@ -4,6 +4,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { COMPANY_NAME, COMPANY_PHONE_DISPLAY, COMPANY_EMAIL, COMPANY_ADDRESS } from '@/lib/constants'
 import { useSettings } from '@/hooks/useSettings'
+import { FinanceBannerVertical } from '@/components/sections/FinanceBanner'
+import {
+  ChevronRight,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  LayoutGrid,
+  Archive,
+  Hammer,
+  Layers,
+  Bath,
+} from 'lucide-react'
 
 function FacebookIcon({ className }) {
   return (
@@ -24,12 +37,13 @@ function InstagramIcon({ className }) {
 }
 
 const FOOTER_SERVICES = [
-  { label: 'Countertops', href: '/countertops-tampa' },
-  { label: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa' },
-  { label: 'Kitchen Remodeling', href: '/kitchen-remodel-tampa' },
-  { label: 'Flooring', href: '/flooring-in-tampa' },
-  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa' },
+  { label: 'Countertops', href: '/countertops-tampa', Icon: LayoutGrid },
+  { label: 'Kitchen Cabinets', href: '/kitchen-cabinets-tampa', Icon: Archive },
+  { label: 'Kitchen Remodeling', href: '/kitchen-remodel-tampa', Icon: Hammer },
+  { label: 'Flooring', href: '/flooring-in-tampa', Icon: Layers },
+  { label: 'Bathroom Remodeling', href: '/bathroom-remodeling-tampa', Icon: Bath },
 ]
+const FOOTER_SERVICE_ICONS = [LayoutGrid, Archive, Hammer, Layers, Bath]
 
 const FOOTER_LINKS = [
   { label: 'Home', href: '/' },
@@ -73,7 +87,7 @@ export function Footer() {
 
   return (
     <footer
-      className="text-white/80"
+      className="relative text-white/80"
       style={{
         backgroundColor: '#0d0d0d',
         backgroundImage:
@@ -81,143 +95,160 @@ export function Footer() {
         backgroundSize: '22px 22px',
       }}
     >
-      <div className="container mx-auto px-4 md:px-6 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div>
+        <div className="container mx-auto px-4 md:px-6 py-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
 
-          {/* Col 1 — About Us */}
-          <div>
-            <div className="mb-5">
-              <Image
-                src="/Logo1.jpg"
-                alt="Cabinets & Remodeling Depot"
-                width={180}
-                height={58}
-                className="h-14 w-auto object-contain"
-              />
+            {/* Col 1 — About Us */}
+            <div>
+              <div className="mb-5 bg-white inline-block rounded-md p-2">
+                <Image
+                  src="/Logo1.jpg"
+                  alt="Cabinets & Remodeling Depot"
+                  width={180}
+                  height={58}
+                  className="h-14 w-auto object-contain"
+                />
+              </div>
+
+              <FooterHeading first="ABOUT" second="US" />
+
+              <p className="text-sm leading-relaxed text-white/70 mb-6">
+                Since 2005, we&apos;ve been designing, building, and supplying kitchen and bath
+                cabinets in Tampa, FL. Visit our showroom for all your remodeling needs — no
+                need to search elsewhere!
+              </p>
+
+              <div className="flex items-center gap-3">
+                <a
+                  href={facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-primary transition-colors"
+                >
+                  <FacebookIcon className="w-5 h-5" />
+                </a>
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-primary transition-colors"
+                >
+                  <InstagramIcon className="w-5 h-5" />
+                </a>
+              </div>
             </div>
 
-            <FooterHeading first="ABOUT" second="US" />
+            {/* Col 2 — Useful Links */}
+            <div>
+              <FooterHeading first="USEFUL" second="LINKS" />
+              <ul className="space-y-2.5">
+                {activeFooterLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white transition-colors"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            <p className="text-sm leading-relaxed text-white/70 mb-6">
-              Since 2005, we&apos;ve been designing, building, and supplying kitchen and bath
-              cabinets in Tampa, FL. Visit our showroom for all your remodeling needs — no
-              need to search elsewhere!
+            {/* Col 3 — Our Services */}
+            <div>
+              <FooterHeading first="OUR" second="SERVICES" />
+              <ul className="space-y-2.5">
+                {activeFooterServices.map((service, i) => {
+                  const Icon = service.Icon || FOOTER_SERVICE_ICONS[i % FOOTER_SERVICE_ICONS.length]
+                  return (
+                    <li key={service.href}>
+                      <Link
+                        href={service.href}
+                        className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        <Icon className="w-4 h-4 shrink-0" />
+                        {service.label}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+
+            {/* Col 4 — Contact Here */}
+            <div>
+              <FooterHeading first="CONTACT" second="HERE" />
+              <ul className="space-y-3 text-sm text-white/70 leading-snug">
+                <li className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>
+                    <span className="text-white font-semibold">Address: </span>
+                    {address}
+                  </span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 shrink-0" />
+                  <span>
+                    <span className="text-white font-semibold">Phone: </span>
+                    <a href={phoneHref} className="hover:text-white transition-colors">
+                      {phone}
+                    </a>
+                  </span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <span>
+                    <span className="text-white font-semibold">Mail: </span>
+                    <a href={`mailto:${email}`} className="hover:text-white transition-colors break-all">
+                      {email}
+                    </a>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Clock className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-white font-semibold">Timing:</span>
+                    <div className="mt-1 space-y-0.5 pl-0">
+                      <p>Mon – Fri: 10:00AM – 6:00PM</p>
+                      <p>Sat: 10:00AM – 4:00PM</p>
+                      <p>Sun: Closed</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-white/15">
+          <div className="container mx-auto px-4 md:px-6 py-5 flex flex-col lg:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/60 text-center lg:text-left order-1">
+              Copyright &copy; 2026{' '}
+              <a
+                href="https://www.echo5digital.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white transition-colors"
+              >
+                Echo5 Digital
+              </a>{' '}
+              All Rights Reserved.
             </p>
 
-            <div className="flex items-center gap-3">
-              <a
-                href={facebookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"
-              >
-                <FacebookIcon className="w-5 h-5" />
-              </a>
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"
-              >
-                <InstagramIcon className="w-5 h-5" />
-              </a>
-            </div>
+            <FinanceBannerVertical className="justify-center order-3 lg:order-2 shrink-0 [&_img]:h-[220px] [&_img]:w-auto [&_img]:max-h-none [&_img]:rounded-lg" />
+
+            <p className="flex items-center gap-1.5 text-xs text-white/60 order-2 lg:order-3">
+              <MapPin className="w-3.5 h-3.5 shrink-0" />
+              Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties
+            </p>
           </div>
-
-          {/* Col 2 — Useful Links */}
-          <div>
-            <FooterHeading first="USEFUL" second="LINKS" />
-            <ul className="space-y-2.5">
-              {activeFooterLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/70 hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3 — Our Services */}
-          <div>
-            <FooterHeading first="OUR" second="SERVICES" />
-            <ul className="space-y-2.5">
-              {activeFooterServices.map((service) => (
-                <li key={service.href}>
-                  <Link
-                    href={service.href}
-                    className="text-sm text-white/70 hover:text-primary transition-colors"
-                  >
-                    {service.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 — Contact Here */}
-          <div>
-            <FooterHeading first="CONTACT" second="HERE" />
-            <ul className="space-y-3 text-sm text-white/70 leading-snug">
-              <li>
-                <span className="text-white font-semibold">Address: </span>
-                {address}
-              </li>
-              <li>
-                <span className="text-white font-semibold">Phone: </span>
-                <a
-                  href={phoneHref}
-                  className="hover:text-primary transition-colors"
-                >
-                  {phone}
-                </a>
-              </li>
-              <li>
-                <span className="text-white font-semibold">Mail: </span>
-                <a
-                  href={`mailto:${email}`}
-                  className="hover:text-primary transition-colors break-all"
-                >
-                  {email}
-                </a>
-              </li>
-              <li>
-                <span className="text-white font-semibold">Timing:</span>
-                <div className="mt-1 space-y-0.5 pl-0">
-                  <p>Mon – Fri: 10:00AM – 6:00PM</p>
-                  <p>Sat: 10:00AM – 4:00PM</p>
-                  <p>Sun: Closed</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/50 text-center sm:text-left">
-            Copyright &copy; 2026{' '}
-            <a
-              href="https://www.echo5digital.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-white/80 transition-colors"
-            >
-              Echo5 Digital
-            </a>{' '}
-            All Rights Reserved.
-          </p>
-          <p className="text-xs text-white/50">
-            Proudly serving Tampa Bay, Hillsborough, and Pinellas Counties
-          </p>
         </div>
       </div>
     </footer>
