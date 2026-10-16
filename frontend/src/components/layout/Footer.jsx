@@ -73,7 +73,7 @@ export function Footer() {
   const phoneHref    = `tel:+1${phone.replace(/\D/g, '').slice(-10)}`
   const email        = settings?.email        || COMPANY_EMAIL
   const address      = settings?.address      || COMPANY_ADDRESS
-  const facebookUrl  = settings?.facebook     || 'https://facebook.com'
+  const facebookUrl  = settings?.facebook     || 'https://www.facebook.com/p/Cabinet-Remodeling-Depot-100064030902568/'
   const instagramUrl = settings?.instagram    || 'https://instagram.com'
 
   // Use admin-edited arrays from settings, fall back to hardcoded defaults
