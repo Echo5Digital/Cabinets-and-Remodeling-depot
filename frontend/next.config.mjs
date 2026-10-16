@@ -33,6 +33,7 @@ const nextConfig = {
       { source: '/blog/page/7', destination: '/blog', permanent: true },
       { source: '/blog/page/4', destination: '/blog', permanent: true },
       { source: '/blog/page/2', destination: '/blog', permanent: true },
+      { source: '/author', destination: '/about', permanent: true },
     ]
   },
   experimental: {
